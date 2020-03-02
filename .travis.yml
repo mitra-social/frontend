@@ -1,0 +1,38 @@
+language: node_js
+
+node_js:
+  - 12
+
+cache:
+  directories:
+  - node_modules
+
+before_install:
+  - npm update  
+
+before_script:
+  - |
+    echo "Install node modules"
+    sudo npm install
+
+script:
+  - npm test
+
+after_success:
+  - npm run coveralls
+
+jobs:
+  include:
+    - stage: lint
+      script:
+        - npm run lint
+          name: "Code style"
+    - stage: test
+      script:
+        - npm run test
+          name: "Run test"          
+
+stages:
+  - lint
+  - test
+  
