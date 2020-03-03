@@ -7,14 +7,6 @@ cache:
   directories:
   - node_modules
 
-before_install:
-  - npm update  
-
-before_script:
-  - |
-    echo "Install node modules"
-    sudo npm install
-
 script:
   - npm test
 
