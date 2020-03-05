@@ -1,0 +1,27 @@
+language: node_js
+
+node_js:
+  - 12
+
+cache:
+  directories:
+  - node_modules
+
+script:
+  - npm test
+
+after_success:
+  - npm run coveralls
+
+jobs:
+  include:
+    - stage: lint
+      name: "Code style"
+      script: npm run lint
+    - stage: test
+      name: "Run test"
+      script: npm run test
+
+stages:
+  - lint
+  - test
