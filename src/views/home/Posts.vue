@@ -15,10 +15,14 @@ export default class MitraPosts extends Vue {
 
 <style lang="scss" scoped>
 div {
-  padding-top: 12px;
-  height: 90vh;
+  height: 100%;
   text-align: center;
   color: black;
   background-color: green;
+}
+
+h2 {
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 </style>

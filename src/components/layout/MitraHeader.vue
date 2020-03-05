@@ -15,8 +15,14 @@ export default class MitraHeader extends Vue {
 
 <style lang="scss" scoped>
 div {
+  height: 100%;
   text-align: center;
   color: white;
   background-color: red;
+}
+
+h2 {
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 </style>
