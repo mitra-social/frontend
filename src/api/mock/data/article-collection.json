@@ -1,0 +1,23 @@
+{
+    "@context": "https://www.w3.org/ns/activitystreams",
+    "summary": "Sally's articles",
+    "type": "Collection",
+    "totalItems": 2,
+    "items": [
+        {
+            "object": {
+                "type": "Article",
+                "name": "What a Crazy Day I Had",
+                "content": "<div>... you will never believe ...</div>"
+            },
+            "actor": {
+                "type": "Person",
+                "name": "Sally"
+            }
+        },
+        {
+            "type": "Note",
+            "name": "Another Simple Note"
+        }
+    ]
+}
