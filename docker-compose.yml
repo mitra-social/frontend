@@ -1,0 +1,9 @@
+version: '3.7'
+services:
+ mitra-prod:
+  container_name: mitra-prod
+  build:
+   context: .
+   dockerfile: docker/prod/Dockerfile
+  ports:
+   - '80:80'
