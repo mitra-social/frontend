@@ -8,16 +8,23 @@
             "object": {
                 "type": "Article",
                 "name": "What a Crazy Day I Had",
-                "content": "<div>... you will never believe ...</div>"
-            },
-            "actor": {
-                "type": "Person",
-                "name": "Sally"
+                "content": "<div>... you will never believe ...</div>",
+                "actor": {
+                    "type": "Person",
+                    "name": "Sally"
+                }
             }
         },
         {
-            "type": "Note",
-            "name": "Another Simple Note"
+            "object": {
+                "type": "Article",
+                "name": "Second article",
+                "content": "<div>... #2 ...</div>",
+                "actor": {
+                    "type": "Person",
+                    "name": "Johnny"
+                }
+            }
         }
     ]
 }

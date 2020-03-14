@@ -1,6 +1,7 @@
 import * as articles from "./data/article-collection.json";
 
-const fetch = (mockData, time = 0) => {
+// TODO: set type
+const fetch = (mockData: any, time = 0) => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(mockData);
