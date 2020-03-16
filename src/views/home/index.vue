@@ -13,7 +13,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 import Followers from "./Followers.vue";
-import Posts from "./Posts.vue";
+import Posts from "./post/Posts.vue";
 
 @Component({
   components: {
@@ -32,7 +32,6 @@ export default class MitraHome extends Vue {
   height: 100%;
   display: flex;
   flex-direction: row;
-  text-align: center;
   color: black;
   background-color: gainsboro;
 }

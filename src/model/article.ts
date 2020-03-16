@@ -1,8 +1,5 @@
-import { Actor } from './actor';
+import { Post } from './post';
 
-export interface Article {
-  type: string;
-  name: string;
+export interface Article extends Post {
   content: string;
-  actor: Actor;
 }
