@@ -12,7 +12,7 @@
     <v-divider class="mx-4"></v-divider>
     <v-card-actions>
       <v-list-item-avatar>
-        <v-img src="https://i.picsum.photos/id/1062/5092/3395.jpg"></v-img>
+        <v-img :src="article.actor.avater"></v-img>
       </v-list-item-avatar>
       {{ article.actor.name }}
       <v-spacer></v-spacer>
@@ -40,6 +40,6 @@ export default class MitraArticle extends Vue {
 }
 
 .v-card__text {
-  padding: 0;
+  width: inherit;
 }
 </style>

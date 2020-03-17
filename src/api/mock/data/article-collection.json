@@ -6,38 +6,42 @@
   "items": [
     {
       "type": "Article",
-      "name": "What a Crazy Day I Had",
-      "content": "<div>... you will never believe ...</div>",
+      "name": "Minecraft Signs",
+      "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>",
       "actor": {
         "type": "Person",
-        "name": "Sally"
+        "name": "Sally",
+        "avater": "https://i.picsum.photos/id/1062/5092/3395.jpg"
       }
     },
     {
       "type": "Article",
-      "name": "Second article",
-      "content": "<div>... #2 ...</div>",
+      "name": "Hi/Ho",
+      "content": "<p>SAVIOR OF SONG (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>",
       "actor": {
         "type": "Person",
-        "name": "Johnny"
+        "name": "Johnny",
+        "avater": "https://i.picsum.photos/id/103/2592/1936.jpg"
       }
     },
     {
       "type": "Article",
-      "name": "Third article",
-      "content": "<h2>... #3 ...</h2>",
+      "name": "The Clinic",
+      "content": "<p>the misinformation and outright lies on this webbed site about Covid 19 driven by certain anarchists is wild. nice to know we're all Karens at the core waiting for the right activation call</p>",
       "actor": {
         "type": "Person",
-        "name": "Jenny"
+        "name": "Jenny",
+        "avater": "https://i.picsum.photos/id/1059/7360/4912.jpg"
       }
     },
     {
       "type": "Article",
-      "name": "Fourth article",
-      "content": "<b>... #4 ...</b>",
+      "name": "Nextinpact (bot)",
+      "content": "<p>RT <span class=\"h-card\"><a href=\"https://mastodon.gougere.fr/@nextinpact\" class=\"u-url mention\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">@<span>nextinpact</span></a></span><br>Suite aux précisions apportées par @EPhilippePM sur France 2, nous avons mis à jour notre article concernant l'attestation et le justificatif à fournir en cas de déplacement pendant le confinement <a href=\"https://www.nextinpact.com/news/108799-confinement-en-france-telechargez-modele-dattestation-obligatoire-en-cas-deplacement.htm\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://www.</span><span class=\"ellipsis\">nextinpact.com/news/108799-con</span><span class=\"invisible\">finement-en-france-telechargez-modele-dattestation-obligatoire-en-cas-deplacement.htm</span></a></p>",
       "actor": {
         "type": "Person",
-        "name": "Johnny"
+        "name": "Johnny",
+        "avater": "https://i.picsum.photos/id/1083/5472/3648.jpg"
       }
     }
   ]
