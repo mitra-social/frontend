@@ -1,4 +1,4 @@
-import { Actor } from './actor';
+import { Actor } from "./actor";
 
 export interface Post {
   type: string;

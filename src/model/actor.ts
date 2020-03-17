@@ -1,4 +1,4 @@
 export interface Actor {
-    type: string;
-    name: string;
-} 
+  type: string;
+  name: string;
+}

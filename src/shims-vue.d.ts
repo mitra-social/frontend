@@ -4,11 +4,12 @@ declare module "*.vue" {
 }
 
 declare module "*.json" {
-  const value: any;
+  const value: { [key: string]: object };
   export default value;
 }
 
 declare module "apiClient" {
-  const value: any;
+  import { ApiClient } from "@/api/api-client";
+  const value: ApiClient;
   export default value;
 }
