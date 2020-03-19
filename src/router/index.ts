@@ -1,7 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import Home from "../views/home/index.vue";
+import store from "@/store";
+import Home from "@/views/home/index.vue";
+import Login from "@/views/Login.vue";
 
 Vue.use(VueRouter);
 
@@ -9,7 +11,14 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
+    meta: { title: "Home" }
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: Login,
+    meta: { title: "Login" }
   }
 ];
 
@@ -17,6 +26,17 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ["/login", "/register"];
+  const authRequired = !publicPages.includes(to.path);
+
+  if (authRequired && !store.getters["Auth/isAuthenticated"]) {
+    return next("/login");
+  }
+
+  next();
 });
 
 export default router;
