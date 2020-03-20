@@ -33,11 +33,16 @@ class Authentication extends VuexModule {
 
   @Action
   public login(credential: Credential): void {
-    client.login(credential).then(token => {
-      localStorage.setItem("user-token", token);
-      this.context.commit("loginSuccess", token);
-      router.push("/");
-    });
+    client
+      .login(credential)
+      .then(token => {
+        localStorage.setItem("user-token", token);
+        this.context.commit("loginSuccess", token);
+        router.push("/");
+      })
+      .catch(err => {
+        this.context.commit("loginError", err);
+      });
   }
 }
 export default Authentication;

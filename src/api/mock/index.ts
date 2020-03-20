@@ -19,7 +19,7 @@ export default {
     const userName = "johnny.do@mail.ch";
 
     if (credential.user !== userName || credential.password !== "123") {
-      throw Error("Login failed");
+      return Promise.reject(new Error("Login failed"));
     }
     return fetch("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi", 1000);
   },

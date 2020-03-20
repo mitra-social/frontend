@@ -7,6 +7,10 @@
         </v-toolbar>
         <v-card-text>
           <v-form>
+            <v-alert v-if="authStatus === 'error'" dense outlined type="error">
+              The user name or password you entered isn't correct. Try entering
+              it again.
+            </v-alert>
             <v-text-field
               label="Login"
               name="login"
@@ -46,6 +50,9 @@ const auth = namespace("Auth");
 export default class MitraLogin extends Vue {
   private user = "";
   private password = "";
+
+  @auth.Getter
+  public authStatus!: string;
 
   @auth.Action
   public login!: (credential: Credential) => void;
