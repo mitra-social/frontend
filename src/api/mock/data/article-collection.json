@@ -1,7 +1,7 @@
 {
   "@context": "https://www.w3.org/ns/activitystreams",
   "summary": "Sally's articles",
-  "type": "Collection",
+  "type": "OrderedCollection",
   "totalItems": 4,
   "items": [
     {
@@ -11,7 +11,10 @@
       "actor": {
         "type": "Person",
         "name": "Sally",
-        "avater": "https://i.picsum.photos/id/1062/5092/3395.jpg"
+        "icon": {
+          "name": "avater",
+          "url": "https://i.picsum.photos/id/1062/5092/3395.jpg"
+        }
       }
     },
     {
@@ -21,7 +24,10 @@
       "actor": {
         "type": "Person",
         "name": "Johnny",
-        "avater": "https://i.picsum.photos/id/103/2592/1936.jpg"
+        "icon": {
+          "name": "avater",
+          "url": "https://i.picsum.photos/id/103/2592/1936.jpg"
+        }
       }
     },
     {
@@ -31,7 +37,10 @@
       "actor": {
         "type": "Person",
         "name": "Jenny",
-        "avater": "https://i.picsum.photos/id/1059/7360/4912.jpg"
+        "icon": {
+          "name": "avater",
+          "url": "https://i.picsum.photos/id/1059/7360/4912.jpg"
+        }
       }
     },
     {
@@ -41,7 +50,10 @@
       "actor": {
         "type": "Person",
         "name": "Johnny",
-        "avater": "https://i.picsum.photos/id/1083/5472/3648.jpg"
+        "icon": {
+          "name": "avater",
+          "url": "https://i.picsum.photos/id/1083/5472/3648.jpg"
+        }
       }
     }
   ]

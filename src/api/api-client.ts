@@ -1,5 +1,5 @@
-import { Collection } from "@/model/collection";
+import { OrderedCollection } from "activitypub-objects";
 
 export interface ApiClient {
-  fetchPosts(): Promise<Collection>;
+  fetchPosts(): Promise<OrderedCollection>;
 }

@@ -12,7 +12,7 @@
     <v-divider class="mx-4"></v-divider>
     <v-card-actions>
       <v-list-item-avatar>
-        <v-img :src="article.actor.avater"></v-img>
+        <v-img :src="article.actor.icon.url"></v-img>
       </v-list-item-avatar>
       {{ article.actor.name }}
       <v-spacer></v-spacer>
@@ -26,8 +26,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-
-import { Article } from "../../../model/article";
+import { Article } from "activitypub-objects";
 
 @Component
 export default class MitraArticle extends Vue {

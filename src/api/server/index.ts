@@ -1,9 +1,9 @@
+import { OrderedCollection } from "activitypub-objects";
+
 import { ApiClient } from "../api-client";
 
-import { Collection } from "@/model/collection";
-
 export default {
-  fetchPosts(): Promise<Collection> {
+  fetchPosts(): Promise<OrderedCollection> {
     console.warn("is not yet implemented");
     return new Promise(resolve => {
       resolve(undefined);
