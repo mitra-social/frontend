@@ -11,9 +11,9 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
+import { OrderedCollection } from "activitypub-objects";
 
 import Article from "./Article.vue";
-import { Collection } from "../../../model/collection";
 
 const posts = namespace("Posts");
 
@@ -24,7 +24,7 @@ const posts = namespace("Posts");
 })
 export default class MitraPosts extends Vue {
   @posts.Getter
-  public getPosts!: Collection;
+  public getPosts!: OrderedCollection;
 
   @posts.Action
   public fetchPosts!: () => void;

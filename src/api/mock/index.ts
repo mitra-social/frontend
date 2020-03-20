@@ -1,6 +1,6 @@
-import { ApiClient } from "@/api/api-client";
+import { OrderedCollection } from "activitypub-objects";
 
-import { Collection } from "@/model/collection";
+import { ApiClient } from "@/api/api-client";
 import { Credential } from "@/model/credential";
 
 import * as articles from "./data/article-collection.json";
@@ -23,7 +23,7 @@ export default {
     }
     return fetch("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi", 1000);
   },
-  fetchPosts(): Promise<Collection> {
+  fetchPosts(): Promise<OrderedCollection> {
     return fetch(articles, 1000);
   }
 } as ApiClient;

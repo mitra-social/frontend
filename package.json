@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@mdi/font": "^3.6.95",
+    "activitypub-objects": "0.0.3",
     "core-js": "^3.6.4",
     "register-service-worker": "^1.6.2",
     "roboto-fontface": "*",

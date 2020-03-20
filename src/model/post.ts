@@ -1,5 +1,4 @@
-import { Actor } from "./actor";
-
+import { Actor } from "activitypub-objects";
 export interface Post {
   type: string;
   name: string;
