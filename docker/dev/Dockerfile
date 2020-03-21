@@ -1,5 +1,5 @@
 # base image
-FROM node:lts-alpine
+FROM node:12.2.0-alpine as build
 
 # set working directory
 WORKDIR /app

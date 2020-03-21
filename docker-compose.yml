@@ -1,9 +1,12 @@
-version: '3.7'
+version: "3.7"
 services:
- mitra-prod:
-  container_name: mitra-prod
-  build:
-   context: .
-   dockerfile: docker/prod/Dockerfile
-  ports:
-   - '80:80'
+  mitra-dev:
+    container_name: mitra-frontend-dev
+    build:
+      context: .
+      dockerfile: docker/dev/Dockerfile
+    volumes:
+      - ".:/app"
+      - "/app/node_modules"
+    ports:
+      - "8080:8080"
