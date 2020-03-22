@@ -1,7 +1,7 @@
 version: "3.7"
 services:
-  mitra-dev:
-    container_name: mitra-frontend-dev
+  node:
+    container_name: mitra-frontend-node
     build:
       context: .
       dockerfile: docker/dev/Dockerfile
