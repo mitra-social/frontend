@@ -18,7 +18,7 @@ export default {
   login(credential: Credential): Promise<string> {
     const userName = "johnny.do@mail.ch";
 
-    if (credential.user !== userName || credential.password !== "123") {
+    if (credential.username !== userName || credential.password !== "123") {
       return Promise.reject(new Error("Login failed"));
     }
     return fetch("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi", 1000);

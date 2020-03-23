@@ -58,7 +58,7 @@ export default class MitraLogin extends Vue {
   public login!: (credential: Credential) => void;
 
   public handleSubmit() {
-    this.login({ user: this.user, password: this.password });
+    this.login({ username: this.user, password: this.password });
   }
 }
 </script>
