@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  node:
+    container_name: mitra-frontend-node
+    build:
+      context: .
+      dockerfile: docker/dev/Dockerfile
+    volumes:
+      - ".:/app"
+      - "/app/node_modules"
+    ports:
+      - "8080:8080"
