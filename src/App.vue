@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="app-container">
     <header>
       <Header />
     </header>
@@ -28,7 +28,7 @@ body {
   padding: 0;
 }
 
-.v-application {
+.app-container {
   width: 100%;
   height: 100vh;
 }

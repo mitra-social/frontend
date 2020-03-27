@@ -3,5 +3,8 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ["**/*.{js,vue}", "!**/node_modules/**"],
   coverageReporters: ["html", "text-summary"],
-  snapshotSerializers: ["jest-serializer-vue"]
+  snapshotSerializers: ["jest-serializer-vue"],
+  moduleNameMapper: {
+    apiClient: "<rootDir>/src/api/mock"
+  }
 };
