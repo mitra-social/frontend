@@ -11,6 +11,6 @@ module.exports = {
     }
   },
   devServer: {
-    proxy: "http://localhost:1337"
+    proxy: "http://mitra-backend:1337"
   }
 };
