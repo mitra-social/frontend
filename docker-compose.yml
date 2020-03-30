@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: docker/dev/Dockerfile
+    environment:
+      BACKEND_URL: http://mitra-backend:1337
     extra_hosts:
       - "mitra-backend:172.17.0.1"
     volumes:
