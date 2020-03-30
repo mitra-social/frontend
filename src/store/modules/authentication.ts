@@ -6,7 +6,7 @@ import { Credential } from "@/model/credential";
 
 @Module({ namespaced: true })
 class Authentication extends VuexModule {
-  public token = localStorage.getItem("user-token") || "";
+  public token = sessionStorage.getItem("user-token") || "";
   public status = "";
   public hasLoadedOnce = false;
 
@@ -36,7 +36,8 @@ class Authentication extends VuexModule {
     client
       .login(credential)
       .then(token => {
-        localStorage.setItem("user-token", token);
+        sessionStorage.setItem("user", credential.username);
+        sessionStorage.setItem("user-token", token);
         this.context.commit("loginSuccess", token);
         router.push("/");
       })

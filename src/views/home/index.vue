@@ -45,5 +45,6 @@ export default class MitraHome extends Vue {
   flex-basis: 0;
   flex-grow: 1;
   width: 100%;
+  min-height: 100%;
 }
 </style>

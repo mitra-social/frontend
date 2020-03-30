@@ -1,5 +1,5 @@
 import axios from "axios";
-import { OrderedCollection } from "activitypub-objects";
+import { OrderedCollectionPage } from "activitypub-objects";
 
 import { ApiClient } from "../api-client";
 import { Credential } from "@/model/credential";
@@ -17,10 +17,21 @@ export default {
       return resp.data.token;
     });
   },
-  fetchPosts(): Promise<OrderedCollection> {
-    console.warn("is not yet implemented");
-    return new Promise(resolve => {
-      resolve(undefined);
-    });
+  fetchPosts(
+    token: string,
+    user: string,
+    page: number
+  ): Promise<OrderedCollectionPage> {
+    return axios
+      .get(`/user/${user}/inbox?page=${page}`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(resp => {
+        return resp.data;
+      });
   }
 } as ApiClient;
