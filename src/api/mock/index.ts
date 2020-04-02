@@ -3,7 +3,7 @@ import { OrderedCollectionPage } from "activitypub-objects";
 import { ApiClient } from "@/api/api-client";
 import { Credential } from "@/model/credential";
 
-import * as articles from "./data/article-collection.json";
+import * as collection from "./data/collection.json";
 
 // eslint-disable-next-line
 const fetch = (mockData: any, time = 0): Promise<any> => {
@@ -14,14 +14,16 @@ const fetch = (mockData: any, time = 0): Promise<any> => {
   });
 };
 
+const USER_NAME = "john.doe";
+const USER_PWD = "123";
+const USER_TOKEN = "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi"
+
 export default {
   login(credential: Credential): Promise<string> {
-    const userName = "johnny.do@mail.ch";
-
-    if (credential.username !== userName || credential.password !== "123") {
+    if (credential.username !== USER_NAME || credential.password !== USER_PWD) {
       return Promise.reject(new Error("Login failed"));
     }
-    return fetch("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi", 1000);
+    return fetch(USER_TOKEN, 1000);
   },
   fetchPosts(
     token: string,
@@ -29,6 +31,9 @@ export default {
     page: number
   ): Promise<OrderedCollectionPage> {
     console.info(`token: ${token}, user: ${user}, page: ${page}`);
-    return fetch(articles.default, 1000);
+    if (token !== USER_TOKEN || user !== USER_NAME) {
+      return Promise.reject(new Error("Not allowed"));
+    }
+    return fetch(collection.default, 1000);
   }
 } as ApiClient;

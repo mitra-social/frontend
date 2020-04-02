@@ -33,6 +33,7 @@ import { namespace } from "vuex-class";
 import { ActivityObject, Link } from "activitypub-objects";
 import router from "@/router";
 
+import { AuthenticationUtil } from "@/utils/authentication-util";
 import Article from "./Article.vue";
 import Author from "./Author.vue";
 
@@ -49,17 +50,24 @@ export default class MitraPosts extends Vue {
   public getPosts!: Array<ActivityObject | Link>;
 
   @collection.Action
-  public fetchCollection!: (user: string) => void;
+  public fetchCollection!: (user: string) => Promise<void>;
 
   private created() {
-    const user = sessionStorage.getItem("user");
+    const user = AuthenticationUtil.getUser();
 
     if (user) {
-      this.fetchCollection(user);
+      this.fetchCollection(user).catch(() => {
+        this.notAllowedUser();
+      });
     } else {
-      sessionStorage.clear();
-      router.push("/login");
+      this.notAllowedUser();
     }
+  }
+
+  private notAllowedUser() {
+    AuthenticationUtil.clear();
+    router.push("/login");
+    this.$toast.error("Authentication is incorrect");
   }
 }
 </script>

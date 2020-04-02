@@ -22,7 +22,7 @@ describe("Login.vue", () => {
     const wrapper = mount(Login, { localVue, vuetify, router, store });
 
     wrapper.setData({
-      user: "johnny.do@mail.ch",
+      user: "johnny.doe@mail.ch",
       password: "123"
     });
 

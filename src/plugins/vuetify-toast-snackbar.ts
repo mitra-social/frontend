@@ -8,3 +8,5 @@ Vue.use(VuetifyToast, {
   closeIcon: "mdi-close",
   property: "$toast"
 });
+
+Vue.prototype.$toast;

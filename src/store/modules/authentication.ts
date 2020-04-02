@@ -3,10 +3,11 @@ import router from "@/router";
 
 import client from "apiClient";
 import { Credential } from "@/model/credential";
+import { AuthenticationUtil } from '@/utils/authentication-util';
 
 @Module({ namespaced: true })
 class Authentication extends VuexModule {
-  public token = sessionStorage.getItem("user-token") || "";
+  public token = AuthenticationUtil.getToken();
   public status = "";
   public hasLoadedOnce = false;
 
@@ -36,8 +37,8 @@ class Authentication extends VuexModule {
     client
       .login(credential)
       .then(token => {
-        sessionStorage.setItem("user", credential.username);
-        sessionStorage.setItem("user-token", token);
+        AuthenticationUtil.setUser(credential.username);
+        AuthenticationUtil.setToken(token);
         this.context.commit("loginSuccess", token);
         router.push("/");
       })
