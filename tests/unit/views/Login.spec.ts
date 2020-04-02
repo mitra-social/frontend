@@ -28,8 +28,9 @@ describe("Login.vue", () => {
 
     const button = wrapper.find(".v-btn");
     button.trigger("click");
-    await flushPromises();
-    expect(wrapper.find(".v-alert").exists()).toBe(false);
+    flushPromises().then(() => {
+      expect(wrapper.find(".v-alert").exists()).toBe(false);
+    });
   });
 
   it("Login failed", async () => {
@@ -42,7 +43,8 @@ describe("Login.vue", () => {
 
     const button = wrapper.find(".v-btn");
     button.trigger("click");
-    await flushPromises();
-    expect(wrapper.find(".v-alert").exists()).toBe(true);
+    flushPromises().then(() => {
+      expect(wrapper.find(".v-alert").exists()).toBe(true);
+    });
   });
 });

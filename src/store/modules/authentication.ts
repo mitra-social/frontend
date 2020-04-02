@@ -33,8 +33,8 @@ class Authentication extends VuexModule {
   }
 
   @Action
-  public login(credential: Credential): void {
-    client
+  public async login(credential: Credential): Promise<void> {
+    return client
       .login(credential)
       .then(token => {
         AuthenticationUtil.setUser(credential.username);
