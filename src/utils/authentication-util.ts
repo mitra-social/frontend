@@ -21,7 +21,7 @@ export class AuthenticationUtil {
   public static getToken(): string | undefined {
     const token = sessionStorage.getItem(AuthenticationUtil.USER_TOKEN);
     if (token) {
-      return token
+      return token;
     }
     return undefined;
   }

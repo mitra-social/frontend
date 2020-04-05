@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 import {
   OrderedCollectionPage,
@@ -7,7 +6,7 @@ import {
 } from "activitypub-objects";
 
 import client from "apiClient";
-import { AuthenticationUtil } from '@/utils/authentication-util';
+import { AuthenticationUtil } from "@/utils/authentication-util";
 
 const POST_TYPES: string[] = ["Article"];
 
@@ -19,7 +18,7 @@ class Collection extends VuexModule {
   public page = 0;
 
   get getPosts() {
-    return this.items.filter($ => POST_TYPES.includes($.type));
+    return this.items?.filter($ => POST_TYPES.includes($.type));
   }
 
   get getPartOf() {
@@ -40,9 +39,9 @@ class Collection extends VuexModule {
   }
 
   @Action
-  public fetchCollection(user: string): Promise<void> {
+  public async fetchCollection(user: string): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
-    return client
+    return await client
       .fetchPosts(token, user, this.page)
       .then((collection: OrderedCollectionPage) => {
         this.context.commit("setItems", collection.orderedItems);

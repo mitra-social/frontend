@@ -3,7 +3,7 @@ import router from "@/router";
 
 import client from "apiClient";
 import { Credential } from "@/model/credential";
-import { AuthenticationUtil } from '@/utils/authentication-util';
+import { AuthenticationUtil } from "@/utils/authentication-util";
 
 @Module({ namespaced: true })
 class Authentication extends VuexModule {
