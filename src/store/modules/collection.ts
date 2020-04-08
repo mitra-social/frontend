@@ -7,8 +7,7 @@ import {
 
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
-
-const POST_TYPES: string[] = ["Article"];
+import { PostTypes } from "@/utils/post-types";
 
 @Module({ namespaced: true })
 class Collection extends VuexModule {
@@ -18,14 +17,14 @@ class Collection extends VuexModule {
   public page = 0;
 
   get getPosts() {
-    return this.items?.filter($ => POST_TYPES.includes($.type));
+    return this.items?.filter($ => $.type in PostTypes);
   }
 
   get getPartOf() {
     return this.partOf;
   }
 
-  get getTotolItems() {
+  get getTotalItems() {
     return this.totalItems;
   }
 

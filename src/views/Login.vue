@@ -47,7 +47,7 @@ import { Credential } from "@/model/credential";
 const auth = namespace("Auth");
 
 @Component
-export default class MitraLogin extends Vue {
+export default class Login extends Vue {
   private user = "";
   private password = "";
 

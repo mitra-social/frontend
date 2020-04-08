@@ -1,0 +1,8 @@
+{
+    "type": "Person",
+    "userId": "362408a8-67ac-4546-80f9-cb8a22364bfa",
+    "email": "john.doe@example.org",
+    "registeredAt": "2020-04-08T18:58:24+00:00",
+    "preferredUsername": "john.doe",
+    "inbox": "http://localhost:1337/user/john.doe/inbox"
+}

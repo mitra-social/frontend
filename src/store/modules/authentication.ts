@@ -36,13 +36,13 @@ class Authentication extends VuexModule {
   public async login(credential: Credential): Promise<void> {
     return client
       .login(credential)
-      .then(token => {
+      .then((token: string) => {
         AuthenticationUtil.setUser(credential.username);
         AuthenticationUtil.setToken(token);
         this.context.commit("loginSuccess", token);
         router.push("/");
       })
-      .catch(err => {
+      .catch((err: Error) => {
         this.context.commit("loginError", err);
       });
   }

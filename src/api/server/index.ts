@@ -1,8 +1,9 @@
 import axios from "axios";
 import { OrderedCollectionPage } from "activitypub-objects";
 
-import { ApiClient } from "../api-client";
+import { ApiClient } from "@/api/api-client";
 import { Credential } from "@/model/credential";
+import { User } from "@/model/user";
 
 const config = {
   headers: {
@@ -16,6 +17,19 @@ export default {
     return await axios.post("/token", credential, config).then(resp => {
       return resp.data.token;
     });
+  },
+  async getUser(token: string, user: string): Promise<User> {
+    return await axios
+      .get(`/user/${user}`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(resp => {
+        return resp.data;
+      });
   },
   async fetchPosts(
     token: string,

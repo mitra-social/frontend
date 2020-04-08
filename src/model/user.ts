@@ -1,6 +1,10 @@
+import { Actors } from "activitypub-objects";
+
 export interface User {
-  id: string;
-  preferredUsername: string;
+  type: Actors;
+  userId: string;
   email: string;
-  registeredAt: string;
+  registeredAt: Date;
+  preferredUsername: string;
+  inbox: string;
 }

@@ -11,7 +11,7 @@
         </v-list-item>
         <v-divider class="mx-4"></v-divider>
         <v-card-text>
-          <component :is="post.type" :data="post" />
+          <component :is="getComponent(post.type)" :data="post" />
         </v-card-text>
         <v-divider class="mx-4"></v-divider>
         <v-card-actions>
@@ -34,22 +34,23 @@ import { ActivityObject, Link } from "activitypub-objects";
 import router from "@/router";
 
 import { AuthenticationUtil } from "@/utils/authentication-util";
-import Article from "./Article.vue";
+import { PostTypes } from "@/utils/post-types";
 import Author from "./Author.vue";
+import ActivityStreamsArticle from "./ActivityStreamsArticle.vue";
 
-const collection = namespace("Collection");
+const collectionStore = namespace("Collection");
 
 @Component({
   components: {
-    Article,
-    Author
+    Author,
+    ActivityStreamsArticle
   }
 })
 export default class MitraPosts extends Vue {
-  @collection.Getter
+  @collectionStore.Getter
   public getPosts!: Array<ActivityObject | Link>;
 
-  @collection.Action
+  @collectionStore.Action
   public fetchCollection!: (user: string) => Promise<void>;
 
   private created() {
@@ -62,6 +63,10 @@ export default class MitraPosts extends Vue {
     } else {
       this.notAllowedUser();
     }
+  }
+
+  private getComponent(type: string) {
+    return PostTypes[type as keyof typeof PostTypes];
   }
 
   private notAllowedUser() {

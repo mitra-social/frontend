@@ -2,7 +2,7 @@ import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 
 import client from "apiClient";
 import { User as UserModel } from "@/model/user";
-import { Credential } from "@/model/credential";
+import { AuthenticationUtil } from "@/utils/authentication-util";
 
 @Module({ namespaced: true })
 class User extends VuexModule {
@@ -18,8 +18,9 @@ class User extends VuexModule {
   }
 
   @Action
-  public(credential: Credential): void {
-    client.login(credential).then(user => {
+  public fetchUser(user: string): void {
+    const token = AuthenticationUtil.getToken() || "";
+    client.getUser(token, user).then(user => {
       this.context.commit("fetchUserSuccess", user);
     });
   }

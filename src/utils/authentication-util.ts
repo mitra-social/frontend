@@ -8,10 +8,7 @@ export class AuthenticationUtil {
 
   public static getUser(): string | undefined {
     const user = sessionStorage.getItem(AuthenticationUtil.USER);
-    if (user) {
-      return user;
-    }
-    return undefined;
+    return user ? user : undefined;
   }
 
   public static setToken(token: string) {
@@ -20,10 +17,7 @@ export class AuthenticationUtil {
 
   public static getToken(): string | undefined {
     const token = sessionStorage.getItem(AuthenticationUtil.USER_TOKEN);
-    if (token) {
-      return token;
-    }
-    return undefined;
+    return token ? token : undefined;
   }
 
   public static clear() {

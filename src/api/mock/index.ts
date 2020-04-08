@@ -1,9 +1,11 @@
 import { OrderedCollectionPage } from "activitypub-objects";
 
 import { ApiClient } from "@/api/api-client";
+import { User } from "@/model/user";
 import { Credential } from "@/model/credential";
 
-import * as collection from "./data/collection.json";
+import * as userData from "./data/user.json";
+import * as collectionData from "./data/collection.json";
 
 // eslint-disable-next-line
 const fetch = (mockData: any): Promise<any> => {
@@ -30,6 +32,13 @@ export default {
     }
     return await fetch(USER_TOKEN);
   },
+  async getUser(token: string, user: string): Promise<User> {
+    console.info(`token: ${token}, user: ${user}`);
+    if (user !== USER_NAME) {
+      return await error("Authentication is incorrect");
+    }
+    return await fetch(userData.default);
+  },
   async fetchPosts(
     token: string,
     user: string,
@@ -39,6 +48,6 @@ export default {
     if (user !== USER_NAME) {
       return await error("Authentication is incorrect");
     }
-    return await fetch(collection.default);
+    return await fetch(collectionData.default);
   }
 } as ApiClient;
