@@ -12,17 +12,17 @@ const config = {
 };
 
 export default {
-  login(credential: Credential): Promise<string> {
-    return axios.post("/token", credential, config).then(resp => {
+  async login(credential: Credential): Promise<string> {
+    return await axios.post("/token", credential, config).then(resp => {
       return resp.data.token;
     });
   },
-  fetchPosts(
+  async fetchPosts(
     token: string,
     user: string,
     page: number
   ): Promise<OrderedCollectionPage> {
-    return axios
+    return await axios
       .get(`/user/${user}/inbox?page=${page}`, {
         headers: {
           Accept: "application/json",
