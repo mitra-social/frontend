@@ -15,7 +15,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import { ActivityObject, Link, Image } from "activitypub-objects";
 
 import { ObjectHelper } from "@/utils/object-helper";
-import { RDF } from "@/model/rdf";
+import { RdfLangString } from "@/model/rdf-lang-string";
 
 @Component
 export default class MitraPosts extends Vue {
@@ -30,7 +30,7 @@ export default class MitraPosts extends Vue {
     if (ObjectHelper.hasProperty(this.attributedTo, "name")) {
       return (this.attributedTo as ActivityObject).name;
     } else if (ObjectHelper.hasProperty(this.attributedTo, "nameMap")) {
-      return (this.attributedTo as RDF).nameMap[lang];
+      return (this.attributedTo as RdfLangString).map[lang];
     }
     return undefined;
   }
