@@ -9,7 +9,7 @@ declare module "*.json" {
 }
 
 declare module "apiClient" {
-  import { ApiClient } from "@/api/api-client";
+  import { ApiClient } from "@/api-client";
   const value: ApiClient;
   export default value;
 }

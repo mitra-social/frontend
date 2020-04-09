@@ -5,12 +5,12 @@ module.exports = {
       alias: {
         apiClient: require("path").resolve(
           __dirname,
-          "src/api/" + process.env.VUE_APP_API_CLIENT
+          "src/api-client/" + process.env.VUE_APP_API_CLIENT
         )
       }
     }
   },
   devServer: {
-    proxy: process.env.BACKEND_URL
+    proxy: "http://localhost:1337"
   }
 };

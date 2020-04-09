@@ -1,7 +1,7 @@
 import axios from "axios";
 import { OrderedCollectionPage } from "activitypub-objects";
 
-import { ApiClient } from "@/api/api-client";
+import { ApiClient } from "@/api-client";
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
 

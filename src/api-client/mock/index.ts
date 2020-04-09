@@ -1,6 +1,6 @@
 import { OrderedCollectionPage } from "activitypub-objects";
 
-import { ApiClient } from "@/api/api-client";
+import { ApiClient } from "@/api-client";
 import { User } from "@/model/user";
 import { Credential } from "@/model/credential";
 
