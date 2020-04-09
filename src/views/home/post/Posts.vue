@@ -5,7 +5,7 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="headline">{{
-              post.name
+              post.name ? post.name : post.summary | stripHtmlTags
             }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -30,8 +30,9 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { ActivityObject, Link } from "activitypub-objects";
 import router from "@/router";
+import { ActivityObject, Link } from "activitypub-objects";
+import striptags from "striptags";
 
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
@@ -44,6 +45,11 @@ const collectionStore = namespace("Collection");
   components: {
     Author,
     ActivityStreamsArticle
+  },
+  filters: {
+    stripHtmlTags(value: string) {
+      return striptags(value);
+    }
   }
 })
 export default class MitraPosts extends Vue {
