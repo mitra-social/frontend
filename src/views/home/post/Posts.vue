@@ -15,7 +15,10 @@
         </v-card-text>
         <v-divider class="mx-4"></v-divider>
         <v-card-actions>
-          <Author v-if="post.attributedTo" :attributedTo="post.attributedTo" />
+          <ActorPin
+            v-if="post.attributedTo"
+            :attributedTo="post.attributedTo"
+          />
           <v-spacer></v-spacer>
           <v-btn icon disabled> <v-icon>mdi-comment-outline</v-icon> </v-btn>
           <v-btn icon disabled>
@@ -36,14 +39,14 @@ import striptags from "striptags";
 
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
-import Author from "./Author.vue";
+import ActorPin from "@/components/actor/ActorPin.vue";
 import ActivityStreamsArticle from "./ActivityStreamsArticle.vue";
 
 const collectionStore = namespace("Collection");
 
 @Component({
   components: {
-    Author,
+    ActorPin,
     ActivityStreamsArticle
   },
   filters: {
