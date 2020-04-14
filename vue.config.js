@@ -11,6 +11,6 @@ module.exports = {
     }
   },
   devServer: {
-    proxy: "http://localhost:1337"
+    proxy: process.env.BACKEND_URL
   }
 };
