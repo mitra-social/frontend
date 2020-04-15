@@ -16,6 +16,7 @@ export default class MitraFollowers extends Vue {
 <style lang="scss" scoped>
 div {
   height: 100%;
+  overflow: scroll;
   text-align: center;
   color: black;
   background-color: blue;

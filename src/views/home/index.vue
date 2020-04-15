@@ -1,19 +1,19 @@
 <template>
-  <v-row class="content" align="stretch" no-gutters>
-    <v-col class="col-3">
+  <div class="content" no-gutters>
+    <div class="followers">
       <Followers />
-    </v-col>
-    <v-col>
+    </div>
+    <div class="posts">
       <Posts />
-    </v-col>
-  </v-row>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
 import Followers from "./Followers.vue";
-import Posts from "./Posts.vue";
+import Posts from "./post/Posts.vue";
 
 @Component({
   components: {
@@ -28,8 +28,23 @@ export default class MitraHome extends Vue {
 
 <style lang="scss">
 .content {
-  text-align: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
   color: black;
   background-color: gainsboro;
+}
+
+.followers {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+.posts {
+  flex-basis: 0;
+  flex-grow: 1;
+  width: 100%;
+  min-height: 100%;
 }
 </style>

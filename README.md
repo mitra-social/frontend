@@ -7,6 +7,10 @@ The frontend powering Mitra - the distributed social network.
 ```
 npm install
 ```
+### Compiles and hot-reloads for mock  environment
+```
+npm run mock
+```
 
 ### Compiles and hot-reloads for development
 
