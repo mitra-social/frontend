@@ -16,8 +16,8 @@ import Header from "@/components/layout/MitraHeader.vue";
 
 @Component({
   components: {
-    Header
-  }
+    Header,
+  },
 })
 export default class MitraHeader extends Vue {}
 </script>
@@ -31,10 +31,6 @@ body {
 .app-container {
   width: 100%;
   height: 100vh;
-}
-
-header {
-  height: 50px;
 }
 
 main {

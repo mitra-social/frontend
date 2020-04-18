@@ -32,8 +32,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
 import router from "@/router";
+import { namespace } from "vuex-class";
 import { ActivityObject, Link } from "activitypub-objects";
 import striptags from "striptags";
 
@@ -47,13 +47,13 @@ const collectionStore = namespace("Collection");
 @Component({
   components: {
     ActorPin,
-    ActivityStreamsArticle
+    ActivityStreamsArticle,
   },
   filters: {
     stripHtmlTags(value: string) {
       return striptags(value);
-    }
-  }
+    },
+  },
 })
 export default class MitraPosts extends Vue {
   @collectionStore.Getter

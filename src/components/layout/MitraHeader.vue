@@ -1,7 +1,17 @@
 <template>
-  <div>
-    <h2>{{ title }}</h2>
-  </div>
+  <v-toolbar flat :light="$vuetify.theme.dark" :dark="!$vuetify.theme.dark">
+    <img
+      class="header-logo"
+      src="@/assets/mitra-logo-back.png"
+      v-if="$vuetify.theme.dark"
+    />
+    <img class="header-logo" src="@/assets/mitra-logo-white.png" v-else />
+    <div class="d-flex flex-row">
+      <v-switch v-model="$vuetify.theme.dark" hide-details inset></v-switch>
+      <v-icon v-if="$vuetify.theme.dark">mdi-moon-waning-crescent</v-icon>
+      <v-icon v-else>mdi-white-balance-sunny</v-icon>
+    </div>
+  </v-toolbar>
 </template>
 
 <script lang="ts">
@@ -14,15 +24,7 @@ export default class MitraHeader extends Vue {
 </script>
 
 <style lang="scss" scoped>
-div {
+.header-logo {
   height: 100%;
-  text-align: center;
-  color: white;
-  background-color: red;
-}
-
-h2 {
-  margin-block-start: 0;
-  margin-block-end: 0;
 }
 </style>

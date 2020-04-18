@@ -18,22 +18,27 @@ import Posts from "./post/Posts.vue";
 @Component({
   components: {
     Followers,
-    Posts
-  }
+    Posts,
+  },
 })
 export default class MitraHome extends Vue {
   private title = "Home";
+
+  private created() {
+    // this.$vuetify.theme.dark = true;
+  }
 }
 </script>
 
 <style lang="scss">
+body {
+  background-color: #333;
+}
 .content {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: row;
-  color: black;
-  background-color: gainsboro;
 }
 
 .followers {

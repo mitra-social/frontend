@@ -18,8 +18,6 @@ div {
   height: 100%;
   overflow: scroll;
   text-align: center;
-  color: black;
-  background-color: blue;
 }
 
 h2 {

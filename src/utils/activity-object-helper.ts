@@ -10,15 +10,23 @@ export class ActivityObjectHelper {
     }
   }
 
-  public static extractActorName(object: ActivityObject): string | undefined {
+  public static extractActorName(object:
+    | ActivityObject
+    | Link
+    | URL
+    | Array<ActivityObject | URL>): string | undefined {
     const lang = navigator.language;
     if (ActivityObjectHelper.hasProperty(object, "name")) {
-      return object.name;
+      return (object as ActivityObject).name;
     } else if (ActivityObjectHelper.hasProperty(object, "nameMap")) {
       return (object as RdfLangString).nameMap[lang];
     } else if (ActivityObjectHelper.hasProperty(object, "map")) {
       return (object as RdfLangString).map[lang];
+    } else if (object) {
+      const hostname = (object as URL).toString();
+      return hostname.substring(hostname.indexOf('://') + 3, hostname.indexOf('.'));
     }
+
     return undefined;
   }
 
