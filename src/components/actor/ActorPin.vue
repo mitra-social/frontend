@@ -8,10 +8,10 @@
   >
     <template v-slot:activator="{ on }">
       <div v-on="on">
-        <v-avatar color="indigo" v-if="icon">
+        <v-avatar color="indigo" size="36" v-if="icon">
           <v-img :src="icon"></v-img>
         </v-avatar>
-        <v-avatar color="indigo" v-else>
+        <v-avatar color="indigo" size="36" v-else>
           <v-icon dark>mdi-account-circle</v-icon>
         </v-avatar>
         {{ author }}
@@ -21,7 +21,6 @@
       v-if="this.attributedTo"
       :attributedTo="this.attributedTo"
       :isFollowing="isFollowing"
-      @toggleFollowing="toggleFollowing($event)"
     />
   </v-menu>
 </template>
@@ -31,7 +30,6 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import { ActivityObject, Link } from "activitypub-objects";
 
 import SummarizedActor from "@/components/actor/ActorSummarized.vue";
-
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
 @Component({
@@ -57,10 +55,6 @@ export default class ActorPin extends Vue {
     return ActivityObjectHelper.extractIcon(
       this.attributedTo as ActivityObject
     );
-  }
-
-  private toggleFollowing(isFollowing: boolean) {
-    this.isFollowing = isFollowing;
   }
 }
 </script>

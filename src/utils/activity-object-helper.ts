@@ -1,5 +1,5 @@
-import { ActivityObject, Link, Image } from 'activitypub-objects';
-import { RdfLangString } from '@/model/rdf-lang-string';
+import { ActivityObject, Link, Image } from "activitypub-objects";
+import { RdfLangString } from "@/model/rdf-lang-string";
 
 export class ActivityObjectHelper {
   public static hasProperty(obj: object, property: string): boolean {
@@ -10,11 +10,9 @@ export class ActivityObjectHelper {
     }
   }
 
-  public static extractActorName(object:
-    | ActivityObject
-    | Link
-    | URL
-    | Array<ActivityObject | URL>): string | undefined {
+  public static extractActorName(
+    object: ActivityObject | Link | URL | Array<ActivityObject | URL>
+  ): string | undefined {
     const lang = navigator.language;
     if (ActivityObjectHelper.hasProperty(object, "name")) {
       return (object as ActivityObject).name;
@@ -23,11 +21,20 @@ export class ActivityObjectHelper {
     } else if (ActivityObjectHelper.hasProperty(object, "map")) {
       return (object as RdfLangString).map[lang];
     } else if (object) {
-      const hostname = (object as URL).toString();
-      return hostname.substring(hostname.indexOf('://') + 3, hostname.indexOf('.'));
+      return ActivityObjectHelper.normalizedActorUrl(object as URL);
     }
 
     return undefined;
+  }
+
+  public static convertToActor(
+    object: ActivityObject | Link | URL | Array<ActivityObject | URL>
+  ): ActivityObject | URL {
+    if (ActivityObjectHelper.hasProperty(object, "name")) {
+      return object as ActivityObject;
+    }
+
+    return object as URL;
   }
 
   public static extractIcon(object: ActivityObject): string | undefined {
@@ -43,5 +50,10 @@ export class ActivityObjectHelper {
       }
     }
     return undefined;
+  }
+
+  public static normalizedActorUrl(url: URL) {
+    const urlStr = url.toString();
+    return urlStr.substring(urlStr.indexOf("://") + 3, urlStr.indexOf("."));
   }
 }

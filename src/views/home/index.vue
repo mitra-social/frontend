@@ -1,9 +1,9 @@
 <template>
   <div class="content" no-gutters>
-    <div class="followers">
+    <div class="followers" v-if="isFollowingLoading">
       <Followers />
     </div>
-    <div class="posts">
+    <div class="posts" v-if="isFollowingLoading">
       <Posts />
     </div>
   </div>
@@ -11,21 +11,36 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { namespace } from "vuex-class";
 
 import Followers from "./Followers.vue";
 import Posts from "./post/Posts.vue";
+import { User } from "@/model/user";
+
+const userStore = namespace("User");
+const followingStore = namespace("Following");
 
 @Component({
   components: {
     Followers,
-    Posts,
-  },
+    Posts
+  }
 })
 export default class MitraHome extends Vue {
-  private title = "Home";
+  private isFollowingLoading = false;
+
+  @userStore.Getter
+  public getUser!: User;
+
+  @followingStore.Action
+  public fetchFollowing!: (user: string) => Promise<void>;
 
   private created() {
-    // this.$vuetify.theme.dark = true;
+    if (this.getUser) {
+      this.fetchFollowing(this.getUser.preferredUsername).then(() => {
+        this.isFollowingLoading = true;
+      });
+    }
   }
 }
 </script>

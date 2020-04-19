@@ -16,10 +16,10 @@ import Header from "@/components/layout/MitraHeader.vue";
 
 @Component({
   components: {
-    Header,
-  },
+    Header
+  }
 })
-export default class MitraHeader extends Vue {}
+export default class App extends Vue {}
 </script>
 
 <style lang="scss">

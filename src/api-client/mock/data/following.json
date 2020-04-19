@@ -1,0 +1,16 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "summary": "Sally's articles",
+  "type": "OrderedCollection",
+  "totalItems": 2,
+  "orderedItems": [
+    {
+      "type": "Person",
+      "name": "Sally"
+    },
+    {
+      "type": "Person",
+      "name": "John"
+    }
+  ]
+}

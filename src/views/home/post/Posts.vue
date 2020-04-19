@@ -37,23 +37,23 @@ import { namespace } from "vuex-class";
 import { ActivityObject, Link } from "activitypub-objects";
 import striptags from "striptags";
 
+import ActivityStreamsArticle from "./ActivityStreamsArticle.vue";
+import ActorPin from "@/components/actor/ActorPin.vue";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
-import ActorPin from "@/components/actor/ActorPin.vue";
-import ActivityStreamsArticle from "./ActivityStreamsArticle.vue";
 
 const collectionStore = namespace("Collection");
 
 @Component({
   components: {
     ActorPin,
-    ActivityStreamsArticle,
+    ActivityStreamsArticle
   },
   filters: {
     stripHtmlTags(value: string) {
       return striptags(value);
-    },
-  },
+    }
+  }
 })
 export default class MitraPosts extends Vue {
   @collectionStore.Getter

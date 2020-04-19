@@ -12,15 +12,19 @@ class User extends VuexModule {
     return this.user;
   }
 
+  get isUserFetch() {
+    return !!this.user;
+  }
+
   @Mutation
   public fetchUserSuccess(user: UserModel): void {
     this.user = user;
   }
 
   @Action
-  public fetchUser(user: string): void {
+  public async fetchUser(user: string): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
-    client.getUser(token, user).then(user => {
+    await client.getUser(token, user).then(user => {
       this.context.commit("fetchUserSuccess", user);
     });
   }
