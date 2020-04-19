@@ -1,9 +1,11 @@
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
-import { Follow, Actor, Undo } from "activitypub-objects";
+import { Actor, ActivityObject, Link } from "activitypub-objects";
 
 import client from "apiClient";
-import { FollowPayload } from "@/model/follow-payload";
 import { AuthenticationUtil } from "@/utils/authentication-util";
+import { ActivityObjectHelper } from "@/utils/activity-object-helper";
+import { Follow } from "@/model/mitra-follow";
+import { Unfollow } from "@/model/mitra-unfollow";
 
 @Module({ namespaced: true })
 class Following extends VuexModule {
@@ -22,7 +24,6 @@ class Following extends VuexModule {
   public addFollowing(actor: Actor): void {
     if (this.following) {
       this.following.push(actor);
-      console.log(this.following);
     }
   }
 
@@ -45,45 +46,35 @@ class Following extends VuexModule {
   }
 
   @Action
-  public async follow(payload: FollowPayload): Promise<void> {
-    const { user, object: followingActor } = payload;
+  public async follow(to: ActivityObject | Link): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
-    const userActor = {
-      name: user.preferredUsername,
-      type: user.type
-    };
-    const summary = `${user.preferredUsername} followed ${userActor.name}`;
+    const user = AuthenticationUtil.getUser() || "";
+    const summary = `${user} followed ${ActivityObjectHelper.extractActorName(
+      to
+    )}`;
+
     return await client
-      .writeToOutbox(
-        token,
-        user.preferredUsername,
-        new Follow(userActor, followingActor),
-        summary
-      )
+      .writeToOutbox(token, user, new Follow(to, to), summary)
       .then(() => {
-        this.context.commit("addFollowing", followingActor);
+        this.context.commit("addFollowing", to);
+      })
+      .catch(err => {
+        console.log(err);
       });
   }
 
   @Action
-  public async unfollow(payload: FollowPayload): Promise<void> {
-    const { user, object: followingActor } = payload;
+  public async unfollow(to: ActivityObject | Link): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
-    const userActor = {
-      name: user.preferredUsername,
-      type: user.type
-    };
-    const summary = `${user.preferredUsername} undo followed ${userActor.name}`;
+    const user = AuthenticationUtil.getUser() || "";
+    const summary = `${user} undo followed ${ActivityObjectHelper.extractActorName(
+      to
+    )}`;
 
     return await client
-      .writeToOutbox(
-        token,
-        user.preferredUsername,
-        new Undo(userActor, new Follow(userActor, followingActor)),
-        summary
-      )
+      .writeToOutbox(token, user, new Unfollow(to, new Follow(to, to)), summary)
       .then(() => {
-        this.context.commit("removeFollowing", followingActor);
+        this.context.commit("removeFollowing", to);
       });
   }
 }

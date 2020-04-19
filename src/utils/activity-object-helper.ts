@@ -27,14 +27,15 @@ export class ActivityObjectHelper {
     return undefined;
   }
 
-  public static convertToActor(
+  public static convertToFollow(
     object: ActivityObject | Link | URL | Array<ActivityObject | URL>
-  ): ActivityObject | URL {
-    if (ActivityObjectHelper.hasProperty(object, "name")) {
+  ): ActivityObject | Link {
+    if (ActivityObjectHelper.hasProperty(object, "id")) {
+      return { type: "Link", href: (object as ActivityObject).id };
+    } else if (ActivityObjectHelper.hasProperty(object, "name")) {
       return object as ActivityObject;
     }
-
-    return object as URL;
+    return { type: "Link", href: object as URL };
   }
 
   public static extractIcon(object: ActivityObject): string | undefined {

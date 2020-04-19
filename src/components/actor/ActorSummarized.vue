@@ -34,7 +34,6 @@ import { namespace } from "vuex-class";
 import { ActivityObject, Link, Actor } from "activitypub-objects";
 
 import { User } from "@/model/user";
-import { FollowPayload } from "@/model/follow-payload";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
 const userStore = namespace("User");
@@ -73,10 +72,10 @@ export default class ActorSummarized extends Vue {
   public setIsFollowing!: (actor: string) => void;
 
   @followingStore.Action
-  public follow!: (payload: FollowPayload) => Promise<void>;
+  public follow!: (to: ActivityObject | URL) => Promise<void>;
 
   @followingStore.Action
-  public unfollow!: (payload: FollowPayload) => Promise<void>;
+  public unfollow!: (to: ActivityObject | URL) => Promise<void>;
 
   private isFollowing(): boolean {
     return this.getFollowing.some($ =>
@@ -87,13 +86,10 @@ export default class ActorSummarized extends Vue {
   }
 
   private onFollow() {
-    const actorFollowing = ActivityObjectHelper.convertToActor(
+    const actorFollowing = ActivityObjectHelper.convertToFollow(
       this.attributedTo
     );
-    this.follow({
-      user: this.getUser,
-      object: actorFollowing
-    })
+    this.follow(actorFollowing)
       .then(() => {
         this.isFollowing();
       })
@@ -103,13 +99,10 @@ export default class ActorSummarized extends Vue {
   }
 
   private onUnfollow() {
-    const actorFollowing = ActivityObjectHelper.convertToActor(
+    const actorFollowing = ActivityObjectHelper.convertToFollow(
       this.attributedTo
     );
-    this.unfollow({
-      user: this.getUser,
-      object: actorFollowing as ActivityObject
-    })
+    this.unfollow(actorFollowing)
       .then(() => {
         this.isFollowing();
       })
