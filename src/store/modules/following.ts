@@ -6,10 +6,11 @@ import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 import { Follow } from "@/model/mitra-follow";
 import { Unfollow } from "@/model/mitra-unfollow";
+import { FollowPayload } from '@/model/mitra-follow-payload';
 
 @Module({ namespaced: true })
 class Following extends VuexModule {
-  public following: Actor[] | undefined = undefined;
+  public following: (ActivityObject | Link)[] | undefined = undefined;
 
   get getFollowing() {
     return this.following;
@@ -21,18 +22,23 @@ class Following extends VuexModule {
   }
 
   @Mutation
-  public addFollowing(actor: Actor): void {
+  public addFollowing(actor: ActivityObject | Link): void {
     if (this.following) {
       this.following.push(actor);
     }
   }
 
   @Mutation
-  public removeFollowing(actor: Actor): void {
+  public removeFollowing(actor: ActivityObject | Link): void {
     if (this.following) {
-      this.following = this.following.filter($ =>
-        $.name && actor.name ? $.name !== actor.name : $ !== actor
+      this.following = this.following.filter($ => {
+        console.log(`$ ${ActivityObjectHelper.extractId($)}`)
+        console.log(`actor ${ActivityObjectHelper.extractId(actor)}`)
+        return ActivityObjectHelper.extractId($) !==
+          ActivityObjectHelper.extractId(actor)
+      }
       );
+      console.log(this.following)
     }
   }
 
@@ -46,33 +52,33 @@ class Following extends VuexModule {
   }
 
   @Action
-  public async follow(to: ActivityObject | Link): Promise<void> {
+  public async follow(payload: FollowPayload): Promise<void> {
+    const { to, object } = payload;
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
-    const summary = `${user} followed ${ActivityObjectHelper.extractActorName(
+    const summary = `${user} followed ${ActivityObjectHelper.extractId(
       to
     )}`;
 
+    console.log(new Follow(to, object))
     return await client
-      .writeToOutbox(token, user, new Follow(to, to), summary)
+      .writeToOutbox(token, user, new Follow(to, object), summary)
       .then(() => {
         this.context.commit("addFollowing", to);
-      })
-      .catch(err => {
-        console.log(err);
       });
   }
 
   @Action
-  public async unfollow(to: ActivityObject | Link): Promise<void> {
+  public async unfollow(payload: FollowPayload): Promise<void> {
+    const { to, object } = payload;
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
-    const summary = `${user} undo followed ${ActivityObjectHelper.extractActorName(
+    const summary = `${user} undo followed ${ActivityObjectHelper.extractId(
       to
     )}`;
 
     return await client
-      .writeToOutbox(token, user, new Unfollow(to, new Follow(to, to)), summary)
+      .writeToOutbox(token, user, new Unfollow(to, new Follow(to, object)), summary)
       .then(() => {
         this.context.commit("removeFollowing", to);
       });

@@ -6,9 +6,12 @@ import {
 
 import { Follow } from "./mitra-follow";
 
-export declare class Unfollow implements Activity {
+export class Unfollow implements Activity {
   readonly to: ActivityObject | Link;
   readonly object: Follow;
   readonly type = Activities.UNDO;
-  constructor(to: ActivityObject | URL, object: Follow);
+  constructor(to: ActivityObject | Link, object: Follow) {
+    this.to = to;
+    this.object = object;
+  };
 }

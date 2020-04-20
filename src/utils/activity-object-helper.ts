@@ -27,7 +27,7 @@ export class ActivityObjectHelper {
     return undefined;
   }
 
-  public static convertToFollow(
+  public static normalizedToFollow(
     object: ActivityObject | Link | URL | Array<ActivityObject | URL>
   ): ActivityObject | Link {
     if (ActivityObjectHelper.hasProperty(object, "id")) {
@@ -36,6 +36,33 @@ export class ActivityObjectHelper {
       return object as ActivityObject;
     }
     return { type: "Link", href: object as URL };
+  }
+
+  public static normalizedObjectFollow(
+    object: ActivityObject | Link | URL | Array<ActivityObject | URL>
+  ): ActivityObject | URL | undefined {
+    if (ActivityObjectHelper.hasProperty(object, "id")) {
+      return (object as ActivityObject).id;
+    } else if (ActivityObjectHelper.hasProperty(object, "type") &&
+      !ActivityObjectHelper.hasProperty(object, "href")) {
+      return object as ActivityObject;
+    } else if (ActivityObjectHelper.hasProperty(object, "hostname")) {
+      return object as URL;
+    }
+    return undefined;
+  }
+
+  public static extractId(object: ActivityObject | Link | URL | Array<ActivityObject | URL>): string | undefined {
+    if (ActivityObjectHelper.hasProperty(object, "id")) {
+      return (object as ActivityObject).id?.toString();
+    } else if (ActivityObjectHelper.hasProperty(object, "name")) {
+      return (object as ActivityObject).name;
+    } else if (ActivityObjectHelper.hasProperty(object, "href")) {
+      return (object as Link).href.toString();
+    } else if (ActivityObjectHelper.hasProperty(object, "hostname")) {
+      return (object as URL).toString();
+    }
+    return undefined;
   }
 
   public static extractIcon(object: ActivityObject): string | undefined {

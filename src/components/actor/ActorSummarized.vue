@@ -34,6 +34,7 @@ import { namespace } from "vuex-class";
 import { ActivityObject, Link, Actor } from "activitypub-objects";
 
 import { User } from "@/model/user";
+import { FollowPayload } from "@/model/mitra-follow-payload";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
 const userStore = namespace("User");
@@ -72,43 +73,71 @@ export default class ActorSummarized extends Vue {
   public setIsFollowing!: (actor: string) => void;
 
   @followingStore.Action
-  public follow!: (to: ActivityObject | URL) => Promise<void>;
+  public follow!: (payload: FollowPayload) => Promise<void>;
 
   @followingStore.Action
-  public unfollow!: (to: ActivityObject | URL) => Promise<void>;
+  public unfollow!: (payload: FollowPayload) => Promise<void>;
 
   private isFollowing(): boolean {
-    return this.getFollowing.some($ =>
-      (this.attributedTo as Actor).name
-        ? $.name === (this.attributedTo as Actor).name
-        : $ === this.attributedTo
+    return this.getFollowing.some(
+      ($) =>
+        ActivityObjectHelper.extractId($) ===
+        ActivityObjectHelper.extractId(this.attributedTo)
     );
   }
 
   private onFollow() {
-    const actorFollowing = ActivityObjectHelper.convertToFollow(
+    const to = ActivityObjectHelper.normalizedToFollow(this.attributedTo);
+    const object = ActivityObjectHelper.normalizedObjectFollow(
       this.attributedTo
     );
-    this.follow(actorFollowing)
-      .then(() => {
-        this.isFollowing();
-      })
-      .catch(() => {
-        this.$toast.error(`Follow ${actorFollowing} failed.`);
-      });
+
+    if (to && object) {
+      this.follow({ to, object })
+        .then(() => {
+          this.isFollowing();
+        })
+        .catch(() => {
+          this.$toast.error(
+            `Follow ${ActivityObjectHelper.extractActorName(
+              this.attributedTo as ActivityObject
+            )} failed.`
+          );
+        });
+    } else {
+      this.$toast.error(
+        `Follow ${ActivityObjectHelper.extractActorName(
+          this.attributedTo as ActivityObject
+        )} failed.`
+      );
+    }
   }
 
   private onUnfollow() {
-    const actorFollowing = ActivityObjectHelper.convertToFollow(
+    const to = ActivityObjectHelper.normalizedToFollow(this.attributedTo);
+    const object = ActivityObjectHelper.normalizedObjectFollow(
       this.attributedTo
     );
-    this.unfollow(actorFollowing)
-      .then(() => {
-        this.isFollowing();
-      })
-      .catch(() => {
-        this.$toast.error(`Unfollow ${actorFollowing} failed.`);
-      });
+
+    if (to && object) {
+      this.unfollow({ to, object })
+        .then(() => {
+          this.isFollowing();
+        })
+        .catch(() => {
+          this.$toast.error(
+            `Unfollow  ${ActivityObjectHelper.extractActorName(
+              this.attributedTo as ActivityObject
+            )} failed.`
+          );
+        });
+    } else {
+      this.$toast.error(
+        `Follow ${ActivityObjectHelper.extractActorName(
+          this.attributedTo as ActivityObject
+        )} failed.`
+      );
+    }
   }
 }
 </script>
