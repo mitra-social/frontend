@@ -3,7 +3,6 @@ import {
   toJSON,
   OrderedCollection
 } from "activitypub-objects";
-import { Activity } from "activitypub-objects/dst/activities/activity";
 
 import { ApiClient } from "@/api-client";
 import { User } from "@/model/user";
@@ -12,6 +11,7 @@ import { Credential } from "@/model/credential";
 import * as userData from "./data/user.json";
 import * as follwoingData from "./data/following.json";
 import * as collectionData from "./data/collection.json";
+import { Activity } from "@/model/mitra-activity";
 
 const USER_NAME = "john.doe";
 const USER_PWD = "123";

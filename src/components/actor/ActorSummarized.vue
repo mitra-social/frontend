@@ -80,14 +80,14 @@ export default class ActorSummarized extends Vue {
 
   private isFollowing(): boolean {
     return this.getFollowing.some(
-      ($) =>
+      $ =>
         ActivityObjectHelper.extractId($) ===
         ActivityObjectHelper.extractId(this.attributedTo)
     );
   }
 
   private onFollow() {
-    const to = ActivityObjectHelper.normalizedToFollow(this.attributedTo);
+    const to = ActivityObjectHelper.normalizedObjectFollow(this.attributedTo);
     const object = ActivityObjectHelper.normalizedObjectFollow(
       this.attributedTo
     );
@@ -105,16 +105,12 @@ export default class ActorSummarized extends Vue {
           );
         });
     } else {
-      this.$toast.error(
-        `Follow ${ActivityObjectHelper.extractActorName(
-          this.attributedTo as ActivityObject
-        )} failed.`
-      );
+      this.$toast.error(`Follow ${to} failed.`);
     }
   }
 
   private onUnfollow() {
-    const to = ActivityObjectHelper.normalizedToFollow(this.attributedTo);
+    const to = ActivityObjectHelper.normalizedObjectFollow(this.attributedTo);
     const object = ActivityObjectHelper.normalizedObjectFollow(
       this.attributedTo
     );
@@ -125,11 +121,7 @@ export default class ActorSummarized extends Vue {
           this.isFollowing();
         })
         .catch(() => {
-          this.$toast.error(
-            `Unfollow  ${ActivityObjectHelper.extractActorName(
-              this.attributedTo as ActivityObject
-            )} failed.`
-          );
+          this.$toast.error(`Unfollow  ${to} failed.`);
         });
     } else {
       this.$toast.error(

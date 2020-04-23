@@ -6,7 +6,7 @@ import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 import { Follow } from "@/model/mitra-follow";
 import { Unfollow } from "@/model/mitra-unfollow";
-import { FollowPayload } from '@/model/mitra-follow-payload';
+import { FollowPayload } from "@/model/mitra-follow-payload";
 
 @Module({ namespaced: true })
 class Following extends VuexModule {
@@ -32,13 +32,11 @@ class Following extends VuexModule {
   public removeFollowing(actor: ActivityObject | Link): void {
     if (this.following) {
       this.following = this.following.filter($ => {
-        console.log(`$ ${ActivityObjectHelper.extractId($)}`)
-        console.log(`actor ${ActivityObjectHelper.extractId(actor)}`)
-        return ActivityObjectHelper.extractId($) !==
+        return (
+          ActivityObjectHelper.extractId($) !==
           ActivityObjectHelper.extractId(actor)
-      }
-      );
-      console.log(this.following)
+        );
+      });
     }
   }
 
@@ -56,11 +54,8 @@ class Following extends VuexModule {
     const { to, object } = payload;
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
-    const summary = `${user} followed ${ActivityObjectHelper.extractId(
-      to
-    )}`;
+    const summary = `${user} followed ${to}`;
 
-    console.log(new Follow(to, object))
     return await client
       .writeToOutbox(token, user, new Follow(to, object), summary)
       .then(() => {
@@ -73,12 +68,15 @@ class Following extends VuexModule {
     const { to, object } = payload;
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
-    const summary = `${user} undo followed ${ActivityObjectHelper.extractId(
-      to
-    )}`;
+    const summary = `${user} undo followed ${to}`;
 
     return await client
-      .writeToOutbox(token, user, new Unfollow(to, new Follow(to, object)), summary)
+      .writeToOutbox(
+        token,
+        user,
+        new Unfollow(to, new Follow(to, object) as ActivityObject),
+        summary
+      )
       .then(() => {
         this.context.commit("removeFollowing", to);
       });

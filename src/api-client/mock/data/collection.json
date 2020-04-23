@@ -49,6 +49,7 @@
       "attributedTo": {
         "type": "Person",
         "name": "Johnny",
+        "id": "http://johnny.example.org",
         "icon": {
           "name": "avater",
           "url": "https://i.picsum.photos/id/1083/5472/3648.jpg"

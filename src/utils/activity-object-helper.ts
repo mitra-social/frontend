@@ -43,26 +43,28 @@ export class ActivityObjectHelper {
   ): ActivityObject | URL | undefined {
     if (ActivityObjectHelper.hasProperty(object, "id")) {
       return (object as ActivityObject).id;
-    } else if (ActivityObjectHelper.hasProperty(object, "type") &&
-      !ActivityObjectHelper.hasProperty(object, "href")) {
+    } else if (
+      ActivityObjectHelper.hasProperty(object, "type") &&
+      !ActivityObjectHelper.hasProperty(object, "href")
+    ) {
       return object as ActivityObject;
-    } else if (ActivityObjectHelper.hasProperty(object, "hostname")) {
-      return object as URL;
     }
-    return undefined;
+    return object as URL;
   }
 
-  public static extractId(object: ActivityObject | Link | URL | Array<ActivityObject | URL>): string | undefined {
+  public static extractId(
+    object: ActivityObject | Link | URL | Array<ActivityObject | URL>
+  ): string | undefined {
     if (ActivityObjectHelper.hasProperty(object, "id")) {
       return (object as ActivityObject).id?.toString();
     } else if (ActivityObjectHelper.hasProperty(object, "name")) {
       return (object as ActivityObject).name;
     } else if (ActivityObjectHelper.hasProperty(object, "href")) {
       return (object as Link).href.toString();
-    } else if (ActivityObjectHelper.hasProperty(object, "hostname")) {
-      return (object as URL).toString();
     }
-    return undefined;
+
+    const url = object as URL;
+    return url ? url.toString() : url;
   }
 
   public static extractIcon(object: ActivityObject): string | undefined {
@@ -82,6 +84,12 @@ export class ActivityObjectHelper {
 
   public static normalizedActorUrl(url: URL) {
     const urlStr = url.toString();
+    if (urlStr.startsWith("https://mastodon.social")) {
+      return `${urlStr.substring(
+        urlStr.lastIndexOf("/") + 1,
+        urlStr.length
+      )}@mastodon.social`;
+    }
     return urlStr.substring(urlStr.indexOf("://") + 3, urlStr.indexOf("."));
   }
 }
