@@ -7,6 +7,20 @@
             <v-list-item-title class="headline">{{
               post.name ? post.name : post.summary | stripHtmlTags
             }}</v-list-item-title>
+            <v-list-item-subtitle>
+              <div class="d-flex flex-row justify-space-between">
+                <Date
+                  v-if="post.published"
+                  icon="mdi-publish"
+                  :date="post.published"
+                />
+                <Date
+                  v-if="post.updated"
+                  icon="mdi-update"
+                  :date="post.updated"
+                />
+              </div>
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-divider class="mx-4"></v-divider>
@@ -39,6 +53,7 @@ import striptags from "striptags";
 
 import ActivityStreamsArticle from "./ActivityStreamsArticle.vue";
 import ActorPin from "@/components/actor/ActorPin.vue";
+import Date from "@/components/ui/Date.vue";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
 
@@ -47,6 +62,7 @@ const collectionStore = namespace("Collection");
 @Component({
   components: {
     ActorPin,
+    Date,
     ActivityStreamsArticle
   },
   filters: {
