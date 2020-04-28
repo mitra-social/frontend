@@ -3,7 +3,7 @@
   "summary": "Sally's articles",
   "type": "OrderedCollectionPage",
   "partOf": "http://mock/user/john.doe/inbox",
-  "totalItems": 4,
+  "totalItems": 6,
   "orderedItems": [
     {
       "type": "Article",
@@ -43,17 +43,51 @@
       }
     },
     {
-      "type": "Article",
-      "name": "Nextinpact (bot)",
-      "content": "<p>RT <span class=\"h-card\"><a href=\"https://mastodon.gougere.fr/@nextinpact\" class=\"u-url mention\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">@<span>nextinpact</span></a></span><br>Suite aux précisions apportées par @EPhilippePM sur France 2, nous avons mis à jour notre article concernant l'attestation et le justificatif à fournir en cas de déplacement pendant le confinement <a href=\"https://www.nextinpact.com/news/108799-confinement-en-france-telechargez-modele-dattestation-obligatoire-en-cas-deplacement.htm\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://www.</span><span class=\"ellipsis\">nextinpact.com/news/108799-con</span><span class=\"invisible\">finement-en-france-telechargez-modele-dattestation-obligatoire-en-cas-deplacement.htm</span></a></p>",
-      "attributedTo": {
+      "summary": "Sally created a note",
+      "type": "Create",
+      "id": "http://activities.example.com/1",
+      "actor": "http://sally.example.org",
+      "object": {
+        "summary": "A note",
+        "type": "Note",
+        "id": "http://notes.example.com/1",
+        "content": "A create note"
+      }
+    },
+    {
+      "summary": "Sally created a note",
+      "type": "Create",
+      "id": "http://activities.example.com/1",
+      "actor": "http://sally.example.org",
+      "updated": "2020-04-28T17:49:12Z",
+      "published": "2020-04-28T16:12:12Z",
+      "object": {
+        "summary": "A note",
+        "type": "Note",
+        "id": "http://notes.example.com/1",
+        "content": "A create note with published and updated datetime"
+      }
+    },
+    {
+      "summary": "Sally updated her note",
+      "type": "Update",
+      "actor": {
         "type": "Person",
-        "name": "Johnny",
-        "id": "http://johnny.example.org",
-        "icon": {
-          "name": "avater",
-          "url": "https://i.picsum.photos/id/1083/5472/3648.jpg"
-        }
+        "name": "Sally"
+      },
+      "object": "http://example.org/notes/1"
+    },
+    {
+      "summary": "Sally deleted a note",
+      "type": "Delete",
+      "actor": {
+        "type": "Person",
+        "name": "Sally"
+      },
+      "object": "http://example.org/notes/1",
+      "origin": {
+        "type": "Collection",
+        "name": "Sally's Notes"
       }
     }
   ]
