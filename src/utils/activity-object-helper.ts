@@ -1,5 +1,6 @@
 import { ActivityObject, Link, Image } from "activitypub-objects";
 import { RdfLangString } from "@/model/rdf-lang-string";
+import { Activity } from "@/model/mitra-activity";
 
 export class ActivityObjectHelper {
   public static hasProperty(obj: object, property: string): boolean {
@@ -82,7 +83,7 @@ export class ActivityObjectHelper {
     return undefined;
   }
 
-  public static normalizedActorUrl(url: URL) {
+  public static normalizedActorUrl(url: URL): string {
     const urlStr = url.toString();
     if (urlStr.startsWith("https://mastodon.social")) {
       return `${urlStr.substring(
@@ -91,5 +92,23 @@ export class ActivityObjectHelper {
       )}@mastodon.social`;
     }
     return urlStr.substring(urlStr.indexOf("://") + 3, urlStr.indexOf("."));
+  }
+
+  public static extractObjectFromActivity(activity: Activity): ActivityObject {
+    const object = activity.object as ActivityObject;
+
+    if (activity.actor) {
+      object.attributedTo = activity.actor;
+    }
+
+    if (activity.updated) {
+      object.updated = activity.updated;
+    }
+
+    if (activity.published) {
+      object.published = activity.published;
+    }
+
+    return object;
   }
 }
