@@ -3,25 +3,25 @@ import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
 
-import Article from "@/views/home/post/Article.vue";
-import collection from "@/api/mock/data/collection.json";
+import ActivityStreamsArticle from "@/views/home/post/ActivityStreamsArticle.vue";
+import collection from "@/api-client/mock/data/collection.json";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
 
-describe("Article.vue", () => {
+describe("ActivityStreamsArticleComponent.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
-  let article: Article;
+  let article: ActivityStreamsArticle;
 
   beforeEach(() => {
     vuetify = new Vuetify();
-    const articles = collection.orderedItems as Article[];
+    const articles = collection.orderedItems as ActivityStreamsArticle[];
     article = articles[0];
   });
 
   it("Check article has right content", () => {
-    const wrapper = mount(Article, {
+    const wrapper = mount(ActivityStreamsArticle, {
       localVue,
       vuetify,
       propsData: {
