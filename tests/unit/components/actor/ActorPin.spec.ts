@@ -49,7 +49,7 @@ describe("ActorPin.vue", () => {
       fr: "Jean"
     };
 
-    const content = wrapper.find(".v-list-item__title");
+    const content = wrapper.find(".v-menu").find("div");
     expect(content.text()).toBe(names[lang]);
   });
 
