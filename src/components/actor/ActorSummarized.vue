@@ -10,16 +10,27 @@
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title>{{ actor }}</v-list-item-title>
-          <v-list-item-subtitle>{{ attributedTo.type }}</v-list-item-subtitle>
-          <v-list-item-subtitle v-if="attributedTo.summary">{{
-            attributedTo.summary
-          }}</v-list-item-subtitle>
+          <v-list-item-subtitle
+            class="attribute-type"
+            v-if="attributedTo.type"
+            >{{ attributedTo.type }}</v-list-item-subtitle
+          >
+          <v-list-item-subtitle
+            class="attribute-summary"
+            v-if="attributedTo.summary"
+            >{{ attributedTo.summary }}</v-list-item-subtitle
+          >
         </v-list-item-content>
         <v-list-item-action>
-          <v-btn icon v-if="isFollowing()" @click="onUnfollow()">
+          <v-btn
+            class="following-btn"
+            icon
+            v-if="isFollowing()"
+            @click="onUnfollow()"
+          >
             <v-icon>mdi-account-remove</v-icon>
           </v-btn>
-          <v-btn icon v-else @click="onFollow()">
+          <v-btn class="following-btn" icon v-else @click="onFollow()">
             <v-icon>mdi-account-plus</v-icon>
           </v-btn>
         </v-list-item-action>

@@ -23,9 +23,4 @@ describe("Header.vue", () => {
       "@/assets/mitra-logo-white.png"
     );
   });
-
-  // test('renders correctly', async done => {
-  //   const wrapper = shallowMount(Header, { localVue, vuetify, store });
-  //   expect(wrapper.element).toMatchSnapshot()
-  // })
 });

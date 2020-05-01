@@ -38,7 +38,6 @@ import { ActivityObjectHelper } from "@/utils/activity-object-helper";
   }
 })
 export default class ActorPin extends Vue {
-  private isFollowing = false;
   @Prop() readonly attributedTo!:
     | ActivityObject
     | Link

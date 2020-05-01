@@ -14,7 +14,7 @@ export class ActivityObjectHelper {
   public static extractActorName(
     object: ActivityObject | Link | URL | Array<ActivityObject | URL>
   ): string | undefined {
-    const lang = navigator.language;
+    const lang = navigator.language.substr(0, 2);
     if (ActivityObjectHelper.hasProperty(object, "name")) {
       return (object as ActivityObject).name;
     } else if (ActivityObjectHelper.hasProperty(object, "nameMap")) {
