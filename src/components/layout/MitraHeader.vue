@@ -20,7 +20,7 @@
           <v-icon v-if="$vuetify.theme.dark">mdi-moon-waning-crescent</v-icon>
           <v-icon v-else>mdi-white-balance-sunny</v-icon>
         </div>
-        <div v-if="getUser">
+        <div class="user-content" v-if="getUser">
           <v-avatar color="indigo" size="36" v-if="icon">
             <v-img :src="icon"></v-img>
           </v-avatar>
