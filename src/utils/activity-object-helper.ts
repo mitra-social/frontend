@@ -94,7 +94,9 @@ export class ActivityObjectHelper {
     return urlStr.substring(urlStr.indexOf("://") + 3, urlStr.indexOf("."));
   }
 
-  public static extractObjectFromActivity(activity: ActivityImplementation): ActivityObject {
+  public static extractObjectFromActivity(
+    activity: ActivityImplementation
+  ): ActivityObject {
     const object = activity.object as ActivityObject;
 
     if (activity.actor) {

@@ -1,11 +1,12 @@
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
-import { Actor, ActivityObject, Link } from "activitypub-objects";
+import { ActivityObject, Link } from "activitypub-objects";
 
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 import { FollowPayload } from "@/model/mitra-follow-payload";
-import { Activities } from 'activitypub-objects/dst/activities/activity';
+import { Activities } from "activitypub-objects/dst/activities/activity";
+import { ActorImplementation } from "@/model/mitra-actor";
 
 @Module({ namespaced: true })
 class Following extends VuexModule {
@@ -16,7 +17,7 @@ class Following extends VuexModule {
   }
 
   @Mutation
-  public setFollowing(actors: Actor[]): void {
+  public setFollowing(actors: ActorImplementation[]): void {
     this.following = actors ? actors : [];
   }
 
@@ -44,7 +45,10 @@ class Following extends VuexModule {
     const token = AuthenticationUtil.getToken() || "";
 
     return await client.fetchFollowing(token, user, 0).then(collection => {
-      this.context.commit("setFollowing", collection.orderedItems as Actor[]);
+      this.context.commit(
+        "setFollowing",
+        collection.items as ActorImplementation[]
+      );
     });
   }
 
@@ -60,11 +64,9 @@ class Following extends VuexModule {
       type: Activities.FOLLOW
     };
 
-    return await client
-      .writeToOutbox(token, user, follow, summary)
-      .then(() => {
-        this.context.commit("addFollowing", to);
-      });
+    return await client.writeToOutbox(token, user, follow, summary).then(() => {
+      this.context.commit("addFollowing", to);
+    });
   }
 
   @Action
@@ -83,14 +85,8 @@ class Following extends VuexModule {
       type: Activities.UNDO
     };
 
-
     return await client
-      .writeToOutbox(
-        token,
-        user,
-        undo as ActivityObject,
-        summary
-      )
+      .writeToOutbox(token, user, undo as ActivityObject, summary)
       .then(() => {
         this.context.commit("removeFollowing", to);
       });

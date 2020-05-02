@@ -20,7 +20,6 @@
     <SummarizedActor
       v-if="this.attributedTo"
       :attributedTo="this.attributedTo"
-      :isFollowing="isFollowing"
     />
   </v-menu>
 </template>

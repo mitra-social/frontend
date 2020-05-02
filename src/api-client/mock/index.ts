@@ -1,7 +1,8 @@
 import {
+  OrderedCollection,
   OrderedCollectionPage,
-  toJSON,
-  OrderedCollection
+  CollectionPage,
+  toJSON
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
@@ -60,7 +61,7 @@ export default {
     token: string,
     user: string,
     page: number
-  ): Promise<OrderedCollection> {
+  ): Promise<CollectionPage> {
     console.info(`token: ${token}, user: ${user}, page: ${page}`);
     return returnResult(token, user, fetch(follwoingData.default)) as Promise<
       OrderedCollection
