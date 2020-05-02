@@ -1,5 +1,4 @@
 import {
-  OrderedCollection,
   OrderedCollectionPage,
   CollectionPage,
   toJSON
@@ -64,7 +63,7 @@ export default {
   ): Promise<CollectionPage> {
     console.info(`token: ${token}, user: ${user}, page: ${page}`);
     return returnResult(token, user, fetch(follwoingData.default)) as Promise<
-      OrderedCollection
+      CollectionPage
     >;
   },
   async fetchPosts(

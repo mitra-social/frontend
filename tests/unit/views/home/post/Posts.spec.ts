@@ -55,7 +55,7 @@ describe("Posts.vue", () => {
       wrapper
         .findAll(".post")
         .at(0)
-        .find("activitystreamsarticle-stub")
+        .find("htmlpost-stub")
         .exists()
     ).toBe(true);
     expect(spy).toHaveBeenCalledTimes(0);

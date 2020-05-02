@@ -1,9 +1,9 @@
 {
   "@context": "https://www.w3.org/ns/activitystreams",
   "summary": "Sally's articles",
-  "type": "OrderedCollection",
+  "type": "CollectionPage",
   "totalItems": 2,
-  "orderedItems": [
+  "items": [
     {
       "type": "Person",
       "name": "Sally"
