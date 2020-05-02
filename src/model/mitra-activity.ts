@@ -1,10 +1,10 @@
 import { ActivityObject, Link } from "activitypub-objects";
-import { Activity as ActivityExt } from "activitypub-objects/dst/activities/activity";
+import { Activity } from "activitypub-objects/dst/activities/activity";
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 
-export type Activity = Modify<
-  ActivityExt,
+export type ActivityImplementation = Modify<
+  Activity,
   {
     to?: ActivityObject | Link | URL | Array<ActivityObject | URL>;
     inReplyTo?: ActivityObject | Link | URL | Array<ActivityObject | URL>;

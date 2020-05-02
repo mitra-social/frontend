@@ -1,6 +1,6 @@
 import { ActivityObject, Link, Image } from "activitypub-objects";
 import { RdfLangString } from "@/model/rdf-lang-string";
-import { Activity } from "@/model/mitra-activity";
+import { ActivityImplementation } from "@/model/mitra-activity";
 
 export class ActivityObjectHelper {
   public static hasProperty(obj: object, property: string): boolean {
@@ -94,7 +94,7 @@ export class ActivityObjectHelper {
     return urlStr.substring(urlStr.indexOf("://") + 3, urlStr.indexOf("."));
   }
 
-  public static extractObjectFromActivity(activity: Activity): ActivityObject {
+  public static extractObjectFromActivity(activity: ActivityImplementation): ActivityObject {
     const object = activity.object as ActivityObject;
 
     if (activity.actor) {

@@ -2,12 +2,12 @@ import { OrderedCollectionPage, OrderedCollection } from "activitypub-objects";
 
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
-import { Activity } from "@/model/mitra-activity";
+import { ActivityImplementation } from "@/model/mitra-activity";
 
 export interface ApiClient {
   login(credential: Credential): Promise<string>;
   getUser(token: string, user: string): Promise<User>;
-  fetchFollowing(token: string, user: string): Promise<OrderedCollection>;
+  fetchFollowing(token: string, user: string, page: number): Promise<OrderedCollection>;
   fetchPosts(
     token: string,
     user: string,
@@ -16,7 +16,7 @@ export interface ApiClient {
   writeToOutbox(
     token: string,
     user: string,
-    activity: Activity,
+    activity: ActivityImplementation,
     summary?: string
   ): Promise<void>;
 }

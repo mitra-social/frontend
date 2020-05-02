@@ -220,7 +220,7 @@ describe("ActorSummarized.vue", () => {
       }
     });
 
-    // Check actor is no follwoing
+    // Check actor is not follwoing
     const followingAddIcon = wrapper.find(".mdi-account-plus");
     expect(followingAddIcon.exists()).toBe(true);
 
@@ -229,7 +229,7 @@ describe("ActorSummarized.vue", () => {
     followingButton.trigger("click");
 
     flushPromises().then(() => {
-      // Check actor is no follwoing
+      // Check actor is not follwoing
       const followingRemoveIcon = wrapper.find(".mdi-account-remove");
       expect(followingAddIcon.exists()).toBe(true);
       expect(followingRemoveIcon.exists()).toBe(true);
@@ -247,7 +247,7 @@ describe("ActorSummarized.vue", () => {
       }
     });
 
-    // Check actor is no follwoing
+    // Check actor is not follwoing
     const followingRemoveIcon = wrapper.find(".mdi-account-remove");
     expect(followingRemoveIcon.exists()).toBe(true);
 
@@ -256,7 +256,7 @@ describe("ActorSummarized.vue", () => {
     followingButton.trigger("click");
 
     flushPromises().then(() => {
-      // Check actor is no follwoing
+      // Check actor is not follwoing
       const followingAddIcon = wrapper.find(".mdi-account-plus");
       expect(followingAddIcon.exists()).toBe(true);
       expect(followingRemoveIcon.exists()).toBe(false);

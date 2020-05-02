@@ -8,7 +8,7 @@ import {
 import { ApiClient } from "@/api-client";
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
-import { Activity } from "@/model/mitra-activity";
+import { ActivityImplementation } from "@/model/mitra-activity";
 
 const config = {
   headers: {
@@ -38,18 +38,20 @@ export default {
   },
   async fetchFollowing(
     token: string,
-    user: string
+    user: string,
+    page: number
   ): Promise<OrderedCollection> {
-    console.info(`token: ${token}, user: ${user}`);
+    console.info(`token: ${token}, user: ${user}, page: ${page}`);
     return await axios
-      .get(`/user/${user}/following`, {
+      .get(`/user/${user}/following?page=${page}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
+          "Authorization": `Bearer ${token}`
         }
       })
       .then(resp => {
+        console.log(resp)
         return resp.data;
       });
   },
@@ -63,7 +65,8 @@ export default {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
+          // eslint - disable - next - line
+          "Authorization": `Bearer ${token}`
         }
       })
       .then(resp => {
@@ -73,7 +76,7 @@ export default {
   async writeToOutbox(
     token: string,
     user: string,
-    activity: Activity,
+    activity: ActivityImplementation,
     summary?: string
   ): Promise<void> {
     if (summary) {

@@ -4,9 +4,8 @@ import { Actor, ActivityObject, Link } from "activitypub-objects";
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Follow } from "@/model/mitra-follow";
-import { Unfollow } from "@/model/mitra-unfollow";
 import { FollowPayload } from "@/model/mitra-follow-payload";
+import { Activities } from 'activitypub-objects/dst/activities/activity';
 
 @Module({ namespaced: true })
 class Following extends VuexModule {
@@ -44,7 +43,7 @@ class Following extends VuexModule {
   public async fetchFollowing(user: string): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
 
-    return await client.fetchFollowing(token, user).then(collection => {
+    return await client.fetchFollowing(token, user, 0).then(collection => {
       this.context.commit("setFollowing", collection.orderedItems as Actor[]);
     });
   }
@@ -55,9 +54,14 @@ class Following extends VuexModule {
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
     const summary = `${user} followed ${to}`;
+    const follow = {
+      to,
+      object,
+      type: Activities.FOLLOW
+    };
 
     return await client
-      .writeToOutbox(token, user, new Follow(to, object), summary)
+      .writeToOutbox(token, user, follow, summary)
       .then(() => {
         this.context.commit("addFollowing", to);
       });
@@ -69,12 +73,22 @@ class Following extends VuexModule {
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
     const summary = `${user} undo followed ${to}`;
+    const undo = {
+      to,
+      object: {
+        to,
+        object,
+        type: Activities.FOLLOW
+      },
+      type: Activities.UNDO
+    };
+
 
     return await client
       .writeToOutbox(
         token,
         user,
-        new Unfollow(to, new Follow(to, object) as ActivityObject),
+        undo as ActivityObject,
         summary
       )
       .then(() => {

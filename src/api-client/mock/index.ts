@@ -11,7 +11,7 @@ import { Credential } from "@/model/credential";
 import * as userData from "./data/user.json";
 import * as follwoingData from "./data/following.json";
 import * as collectionData from "./data/collection.json";
-import { Activity } from "@/model/mitra-activity";
+import { ActivityImplementation } from "@/model/mitra-activity";
 
 const USER_NAME = "john.doe";
 const USER_PWD = "123";
@@ -58,9 +58,10 @@ export default {
   },
   async fetchFollowing(
     token: string,
-    user: string
+    user: string,
+    page: number
   ): Promise<OrderedCollection> {
-    console.info(`token: ${token}, user: ${user}`);
+    console.info(`token: ${token}, user: ${user}, page: ${page}`);
     return returnResult(token, user, fetch(follwoingData.default)) as Promise<
       OrderedCollection
     >;
@@ -78,7 +79,7 @@ export default {
   async writeToOutbox(
     token: string,
     user: string,
-    activity: Activity,
+    activity: ActivityImplementation,
     summary?: string
   ): Promise<void> {
     if (summary) {

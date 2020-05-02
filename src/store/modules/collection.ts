@@ -9,7 +9,7 @@ import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Activity } from "@/model/mitra-activity";
+import { ActivityImplementation } from "@/model/mitra-activity";
 
 @Module({ namespaced: true })
 class Collection extends VuexModule {
@@ -19,20 +19,22 @@ class Collection extends VuexModule {
   public page = 0;
 
   get getPosts() {
-    if (this.items) {
-      const postTypeItems = this.items.filter($ => $.type in PostTypes);
-
-      const activityItems = this.items
-        .filter($ => !($.type in PostTypes))
-        .filter(
-          ($: Activity) =>
-            !!$.object &&
-            ActivityObjectHelper.hasProperty($.object, "type") &&
-            ($.object as ActivityObject).type in PostTypes
-        )
-        .map(ActivityObjectHelper.extractObjectFromActivity);
-      return postTypeItems.concat(activityItems);
+    if (!this.items) {
+      return;
     }
+
+    const postTypeItems = this.items.filter($ => $.type in PostTypes);
+
+    const activityItems = this.items
+      .filter($ => !($.type in PostTypes))
+      .filter(
+        ($: ActivityImplementation) =>
+          !!$.object &&
+          ActivityObjectHelper.hasProperty($.object, "type") &&
+          ($.object as ActivityObject).type in PostTypes
+      )
+      .map(ActivityObjectHelper.extractObjectFromActivity);
+    return postTypeItems.concat(activityItems);
   }
 
   get getPartOf() {
