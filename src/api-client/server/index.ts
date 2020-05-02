@@ -8,7 +8,7 @@ import {
 import { ApiClient } from "@/api-client";
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
-import { ActivityImplementation } from "@/model/mitra-activity";
+import { Activity } from "@/model/mitra-activity";
 
 const config = {
   headers: {
@@ -51,7 +51,6 @@ export default {
         }
       })
       .then(resp => {
-        console.log(resp);
         return resp.data;
       });
   },
@@ -76,7 +75,7 @@ export default {
   async writeToOutbox(
     token: string,
     user: string,
-    activity: ActivityImplementation,
+    activity: Activity,
     summary?: string
   ): Promise<void> {
     if (summary) {

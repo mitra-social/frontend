@@ -2,7 +2,7 @@ import { OrderedCollectionPage, CollectionPage } from "activitypub-objects";
 
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
-import { ActivityImplementation } from "@/model/mitra-activity";
+import { Activity } from "@/model/mitra-activity";
 
 export interface ApiClient {
   login(credential: Credential): Promise<string>;
@@ -20,7 +20,7 @@ export interface ApiClient {
   writeToOutbox(
     token: string,
     user: string,
-    activity: ActivityImplementation,
+    activity: Activity,
     summary?: string
   ): Promise<void>;
 }

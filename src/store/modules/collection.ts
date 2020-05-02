@@ -9,7 +9,7 @@ import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { ActivityImplementation } from "@/model/mitra-activity";
+import { Activity } from "@/model/mitra-activity";
 
 @Module({ namespaced: true })
 class Collection extends VuexModule {
@@ -28,7 +28,7 @@ class Collection extends VuexModule {
     const activityItems = this.items
       .filter($ => !($.type in PostTypes))
       .filter(
-        ($: ActivityImplementation) =>
+        ($: Activity) =>
           !!$.object &&
           ActivityObjectHelper.hasProperty($.object, "type") &&
           ($.object as ActivityObject).type in PostTypes

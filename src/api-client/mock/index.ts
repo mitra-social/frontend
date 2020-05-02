@@ -12,7 +12,7 @@ import { Credential } from "@/model/credential";
 import * as userData from "./data/user.json";
 import * as follwoingData from "./data/following.json";
 import * as collectionData from "./data/collection.json";
-import { ActivityImplementation } from "@/model/mitra-activity";
+import { Activity } from "@/model/mitra-activity";
 
 const USER_NAME = "john.doe";
 const USER_PWD = "123";
@@ -80,7 +80,7 @@ export default {
   async writeToOutbox(
     token: string,
     user: string,
-    activity: ActivityImplementation,
+    activity: Activity,
     summary?: string
   ): Promise<void> {
     if (summary) {
