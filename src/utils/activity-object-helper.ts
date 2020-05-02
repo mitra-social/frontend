@@ -83,6 +83,7 @@ export class ActivityObjectHelper {
     return undefined;
   }
 
+  // TODO: Specified code for mastodon replace with issue https://github.com/mitra-social/mitra-frontend/pull/23
   public static normalizedActorUrl(url: URL): string {
     const urlStr = url.toString();
     if (urlStr.startsWith("https://mastodon.social")) {
