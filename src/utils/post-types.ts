@@ -1,4 +1,4 @@
 export enum PostTypes {
-  Article = "ActivityStreamsArticle",
-  Note = "ActivityStreamsArticle"
+  Article = "HtmlPost",
+  Note = "HtmlPost"
 }
