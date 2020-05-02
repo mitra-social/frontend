@@ -10,7 +10,7 @@
     >
       <img
         class="header-logo"
-        src="@/assets/mitra-logo-back.png"
+        src="@/assets/mitra-logo-black.png"
         v-if="$vuetify.theme.dark"
       />
       <img class="header-logo" src="@/assets/mitra-logo-white.png" v-else />
