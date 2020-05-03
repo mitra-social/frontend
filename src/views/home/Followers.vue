@@ -1,20 +1,40 @@
 <template>
   <div>
-    <h2>{{ title }}</h2>
+    <v-list>
+      <v-list-item-group color="primary">
+        <FollowingActor
+          v-for="(following, index) in getFollowing"
+          :key="index"
+          :actor="following"
+        />
+      </v-list-item-group>
+    </v-list>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+import { ActivityObject, Link } from "activitypub-objects";
+import FollowingActor from "@/components/following/FollowingActor.vue";
 
-@Component
+const followingStore = namespace("Following");
+
+@Component({
+  components: {
+    FollowingActor
+  }
+})
 export default class MitraFollowers extends Vue {
-  private title = "Followers";
+  private title = "Following";
+
+  @followingStore.Getter
+  public getFollowing!: Array<ActivityObject | Link>;
 }
 </script>
 
 <style lang="scss" scoped>
-div {
+> div {
   height: 100%;
   overflow: scroll;
   text-align: center;

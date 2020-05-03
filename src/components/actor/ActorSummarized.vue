@@ -47,7 +47,7 @@ import { ActivityObject, Link } from "activitypub-objects";
 import { User } from "@/model/user";
 import { FollowPayload } from "@/model/mitra-follow-payload";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { ActorImplementation } from "../../model/mitra-actor";
+import { Actor } from "../../model/mitra-actor";
 
 const userStore = namespace("User");
 const followingStore = namespace("Following");
@@ -76,7 +76,7 @@ export default class ActorSummarized extends Vue {
   public getUser!: User;
 
   @followingStore.Getter
-  public getFollowing!: ActorImplementation[];
+  public getFollowing!: Actor[];
 
   @followingStore.Action
   public fetchFollowing!: (user: string) => Promise<void>;
