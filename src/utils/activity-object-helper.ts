@@ -1,7 +1,7 @@
 import { ActivityObject, Link, Image } from "activitypub-objects";
 import { RdfLangString } from "@/model/rdf-lang-string";
 import { Activity } from "@/model/mitra-activity";
-import {Actor} from "@/model/mitra-actor";
+import { Actor } from "@/model/mitra-actor";
 
 export class ActivityObjectHelper {
   public static hasProperty(obj: object, property: string): boolean {
@@ -19,13 +19,13 @@ export class ActivityObjectHelper {
     if (ActivityObjectHelper.hasProperty(object, "name") && object.name) {
       return (object as ActivityObject).name;
     } else if (ActivityObjectHelper.hasProperty(object, "nameMap")) {
-      const rdfLangStringObject = (object as RdfLangString);
+      const rdfLangStringObject = object as RdfLangString;
 
       if (rdfLangStringObject.nameMap) {
         return rdfLangStringObject.nameMap[lang];
       }
     } else if (ActivityObjectHelper.hasProperty(object, "preferredUsername")) {
-      const actorObject = (object as Actor);
+      const actorObject = object as Actor;
 
       if (actorObject.preferredUsername) {
         return (object as Actor).preferredUsername;

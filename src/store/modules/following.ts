@@ -45,10 +45,7 @@ class Following extends VuexModule {
     const token = AuthenticationUtil.getToken() || "";
 
     return await client.fetchFollowing(token, user, 0).then(collection => {
-      this.context.commit(
-        "setFollowing",
-        collection.items as Actor[]
-      );
+      this.context.commit("setFollowing", collection.items as Actor[]);
     });
   }
 
