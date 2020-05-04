@@ -28,7 +28,7 @@ export class ActivityObjectHelper {
       const actorObject = object as Actor;
 
       if (actorObject.preferredUsername) {
-        return (object as Actor).preferredUsername;
+        return actorObject.preferredUsername;
       }
     } else if (object) {
       return ActivityObjectHelper.normalizedActorUrl(object as URL);
