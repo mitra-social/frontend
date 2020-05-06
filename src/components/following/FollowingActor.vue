@@ -1,7 +1,7 @@
 <template>
   <v-list-item>
     <v-list-item-avatar>
-      <v-img :src="icon" v-if="icon"></v-img>
+      <v-img src="icon" v-if="icon"></v-img>
       <v-icon v-else>mdi-account-circle</v-icon>
     </v-list-item-avatar>
     <v-list-item-content>
@@ -24,7 +24,10 @@ export default class FollowingActor extends Vue {
   }
 
   get icon(): string | undefined {
-    return ActivityObjectHelper.extractIcon(this.actor as ActivityObject);
+    const icon = ActivityObjectHelper.extractIcon(this.actor as ActivityObject);
+    console.log(icon);
+
+    return icon;
   }
 }
 </script>

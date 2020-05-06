@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="follower-container">
     <v-list>
       <v-list-item-group color="primary">
         <FollowingActor
@@ -16,6 +16,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { ActivityObject, Link } from "activitypub-objects";
+
 import FollowingActor from "@/components/following/FollowingActor.vue";
 
 const followingStore = namespace("Following");
@@ -34,10 +35,9 @@ export default class MitraFollowers extends Vue {
 </script>
 
 <style lang="scss" scoped>
-> div {
+.follower-container {
   height: 100%;
   overflow: scroll;
-  text-align: center;
 }
 
 h2 {

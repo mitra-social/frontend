@@ -1,7 +1,7 @@
 <template>
   <div class="content" no-gutters>
-    <div class="followers" v-if="isFollowingLoading">
-      <Followers />
+    <div class="following-actors" v-if="isFollowingLoading">
+      <FollowingActors />
     </div>
     <div class="posts" v-if="isFollowingLoading">
       <Posts />
@@ -13,7 +13,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-import Followers from "./Followers.vue";
+import FollowingActors from "./FollowingActors.vue";
 import Posts from "./post/Posts.vue";
 import { User } from "@/model/user";
 
@@ -22,7 +22,7 @@ const followingStore = namespace("Following");
 
 @Component({
   components: {
-    Followers,
+    FollowingActors,
     Posts
   }
 })
@@ -56,7 +56,7 @@ body {
   flex-direction: row;
 }
 
-.followers {
+.following-actors {
   flex: 0 0 25%;
   max-width: 25%;
 }
