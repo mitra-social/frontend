@@ -22,19 +22,25 @@ export class ActivityObjectHelper {
       if (rdfLangString.nameMap && lang in rdfLangString.nameMap) {
         return (object as RdfLangString).nameMap[lang];
       }
-    } else if (ActivityObjectHelper.hasProperty(object, "name")) {
+    }
+
+    if (ActivityObjectHelper.hasProperty(object, "name")) {
       const rdfLangString = (object as RdfLangString);
 
       if (rdfLangString.name) {
         return rdfLangString.name;
       }
-    } else if (ActivityObjectHelper.hasProperty(object, "preferredUsername")) {
+    }
+
+    if (ActivityObjectHelper.hasProperty(object, "preferredUsername")) {
       const actor = (object as Actor);
 
       if (actor.preferredUsername) {
         return actor.preferredUsername;
       }
-    } else if (object) {
+    }
+
+    if (object) {
       return ActivityObjectHelper.normalizedActorUrl(object as URL);
     }
 
