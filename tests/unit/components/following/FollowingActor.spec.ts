@@ -3,7 +3,6 @@ import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
 
-import store from "@/store";
 import FollowingActor from "@/components/following/FollowingActor.vue";
 
 const localVue = createLocalVue();
@@ -23,7 +22,6 @@ describe("FollowingActor.vue", () => {
     const wrapper = mount(FollowingActor, {
       localVue,
       vuetify,
-      store,
       propsData: {
         actor: {
           "type": "Person",
@@ -46,7 +44,6 @@ describe("FollowingActor.vue", () => {
     const wrapper = mount(FollowingActor, {
       localVue,
       vuetify,
-      store,
       propsData: {
         actor: {
           "type": "Person",
@@ -74,7 +71,6 @@ describe("FollowingActor.vue", () => {
     const wrapper = mount(FollowingActor, {
       localVue,
       vuetify,
-      store,
       propsData: {
         actor: {
           "type": "Person",
@@ -98,7 +94,6 @@ describe("FollowingActor.vue", () => {
     const wrapper = mount(FollowingActor, {
       localVue,
       vuetify,
-      store,
       propsData: {
         actor: {
           "type": "Person",
