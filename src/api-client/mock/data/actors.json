@@ -1,0 +1,70 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/ns/activitystreams",
+      "https://w3id.org/security/v1"
+    ],
+    "type": "Person",
+    "id": "https://mitra-social.herokuapp.com/user/franco.g",
+    "url": "https://mitra-social.herokuapp.com/user/franco.g",
+    "preferredUsername": "franco.g",
+    "inbox": "https://mitra-social.herokuapp.com/user/franco.g/inbox",
+    "outbox": "https://mitra-social.herokuapp.com/user/franco.g/outbox",
+    "following": "https://mitra-social.herokuapp.com/user/franco.g/following",
+    "publicKey": {
+      "id": "https://mitra-social.herokuapp.com/user/franco.g#main-key",
+      "owner": "https://mitra-social.herokuapp.com/user/franco.g",
+      "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz4xtXZjGcc+qvZdsdA4x\naW1iUieVGzI9eMsKejRugM2WEMcY6tP9U6ZRUtlofKgI+IIipVF8PM7bxb737IcS\neWfsJioykmD3eiF2jeYb74ehTQhxnr+HoJUdQRTXbRsBxyQaSoef7+KKY3JEZSsv\nH+xT1TpLMoEFkQMhKJBIqhAd6sR8bXe9ydzX+f72ystL/n2DxOa+bfKv/qTf6bFy\nR/wBEecEPB4xENyfH3JjktDzyUT9ZehncE3mj3xpU0NI+83mqrfvu2DO79g81nTS\nOqU9xTBfAodTVs2CP8Lg1wumLteI+3mwh0trHcPTZTGhmty0Pb5XmoosalseVwul\nFwIDAQAB\n-----END PUBLIC KEY-----\n"
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/ns/activitystreams",
+      "https://w3id.org/security/v1",
+      {
+        "manuallyApprovesFollowers": "as:manuallyApprovesFollowers",
+        "toot": "http://joinmastodon.org/ns#",
+        "featured": {
+          "@id": "toot:featured",
+          "@type": "@id"
+        },
+        "alsoKnownAs": {
+          "@id": "as:alsoKnownAs",
+          "@type": "@id"
+        },
+        "movedTo": {
+          "@id": "as:movedTo",
+          "@type": "@id"
+        },
+        "schema": "http://schema.org#",
+        "PropertyValue": "schema:PropertyValue",
+        "value": "schema:value",
+        "IdentityProof": "toot:IdentityProof",
+        "discoverable": "toot:discoverable"
+      }
+    ],
+    "id": "https://mastodon.social/users/fraenki",
+    "type": "Person",
+    "following": "https://mastodon.social/users/fraenki/following",
+    "followers": "https://mastodon.social/users/fraenki/followers",
+    "inbox": "https://mastodon.social/users/fraenki/inbox",
+    "outbox": "https://mastodon.social/users/fraenki/outbox",
+    "featured": "https://mastodon.social/users/fraenki/collections/featured",
+    "preferredUsername": "fraenki",
+    "name": "",
+    "summary": "<p>My name is fränki</p>",
+    "url": "https://mastodon.social/@fraenki",
+    "manuallyApprovesFollowers": false,
+    "discoverable": false,
+    "publicKey": {
+      "id": "https://mastodon.social/users/fraenki#main-key",
+      "owner": "https://mastodon.social/users/fraenki",
+      "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs+So63Pk8iQcSPQZcaWx\nfm3WjzTqfWTL5VdNmEwgxMh8l2bqG/SnffSw1jrtQDND2H7SO21SjazUShkChNsN\nKXCUCSyKculFBdfnE8e51oUZvfdgLm1xghmB18u8LV5qtkvmYaNw+jmBmrstEOQ0\nKib0Our2c2SVVqC0ibfdyXL0kefiIh46k4G2tbI8EJ5+iG2T4qAOYilEyikgyKg4\ncv5dvUPtPHm7BRXIfYwyFCuPquGRe7MvW65kn2TjB9nSjD2sxr/BfB9fCv66OjgO\nRk79GVFkx+nyXqNa22KBz5X3rCkVBnuSOryZ/32FIlk2lci8jNk4gX8jJGhMUbpQ\nBwIDAQAB\n-----END PUBLIC KEY-----\n"
+    },
+    "tag": [],
+    "attachment": [],
+    "endpoints": {
+      "sharedInbox": "https://mastodon.social/inbox"
+    }
+  }
+]

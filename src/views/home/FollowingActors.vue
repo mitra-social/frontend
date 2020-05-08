@@ -3,6 +3,9 @@
     <v-list>
       <v-list-item-group color="primary">
         <FollowingActor
+          :actor="{ name: 'all', icon: 'assets/mitra-logo-white.png' }"
+        />
+        <FollowingActor
           v-for="(following, index) in getFollowing"
           :key="index"
           :actor="following"
@@ -23,8 +26,8 @@ const followingStore = namespace("Following");
 
 @Component({
   components: {
-    FollowingActor
-  }
+    FollowingActor,
+  },
 })
 export default class MitraFollowers extends Vue {
   private title = "Following";

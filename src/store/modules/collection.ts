@@ -2,7 +2,8 @@ import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 import {
   OrderedCollectionPage,
   ActivityObject,
-  Link
+  Link,
+  toJSON
 } from "activitypub-objects";
 
 import client from "apiClient";

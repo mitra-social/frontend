@@ -2,7 +2,8 @@ import axios from "axios";
 import {
   OrderedCollectionPage,
   CollectionPage,
-  toJSON
+  toJSON,
+  Actor
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
@@ -30,6 +31,17 @@ export default {
           Accept: "application/json",
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
+        }
+      })
+      .then(resp => {
+        return resp.data;
+      });
+  },
+  async getActor(url: string): Promise<Actor> {
+    return await axios
+      .get(url, {
+        headers: {
+          Accept: "application/activity+json"
         }
       })
       .then(resp => {

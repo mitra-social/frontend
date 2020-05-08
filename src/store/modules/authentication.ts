@@ -8,7 +8,7 @@ import { AuthenticationUtil } from "@/utils/authentication-util";
 @Module({ namespaced: true })
 class Authentication extends VuexModule {
   public token = AuthenticationUtil.getToken();
-  public status = "";
+  public status = 0;
   public hasLoadedOnce = false;
 
   get isAuthenticated() {
@@ -21,14 +21,14 @@ class Authentication extends VuexModule {
 
   @Mutation
   public loginSuccess(token: string): void {
-    this.status = "success";
+    this.status = 200;
     this.token = token;
     this.hasLoadedOnce = true;
   }
 
   @Mutation
-  public loginError(): void {
-    this.status = "error";
+  public loginError(code: number): void {
+    this.status = code;
     this.hasLoadedOnce = false;
   }
 
@@ -43,7 +43,7 @@ class Authentication extends VuexModule {
         router.push("/");
       })
       .catch((err: Error) => {
-        this.context.commit("loginError", err);
+        this.context.commit("loginError", 401);
       });
   }
 }

@@ -11,7 +11,7 @@
         </v-toolbar>
         <v-card-text>
           <v-form>
-            <v-alert v-if="authStatus === 'error'" dense outlined type="error">
+            <v-alert v-if="authStatus === 404" dense outlined type="error">
               The user name or password you entered isn't correct. Try entering
               it again.
             </v-alert>
@@ -21,6 +21,7 @@
               prepend-icon="mdi-account"
               type="text"
               v-model="user"
+              v-on:keyup.enter="handleSubmit"
             />
             <v-text-field
               id="password"
@@ -29,6 +30,7 @@
               prepend-icon="mdi-lock"
               type="password"
               v-model="password"
+              v-on:keyup.enter="handleSubmit"
             />
           </v-form>
         </v-card-text>
@@ -60,13 +62,22 @@ export default class Login extends Vue {
   private password = "";
 
   @auth.Getter
-  public authStatus!: string;
+  public authStatus!: number;
 
   @auth.Action
   public login!: (credential: Credential) => void;
 
   public handleSubmit() {
     this.login({ username: this.user, password: this.password });
+  }
+
+  private created() {
+    if (
+      this.$router.currentRoute.params.redirectFrom &&
+      this.authStatus === 401
+    ) {
+      this.$toast.error("Authenctication failed.");
+    }
   }
 }
 </script>

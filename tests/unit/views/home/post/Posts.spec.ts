@@ -35,7 +35,7 @@ describe("Posts.vue", () => {
     const wrapper = shallowMount(Posts, { localVue, vuetify, store });
     const spy = jest.spyOn(wrapper.vm.$toast, "error");
     await flushPromises();
-    expect(wrapper.findAll(".post").length).toBe(5);
+    expect(wrapper.findAll(".post").length).toBe(9);
     expect(spy).toHaveBeenCalledTimes(0);
   });
 

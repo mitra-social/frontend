@@ -26,6 +26,9 @@ class User extends VuexModule {
     const token = AuthenticationUtil.getToken() || "";
     await client.getUser(token, user).then(user => {
       this.context.commit("fetchUserSuccess", user);
+    }).catch((error) => {
+      this.context.commit("Auth/loginError", 401, { root: true });
+      return Promise.reject({ status: error.response.status })
     });
   }
 }

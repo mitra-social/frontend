@@ -63,13 +63,13 @@ const collectionStore = namespace("Collection");
   components: {
     ActorPin,
     Date,
-    HtmlPost
+    HtmlPost,
   },
   filters: {
     stripHtmlTags(value: string) {
       return striptags(value);
-    }
-  }
+    },
+  },
 })
 export default class MitraPosts extends Vue {
   @collectionStore.Getter
@@ -79,6 +79,10 @@ export default class MitraPosts extends Vue {
   public fetchCollection!: (user: string) => Promise<void>;
 
   private created() {
+    this.initGetUser();
+  }
+
+  private initGetUser() {
     const user = AuthenticationUtil.getUser();
 
     if (user) {
