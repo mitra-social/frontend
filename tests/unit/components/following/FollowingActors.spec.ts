@@ -6,6 +6,8 @@ import { ActivityObject, Link } from "activitypub-objects";
 
 import FollowingActors from "@/views/home/FollowingActors.vue";
 import collection from "@/api-client/mock/data/following.json";
+import store from "@/store";
+import {AuthenticationUtil} from "@/utils/authentication-util";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -13,23 +15,26 @@ Vue.use(Vuetify);
 describe("FollowingActors.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
-  let followingActors: Array<ActivityObject | Link>;
 
   beforeEach(() => {
+    const user = "john.doe";
     vuetify = new Vuetify();
-    followingActors = collection.orderedItems as Array<ActivityObject | Link>;
+
+    AuthenticationUtil.setUser(user);
+    AuthenticationUtil.setToken(
+        "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi"
+    );
+    store.dispatch("Following/fetchFollowing", "john.doe");
   });
 
   it("renders all following users as list items", () => {
     const wrapper = mount(FollowingActors, {
       localVue,
       vuetify,
-      propsData: {
-        getFollowing: followingActors
-      }
+      store
     });
 
-    const listItems = wrapper.findAll(".following-actors .v-list-ote");
+    const listItems = wrapper.findAll(".follower-container .v-list-item");
     expect(listItems.length).toBe(2);
   });
 });
