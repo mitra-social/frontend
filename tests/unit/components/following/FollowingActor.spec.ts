@@ -2,10 +2,8 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { ActivityObject, Link, Article, Actors } from "activitypub-objects";
 
 import store from "@/store";
-import { AuthenticationUtil } from "@/utils/authentication-util";
 import FollowingActor from "@/components/following/FollowingActor.vue";
 
 const localVue = createLocalVue();
@@ -14,17 +12,9 @@ Vue.use(Vuetify);
 describe("FollowingActor.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
-  let actors: Array<ActivityObject | Link>;
 
   beforeEach(() => {
-    const user = "john.doe";
     vuetify = new Vuetify();
-
-    AuthenticationUtil.setUser(user);
-    AuthenticationUtil.setToken(
-        "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi"
-    );
-    store.dispatch("Following/fetchFollowing", "john.doe");
   });
 
   it("actor is an object with preferredUsername property and no icon", () => {
