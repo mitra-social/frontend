@@ -2,10 +2,8 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { ActivityObject, Link } from "activitypub-objects";
 
 import FollowingActors from "@/views/home/FollowingActors.vue";
-import collection from "@/api-client/mock/data/following.json";
 import store from "@/store";
 import {AuthenticationUtil} from "@/utils/authentication-util";
 
