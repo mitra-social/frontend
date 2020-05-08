@@ -1,5 +1,4 @@
 module.exports = {
-  runtimeCompiler: true,
   transpileDependencies: ["vuetify"],
   configureWebpack: {
     resolve: {

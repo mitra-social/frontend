@@ -1,23 +1,19 @@
 <template>
-  <TextType />
+  <ActivityStreamsTextType :data="data" />
 </template>
 
 <script lang="ts">
-import { Component, Mixins } from "vue-property-decorator";
+import { Vue, Component, Prop } from "vue-property-decorator";
+import { Article } from "activitypub-objects";
 
-import ActivityStreamsTextTypeMixin from "./ActivityStreamsTextTypeMixin";
+import ActivityStreamsTextType from "./ActivityStreamsTextType.vue";
 
-@Component
-export default class ActivityStreamsArticleType extends Mixins(
-  ActivityStreamsTextTypeMixin
-) {}
+@Component({
+  components: {
+    ActivityStreamsTextType
+  }
+})
+export default class ActivityStreamsArticleType extends Vue {
+  @Prop() private data!: Article;
+}
 </script>
-<style lang="scss" scoped>
-.post {
-  margin: 5px;
-}
-
-.v-card__text {
-  width: inherit;
-}
-</style>
