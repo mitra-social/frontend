@@ -71,7 +71,7 @@ class Following extends VuexModule {
     const { to, object } = payload;
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
-    const summary = `${user} undo followed ${to}`;
+    const summary = `${user} unfollowed ${to}`;
     const undo = {
       to,
       object: {
