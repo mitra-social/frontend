@@ -1,6 +1,7 @@
 import { ActivityObject, Link, Image } from "activitypub-objects";
 import { RdfLangString } from "@/model/rdf-lang-string";
 import { Activity } from "@/model/mitra-activity";
+import { Actor } from "@/model/mitra-actor";
 
 export class ActivityObjectHelper {
   public static hasProperty(obj: object, property: string): boolean {
@@ -14,14 +15,32 @@ export class ActivityObjectHelper {
   public static extractActorName(
     object: ActivityObject | Link | URL | Array<ActivityObject | URL>
   ): string | undefined {
-    const lang = navigator.language.substr(0, 2);
+    if (ActivityObjectHelper.hasProperty(object, "nameMap")) {
+      const rdfLangString = object as RdfLangString;
+      const lang = navigator.language.substr(0, 2);
+
+      if (rdfLangString.nameMap && lang in rdfLangString.nameMap) {
+        return (object as RdfLangString).nameMap[lang];
+      }
+    }
+
     if (ActivityObjectHelper.hasProperty(object, "name")) {
-      return (object as ActivityObject).name;
-    } else if (ActivityObjectHelper.hasProperty(object, "nameMap")) {
-      return (object as RdfLangString).nameMap[lang];
-    } else if (ActivityObjectHelper.hasProperty(object, "map")) {
-      return (object as RdfLangString).map[lang];
-    } else if (object) {
+      const rdfLangString = object as RdfLangString;
+
+      if (rdfLangString.name) {
+        return rdfLangString.name;
+      }
+    }
+
+    if (ActivityObjectHelper.hasProperty(object, "preferredUsername")) {
+      const actor = object as Actor;
+
+      if (actor.preferredUsername) {
+        return actor.preferredUsername;
+      }
+    }
+
+    if (object) {
       return ActivityObjectHelper.normalizedActorUrl(object as URL);
     }
 
@@ -69,17 +88,26 @@ export class ActivityObjectHelper {
   }
 
   public static extractIcon(object: ActivityObject): string | undefined {
-    if (ActivityObjectHelper.hasProperty(object, "icon")) {
-      const icon = object.icon;
-
-      if (icon) {
-        if (ActivityObjectHelper.hasProperty(icon, "href")) {
-          return (icon as Link).href.toString();
-        } else if (ActivityObjectHelper.hasProperty(icon, "url")) {
-          return (icon as Image).url.toString();
-        }
-      }
+    if (!ActivityObjectHelper.hasProperty(object, "icon")) {
+      return undefined;
     }
+
+    const icon = object.icon;
+
+    if (!icon) {
+      return undefined;
+    }
+
+    if (Array.isArray(icon)) {
+      return undefined;
+    }
+
+    if (ActivityObjectHelper.hasProperty(icon, "href")) {
+      return (icon as Link).href.toString();
+    } else if (ActivityObjectHelper.hasProperty(icon, "url")) {
+      return (icon as Image).url.toString();
+    }
+
     return undefined;
   }
 

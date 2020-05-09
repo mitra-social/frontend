@@ -1,10 +1,10 @@
-import { Actor } from "activitypub-objects";
+import { Actor as BaseActor } from "activitypub-objects";
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 
-export type ActorImplementation = Modify<
-  Actor,
+export type Actor = Modify<
+  BaseActor,
   {
-    preferredUsername: string;
+    preferredUsername?: string;
   }
 >;

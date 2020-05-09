@@ -6,7 +6,7 @@ import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 import { FollowPayload } from "@/model/mitra-follow-payload";
 import { Activities } from "activitypub-objects/dst/activities/activity";
-import { ActorImplementation } from "@/model/mitra-actor";
+import { Actor } from "@/model/mitra-actor";
 
 @Module({ namespaced: true })
 class Following extends VuexModule {
@@ -17,7 +17,7 @@ class Following extends VuexModule {
   }
 
   @Mutation
-  public setFollowing(actors: ActorImplementation[]): void {
+  public setFollowing(actors: Actor[]): void {
     this.following = actors ? actors : [];
   }
 
@@ -45,10 +45,7 @@ class Following extends VuexModule {
     const token = AuthenticationUtil.getToken() || "";
 
     return await client.fetchFollowing(token, user, 0).then(collection => {
-      this.context.commit(
-        "setFollowing",
-        collection.items as ActorImplementation[]
-      );
+      this.context.commit("setFollowing", collection.items as Actor[]);
     });
   }
 
