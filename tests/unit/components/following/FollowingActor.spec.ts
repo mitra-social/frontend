@@ -25,7 +25,7 @@ describe("FollowingActor.vue", () => {
       propsData: {
         actor: {
           type: "Person",
-          preferredUsername: preferredUsername,
+          preferredUsername: preferredUsername
         }
       }
     });
@@ -34,13 +34,11 @@ describe("FollowingActor.vue", () => {
     expect(displayNameElement.text()).toBe(preferredUsername);
 
     const avatarIconElement = wrapper.findAll(
-        ".v-list-item__avatar .mdi-account-circle"
+      ".v-list-item__avatar .mdi-account-circle"
     );
     expect(avatarIconElement.length).toBe(1);
 
-    const avatarImgElement = wrapper.findAll(
-        ".v-list-item__avatar .v-image"
-    );
+    const avatarImgElement = wrapper.findAll(".v-list-item__avatar .v-image");
     expect(avatarImgElement.length).toBe(0);
   });
 
