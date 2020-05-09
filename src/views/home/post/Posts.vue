@@ -7,6 +7,20 @@
             <v-list-item-title class="headline">{{
               post.name ? post.name : post.summary | stripHtmlTags
             }}</v-list-item-title>
+            <v-list-item-subtitle>
+              <div class="d-flex flex-row justify-space-between">
+                <Date
+                  v-if="post.published"
+                  icon="mdi-publish"
+                  :date="post.published"
+                />
+                <Date
+                  v-if="post.updated"
+                  icon="mdi-update"
+                  :date="post.updated"
+                />
+              </div>
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-divider class="mx-4"></v-divider>
@@ -15,7 +29,10 @@
         </v-card-text>
         <v-divider class="mx-4"></v-divider>
         <v-card-actions>
-          <Author v-if="post.attributedTo" :attributedTo="post.attributedTo" />
+          <ActorPin
+            v-if="post.attributedTo"
+            :attributedTo="post.attributedTo"
+          />
           <v-spacer></v-spacer>
           <v-btn icon disabled> <v-icon>mdi-comment-outline</v-icon> </v-btn>
           <v-btn icon disabled>
@@ -29,22 +46,26 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
 import router from "@/router";
+import { namespace } from "vuex-class";
 import { ActivityObject, Link } from "activitypub-objects";
 import striptags from "striptags";
 
+import ActivityStreamsArticleType from "@/views/home/post/text-type/ActivityStreamsArticleType.vue";
+import ActivityStreamsNoteType from "@/views/home/post/text-type/ActivityStreamsNoteType.vue";
+import ActorPin from "@/components/actor/ActorPin.vue";
+import Date from "@/components/ui/Date.vue";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
-import Author from "./Author.vue";
-import ActivityStreamsArticle from "./ActivityStreamsArticle.vue";
 
 const collectionStore = namespace("Collection");
 
 @Component({
   components: {
-    Author,
-    ActivityStreamsArticle
+    ActorPin,
+    Date,
+    ActivityStreamsArticleType,
+    ActivityStreamsNoteType
   },
   filters: {
     stripHtmlTags(value: string) {

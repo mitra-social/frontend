@@ -19,7 +19,7 @@ import Header from "@/components/layout/MitraHeader.vue";
     Header
   }
 })
-export default class MitraHeader extends Vue {}
+export default class App extends Vue {}
 </script>
 
 <style lang="scss">
@@ -31,10 +31,6 @@ body {
 .app-container {
   width: 100%;
   height: 100vh;
-}
-
-header {
-  height: 50px;
 }
 
 main {

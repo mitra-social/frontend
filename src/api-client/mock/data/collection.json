@@ -3,7 +3,7 @@
   "summary": "Sally's articles",
   "type": "OrderedCollectionPage",
   "partOf": "http://mock/user/john.doe/inbox",
-  "totalItems": 4,
+  "totalItems": 6,
   "orderedItems": [
     {
       "type": "Article",
@@ -11,6 +11,7 @@
       "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>",
       "attributedTo": {
         "type": "Person",
+        "summary": "Nice persone you know",
         "name": "Sally",
         "icon": {
           "name": "avater",
@@ -21,7 +22,7 @@
     {
       "type": "Article",
       "name": "Hi/Ho",
-      "content": "<p>SAVIOR OF SONG (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>",
+      "content": "<p><span style=\"color: red\">SAVIOR OF SONG</span> (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>",
       "attributedTo": "http://johnny.example.org"
     },
     {
@@ -42,16 +43,51 @@
       }
     },
     {
-      "type": "Article",
-      "name": "Nextinpact (bot)",
-      "content": "<p>RT <span class=\"h-card\"><a href=\"https://mastodon.gougere.fr/@nextinpact\" class=\"u-url mention\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">@<span>nextinpact</span></a></span><br>Suite aux précisions apportées par @EPhilippePM sur France 2, nous avons mis à jour notre article concernant l'attestation et le justificatif à fournir en cas de déplacement pendant le confinement <a href=\"https://www.nextinpact.com/news/108799-confinement-en-france-telechargez-modele-dattestation-obligatoire-en-cas-deplacement.htm\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://www.</span><span class=\"ellipsis\">nextinpact.com/news/108799-con</span><span class=\"invisible\">finement-en-france-telechargez-modele-dattestation-obligatoire-en-cas-deplacement.htm</span></a></p>",
-      "attributedTo": {
+      "summary": "Sally created a note",
+      "type": "Create",
+      "id": "http://activities.example.com/1",
+      "actor": "http://sally.example.org",
+      "object": {
+        "summary": "A note",
+        "type": "Note",
+        "id": "http://notes.example.com/1",
+        "content": "A create note"
+      }
+    },
+    {
+      "summary": "Sally created a note",
+      "type": "Create",
+      "id": "http://activities.example.com/1",
+      "actor": "http://sally.example.org",
+      "updated": "2020-04-28T17:49:12Z",
+      "published": "2020-04-28T16:12:12Z",
+      "object": {
+        "summary": "A note",
+        "type": "Note",
+        "id": "http://notes.example.com/1",
+        "content": "A create note with published and updated datetime"
+      }
+    },
+    {
+      "summary": "Sally updated her note",
+      "type": "Update",
+      "actor": {
         "type": "Person",
-        "name": "Johnny",
-        "icon": {
-          "name": "avater",
-          "url": "https://i.picsum.photos/id/1083/5472/3648.jpg"
-        }
+        "name": "Sally"
+      },
+      "object": "http://example.org/notes/1"
+    },
+    {
+      "summary": "Sally deleted a note",
+      "type": "Delete",
+      "actor": {
+        "type": "Person",
+        "name": "Sally"
+      },
+      "object": "http://example.org/notes/1",
+      "origin": {
+        "type": "Collection",
+        "name": "Sally's Notes"
       }
     }
   ]

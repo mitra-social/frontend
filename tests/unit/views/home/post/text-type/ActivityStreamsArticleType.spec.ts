@@ -3,13 +3,15 @@ import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
 
-import Article from "@/views/home/post/Article.vue";
-import collection from "@/api/mock/data/collection.json";
+import { Article } from "activitypub-objects";
+
+import collection from "@/api-client/mock/data/collection.json";
+import ActivityStreamsArticleType from "@/views/home/post/text-type/ActivityStreamsArticleType.vue";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
 
-describe("Article.vue", () => {
+describe("ActivityStreamsArticleType.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
   let article: Article;
@@ -21,7 +23,7 @@ describe("Article.vue", () => {
   });
 
   it("Check article has right content", () => {
-    const wrapper = mount(Article, {
+    const wrapper = mount(ActivityStreamsArticleType, {
       localVue,
       vuetify,
       propsData: {

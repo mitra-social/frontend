@@ -35,7 +35,7 @@ describe("Posts.vue", () => {
     const wrapper = shallowMount(Posts, { localVue, vuetify, store });
     const spy = jest.spyOn(wrapper.vm.$toast, "error");
     await flushPromises();
-    expect(wrapper.findAll(".post").length).toBe(4);
+    expect(wrapper.findAll(".post").length).toBe(5);
     expect(spy).toHaveBeenCalledTimes(0);
   });
 
@@ -55,7 +55,7 @@ describe("Posts.vue", () => {
       wrapper
         .findAll(".post")
         .at(0)
-        .find("article-stub")
+        .find("ActivityStreamsArticleType-stub")
         .exists()
     ).toBe(true);
     expect(spy).toHaveBeenCalledTimes(0);
@@ -69,13 +69,4 @@ describe("Posts.vue", () => {
     await wrapper.vm.$nextTick();
     expect(spy).toHaveBeenCalled();
   });
-
-  // test('renders correctly', async done => {
-  //   AuthenticationUtil.setUser("john.doe");
-  //   const wrapper = shallowMount(Posts, { localVue, vuetify, store });
-  //   const spy = jest.spyOn(wrapper.vm.$toast, "error");
-  //   await flushPromises();
-  //   expect(wrapper.findAll(".post").length).toBe(4);
-  //   expect(wrapper.element).toMatchSnapshot()
-  // })
 });

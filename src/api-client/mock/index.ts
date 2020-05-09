@@ -1,11 +1,21 @@
-import { OrderedCollectionPage } from "activitypub-objects";
+import {
+  OrderedCollectionPage,
+  CollectionPage,
+  toJSON
+} from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
 import { User } from "@/model/user";
 import { Credential } from "@/model/credential";
 
 import * as userData from "./data/user.json";
+import * as follwoingData from "./data/following.json";
 import * as collectionData from "./data/collection.json";
+import { Activity } from "@/model/mitra-activity";
+
+const USER_NAME = "john.doe";
+const USER_PWD = "123";
+const USER_TOKEN = "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi";
 
 // eslint-disable-next-line
 const fetch = (mockData: any): Promise<any> => {
@@ -21,9 +31,18 @@ const error = (msg: string): Promise<any> => {
   });
 };
 
-const USER_NAME = "john.doe";
-const USER_PWD = "123";
-const USER_TOKEN = "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi";
+const returnResult = async (
+  token: string,
+  user: string,
+  // eslint-disable-next-line
+  promis: Promise<any>
+) => {
+  if (token !== USER_TOKEN || user !== USER_NAME) {
+    return await error("Authentication is incorrect");
+  }
+
+  return promis;
+};
 
 export default {
   async login(credential: Credential): Promise<string> {
@@ -34,10 +53,18 @@ export default {
   },
   async getUser(token: string, user: string): Promise<User> {
     console.info(`token: ${token}, user: ${user}`);
-    if (user !== USER_NAME) {
-      return await error("Authentication is incorrect");
-    }
-    return await fetch(userData.default);
+
+    return returnResult(token, user, fetch(userData.default)) as Promise<User>;
+  },
+  async fetchFollowing(
+    token: string,
+    user: string,
+    page: number
+  ): Promise<CollectionPage> {
+    console.info(`token: ${token}, user: ${user}, page: ${page}`);
+    return returnResult(token, user, fetch(follwoingData.default)) as Promise<
+      CollectionPage
+    >;
   },
   async fetchPosts(
     token: string,
@@ -45,9 +72,22 @@ export default {
     page: number
   ): Promise<OrderedCollectionPage> {
     console.info(`token: ${token}, user: ${user}, page: ${page}`);
-    if (user !== USER_NAME) {
-      return await error("Authentication is incorrect");
+    return returnResult(token, user, fetch(collectionData.default)) as Promise<
+      OrderedCollectionPage
+    >;
+  },
+  async writeToOutbox(
+    token: string,
+    user: string,
+    activity: Activity,
+    summary?: string
+  ): Promise<void> {
+    if (summary) {
+      activity.summary = summary;
     }
-    return await fetch(collectionData.default);
+    console.info(
+      `token: ${token}, user: ${user}, activity: ${toJSON(activity)}`
+    );
+    return returnResult(token, user, {} as Promise<void>);
   }
 } as ApiClient;

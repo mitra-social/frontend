@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import store from "@/store";
 import Home from "@/views/home/index.vue";
 import Login from "@/views/Login.vue";
+import { AuthenticationUtil } from "@/utils/authentication-util";
 
 Vue.use(VueRouter);
 
@@ -33,10 +34,14 @@ router.beforeEach((to, from, next) => {
   const authRequired = !publicPages.includes(to.path);
 
   if (authRequired && !store.getters["Auth/isAuthenticated"]) {
-    return next("/login");
+    next({ name: "login" });
+  } else if (authRequired && !store.getters["User/isUserFetch"]) {
+    store.dispatch("User/fetchUser", AuthenticationUtil.getUser()).then(() => {
+      next();
+    });
+  } else {
+    next();
   }
-
-  next();
 });
 
 export default router;
