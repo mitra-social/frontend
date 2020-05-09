@@ -24,16 +24,23 @@ describe("FollowingActor.vue", () => {
       vuetify,
       propsData: {
         actor: {
-          "type": "Person",
-          "preferredUsername": preferredUsername,
+          type: "Person",
+          preferredUsername: preferredUsername,
         }
       }
     });
+
     const displayNameElement = wrapper.find(".v-list-item__title");
     expect(displayNameElement.text()).toBe(preferredUsername);
-    const avatarIconElement = wrapper.findAll(".v-list-item__avatar .mdi-account-circle");
+
+    const avatarIconElement = wrapper.findAll(
+        ".v-list-item__avatar .mdi-account-circle"
+    );
     expect(avatarIconElement.length).toBe(1);
-    const avatarImgElement = wrapper.findAll(".v-list-item__avatar .v-image");
+
+    const avatarImgElement = wrapper.findAll(
+        ".v-list-item__avatar .v-image"
+    );
     expect(avatarImgElement.length).toBe(0);
   });
 
@@ -46,21 +53,23 @@ describe("FollowingActor.vue", () => {
       vuetify,
       propsData: {
         actor: {
-          "type": "Person",
-          "preferredUsername": "john.doe",
-          "name": name,
-          "icon": {
-            "type": "Image",
-            "name": "Avatar",
-            "url": iconUrl,
-            "width": 16,
-            "height": 16
+          type: "Person",
+          preferredUsername: "john.doe",
+          name: name,
+          icon: {
+            type: "Image",
+            name: "Avatar",
+            url: iconUrl,
+            width: 16,
+            height: 16
           }
         }
       }
     });
+
     const displayNameElement = wrapper.find(".v-list-item__title");
     expect(displayNameElement.text()).toBe(name);
+
     const avatarImgElement = wrapper.findAll(".v-list-item__avatar .v-image");
     expect(avatarImgElement.length).toBe(1);
   });
@@ -73,17 +82,18 @@ describe("FollowingActor.vue", () => {
       vuetify,
       propsData: {
         actor: {
-          "type": "Person",
-          "preferredUsername": "john.doe",
-          "name": "Foo",
-          "nameMap": {
-            "de": "Hans",
-            "fr": "Jean",
-            "en": name
+          type: "Person",
+          preferredUsername: "john.doe",
+          name: "Foo",
+          nameMap: {
+            de: "Hans",
+            fr: "Jean",
+            en: name
           }
         }
       }
     });
+
     const displayNameElement = wrapper.find(".v-list-item__title");
     expect(displayNameElement.text()).toBe(name);
   });
@@ -96,16 +106,17 @@ describe("FollowingActor.vue", () => {
       vuetify,
       propsData: {
         actor: {
-          "type": "Person",
-          "preferredUsername": "john.doe",
-          "name": name,
-          "nameMap": {
-            "de": "Hans",
-            "fr": "Jean"
+          type: "Person",
+          preferredUsername: "john.doe",
+          name: name,
+          nameMap: {
+            de: "Hans",
+            fr: "Jean"
           }
         }
       }
     });
+
     const displayNameElement = wrapper.find(".v-list-item__title");
     expect(displayNameElement.text()).toBe(name);
   });
