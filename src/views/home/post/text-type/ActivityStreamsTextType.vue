@@ -7,7 +7,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import { Article } from "activitypub-objects";
 
 @Component
-export default class HTMLPostComponent extends Vue {
+export default class ActivityStreamsTextType extends Vue {
   @Prop() private data!: Article;
 }
 </script>

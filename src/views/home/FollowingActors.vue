@@ -29,7 +29,7 @@ const followingStore = namespace("Following");
     FollowingActor,
   },
 })
-export default class MitraFollowers extends Vue {
+export default class FollowingActors extends Vue {
   private title = "Following";
 
   @followingStore.Getter

@@ -51,7 +51,8 @@ import { namespace } from "vuex-class";
 import { ActivityObject, Link } from "activitypub-objects";
 import striptags from "striptags";
 
-import HtmlPost from "@/views/home/post/HTMLPost.vue";
+import ActivityStreamsArticleType from "@/views/home/post/text-type/ActivityStreamsArticleType.vue";
+import ActivityStreamsNoteType from "@/views/home/post/text-type/ActivityStreamsNoteType.vue";
 import ActorPin from "@/components/actor/ActorPin.vue";
 import Date from "@/components/ui/Date.vue";
 import { AuthenticationUtil } from "@/utils/authentication-util";
@@ -63,7 +64,8 @@ const collectionStore = namespace("Collection");
   components: {
     ActorPin,
     Date,
-    HtmlPost,
+    ActivityStreamsArticleType,
+    ActivityStreamsNoteType,
   },
   filters: {
     stripHtmlTags(value: string) {
