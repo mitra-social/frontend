@@ -30,9 +30,9 @@ export class ActivityObjectHelper {
     } else if (typeof object === 'string' && !isCalled) {
       return client.getActor(object)
         .then($ => {
-          return ActivityObjectHelper.extractActorName($, true)
+          return $ ? ActivityObjectHelper.extractActorName($, true) : object;
         })
-        .catch(() => undefined);
+        .catch(() => Promise.resolve(undefined));
     }
 
     return Promise.resolve(undefined);

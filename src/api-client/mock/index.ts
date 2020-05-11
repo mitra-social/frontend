@@ -60,8 +60,9 @@ export default {
   },
   async getActor(url: string): Promise<Actor> {
     console.info(`url: ${url}`);
-    const actors = actorsData.default;
-    return await fetch(actors[1]) as Promise<Actor>;
+    const actors = actorsData.default as any;
+    const actor = (actors as Actor[]).find($ => $ && $.id?.toString() === url);
+    return await fetch(actor) as Promise<Actor>;
   },
   async fetchFollowing(
     token: string,

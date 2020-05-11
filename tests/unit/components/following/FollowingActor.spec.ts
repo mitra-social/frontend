@@ -4,6 +4,7 @@ import Vuetify from "vuetify";
 import { mount, createLocalVue } from "@vue/test-utils";
 
 import FollowingActor from "@/components/following/FollowingActor.vue";
+import flushPromises from 'flush-promises';
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -16,7 +17,7 @@ describe("FollowingActor.vue", () => {
     vuetify = new Vuetify();
   });
 
-  it("actor is an object with preferredUsername property and no icon", () => {
+  it("actor is an object with preferredUsername property and no icon", async () => {
     const preferredUsername = "john.doe";
 
     const wrapper = mount(FollowingActor, {
@@ -30,6 +31,7 @@ describe("FollowingActor.vue", () => {
       }
     });
 
+    await flushPromises();
     const displayNameElement = wrapper.find(".v-list-item__title");
     expect(displayNameElement.text()).toBe(preferredUsername);
 
@@ -42,7 +44,7 @@ describe("FollowingActor.vue", () => {
     expect(avatarImgElement.length).toBe(0);
   });
 
-  it("actor is an object with preferredUsername and name property and icon", () => {
+  it("actor is an object with preferredUsername and name property and icon", async () => {
     const name = "John";
     const iconUrl = "http://example.org/icon.png";
 
@@ -65,6 +67,7 @@ describe("FollowingActor.vue", () => {
       }
     });
 
+    await flushPromises();
     const displayNameElement = wrapper.find(".v-list-item__title");
     expect(displayNameElement.text()).toBe(name);
 
@@ -72,7 +75,7 @@ describe("FollowingActor.vue", () => {
     expect(avatarImgElement.length).toBe(1);
   });
 
-  it("actor is an object with preferredUsername, name and nameMap with required language property", () => {
+  it("actor is an object with preferredUsername, name and nameMap with required language property", async () => {
     const name = "John";
 
     const wrapper = mount(FollowingActor, {
@@ -92,11 +95,12 @@ describe("FollowingActor.vue", () => {
       }
     });
 
+    await flushPromises();
     const displayNameElement = wrapper.find(".v-list-item__title");
     expect(displayNameElement.text()).toBe(name);
   });
 
-  it("actor is an object with preferredUsername, name and nameMap without required language property", () => {
+  it("actor is an object with preferredUsername, name and nameMap without required language property", async () => {
     const name = "Foo";
 
     const wrapper = mount(FollowingActor, {
@@ -115,6 +119,7 @@ describe("FollowingActor.vue", () => {
       }
     });
 
+    await flushPromises();
     const displayNameElement = wrapper.find(".v-list-item__title");
     expect(displayNameElement.text()).toBe(name);
   });

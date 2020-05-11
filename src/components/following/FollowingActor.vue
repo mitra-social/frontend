@@ -1,7 +1,7 @@
 <template>
   <v-list-item v-if="isLoaded">
     <v-list-item-avatar>
-      <v-img :src="icon" v-if="displayActor.icon"></v-img>
+      <v-img :src="displayActor.icon" v-if="displayActor.icon"></v-img>
       <v-icon v-else>mdi-account-circle</v-icon>
     </v-list-item-avatar>
     <v-list-item-content>
@@ -49,12 +49,18 @@ export default class FollowingActor extends Vue {
 }
 
 .v-list-item {
+  min-height: 40px;
+  height: 42px;
+  margin-left: 20px;
   padding: 0;
   border: 1px solid rgba(0, 0, 0, 0.12);
-  margin-left: 20px;
 }
 
 .v-list-item__avatar {
   margin: 0;
+}
+
+.v-icon.v-icon {
+  font-size: 42px;
 }
 </style>
