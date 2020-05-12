@@ -1,4 +1,4 @@
-import { ActivityObject, Actors } from 'activitypub-objects';
+import { ActivityObject, Actors } from "activitypub-objects";
 
 export interface DisplayActor {
   id: string | undefined;

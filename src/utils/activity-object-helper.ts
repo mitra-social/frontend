@@ -1,4 +1,4 @@
-import { ActivityObject, Link, Image, Actors } from "activitypub-objects";
+import { ActivityObject, Link, Image } from "activitypub-objects";
 
 import client from "apiClient";
 
@@ -21,14 +21,25 @@ export class ActivityObjectHelper {
   ): Promise<string | undefined> {
     const lang = navigator.language.substr(0, 2);
 
-    if (ActivityObjectHelper.hasProperty(object, "nameMap") && (object as RdfLangString).nameMap && (lang in (object as RdfLangString).nameMap)) {
+    if (
+      ActivityObjectHelper.hasProperty(object, "nameMap") &&
+      (object as RdfLangString).nameMap &&
+      lang in (object as RdfLangString).nameMap
+    ) {
       return await Promise.resolve((object as RdfLangString).nameMap[lang]);
-    } else if (ActivityObjectHelper.hasProperty(object, "name") && (object as Actor).name) {
+    } else if (
+      ActivityObjectHelper.hasProperty(object, "name") &&
+      (object as Actor).name
+    ) {
       return await Promise.resolve((object as Actor).name);
-    } else if (ActivityObjectHelper.hasProperty(object, "preferredUsername") && (object as Actor).preferredUsername) {
+    } else if (
+      ActivityObjectHelper.hasProperty(object, "preferredUsername") &&
+      (object as Actor).preferredUsername
+    ) {
       return await Promise.resolve((object as Actor).preferredUsername);
-    } else if (typeof object === 'string' && !isCalled) {
-      return client.getActor(object)
+    } else if (typeof object === "string" && !isCalled) {
+      return client
+        .getActor(object)
         .then($ => {
           return $ ? ActivityObjectHelper.extractActorName($, true) : object;
         })
@@ -64,7 +75,12 @@ export class ActivityObjectHelper {
   }
 
   public static extractId(
-    object: ActivityObject | Link | URL | Array<ActivityObject | URL> | undefined
+    object:
+      | ActivityObject
+      | Link
+      | URL
+      | Array<ActivityObject | URL>
+      | undefined
   ): string | undefined {
     if (!object) {
       return;

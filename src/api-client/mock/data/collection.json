@@ -10,6 +10,7 @@
       "name": "Minecraft Signs",
       "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>",
       "attributedTo": {
+        "id": "http://sally.example.org",
         "type": "Person",
         "summary": "Nice persone you know",
         "name": "Sally",
@@ -30,6 +31,7 @@
       "name": "The Clinic",
       "content": "<p>the misinformation and outright lies on this webbed site about Covid 19 driven by certain anarchists is wild. nice to know we're all Karens at the core waiting for the right activation call</p>",
       "attributedTo": {
+        "id": "http://john.example.org",
         "type": "Person",
         "nameMap": {
           "de": "Hans",
@@ -73,7 +75,8 @@
       "type": "Update",
       "actor": {
         "type": "Person",
-        "name": "Sally"
+        "name": "Sally",
+        "id": "http://sally.example.org"
       },
       "object": "http://example.org/notes/1"
     },
@@ -82,7 +85,8 @@
       "type": "Delete",
       "actor": {
         "type": "Person",
-        "name": "Sally"
+        "name": "Sally",
+        "id": "http://sally.example.org"
       },
       "object": "http://example.org/notes/1",
       "origin": {

@@ -1,5 +1,9 @@
 <template>
-  <v-card :light="$vuetify.theme.dark" :dark="!$vuetify.theme.dark">
+  <v-card
+    :light="$vuetify.theme.dark"
+    :dark="!$vuetify.theme.dark"
+    v-if="actor"
+  >
     <v-list>
       <v-list-item>
         <v-list-item-avatar v-if="actor.icon">
@@ -74,7 +78,7 @@ export default class ActorSummarized extends Vue {
 
   private isFollowing(): boolean {
     return this.getFollowing.some(
-      ($) => ActivityObjectHelper.extractId($) === this.actor.id
+      $ => ActivityObjectHelper.extractId($) === this.actor.id
     );
   }
 

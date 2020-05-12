@@ -30,52 +30,22 @@ describe("ActorSummarized.vue", () => {
     store.dispatch("Following/fetchFollowing", "john.doe");
   });
 
+  afterEach(() => {
+    AuthenticationUtil.clear();
+  });
+
   it("attributedTo is a object with name property", () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Article).attributedTo
       }
     });
+
     const content = wrapper.find(".v-list-item__title");
     expect(content.text()).toBe("Sally");
-  });
-
-  it("attributedTo is a object with nameMap property", () => {
-    const wrapper = mount(ActorSummarized, {
-      localVue,
-      vuetify,
-      store,
-      propsData: {
-        attributedTo: (articles[2] as Article).attributedTo
-      }
-    });
-
-    const lang: string = navigator.language.substr(0, 2);
-    const names: { [index: string]: string } = {
-      de: "Hans",
-      en: "John",
-      fr: "Jean"
-    };
-
-    const content = wrapper.find(".v-list-item__title");
-    expect(content.text()).toBe(names[lang]);
-  });
-
-  it("attributedTo is a string", () => {
-    const wrapper = mount(ActorSummarized, {
-      localVue,
-      vuetify,
-      store,
-      propsData: {
-        attributedTo: (articles[1] as Article).attributedTo
-      }
-    });
-
-    const content = wrapper.find(".v-list-item__title");
-    expect(content.text()).toBe("johnny");
   });
 
   it("attributedTo has a icon property as a image", () => {
@@ -84,7 +54,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Article).attributedTo
       }
     });
 
@@ -108,7 +78,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo
+        actor: (articles[1] as Article).attributedTo
       }
     });
 
@@ -132,7 +102,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Article).attributedTo
       }
     });
 
@@ -146,7 +116,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo
+        actor: (articles[1] as Article).attributedTo
       }
     });
 
@@ -159,7 +129,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Article).attributedTo
       }
     });
 
@@ -175,87 +145,103 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo
+        actor: (articles[1] as Article).attributedTo
       }
     });
 
     expect(wrapper.find(".attribute-summary").exists()).toBe(false);
   });
 
-  it("Actor is following", () => {
+  it("Actor is following", async () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Article).attributedTo
       }
     });
 
+    await flushPromises();
     const followingRemoveIcon = wrapper.find(".mdi-account-remove");
+    const followingAddIcon = wrapper.find(".mdi-account-plus");
+    expect(followingAddIcon.exists()).toBe(false);
     expect(followingRemoveIcon.exists()).toBe(true);
   });
 
-  it("Actor is no following", () => {
+  it("Actor is no following", async () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo
+        actor: (articles[1] as Article).attributedTo
       }
     });
 
+    await flushPromises();
+    const followingRemoveIcon = wrapper.find(".mdi-account-remove");
     const followingAddIcon = wrapper.find(".mdi-account-plus");
     expect(followingAddIcon.exists()).toBe(true);
+    expect(followingRemoveIcon.exists()).toBe(false);
   });
 
   it("Follow an unfollow actor", async done => {
+    const actor = (articles[1] as Article).attributedTo as URL;
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo
+        actor: {
+          id: actor,
+          to: actor
+        }
       }
     });
 
-    // Check actor is not follwoing
-    const followingAddIcon = wrapper.find(".mdi-account-plus");
-    expect(followingAddIcon.exists()).toBe(true);
-
-    // Click following actor
-    const followingButton = wrapper.find(".following-btn");
-    followingButton.trigger("click");
-
-    flushPromises().then(() => {
+    await flushPromises().then(async () => {
       // Check actor is not follwoing
-      const followingRemoveIcon = wrapper.find(".mdi-account-remove");
+      let followingAddIcon = wrapper.find(".mdi-account-plus");
       expect(followingAddIcon.exists()).toBe(true);
+
+      // // Click following actor
+      const followingButton = wrapper.find(".following-btn");
+      expect(followingButton.exists()).toBe(true);
+      followingButton.trigger("click");
+      // Check actor is not follwoing
+      followingAddIcon = wrapper.find(".mdi-account-plus");
+
+      await flushPromises();
+
+      const followingRemoveIcon = wrapper.find(".mdi-account-remove");
+      followingAddIcon = wrapper.find(".mdi-account-plus");
+      expect(followingAddIcon.exists()).toBe(false);
       expect(followingRemoveIcon.exists()).toBe(true);
       done();
     });
   });
 
-  it("Unfollow an follow actor", async () => {
+  it("Unfollow an follow actor", () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Article).attributedTo
       }
     });
 
-    // Check actor is not follwoing
-    const followingRemoveIcon = wrapper.find(".mdi-account-remove");
-    expect(followingRemoveIcon.exists()).toBe(true);
+    flushPromises().then(async () => {
+      // Check actor is not follwoing
+      const followingRemoveIcon = wrapper.find(".mdi-account-remove");
+      expect(followingRemoveIcon.exists()).toBe(true);
 
-    // Click following actor
-    const followingButton = wrapper.find(".following-btn");
-    followingButton.trigger("click");
+      // Click following actor
+      const followingButton = wrapper.find(".following-btn");
+      followingButton.trigger("click");
 
-    flushPromises().then(() => {
+      await flushPromises();
       // Check actor is not follwoing
       const followingAddIcon = wrapper.find(".mdi-account-plus");
       expect(followingAddIcon.exists()).toBe(true);

@@ -36,13 +36,12 @@ router.beforeEach((to, from, next) => {
   if (authRequired && !store.getters["Auth/isAuthenticated"]) {
     next({ name: "login" });
   } else if (authRequired && !store.getters["User/isUserFetch"]) {
-    store.dispatch("User/fetchUser", AuthenticationUtil.getUser())
+    store
+      .dispatch("User/fetchUser", AuthenticationUtil.getUser())
       .then(() => {
         next();
       })
-      .catch(error => {
-        // 
-        console.log(error)
+      .catch(() => {
         next({ name: "login", params: { redirectFrom: to.fullPath } });
       });
   } else {

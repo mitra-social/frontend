@@ -33,8 +33,8 @@ import { Actor } from "../../model/mitra-actor";
 
 @Component({
   components: {
-    SummarizedActor,
-  },
+    SummarizedActor
+  }
 })
 export default class ActorPin extends Vue {
   @Prop() readonly attributedTo!:
@@ -47,7 +47,7 @@ export default class ActorPin extends Vue {
 
   private created() {
     ActivityObjectHelper.extractActorName(this.attributedTo as Actor).then(
-      ($) => {
+      $ => {
         const icon = ActivityObjectHelper.extractIcon(
           this.attributedTo as Actor
         );
@@ -60,7 +60,7 @@ export default class ActorPin extends Vue {
           icon,
           type: (this.attributedTo as Actor).type ?? undefined,
           summary: (this.attributedTo as Actor).summary ?? undefined,
-          to,
+          to
         };
         this.isLoaded = true;
       }

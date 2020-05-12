@@ -53,7 +53,6 @@ export default {
     user: string,
     page: number
   ): Promise<CollectionPage> {
-    console.info(`token: ${token}, user: ${user}, page: ${page}`);
     return await axios
       .get(`/user/${user}/following?page=${page}`, {
         headers: {
@@ -93,9 +92,6 @@ export default {
     if (summary) {
       activity.summary = summary;
     }
-    console.info(
-      `token: ${token}, user: ${user}, activity: ${toJSON(activity)}`
-    );
     return await axios.post(`/user/${user}/outbox`, toJSON(activity), {
       headers: {
         "Content-Type": "application/activity+json",

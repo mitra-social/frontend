@@ -65,13 +65,13 @@ const collectionStore = namespace("Collection");
     ActorPin,
     Date,
     ActivityStreamsArticleType,
-    ActivityStreamsNoteType,
+    ActivityStreamsNoteType
   },
   filters: {
     stripHtmlTags(value: string) {
       return striptags(value);
-    },
-  },
+    }
+  }
 })
 export default class MitraPosts extends Vue {
   @collectionStore.Getter

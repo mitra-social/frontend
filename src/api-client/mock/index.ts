@@ -60,9 +60,10 @@ export default {
   },
   async getActor(url: string): Promise<Actor> {
     console.info(`url: ${url}`);
+    // eslint-disable-next-line
     const actors = actorsData.default as any;
     const actor = (actors as Actor[]).find($ => $ && $.id?.toString() === url);
-    return await fetch(actor) as Promise<Actor>;
+    return (await fetch(actor)) as Promise<Actor>;
   },
   async fetchFollowing(
     token: string,

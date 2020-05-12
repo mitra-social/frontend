@@ -42,7 +42,7 @@ class Authentication extends VuexModule {
         this.context.commit("loginSuccess", token);
         router.push("/");
       })
-      .catch((err: Error) => {
+      .catch(() => {
         this.context.commit("loginError", 401);
       });
   }

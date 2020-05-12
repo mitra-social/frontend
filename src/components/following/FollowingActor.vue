@@ -24,7 +24,7 @@ export default class FollowingActor extends Vue {
   private isLoaded = false;
 
   private created() {
-    ActivityObjectHelper.extractActorName(this.actor as Actor).then(($) => {
+    ActivityObjectHelper.extractActorName(this.actor as Actor).then($ => {
       const icon = ActivityObjectHelper.extractIcon(this.actor as Actor);
       const to = ActivityObjectHelper.normalizedObjectFollow(this.actor);
       this.displayActor = {
@@ -33,7 +33,7 @@ export default class FollowingActor extends Vue {
         icon,
         type: (this.actor as Actor).type ?? undefined,
         summary: (this.actor as Actor).summary ?? undefined,
-        to,
+        to
       };
       this.isLoaded = true;
     });

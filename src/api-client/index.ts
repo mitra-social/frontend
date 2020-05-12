@@ -1,4 +1,8 @@
-import { OrderedCollectionPage, CollectionPage, Actor } from "activitypub-objects";
+import {
+  OrderedCollectionPage,
+  CollectionPage,
+  Actor
+} from "activitypub-objects";
 
 import { Activity } from "@/model/mitra-activity";
 import { Credential } from "@/model/credential";

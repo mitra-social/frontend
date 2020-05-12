@@ -4,7 +4,7 @@ import Vuetify from "vuetify";
 import { mount, createLocalVue } from "@vue/test-utils";
 
 import FollowingActor from "@/components/following/FollowingActor.vue";
-import flushPromises from 'flush-promises';
+import flushPromises from "flush-promises";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);

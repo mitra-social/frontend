@@ -6,7 +6,7 @@ import { mount, createLocalVue } from "@vue/test-utils";
 import FollowingActors from "@/views/home/FollowingActors.vue";
 import store from "@/store";
 import { AuthenticationUtil } from "@/utils/authentication-util";
-import flushPromises from 'flush-promises';
+import flushPromises from "flush-promises";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
