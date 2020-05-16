@@ -3,9 +3,11 @@ import { OrderedCollectionPage, CollectionPage } from "activitypub-objects";
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
 import { Activity } from "@/model/mitra-activity";
+import { CreateUser } from "@/model/create-user";
 
 export interface ApiClient {
   login(credential: Credential): Promise<string>;
+  createUser(user: CreateUser): Promise<void>;
   getUser(token: string, user: string): Promise<User>;
   fetchFollowing(
     token: string,

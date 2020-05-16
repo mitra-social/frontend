@@ -1,0 +1,18 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/activitystreams",
+    "https://w3id.org/security/v1"
+  ],
+  "type": "Person",
+  "id": "http://localhost/user/create.user",
+  "url": "http://localhost/user/create.user",
+  "preferredUsername": "create.user",
+  "inbox": "http://localhost/user/create.user/inbox",
+  "outbox": "http://localhost/user/create.user/outbox",
+  "following": "http://localhost/user/create.user/following",
+  "publicKey": {
+    "id": "http://localhost/user/create.user#main-key",
+    "owner": "http://localhost/user/create.user",
+    "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvm11n/t7P50oE2S7r1tK\nyGmVljwr4yU4szrcW91oEWrTVo/xnxhQkwb3dEhecT2bXHBSTPkGjobDMY6aZJCY\ncgmsdB34Mx4nl8i1DjZ61q0uNbh8JBlz+Bm85AE3oHji4UUy1sMntwkgxGcCxG1m\nKmHi8EoDBx36DdjtwW/KkzdCYoL1F0wIyhhOTjua2KiXI2VyaI7sRoHmK6NDTm2U\neuz4rbqZpo2HbObRQ+ibbnB5gVSavfmcSIhSKuxhAmnAOZun1NmlzbtdlIYyIe+K\nhUqRO671gs/UVIcPglKypIbj/n2ASueDZkJ0eCYxoI/pqxrPyvN/pc+BnpkWSPCt\nfwIDAQAB\n-----END PUBLIC KEY-----\n"
+  }
+}
