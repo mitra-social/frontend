@@ -27,8 +27,8 @@ describe("ActivityStreamsArticleType.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        data: article
-      }
+        data: article,
+      },
     });
 
     expect(wrapper.find("p").exists()).toBe(true);

@@ -24,7 +24,7 @@ class User extends VuexModule {
   @Action
   public async fetchUser(user: string): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
-    await client.getUser(token, user).then(user => {
+    await client.getUser(token, user).then((user) => {
       this.context.commit("fetchUserSuccess", user);
     });
   }

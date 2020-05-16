@@ -13,6 +13,6 @@ export default new Vuex.Store({
     Auth,
     User,
     Collection,
-    Following
-  }
+    Following,
+  },
 });

@@ -8,18 +8,18 @@ Vue.use(Vuetify);
 export default new Vuetify({
   theme: {
     options: {
-      customProperties: true
+      customProperties: true,
     },
     themes: {
       light: {
-        primary: "#000"
+        primary: "#000",
       },
       dark: {
-        primary: "FFF"
-      }
-    }
+        primary: "FFF",
+      },
+    },
   },
   icons: {
-    iconfont: "mdi"
-  }
+    iconfont: "mdi",
+  },
 });
