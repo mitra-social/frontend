@@ -1,7 +1,5 @@
 import { ActivityObject, Link, Image } from "activitypub-objects";
 
-import client from "apiClient";
-
 import { RdfLangString } from "@/model/rdf-lang-string";
 import { Activity } from "@/model/mitra-activity";
 import { Actor } from "@/model/mitra-actor";
@@ -15,10 +13,10 @@ export class ActivityObjectHelper {
     }
   }
 
-  public static async extractActorName(
+  public static extractActorName(
     object: ActivityObject | Link | URL | Array<ActivityObject | URL>,
     isCalled?: boolean
-  ): Promise<string | undefined> {
+  ): string | undefined {
     const lang = navigator.language.substr(0, 2);
 
     if (
@@ -26,27 +24,33 @@ export class ActivityObjectHelper {
       (object as RdfLangString).nameMap &&
       lang in (object as RdfLangString).nameMap
     ) {
-      return await Promise.resolve((object as RdfLangString).nameMap[lang]);
+      return (object as RdfLangString).nameMap[lang];
     } else if (
       ActivityObjectHelper.hasProperty(object, "name") &&
       (object as Actor).name
     ) {
-      return await Promise.resolve((object as Actor).name);
+      return (object as Actor).name;
     } else if (
       ActivityObjectHelper.hasProperty(object, "preferredUsername") &&
       (object as Actor).preferredUsername
     ) {
-      return await Promise.resolve((object as Actor).preferredUsername);
+      return (object as Actor).preferredUsername;
+    } else if (
+      ActivityObjectHelper.hasProperty(object, "id") &&
+      (object as Actor).id
+    ) {
+      return (object as Actor).id?.toString() ?? undefined;
     } else if (typeof object === "string" && !isCalled) {
-      return client
-        .getActor(object)
-        .then($ => {
-          return $ ? ActivityObjectHelper.extractActorName($, true) : object;
-        })
-        .catch(() => Promise.resolve(undefined));
+      return object;
+      // return client
+      //   .getActor(object)
+      //   .then($ => {
+      //     return $ ? ActivityObjectHelper.extractActorName($, true) : object;
+      //   })
+      //   .catch(() => Promise.resolve(undefined));
     }
 
-    return Promise.resolve(undefined);
+    return undefined;
   }
 
   public static normalizedToFollow(

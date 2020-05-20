@@ -1,11 +1,11 @@
 <template>
-  <v-list-item v-if="isLoaded">
+  <v-list-item>
     <v-list-item-avatar>
-      <v-img :src="displayActor.icon" v-if="displayActor.icon"></v-img>
+      <v-img src="icon" v-if="icon"></v-img>
       <v-icon v-else>mdi-account-circle</v-icon>
     </v-list-item-avatar>
     <v-list-item-content>
-      <v-list-item-title>{{ displayActor.name }}</v-list-item-title>
+      <v-list-item-title v-html="name"></v-list-item-title>
     </v-list-item-content>
   </v-list-item>
 </template>
@@ -14,29 +14,18 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { ActivityObject, Link } from "activitypub-objects";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Actor } from "@/model/mitra-actor";
-import { DisplayActor } from "@/model/display-actor";
 
 @Component
 export default class FollowingActor extends Vue {
   @Prop() readonly actor!: ActivityObject | Link;
-  private displayActor: DisplayActor | undefined;
-  private isLoaded = false;
 
-  private created() {
-    ActivityObjectHelper.extractActorName(this.actor as Actor).then($ => {
-      const icon = ActivityObjectHelper.extractIcon(this.actor as Actor);
-      const to = ActivityObjectHelper.normalizedObjectFollow(this.actor);
-      this.displayActor = {
-        id: ActivityObjectHelper.extractId(this.actor),
-        name: $,
-        icon,
-        type: (this.actor as Actor).type ?? undefined,
-        summary: (this.actor as Actor).summary ?? undefined,
-        to
-      };
-      this.isLoaded = true;
-    });
+  get name(): string | undefined {
+    return ActivityObjectHelper.extractActorName(this.actor as ActivityObject);
+  }
+
+  get icon(): string | undefined {
+    const icon = ActivityObjectHelper.extractIcon(this.actor as ActivityObject);
+    return icon;
   }
 }
 </script>

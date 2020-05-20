@@ -1,10 +1,9 @@
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
-import { ActivityObject, Link } from "activitypub-objects";
+import { ActivityObject, Link, CollectionPage } from "activitypub-objects";
 
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { FollowPayload } from "@/model/mitra-follow-payload";
 import { Activities } from "activitypub-objects/dst/activities/activity";
 import { Actor } from "@/model/mitra-actor";
 
@@ -44,39 +43,68 @@ class Following extends VuexModule {
   public async fetchFollowing(user: string): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
 
-    return await client.fetchFollowing(token, user, 0).then(collection => {
-      this.context.commit("setFollowing", collection.items as Actor[]);
-    });
+    return await client
+      .fetchFollowing(token, user, 0)
+      .then((collection: CollectionPage) => {
+        return Promise.all(
+          collection.items.map(async (item: ActivityObject | Link) => {
+            if (
+              !ActivityObjectHelper.hasProperty(item, "name") &&
+              !ActivityObjectHelper.hasProperty(item, "nameMap")
+            ) {
+              const url = (item as Actor).id;
+
+              if (url) {
+                return await client
+                  .getActor(url.toString())
+                  .then($ => {
+                    if ($) {
+                      item = $;
+                    }
+                    return item;
+                  })
+                  .catch(() => Promise.resolve(undefined));
+              }
+              return item;
+            } else {
+              return item;
+            }
+          })
+        );
+      })
+      .then(actors => {
+        this.context.commit("setFollowing", actors);
+      });
   }
 
   @Action
-  public async follow(payload: FollowPayload): Promise<void> {
-    const { to, object } = payload;
+  public async follow(actor: Actor): Promise<void> {
+    const oFollow = ActivityObjectHelper.normalizedObjectFollow(actor);
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
-    const summary = `${user} followed ${to}`;
+    const summary = `${user} followed ${oFollow}`;
     const follow = {
-      to,
-      object,
+      to: oFollow,
+      object: oFollow,
       type: Activities.FOLLOW
     };
 
     return await client.writeToOutbox(token, user, follow, summary).then(() => {
-      this.context.commit("addFollowing", to);
+      this.context.commit("addFollowing", actor);
     });
   }
 
   @Action
-  public async unfollow(payload: FollowPayload): Promise<void> {
-    const { to, object } = payload;
+  public async unfollow(actor: Actor): Promise<void> {
+    const oFollow = ActivityObjectHelper.normalizedObjectFollow(actor);
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
-    const summary = `${user} unfollowed ${to}`;
+    const summary = `${user} unfollowed ${oFollow}`;
     const undo = {
-      to,
+      to: oFollow,
       object: {
-        to,
-        object,
+        to: oFollow,
+        object: oFollow,
         type: Activities.FOLLOW
       },
       type: Activities.UNDO
@@ -85,7 +113,7 @@ class Following extends VuexModule {
     return await client
       .writeToOutbox(token, user, undo as ActivityObject, summary)
       .then(() => {
-        this.context.commit("removeFollowing", to);
+        this.context.commit("removeFollowing", actor);
       });
   }
 }

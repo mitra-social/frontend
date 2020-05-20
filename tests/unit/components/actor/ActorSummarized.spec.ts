@@ -18,7 +18,7 @@ describe("ActorSummarized.vue", () => {
   let vuetify: any;
   let articles: Array<ActivityObject | Link>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     const user = "john.doe";
     vuetify = new Vuetify();
     articles = collection.orderedItems as Array<ActivityObject | Link>;
@@ -28,6 +28,7 @@ describe("ActorSummarized.vue", () => {
       "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi"
     );
     store.dispatch("Following/fetchFollowing", "john.doe");
+    await flushPromises();
   });
 
   afterEach(() => {
@@ -43,7 +44,6 @@ describe("ActorSummarized.vue", () => {
         actor: (articles[0] as Article).attributedTo
       }
     });
-
     const content = wrapper.find(".v-list-item__title");
     expect(content.text()).toBe("Sally");
   });
@@ -186,7 +186,7 @@ describe("ActorSummarized.vue", () => {
     expect(followingRemoveIcon.exists()).toBe(false);
   });
 
-  it("Follow an unfollow actor", async done => {
+  it("Following an unfollowing actor", async done => {
     const actor = (articles[1] as Article).attributedTo as URL;
     const wrapper = mount(ActorSummarized, {
       localVue,
@@ -222,7 +222,7 @@ describe("ActorSummarized.vue", () => {
     });
   });
 
-  it("Unfollow an follow actor", () => {
+  it("Unfollowing an follow actor", () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
