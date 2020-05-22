@@ -3,7 +3,7 @@ import {
   OrderedCollectionPage,
   CollectionPage,
   toJSON,
-  ActivityObject
+  ActivityObject,
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
@@ -15,13 +15,13 @@ import { CreateUser } from "@/model/create-user";
 const config = {
   headers: {
     Accept: "application/json",
-    "Content-Type": "application/json"
-  }
+    "Content-Type": "application/json",
+  },
 };
 
 export default {
   async login(credential: Credential): Promise<string> {
-    return await axios.post("/token", credential, config).then(resp => {
+    return await axios.post("/token", credential, config).then((resp) => {
       return resp.data.token;
     });
   },
@@ -34,10 +34,10 @@ export default {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .then(resp => {
+      .then((resp) => {
         return resp.data;
       });
   },
@@ -52,10 +52,10 @@ export default {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .then(resp => {
+      .then((resp) => {
         return resp.data;
       });
   },
@@ -70,10 +70,10 @@ export default {
           Accept: "application/json",
           "Content-Type": "application/json",
           // eslint - disable - next - line
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .then(resp => {
+      .then((resp) => {
         return resp.data;
       });
   },
@@ -97,9 +97,9 @@ export default {
       {
         headers: {
           "Content-Type": "application/activity+json",
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
-  }
+  },
 } as ApiClient;

@@ -14,26 +14,26 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-    meta: { title: "Home" }
+    meta: { title: "Home" },
   },
   {
     path: "/login",
     name: "login",
     component: Login,
-    meta: { title: "Login" }
+    meta: { title: "Login" },
   },
   {
     path: "/signup",
     name: "signup",
     component: SignUp,
-    meta: { title: "SignUp" }
-  }
+    meta: { title: "SignUp" },
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {

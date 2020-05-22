@@ -25,8 +25,8 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo
-      }
+        attributedTo: (articles[0] as Article).attributedTo,
+      },
     });
 
     const content = wrapper.find(".v-menu").find("div");
@@ -38,15 +38,15 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        attributedTo: (articles[2] as Article).attributedTo
-      }
+        attributedTo: (articles[2] as Article).attributedTo,
+      },
     });
 
     const lang: string = navigator.language.substr(0, 2);
     const names: { [index: string]: string } = {
       de: "Hans",
       en: "John",
-      fr: "Jean"
+      fr: "Jean",
     };
 
     const content = wrapper.find(".v-menu").find("div");
@@ -58,8 +58,8 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo
-      }
+        attributedTo: (articles[0] as Article).attributedTo,
+      },
     });
 
     expect(wrapper.find(".v-icon").exists()).toBe(false);
@@ -71,8 +71,8 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo
-      }
+        attributedTo: (articles[1] as Article).attributedTo,
+      },
     });
 
     expect(wrapper.find(".v-icon").exists()).toBe(true);
@@ -84,8 +84,8 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo
-      }
+        attributedTo: (articles[1] as Article).attributedTo,
+      },
     });
 
     const content = wrapper.find(".v-menu").find("div");

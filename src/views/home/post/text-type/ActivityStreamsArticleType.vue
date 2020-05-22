@@ -10,8 +10,8 @@ import ActivityStreamsTextType from "./ActivityStreamsTextType.vue";
 
 @Component({
   components: {
-    ActivityStreamsTextType
-  }
+    ActivityStreamsTextType,
+  },
 })
 export default class ActivityStreamsArticleType extends Vue {
   @Prop() private data!: Article;

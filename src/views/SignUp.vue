@@ -103,7 +103,7 @@ export default class SignUp extends Vue {
       $.length >= 5 ||
       "This value is too short. It should have 5 characters or more.",
     min: ($: string) => $.length >= 8 || "Min 8 characters.",
-    emailRules: ($: string) => /.+@.+\..+/.test($) || "E-mail must be valid."
+    emailRules: ($: string) => /.+@.+\..+/.test($) || "E-mail must be valid.",
   };
 
   @Ref("signUpForm") readonly form!: HTMLFormElement;
@@ -121,7 +121,7 @@ export default class SignUp extends Vue {
       this.createUser({
         username: this.user,
         email: this.email,
-        password: this.password
+        password: this.password,
       })
         .then(() => this.$router.push({ name: "login" }))
         .catch((error: Error) => {

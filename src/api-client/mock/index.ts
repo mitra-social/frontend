@@ -2,7 +2,7 @@ import {
   OrderedCollectionPage,
   CollectionPage,
   toJSON,
-  ActivityObject
+  ActivityObject,
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
@@ -23,7 +23,7 @@ const USER_TOKEN = "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi";
 
 // eslint-disable-next-line
 const fetch = (mockData: any): Promise<any> => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     resolve(mockData);
   });
 };
@@ -109,5 +109,5 @@ export default {
       )}`
     );
     return returnResult(token, user, {} as Promise<void>);
-  }
+  },
 } as ApiClient;

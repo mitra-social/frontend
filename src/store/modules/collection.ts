@@ -2,7 +2,7 @@ import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 import {
   OrderedCollectionPage,
   ActivityObject,
-  Link
+  Link,
 } from "activitypub-objects";
 
 import client from "apiClient";
@@ -23,10 +23,10 @@ class Collection extends VuexModule {
       return;
     }
 
-    const postTypeItems = this.items.filter($ => $.type in PostTypes);
+    const postTypeItems = this.items.filter(($) => $.type in PostTypes);
 
     const activityItems = this.items
-      .filter($ => !($.type in PostTypes))
+      .filter(($) => !($.type in PostTypes))
       .filter(
         ($: Activity) =>
           !!$.object &&

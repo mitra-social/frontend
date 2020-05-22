@@ -16,8 +16,8 @@ import Header from "@/components/layout/MitraHeader.vue";
 
 @Component({
   components: {
-    Header
-  }
+    Header,
+  },
 })
 export default class App extends Vue {}
 </script>

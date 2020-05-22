@@ -19,7 +19,7 @@ describe("SignUp.vue", () => {
     user: "johnny.test",
     email: "johnny.test@mail.at",
     password: pwd,
-    confirmPassword: pwd
+    confirmPassword: pwd,
   };
 
   beforeEach(() => {
