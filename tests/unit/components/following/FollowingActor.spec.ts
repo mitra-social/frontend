@@ -25,9 +25,9 @@ describe("FollowingActor.vue", () => {
       propsData: {
         actor: {
           type: "Person",
-          preferredUsername: preferredUsername,
-        },
-      },
+          preferredUsername: preferredUsername
+        }
+      }
     });
 
     const displayNameElement = wrapper.find(".v-list-item__title");
@@ -59,10 +59,10 @@ describe("FollowingActor.vue", () => {
             name: "Avatar",
             url: iconUrl,
             width: 16,
-            height: 16,
-          },
-        },
-      },
+            height: 16
+          }
+        }
+      }
     });
 
     const displayNameElement = wrapper.find(".v-list-item__title");
@@ -86,10 +86,10 @@ describe("FollowingActor.vue", () => {
           nameMap: {
             de: "Hans",
             fr: "Jean",
-            en: name,
-          },
-        },
-      },
+            en: name
+          }
+        }
+      }
     });
 
     const displayNameElement = wrapper.find(".v-list-item__title");
@@ -109,10 +109,10 @@ describe("FollowingActor.vue", () => {
           name: name,
           nameMap: {
             de: "Hans",
-            fr: "Jean",
-          },
-        },
-      },
+            fr: "Jean"
+          }
+        }
+      }
     });
 
     const displayNameElement = wrapper.find(".v-list-item__title");

@@ -29,7 +29,7 @@ describe("FollowingActors.vue", () => {
     const wrapper = mount(FollowingActors, {
       localVue,
       vuetify,
-      store,
+      store
     });
 
     const listItems = wrapper.findAll(".follower-container .v-list-item");

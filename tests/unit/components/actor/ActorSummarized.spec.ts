@@ -36,8 +36,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo,
-      },
+        attributedTo: (articles[0] as Article).attributedTo
+      }
     });
     const content = wrapper.find(".v-list-item__title");
     expect(content.text()).toBe("Sally");
@@ -49,15 +49,15 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[2] as Article).attributedTo,
-      },
+        attributedTo: (articles[2] as Article).attributedTo
+      }
     });
 
     const lang: string = navigator.language.substr(0, 2);
     const names: { [index: string]: string } = {
       de: "Hans",
       en: "John",
-      fr: "Jean",
+      fr: "Jean"
     };
 
     const content = wrapper.find(".v-list-item__title");
@@ -70,8 +70,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo,
-      },
+        attributedTo: (articles[1] as Article).attributedTo
+      }
     });
 
     const content = wrapper.find(".v-list-item__title");
@@ -84,12 +84,22 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo,
-      },
+        attributedTo: (articles[0] as Article).attributedTo
+      }
     });
 
-    expect(wrapper.find(".v-avatar").find(".v-icon").exists()).toBe(false);
-    expect(wrapper.find(".v-avatar").find(".v-image").exists()).toBe(true);
+    expect(
+      wrapper
+        .find(".v-avatar")
+        .find(".v-icon")
+        .exists()
+    ).toBe(false);
+    expect(
+      wrapper
+        .find(".v-avatar")
+        .find(".v-image")
+        .exists()
+    ).toBe(true);
   });
 
   it("attributedTo has no icon property and set default icon", () => {
@@ -98,12 +108,22 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo,
-      },
+        attributedTo: (articles[1] as Article).attributedTo
+      }
     });
 
-    expect(wrapper.find(".v-avatar").find(".v-icon").exists()).toBe(true);
-    expect(wrapper.find(".v-avatar").find(".v-image").exists()).toBe(false);
+    expect(
+      wrapper
+        .find(".v-avatar")
+        .find(".v-icon")
+        .exists()
+    ).toBe(true);
+    expect(
+      wrapper
+        .find(".v-avatar")
+        .find(".v-image")
+        .exists()
+    ).toBe(false);
   });
 
   it("attributedTo has 'Person' type property", () => {
@@ -112,8 +132,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo,
-      },
+        attributedTo: (articles[0] as Article).attributedTo
+      }
     });
 
     expect(wrapper.find(".attribute-type").exists()).toBe(true);
@@ -126,8 +146,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo,
-      },
+        attributedTo: (articles[1] as Article).attributedTo
+      }
     });
 
     expect(wrapper.find(".attribute-type").exists()).toBe(false);
@@ -139,8 +159,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo,
-      },
+        attributedTo: (articles[0] as Article).attributedTo
+      }
     });
 
     expect(wrapper.find(".attribute-summary").exists()).toBe(true);
@@ -155,8 +175,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo,
-      },
+        attributedTo: (articles[1] as Article).attributedTo
+      }
     });
 
     expect(wrapper.find(".attribute-summary").exists()).toBe(false);
@@ -168,8 +188,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo,
-      },
+        attributedTo: (articles[0] as Article).attributedTo
+      }
     });
 
     const followingRemoveIcon = wrapper.find(".mdi-account-remove");
@@ -182,22 +202,22 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo,
-      },
+        attributedTo: (articles[1] as Article).attributedTo
+      }
     });
 
     const followingAddIcon = wrapper.find(".mdi-account-plus");
     expect(followingAddIcon.exists()).toBe(true);
   });
 
-  it("Follow an unfollow actor", async (done) => {
+  it("Follow an unfollow actor", async done => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo,
-      },
+        attributedTo: (articles[1] as Article).attributedTo
+      }
     });
 
     // Check actor is not follwoing
@@ -223,8 +243,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo,
-      },
+        attributedTo: (articles[0] as Article).attributedTo
+      }
     });
 
     // Check actor is not follwoing

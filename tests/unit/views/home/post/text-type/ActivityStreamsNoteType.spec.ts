@@ -28,8 +28,8 @@ describe("ActivityStreamsNoteType.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        data: article,
-      },
+        data: article
+      }
     });
 
     expect(wrapper.find("div").exists()).toBe(true);

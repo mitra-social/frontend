@@ -27,8 +27,8 @@ describe("ActivityStreamsTextType.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        data: article,
-      },
+        data: article
+      }
     });
 
     expect(wrapper.find("span").exists()).toBe(true);

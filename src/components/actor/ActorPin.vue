@@ -33,8 +33,8 @@ import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
 @Component({
   components: {
-    SummarizedActor,
-  },
+    SummarizedActor
+  }
 })
 export default class ActorPin extends Vue {
   @Prop() readonly attributedTo!:

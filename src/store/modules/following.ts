@@ -31,7 +31,7 @@ class Following extends VuexModule {
   @Mutation
   public removeFollowing(actor: ActivityObject | Link): void {
     if (this.following) {
-      this.following = this.following.filter(($) => {
+      this.following = this.following.filter($ => {
         return (
           ActivityObjectHelper.extractId($) !==
           ActivityObjectHelper.extractId(actor)
@@ -44,7 +44,7 @@ class Following extends VuexModule {
   public async fetchFollowing(user: string): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
 
-    return await client.fetchFollowing(token, user, 0).then((collection) => {
+    return await client.fetchFollowing(token, user, 0).then(collection => {
       this.context.commit("setFollowing", collection.items as Actor[]);
     });
   }
@@ -58,7 +58,7 @@ class Following extends VuexModule {
     const follow = {
       to,
       object,
-      type: Activities.FOLLOW,
+      type: Activities.FOLLOW
     };
 
     return await client.writeToOutbox(token, user, follow, summary).then(() => {
@@ -77,9 +77,9 @@ class Following extends VuexModule {
       object: {
         to,
         object,
-        type: Activities.FOLLOW,
+        type: Activities.FOLLOW
       },
-      type: Activities.UNDO,
+      type: Activities.UNDO
     };
 
     return await client

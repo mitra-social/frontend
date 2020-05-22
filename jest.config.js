@@ -5,6 +5,6 @@ module.exports = {
   coverageReporters: ["html", "text-summary"],
   snapshotSerializers: ["jest-serializer-vue"],
   moduleNameMapper: {
-    apiClient: "<rootDir>/src/api-client/mock",
-  },
+    apiClient: "<rootDir>/src/api-client/mock"
+  }
 };

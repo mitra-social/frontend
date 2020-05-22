@@ -23,8 +23,8 @@ const followingStore = namespace("Following");
 
 @Component({
   components: {
-    FollowingActor,
-  },
+    FollowingActor
+  }
 })
 export default class FollowingActors extends Vue {
   private title = "Following";

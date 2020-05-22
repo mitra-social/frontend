@@ -50,7 +50,7 @@ class Authentication extends VuexModule {
 
   @Action({ rawError: true })
   public async createUser(user: CreateUser): Promise<void> {
-    return await client.createUser(user)
+    return await client.createUser(user);
   }
 }
 export default Authentication;

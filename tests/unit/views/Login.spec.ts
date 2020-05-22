@@ -28,7 +28,7 @@ describe("Login.vue", () => {
 
     wrapper.setData({
       user: "johnny.doe@mail.ch",
-      password: "123",
+      password: "123"
     });
 
     const button = wrapper.find(".v-btn");
@@ -44,7 +44,7 @@ describe("Login.vue", () => {
 
     wrapper.setData({
       user: "foo@bar.ch",
-      password: "123",
+      password: "123"
     });
 
     const button = wrapper.find(".v-btn");

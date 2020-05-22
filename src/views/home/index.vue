@@ -23,8 +23,8 @@ const followingStore = namespace("Following");
 @Component({
   components: {
     FollowingActors,
-    Posts,
-  },
+    Posts
+  }
 })
 export default class MitraHome extends Vue {
   private isFollowingLoading = false;

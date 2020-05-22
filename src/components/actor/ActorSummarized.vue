@@ -92,7 +92,7 @@ export default class ActorSummarized extends Vue {
 
   private isFollowing(): boolean {
     return this.getFollowing.some(
-      ($) =>
+      $ =>
         ActivityObjectHelper.extractId($) ===
         ActivityObjectHelper.extractId(this.attributedTo)
     );
