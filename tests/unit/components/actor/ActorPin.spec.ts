@@ -2,10 +2,11 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { ActivityObject, Link, Article } from "activitypub-objects";
+import { ActivityObject, Link } from "activitypub-objects";
 
 import ActorPin from "@/components/actor/ActorPin.vue";
 import collection from "@/api-client/mock/data/collection.json";
+import { Activity } from "@/model/mitra-activity";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -25,7 +26,7 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Activity).actor
       }
     });
 
@@ -38,7 +39,7 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[2] as Article).attributedTo
+        actor: (articles[2] as Activity).actor
       }
     });
 
@@ -58,7 +59,7 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Activity).actor
       }
     });
 
@@ -71,7 +72,7 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[1] as Article).attributedTo
+        actor: (articles[1] as Activity).actor
       }
     });
 
@@ -84,7 +85,7 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[1] as Article).attributedTo
+        actor: (articles[1] as Activity).actor
       }
     });
 

@@ -2,13 +2,14 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { ActivityObject, Link, Article, Actors } from "activitypub-objects";
+import { ActivityObject, Link, Actors } from "activitypub-objects";
 import flushPromises from "flush-promises";
 
 import store from "@/store";
 import ActorSummarized from "@/components/actor/ActorSummarized.vue";
 import collection from "@/api-client/mock/data/collection.json";
 import { AuthenticationUtil } from "@/utils/authentication-util";
+import { Activity } from "@/model/mitra-activity";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -41,7 +42,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Activity).actor
       }
     });
     const content = wrapper.find(".v-list-item__title");
@@ -54,7 +55,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Activity).actor
       }
     });
 
@@ -78,7 +79,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[1] as Article).attributedTo
+        actor: (articles[1] as Activity).actor
       }
     });
 
@@ -102,7 +103,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Activity).actor
       }
     });
 
@@ -116,7 +117,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[1] as Article).attributedTo
+        actor: (articles[1] as Activity).actor
       }
     });
 
@@ -129,7 +130,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Activity).actor
       }
     });
 
@@ -145,7 +146,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[1] as Article).attributedTo
+        actor: (articles[1] as Activity).actor
       }
     });
 
@@ -158,7 +159,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Activity).actor
       }
     });
 
@@ -175,7 +176,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[1] as Article).attributedTo
+        actor: (articles[1] as Activity).actor
       }
     });
 
@@ -186,8 +187,8 @@ describe("ActorSummarized.vue", () => {
     expect(followingRemoveIcon.exists()).toBe(false);
   });
 
-  it("Following an unfollowing actor", async done => {
-    const actor = (articles[1] as Article).attributedTo as URL;
+  it("Following an unfollowed actor", async done => {
+    const actor = (articles[1] as Activity).actor as URL;
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
@@ -222,13 +223,13 @@ describe("ActorSummarized.vue", () => {
     });
   });
 
-  it("Unfollowing an follow actor", () => {
+  it("Unfollowing an followed actor", () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
       store,
       propsData: {
-        actor: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Activity).actor
       }
     });
 

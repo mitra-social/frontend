@@ -6,10 +6,14 @@
   "totalItems": 8,
   "orderedItems": [
     {
-      "type": "Article",
-      "name": "Minecraft Signs",
-      "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>",
-      "attributedTo": {
+      "type": "Create",
+      "id": "http://activities.example.com/1",
+      "object": {
+        "type": "Article",
+        "name": "Minecraft Signs",
+        "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>"
+      },
+      "actor": {
         "id": "http://sally.example.org",
         "type": "Person",
         "summary": "Nice persone you know",
@@ -21,16 +25,24 @@
       }
     },
     {
-      "type": "Article",
-      "name": "Hi/Ho",
-      "content": "<p><span style=\"color: red\">SAVIOR OF SONG</span> (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>",
-      "attributedTo": "http://johnny.example.org"
+      "type": "Create",
+      "id": "http://activities.example.com/2",
+      "object": {
+        "type": "Article",
+        "name": "Hi/Ho",
+        "content": "<p><span style=\"color: red\">SAVIOR OF SONG</span> (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>"
+      },
+      "actor": "http://johnny.example.org"
     },
     {
-      "type": "Article",
-      "name": "The Clinic",
-      "content": "<p>the misinformation and outright lies on this webbed site about Covid 19 driven by certain anarchists is wild. nice to know we're all Karens at the core waiting for the right activation call</p>",
-      "attributedTo": {
+      "type": "Create",
+      "id": "http://activities.example.com/3",
+      "object": {
+        "type": "Article",
+        "name": "The Clinic",
+        "content": "<p>the misinformation and outright lies on this webbed site about Covid 19 driven by certain anarchists is wild. nice to know we're all Karens at the core waiting for the right activation call</p>"
+      },
+      "actor": {
         "id": "http://john.example.org",
         "type": "Person",
         "nameMap": {
@@ -47,7 +59,7 @@
     {
       "summary": "Sally created a note",
       "type": "Create",
-      "id": "http://activities.example.com/1",
+      "id": "http://activities.example.com/4",
       "actor": "http://sally.example.org",
       "object": {
         "summary": "A note",
@@ -59,7 +71,7 @@
     {
       "summary": "Sally created a note",
       "type": "Create",
-      "id": "http://activities.example.com/1",
+      "id": "http://activities.example.com/5",
       "actor": "http://sally.example.org",
       "updated": "2020-04-28T17:49:12Z",
       "published": "2020-04-28T16:12:12Z",
@@ -78,7 +90,7 @@
         "name": "Sally",
         "id": "http://sally.example.org"
       },
-      "object": "http://example.org/notes/1"
+      "object": "http://example.org/notes/5"
     },
     {
       "summary": "Sally deleted a note",
@@ -88,23 +100,31 @@
         "name": "Sally",
         "id": "http://sally.example.org"
       },
-      "object": "http://example.org/notes/1",
+      "object": "http://example.org/notes/4",
       "origin": {
         "type": "Collection",
         "name": "Sally's Notes"
       }
     },
     {
-      "type": "Article",
-      "name": "Might the force be with you",
-      "content": "\"May the Force be with you\" was a phrase used to wish an individual or group good luck or good will, one that expressed the speaker's wish that the Force work in the favor of the addressee. The phrase was often used as individuals parted ways or in the face of an impending challenge.",
-      "attributedTo": "https://mastodon.social/users/fraenki"
+      "type": "Create",
+      "id": "http://activities.example.com/2",
+      "object": {
+        "type": "Article",
+        "name": "Might the force be with you",
+        "content": "\"May the Force be with you\" was a phrase used to wish an individual or group good luck or good will, one that expressed the speaker's wish that the Force work in the favor of the addressee. The phrase was often used as individuals parted ways or in the face of an impending challenge."
+      },
+      "actor": "https://mastodon.social/users/fraenki"
     },
     {
-      "type": "Article",
-      "name": "Memory, time, and technology",
-      "content": "Cole has been thrust from another world into ours and he's confronted by the confusion we live in, which most people somehow accept as normal. So he appears abnormal, and what's happening around him seems random and weird. Is he mad or are we?",
-      "attributedTo": "https://mitra-social.herokuapp.com/user/franco.g"
+      "type": "Create",
+      "id": "http://activities.example.com/2",
+      "object": {
+        "type": "Article",
+        "name": "Memory, time, and technology",
+        "content": "Cole has been thrust from another world into ours and he's confronted by the confusion we live in, which most people somehow accept as normal. So he appears abnormal, and what's happening around him seems random and weird. Is he mad or are we?"
+      },
+      "actor": "https://mitra-social.herokuapp.com/user/franco.g"
     },
     {
       "actor": "https://mastodon.social/users/fraenki",

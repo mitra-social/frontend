@@ -42,12 +42,6 @@ export class ActivityObjectHelper {
       return (object as Actor).id?.toString() ?? undefined;
     } else if (typeof object === "string" && !isCalled) {
       return object;
-      // return client
-      //   .getActor(object)
-      //   .then($ => {
-      //     return $ ? ActivityObjectHelper.extractActorName($, true) : object;
-      //   })
-      //   .catch(() => Promise.resolve(undefined));
     }
 
     return undefined;
