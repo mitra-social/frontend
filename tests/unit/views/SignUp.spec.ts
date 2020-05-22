@@ -20,7 +20,7 @@ describe("SignUp.vue", () => {
     email: "johnny.test@mail.at",
     password: pwd,
     confirmPassword: pwd
-  }
+  };
 
   beforeEach(() => {
     vuetify = new Vuetify();
@@ -43,7 +43,7 @@ describe("SignUp.vue", () => {
 
   it("User is empty", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
-    const input = wrapper.find("input[name=\"user\"]");
+    const input = wrapper.find('input[name="user"]');
     wrapper.setData(data);
 
     await flushPromises();
@@ -59,10 +59,12 @@ describe("SignUp.vue", () => {
     wrapper.setData(data);
 
     await flushPromises();
-    wrapper.find("input[name=\"user\"]").setValue("john");
+    wrapper.find('input[name="user"]').setValue("john");
 
     await flushPromises();
-    expect(wrapper.find(".v-messages__message").text()).toBe("This value is too short. It should have 5 characters or more.");
+    expect(wrapper.find(".v-messages__message").text()).toBe(
+      "This value is too short. It should have 5 characters or more."
+    );
   });
 
   it("User exists", async () => {
@@ -71,7 +73,7 @@ describe("SignUp.vue", () => {
     wrapper.setData(data);
 
     await flushPromises();
-    wrapper.find("input[name=\"user\"]").setValue("john.doe");
+    wrapper.find('input[name="user"]').setValue("john.doe");
 
     await flushPromises();
     const button = wrapper.find("#submit");
@@ -83,7 +85,7 @@ describe("SignUp.vue", () => {
 
   it("Email is required", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
-    const input = wrapper.find("input[name=\"email\"]");
+    const input = wrapper.find('input[name="email"]');
     wrapper.setData(data);
 
     await flushPromises();
@@ -95,26 +97,30 @@ describe("SignUp.vue", () => {
 
   it("Email is not valid 1", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
-    const input = wrapper.find("input[name=\"email\"]");
+    const input = wrapper.find('input[name="email"]');
     wrapper.setData(data);
 
     await flushPromises();
     input.setValue("johnny.test");
 
     await flushPromises();
-    expect(wrapper.find(".v-messages__message").text()).toBe("E-mail must be valid.");
+    expect(wrapper.find(".v-messages__message").text()).toBe(
+      "E-mail must be valid."
+    );
   });
 
   it("Email is not valid 2", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
-    const input = wrapper.find("input[name=\"email\"]");
+    const input = wrapper.find('input[name="email"]');
     wrapper.setData(data);
 
     await flushPromises();
     input.setValue("johnny.test@mail");
 
     await flushPromises();
-    expect(wrapper.find(".v-messages__message").text()).toBe("E-mail must be valid.");
+    expect(wrapper.find(".v-messages__message").text()).toBe(
+      "E-mail must be valid."
+    );
   });
 
   it("Email exists", async () => {
@@ -123,7 +129,7 @@ describe("SignUp.vue", () => {
     wrapper.setData(data);
 
     await flushPromises();
-    wrapper.find("input[name=\"email\"]").setValue("john.doe@mail.com");
+    wrapper.find('input[name="email"]').setValue("john.doe@mail.com");
 
     await flushPromises();
     const button = wrapper.find("#submit");
@@ -135,7 +141,7 @@ describe("SignUp.vue", () => {
 
   it("Password is required", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
-    const input = wrapper.find("input[name=\"password\"]");
+    const input = wrapper.find('input[name="password"]');
     wrapper.setData(data);
 
     await flushPromises();
@@ -145,34 +151,9 @@ describe("SignUp.vue", () => {
     expect(wrapper.find(".v-messages__message").text()).toBe("Required.");
   });
 
-  it("Password has no letter", async () => {
-    const wrapper = mount(SignUp, { localVue, vuetify, router, store });
-    const input = wrapper.find("input[name=\"password\"]");
-    wrapper.setData(data);
-
-    await flushPromises();
-    input.setValue("12345678");
-
-    await flushPromises();
-    expect(wrapper.find(".v-messages__message").text()).toBe("Your password must contain at least one letter.");
-  });
-
-  it("Password has no number", async () => {
-    const wrapper = mount(SignUp, { localVue, vuetify, router, store });
-    const input = wrapper.find("input[name=\"password\"]");
-    wrapper.setData(data);
-
-    await flushPromises();
-    input.setValue("password");
-
-    await flushPromises();
-    expect(wrapper.find(".v-messages__message").text()).toBe("Your password must contain at least one digit.");
-  });
-
-
   it("Confirm password is required", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
-    const input = wrapper.find("input[name=\"confirmPassword\"]");
+    const input = wrapper.find('input[name="confirmPassword"]');
     wrapper.setData(data);
 
     await flushPromises();
@@ -184,7 +165,7 @@ describe("SignUp.vue", () => {
 
   it("Confirmation password is not the same as the password", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
-    const input = wrapper.find("input[name=\"confirmPassword\"]");
+    const input = wrapper.find('input[name="confirmPassword"]');
     wrapper.setData(data);
 
     await flushPromises();
@@ -195,12 +176,14 @@ describe("SignUp.vue", () => {
     button.trigger("click");
 
     await flushPromises();
-    expect(wrapper.find(".v-messages__message").text()).toBe("Doesn't match Password.");
+    expect(wrapper.find(".v-messages__message").text()).toBe(
+      "Passwords don't match."
+    );
   });
 
   it("Submit button is disabled when form validation has a error", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
-    const input = wrapper.find("input[name=\"user\"]");
+    const input = wrapper.find('input[name="user"]');
     wrapper.setData(data);
 
     await flushPromises();
@@ -209,5 +192,4 @@ describe("SignUp.vue", () => {
     await flushPromises();
     expect(wrapper.find("#submit").attributes("disabled")).toBe("disabled");
   });
-
 });

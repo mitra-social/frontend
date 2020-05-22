@@ -34,7 +34,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn text x-small link :to="{ name: 'signup' }">
-            You don't have an account? To sign up!
+            You don't have an account? Create one now!
           </v-btn>
           <v-spacer />
           <v-btn

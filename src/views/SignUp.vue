@@ -16,19 +16,11 @@
             </v-alert>
             <v-text-field
               label="Username"
-              name="usere"
+              name="user"
               prepend-icon="mdi-account"
               type="text"
               v-model="user"
               :rules="[rules.required, rules.usernameMin]"
-            />
-            <v-text-field
-              label="Preferred Username"
-              name="preferredUsername"
-              prepend-icon="mdi-account-music-outline"
-              type="text"
-              v-model="preferredUsername"
-              :rules="[rules.required, rules.preferredUsernameMin]"
             />
             <v-text-field
               label="E-mail address"
@@ -46,12 +38,7 @@
               v-model="password"
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               :type="showPassword ? 'text' : 'password'"
-              :rules="[
-                rules.required,
-                rules.min,
-                rules.hasLetterRules,
-                rules.hasNumberRules,
-              ]"
+              :rules="[rules.required, rules.min]"
               @click:append="showPassword = !showPassword"
             />
             <v-text-field
@@ -71,11 +58,12 @@
           </v-form>
         </v-card-text>
         <v-card-actions>
-          <v-btn text x-small link :to="{ name: 'login' }">
-            I am already registered back to login
+          <v-btn id="login" text x-small link :to="{ name: 'login' }">
+            You already have an account? Sign in now!
           </v-btn>
           <v-spacer />
           <v-btn
+            id="submit"
             :light="$vuetify.theme.dark && valid"
             :dark="!$vuetify.theme.dark && valid"
             @click="handleSubmit"
@@ -101,7 +89,6 @@ export default class SignUp extends Vue {
   private valid = false;
   private alertMsg = "";
   private user = "";
-  private preferredUsername = "";
   private email = "";
   private password = "";
   private showPassword = false;
@@ -112,18 +99,11 @@ export default class SignUp extends Vue {
 
   private rules = {
     required: ($: string) => !!$ || "Required.",
-    preferredUsernameMin: ($: string) =>
-      $.length >= 3 ||
-      "This value is too short. It should have 3 characters or more.",
     usernameMin: ($: string) =>
       $.length >= 5 ||
       "This value is too short. It should have 5 characters or more.",
-    min: ($: string) => $.length >= 8 || "Min 8 characters",
-    emailRules: ($: string) => /.+@.+\..+/.test($) || "E-mail must be valid",
-    hasLetterRules: ($: string) =>
-      /[A-Za-z]/.test($) || "Your password must contain at least one letter.",
-    hasNumberRules: ($: string) =>
-      /[0-9]/.test($) || "Your password must contain at least one digit.",
+    min: ($: string) => $.length >= 8 || "Min 8 characters.",
+    emailRules: ($: string) => /.+@.+\..+/.test($) || "E-mail must be valid."
   };
 
   @Ref("signUpForm") readonly form!: HTMLFormElement;
@@ -133,20 +113,18 @@ export default class SignUp extends Vue {
 
   public handleSubmit() {
     if (this.password !== this.confirmPassword) {
-      this.confirmPwdErrorMsgs.push("Doesn't match Password");
+      this.confirmPwdErrorMsgs.push("Passwords don't match.");
       this.hasConfirmPwdError = true;
       return;
     }
     if (this.form.validate()) {
       this.createUser({
         username: this.user,
-        displayName: "asfsa",
         email: this.email,
-        password: this.password,
+        password: this.password
       })
         .then(() => this.$router.push({ name: "login" }))
         .catch((error: Error) => {
-          console.log(error);
           this.alertMsg = error.message;
         });
     }
