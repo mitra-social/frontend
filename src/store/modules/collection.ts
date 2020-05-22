@@ -54,7 +54,7 @@ class Collection extends VuexModule {
     this.items = items;
   }
 
-  @Action
+  @Action({ rawError: true })
   public async fetchCollection(user: string): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
     return await client

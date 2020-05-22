@@ -17,7 +17,12 @@ describe("Login.vue", () => {
 
   beforeEach(() => {
     vuetify = new Vuetify();
+
+    if (router.currentRoute.path !== "/login") {
+      router.push({ name: "login" });
+    }
   });
+
   it("Login success", async () => {
     const wrapper = mount(Login, { localVue, vuetify, router, store });
 
@@ -30,11 +35,12 @@ describe("Login.vue", () => {
     button.trigger("click");
     flushPromises().then(() => {
       expect(wrapper.find(".v-alert").exists()).toBe(false);
+      expect(router.currentRoute.path).toBe("/");
     });
   });
 
   it("Login failed", async () => {
-    const wrapper = mount(Login, { localVue, vuetify, store });
+    const wrapper = mount(Login, { localVue, vuetify, router, store });
 
     wrapper.setData({
       user: "foo@bar.ch",
@@ -45,6 +51,7 @@ describe("Login.vue", () => {
     button.trigger("click");
     flushPromises().then(() => {
       expect(wrapper.find(".v-alert").exists()).toBe(true);
+      expect(router.currentRoute.path).toBe("/login");
     });
   });
 });

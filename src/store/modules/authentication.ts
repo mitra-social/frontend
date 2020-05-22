@@ -35,7 +35,7 @@ class Authentication extends VuexModule {
 
   @Action
   public async login(credential: Credential): Promise<void> {
-    return client
+    return await client
       .login(credential)
       .then((token: string) => {
         AuthenticationUtil.setUser(credential.username);
@@ -48,12 +48,9 @@ class Authentication extends VuexModule {
       });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async createUser(user: CreateUser): Promise<void> {
-    return client.createUser(user).catch((error: Error) => {
-      console.log(error);
-      return Promise.reject(error);
-    });
+    return await client.createUser(user)
   }
 }
 export default Authentication;
