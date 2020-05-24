@@ -1,5 +1,4 @@
 import { ActivityObject, Link, Image } from "activitypub-objects";
-import { RdfLangString } from "@/model/rdf-lang-string";
 import { Activity } from "@/model/mitra-activity";
 import { Actor } from "@/model/mitra-actor";
 
@@ -13,31 +12,23 @@ export class ActivityObjectHelper {
   }
 
   public static extractActorName(
-    object: ActivityObject | Link | URL | Array<ActivityObject | URL>
+    object: ActivityObject | Link | URL
   ): string | undefined {
-    if (ActivityObjectHelper.hasProperty(object, "nameMap")) {
-      const rdfLangString = object as RdfLangString;
+    if ((object as ActivityObject).nameMap) {
       const lang = navigator.language.substr(0, 2);
+      const activityObject = (object as ActivityObject);
 
-      if (rdfLangString.nameMap && lang in rdfLangString.nameMap) {
-        return (object as RdfLangString).nameMap[lang];
+      if (lang in activityObject.nameMap) {
+        return activityObject.nameMap[lang];
       }
     }
 
-    if (ActivityObjectHelper.hasProperty(object, "name")) {
-      const rdfLangString = object as RdfLangString;
-
-      if (rdfLangString.name) {
-        return rdfLangString.name;
-      }
+    if ((object as ActivityObject).name) {
+      return (object as ActivityObject).name;
     }
 
-    if (ActivityObjectHelper.hasProperty(object, "preferredUsername")) {
-      const actor = object as Actor;
-
-      if (actor.preferredUsername) {
-        return actor.preferredUsername;
-      }
+    if ((object as Actor).preferredUsername) {
+      return (object as Actor).preferredUsername;
     }
 
     if (object) {
