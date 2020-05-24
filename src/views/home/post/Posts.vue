@@ -27,6 +27,7 @@
         <v-card-text>
           <component :is="getComponent(post.type)" :data="post" />
         </v-card-text>
+        <span>{{ getMentions(post).length }}</span>
         <v-divider class="mx-4"></v-divider>
         <v-card-actions>
           <ActorPin
@@ -57,6 +58,7 @@ import ActorPin from "@/components/actor/ActorPin.vue";
 import Date from "@/components/ui/Date.vue";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
+import {Objects} from "activitypub-objects/dst";
 
 const collectionStore = namespace("Collection");
 
@@ -94,6 +96,10 @@ export default class MitraPosts extends Vue {
 
   private getComponent(type: string) {
     return PostTypes[type as keyof typeof PostTypes];
+  }
+
+  private getMentions(post: ActivityObject): (Link|ActivityObject|undefined)[] {
+    return post.tag;
   }
 
   private notAllowedUser() {

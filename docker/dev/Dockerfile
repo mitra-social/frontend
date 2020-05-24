@@ -2,7 +2,7 @@
 FROM node:12.2.0-alpine as build
 
 RUN apk --no-cache upgrade && \
-    apk add bash
+    apk add bash git
 
 # set working directory
 WORKDIR /app
