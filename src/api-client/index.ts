@@ -2,7 +2,7 @@ import { OrderedCollectionPage, CollectionPage } from "activitypub-objects";
 
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
-import { Activity } from "@/model/mitra-activity";
+import { Activity } from "activitypub-objects/dst/activities/activity";
 
 export interface ApiClient {
   login(credential: Credential): Promise<string>;

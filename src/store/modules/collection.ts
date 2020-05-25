@@ -9,7 +9,7 @@ import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Activity } from "@/model/mitra-activity";
+import { Activity } from "activitypub-objects/dst/activities/activity";
 
 @Module({ namespaced: true })
 class Collection extends VuexModule {

@@ -8,7 +8,7 @@ import {
 import { ApiClient } from "@/api-client";
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
-import { Activity } from "@/model/mitra-activity";
+import { Activity } from "activitypub-objects/dst/activities/activity";
 
 const config = {
   headers: {

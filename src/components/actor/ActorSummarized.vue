@@ -47,7 +47,7 @@ import { ActivityObject, Link } from "activitypub-objects";
 import { User } from "@/model/user";
 import { FollowPayload } from "@/model/mitra-follow-payload";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Actor } from "../../model/mitra-actor";
+import {Actor} from "activitypub-objects/dst";
 
 const userStore = namespace("User");
 const followingStore = namespace("Following");

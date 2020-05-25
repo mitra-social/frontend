@@ -6,7 +6,7 @@ import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 import { FollowPayload } from "@/model/mitra-follow-payload";
 import { Activities } from "activitypub-objects/dst/activities/activity";
-import { Actor } from "@/model/mitra-actor";
+import {Actor} from "activitypub-objects/dst";
 
 @Module({ namespaced: true })
 class Following extends VuexModule {

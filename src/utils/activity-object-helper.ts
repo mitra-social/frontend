@@ -1,6 +1,6 @@
 import { ActivityObject, Link, Image } from "activitypub-objects";
-import { Activity } from "@/model/mitra-activity";
-import { Actor } from "@/model/mitra-actor";
+import { Activity } from "activitypub-objects/dst/activities/activity";
+import {Actor} from "activitypub-objects/dst";
 
 export class ActivityObjectHelper {
   public static hasProperty(obj: object, property: string): boolean {

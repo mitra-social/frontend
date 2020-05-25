@@ -7,7 +7,7 @@ import { Article, ActivityObject } from "activitypub-objects";
 
 import collection from "@/api-client/mock/data/collection.json";
 import ActivityStreamsNoteType from "@/views/home/post/text-type/ActivityStreamsNoteType.vue";
-import { Activity } from "@/model/mitra-activity";
+import { Activity } from "activitypub-objects/dst/activities/activity";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);

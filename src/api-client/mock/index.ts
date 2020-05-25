@@ -11,7 +11,7 @@ import { Credential } from "@/model/credential";
 import * as userData from "./data/user.json";
 import * as follwoingData from "./data/following.json";
 import * as collectionData from "./data/collection.json";
-import { Activity } from "@/model/mitra-activity";
+import { Activity } from "activitypub-objects/dst/activities/activity";
 
 const USER_NAME = "john.doe";
 const USER_PWD = "123";
