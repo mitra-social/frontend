@@ -14,8 +14,7 @@ export class ActivityObjectHelper {
   }
 
   public static extractActorName(
-    object: ActivityObject | Link | URL | Array<ActivityObject | URL>,
-    isCalled?: boolean
+    object: ActivityObject | Link | URL | Array<ActivityObject | URL>
   ): string | undefined {
     const lang = navigator.language.substr(0, 2);
 
@@ -40,7 +39,7 @@ export class ActivityObjectHelper {
       (object as Actor).id
     ) {
       return (object as Actor).id?.toString() ?? undefined;
-    } else if (typeof object === "string" && !isCalled) {
+    } else if (typeof object === "string") {
       return object;
     }
 
