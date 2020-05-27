@@ -21,7 +21,7 @@ const config = {
 
 export default {
   async login(credential: Credential): Promise<string> {
-    return await axios.post("/token", credential, config).then((resp) => {
+    return await axios.post("/api/token", credential, config).then((resp) => {
       return resp.data.token;
     });
   },
