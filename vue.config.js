@@ -11,6 +11,6 @@ module.exports = {
     },
   },
   devServer: {
-    proxy: process.env.BACKEND_URL,
+    proxy: process.env.VUE_APP_BACKEND_URL,
   },
 };
