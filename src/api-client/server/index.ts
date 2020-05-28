@@ -12,7 +12,7 @@ import { User } from "@/model/user";
 import { Activity } from "@/model/mitra-activity";
 import { CreateUser } from "@/model/create-user";
 
-const urlPrefix = process.env.NODE_ENV === 'production' ? "/api" : ""
+const urlPrefix = process.env.NODE_ENV === "production" ? "/api" : "";
 
 const config = {
   headers: {
@@ -23,9 +23,11 @@ const config = {
 
 export default {
   async login(credential: Credential): Promise<string> {
-    return await axios.post(`${urlPrefix}/token`, credential, config).then((resp) => {
-      return resp.data.token;
-    });
+    return await axios
+      .post(`${urlPrefix}/token`, credential, config)
+      .then((resp) => {
+        return resp.data.token;
+      });
   },
   async createUser(user: CreateUser) {
     return await axios.post(`${urlPrefix}/user`, user, config);
