@@ -6,5 +6,9 @@ export type Actor = Modify<
   BaseActor,
   {
     preferredUsername?: string;
+    following?: URL;
+    followers?: URL;
+    inbox?: URL;
+    outbox?: URL;
   }
 >;

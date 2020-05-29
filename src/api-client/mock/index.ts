@@ -3,6 +3,7 @@ import {
   CollectionPage,
   toJSON,
   ActivityObject,
+  Actor,
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
@@ -13,6 +14,7 @@ import { CreateUser } from "@/model/create-user";
 
 import * as userData from "./data/user.json";
 import * as createUserData from "./data/create-user.json";
+import * as actorsData from "./data/actors.json";
 import * as follwoingData from "./data/following.json";
 import * as collectionData from "./data/collection.json";
 
@@ -73,6 +75,15 @@ export default {
     console.info(`token: ${token}, user: ${user}`);
 
     return returnResult(token, user, fetch(userData.default)) as Promise<User>;
+  },
+  async getActor(url: string): Promise<Actor> {
+    console.info(`url: ${url}`);
+    // eslint-disable-next-line
+    const actors = actorsData.default as any;
+    const actor = (actors as Actor[]).find(
+      ($) => $ && $.id?.toString() === url
+    );
+    return (await fetch(actor)) as Promise<Actor>;
   },
   async fetchFollowing(
     token: string,

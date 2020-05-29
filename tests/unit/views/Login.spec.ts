@@ -47,9 +47,10 @@ describe("Login.vue", () => {
       password: "123",
     });
 
-    const button = wrapper.find(".v-btn");
-    button.trigger("click");
-    flushPromises().then(() => {
+    flushPromises().then(async () => {
+      const button = wrapper.find(".v-btn");
+      button.trigger("click");
+
       expect(wrapper.find(".v-alert").exists()).toBe(true);
       expect(router.currentRoute.path).toBe("/login");
     });

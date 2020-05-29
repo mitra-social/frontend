@@ -2,13 +2,14 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { ActivityObject, Link, Article, Actors } from "activitypub-objects";
+import { ActivityObject, Link, Actors } from "activitypub-objects";
 import flushPromises from "flush-promises";
 
 import store from "@/store";
 import ActorSummarized from "@/components/actor/ActorSummarized.vue";
 import collection from "@/api-client/mock/data/collection.json";
 import { AuthenticationUtil } from "@/utils/authentication-util";
+import { Activity } from "@/model/mitra-activity";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -18,7 +19,7 @@ describe("ActorSummarized.vue", () => {
   let vuetify: any;
   let articles: Array<ActivityObject | Link>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     const user = "john.doe";
     vuetify = new Vuetify();
     articles = collection.orderedItems as Array<ActivityObject | Link>;
@@ -28,6 +29,11 @@ describe("ActorSummarized.vue", () => {
       "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi"
     );
     store.dispatch("Following/fetchFollowing", "john.doe");
+    await flushPromises();
+  });
+
+  afterEach(() => {
+    AuthenticationUtil.clear();
   });
 
   it("attributedTo is a object with name property", () => {
@@ -36,46 +42,11 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo,
+        actor: (articles[0] as Activity).actor,
       },
     });
     const content = wrapper.find(".v-list-item__title");
     expect(content.text()).toBe("Sally");
-  });
-
-  it("attributedTo is a object with nameMap property", () => {
-    const wrapper = mount(ActorSummarized, {
-      localVue,
-      vuetify,
-      store,
-      propsData: {
-        attributedTo: (articles[2] as Article).attributedTo,
-      },
-    });
-
-    const lang: string = navigator.language.substr(0, 2);
-    const names: { [index: string]: string } = {
-      de: "Hans",
-      en: "John",
-      fr: "Jean",
-    };
-
-    const content = wrapper.find(".v-list-item__title");
-    expect(content.text()).toBe(names[lang]);
-  });
-
-  it("attributedTo is a string", () => {
-    const wrapper = mount(ActorSummarized, {
-      localVue,
-      vuetify,
-      store,
-      propsData: {
-        attributedTo: (articles[1] as Article).attributedTo,
-      },
-    });
-
-    const content = wrapper.find(".v-list-item__title");
-    expect(content.text()).toBe("johnny");
   });
 
   it("attributedTo has a icon property as a image", () => {
@@ -84,7 +55,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo,
+        actor: (articles[0] as Activity).actor,
       },
     });
 
@@ -98,7 +69,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo,
+        actor: (articles[1] as Activity).actor,
       },
     });
 
@@ -112,7 +83,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo,
+        actor: (articles[0] as Activity).actor,
       },
     });
 
@@ -126,7 +97,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo,
+        actor: (articles[1] as Activity).actor,
       },
     });
 
@@ -139,7 +110,7 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo,
+        actor: (articles[0] as Activity).actor,
       },
     });
 
@@ -155,87 +126,103 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo,
+        actor: (articles[1] as Activity).actor,
       },
     });
 
     expect(wrapper.find(".attribute-summary").exists()).toBe(false);
   });
 
-  it("Actor is following", () => {
+  it("Actor is following", async () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo,
+        actor: (articles[0] as Activity).actor,
       },
     });
 
+    await flushPromises();
     const followingRemoveIcon = wrapper.find(".mdi-account-remove");
+    const followingAddIcon = wrapper.find(".mdi-account-plus");
+    expect(followingAddIcon.exists()).toBe(false);
     expect(followingRemoveIcon.exists()).toBe(true);
   });
 
-  it("Actor is no following", () => {
+  it("Actor is no following", async () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo,
+        actor: (articles[1] as Activity).actor,
       },
     });
 
+    await flushPromises();
+    const followingRemoveIcon = wrapper.find(".mdi-account-remove");
     const followingAddIcon = wrapper.find(".mdi-account-plus");
     expect(followingAddIcon.exists()).toBe(true);
+    expect(followingRemoveIcon.exists()).toBe(false);
   });
 
-  it("Follow an unfollow actor", async (done) => {
+  it("Following an unfollowed actor", async (done) => {
+    const actor = (articles[1] as Activity).actor as URL;
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo,
+        actor: {
+          id: actor,
+          to: actor,
+        },
       },
     });
 
-    // Check actor is not follwoing
-    const followingAddIcon = wrapper.find(".mdi-account-plus");
-    expect(followingAddIcon.exists()).toBe(true);
-
-    // Click following actor
-    const followingButton = wrapper.find(".following-btn");
-    followingButton.trigger("click");
-
-    flushPromises().then(() => {
+    await flushPromises().then(async () => {
       // Check actor is not follwoing
-      const followingRemoveIcon = wrapper.find(".mdi-account-remove");
+      let followingAddIcon = wrapper.find(".mdi-account-plus");
       expect(followingAddIcon.exists()).toBe(true);
+
+      // // Click following actor
+      const followingButton = wrapper.find(".following-btn");
+      expect(followingButton.exists()).toBe(true);
+      followingButton.trigger("click");
+      // Check actor is not follwoing
+      followingAddIcon = wrapper.find(".mdi-account-plus");
+
+      await flushPromises();
+
+      const followingRemoveIcon = wrapper.find(".mdi-account-remove");
+      followingAddIcon = wrapper.find(".mdi-account-plus");
+      expect(followingAddIcon.exists()).toBe(false);
       expect(followingRemoveIcon.exists()).toBe(true);
       done();
     });
   });
 
-  it("Unfollow an follow actor", async () => {
+  it("Unfollowing an followed actor", () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
       store,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo,
+        actor: (articles[0] as Activity).actor,
       },
     });
 
-    // Check actor is not follwoing
-    const followingRemoveIcon = wrapper.find(".mdi-account-remove");
-    expect(followingRemoveIcon.exists()).toBe(true);
+    flushPromises().then(async () => {
+      // Check actor is not follwoing
+      const followingRemoveIcon = wrapper.find(".mdi-account-remove");
+      expect(followingRemoveIcon.exists()).toBe(true);
 
-    // Click following actor
-    const followingButton = wrapper.find(".following-btn");
-    followingButton.trigger("click");
+      // Click following actor
+      const followingButton = wrapper.find(".following-btn");
+      followingButton.trigger("click");
 
-    flushPromises().then(() => {
+      await flushPromises();
       // Check actor is not follwoing
       const followingAddIcon = wrapper.find(".mdi-account-plus");
       expect(followingAddIcon.exists()).toBe(true);

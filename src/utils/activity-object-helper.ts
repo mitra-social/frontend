@@ -1,4 +1,5 @@
 import { ActivityObject, Link, Image } from "activitypub-objects";
+
 import { RdfLangString } from "@/model/rdf-lang-string";
 import { Activity } from "@/model/mitra-activity";
 import { Actor } from "@/model/mitra-actor";
@@ -15,33 +16,31 @@ export class ActivityObjectHelper {
   public static extractActorName(
     object: ActivityObject | Link | URL | Array<ActivityObject | URL>
   ): string | undefined {
-    if (ActivityObjectHelper.hasProperty(object, "nameMap")) {
-      const rdfLangString = object as RdfLangString;
-      const lang = navigator.language.substr(0, 2);
+    const lang = navigator.language.substr(0, 2);
 
-      if (rdfLangString.nameMap && lang in rdfLangString.nameMap) {
-        return (object as RdfLangString).nameMap[lang];
-      }
-    }
-
-    if (ActivityObjectHelper.hasProperty(object, "name")) {
-      const rdfLangString = object as RdfLangString;
-
-      if (rdfLangString.name) {
-        return rdfLangString.name;
-      }
-    }
-
-    if (ActivityObjectHelper.hasProperty(object, "preferredUsername")) {
-      const actor = object as Actor;
-
-      if (actor.preferredUsername) {
-        return actor.preferredUsername;
-      }
-    }
-
-    if (object) {
-      return ActivityObjectHelper.normalizedActorUrl(object as URL);
+    if (
+      ActivityObjectHelper.hasProperty(object, "nameMap") &&
+      (object as RdfLangString).nameMap &&
+      lang in (object as RdfLangString).nameMap
+    ) {
+      return (object as RdfLangString).nameMap[lang];
+    } else if (
+      ActivityObjectHelper.hasProperty(object, "name") &&
+      (object as Actor).name
+    ) {
+      return (object as Actor).name;
+    } else if (
+      ActivityObjectHelper.hasProperty(object, "preferredUsername") &&
+      (object as Actor).preferredUsername
+    ) {
+      return (object as Actor).preferredUsername;
+    } else if (
+      ActivityObjectHelper.hasProperty(object, "id") &&
+      (object as Actor).id
+    ) {
+      return (object as Actor).id?.toString() ?? undefined;
+    } else if (typeof object === "string") {
+      return object;
     }
 
     return undefined;
@@ -73,9 +72,16 @@ export class ActivityObjectHelper {
   }
 
   public static extractId(
-    object: ActivityObject | Link | URL | Array<ActivityObject | URL>
+    object:
+      | ActivityObject
+      | Link
+      | URL
+      | Array<ActivityObject | URL>
+      | undefined
   ): string | undefined {
-    if (ActivityObjectHelper.hasProperty(object, "id")) {
+    if (!object) {
+      return;
+    } else if (ActivityObjectHelper.hasProperty(object, "id")) {
       return (object as ActivityObject).id?.toString();
     } else if (ActivityObjectHelper.hasProperty(object, "name")) {
       return (object as ActivityObject).name;
@@ -109,18 +115,6 @@ export class ActivityObjectHelper {
     }
 
     return undefined;
-  }
-
-  // TODO: Specified code for mastodon replace with issue https://github.com/mitra-social/mitra-frontend/pull/23
-  public static normalizedActorUrl(url: URL): string {
-    const urlStr = url.toString();
-    if (urlStr.startsWith("https://mastodon.social")) {
-      return `${urlStr.substring(
-        urlStr.lastIndexOf("/") + 1,
-        urlStr.length
-      )}@mastodon.social`;
-    }
-    return urlStr.substring(urlStr.indexOf("://") + 3, urlStr.indexOf("."));
   }
 
   public static extractObjectFromActivity(activity: Activity): ActivityObject {

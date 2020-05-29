@@ -4,6 +4,7 @@ import {
   CollectionPage,
   toJSON,
   ActivityObject,
+  Actor,
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
@@ -41,12 +42,22 @@ export default {
         return resp.data;
       });
   },
+  async getActor(url: string): Promise<Actor> {
+    return await axios
+      .get(url, {
+        headers: {
+          Accept: "application/activity+json",
+        },
+      })
+      .then((resp) => {
+        return resp.data;
+      });
+  },
   async fetchFollowing(
     token: string,
     user: string,
     page: number
   ): Promise<CollectionPage> {
-    console.info(`token: ${token}, user: ${user}, page: ${page}`);
     return await axios
       .get(`/user/${user}/following?page=${page}`, {
         headers: {

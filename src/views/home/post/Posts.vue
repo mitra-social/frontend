@@ -30,10 +30,7 @@
           </v-card-text>
           <v-divider class="mx-4"></v-divider>
           <v-card-actions>
-            <ActorPin
-              v-if="post.attributedTo"
-              :attributedTo="post.attributedTo"
-            />
+            <ActorPin v-if="post.attributedTo" :actor="post.attributedTo" />
             <v-spacer></v-spacer>
             <v-btn icon disabled> <v-icon>mdi-comment-outline</v-icon> </v-btn>
             <v-btn icon disabled>
@@ -94,6 +91,10 @@ export default class MitraPosts extends Vue {
   public fetchCollection!: (user: string) => Promise<void>;
 
   private created() {
+    this.initGetUser();
+  }
+
+  private initGetUser() {
     const user = AuthenticationUtil.getUser();
 
     if (user) {
