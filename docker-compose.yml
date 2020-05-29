@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: docker/dev/Dockerfile
     environment:
-      BACKEND_URL: https://mitra-social.herokuapp.com
+      VUE_APP_BACKEND_URL: https://mitra-social-backend.herokuapp.com
     extra_hosts:
       - "mitra-backend:172.17.0.1"
     volumes:

@@ -13,6 +13,8 @@ import { User } from "@/model/user";
 import { Activity } from "@/model/mitra-activity";
 import { CreateUser } from "@/model/create-user";
 
+const urlPrefix = process.env.NODE_ENV === "production" ? "/api" : "";
+
 const config = {
   headers: {
     Accept: "application/json",
@@ -22,16 +24,18 @@ const config = {
 
 export default {
   async login(credential: Credential): Promise<string> {
-    return await axios.post("/token", credential, config).then((resp) => {
-      return resp.data.token;
-    });
+    return await axios
+      .post(`${urlPrefix}/token`, credential, config)
+      .then((resp) => {
+        return resp.data.token;
+      });
   },
   async createUser(user: CreateUser) {
-    return await axios.post("/user", user, config);
+    return await axios.post(`${urlPrefix}/user`, user, config);
   },
   async getUser(token: string, user: string): Promise<User> {
     return await axios
-      .get(`/user/${user}`, {
+      .get(`${urlPrefix}/user/${user}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -59,7 +63,7 @@ export default {
     page: number
   ): Promise<CollectionPage> {
     return await axios
-      .get(`/user/${user}/following?page=${page}`, {
+      .get(`${urlPrefix}/user/${user}/following?page=${page}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -76,7 +80,7 @@ export default {
     page: number
   ): Promise<OrderedCollectionPage> {
     return await axios
-      .get(`/user/${user}/inbox?page=${page}`, {
+      .get(`${urlPrefix}/user/${user}/inbox?page=${page}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -97,13 +101,8 @@ export default {
     if (summary) {
       activity.summary = summary;
     }
-    console.info(
-      `token: ${token}, user: ${user}, activity: ${toJSON(
-        activity as ActivityObject
-      )}`
-    );
     return await axios.post(
-      `/user/${user}/outbox`,
+      `${urlPrefix}/user/${user}/outbox`,
       toJSON(activity as ActivityObject),
       {
         headers: {
