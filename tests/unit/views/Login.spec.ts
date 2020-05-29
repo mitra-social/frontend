@@ -34,16 +34,17 @@ describe("Login.vue", () => {
   });
 
   it("Login failed", async () => {
-    const wrapper = mount(Login, { localVue, vuetify, store });
+    const wrapper = mount(Login, { localVue, vuetify, router, store });
 
     wrapper.setData({
       user: "foo@bar.ch",
       password: "123"
     });
 
-    const button = wrapper.find(".v-btn");
-    button.trigger("click");
-    flushPromises().then(() => {
+    flushPromises().then(async () => {
+      const button = wrapper.find(".v-btn");
+      button.trigger("click");
+
       expect(wrapper.find(".v-alert").exists()).toBe(true);
     });
   });

@@ -2,7 +2,8 @@ import axios from "axios";
 import {
   OrderedCollectionPage,
   CollectionPage,
-  toJSON
+  toJSON,
+  Actor
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
@@ -36,12 +37,22 @@ export default {
         return resp.data;
       });
   },
+  async getActor(url: string): Promise<Actor> {
+    return await axios
+      .get(url, {
+        headers: {
+          Accept: "application/activity+json"
+        }
+      })
+      .then(resp => {
+        return resp.data;
+      });
+  },
   async fetchFollowing(
     token: string,
     user: string,
     page: number
   ): Promise<CollectionPage> {
-    console.info(`token: ${token}, user: ${user}, page: ${page}`);
     return await axios
       .get(`/user/${user}/following?page=${page}`, {
         headers: {
@@ -81,9 +92,6 @@ export default {
     if (summary) {
       activity.summary = summary;
     }
-    console.info(
-      `token: ${token}, user: ${user}, activity: ${toJSON(activity)}`
-    );
     return await axios.post(`/user/${user}/outbox`, toJSON(activity), {
       headers: {
         "Content-Type": "application/activity+json",

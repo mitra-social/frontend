@@ -6,6 +6,7 @@ import { mount, createLocalVue } from "@vue/test-utils";
 import FollowingActors from "@/views/home/FollowingActors.vue";
 import store from "@/store";
 import { AuthenticationUtil } from "@/utils/authentication-util";
+import flushPromises from "flush-promises";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -25,14 +26,15 @@ describe("FollowingActors.vue", () => {
     store.dispatch("Following/fetchFollowing", "john.doe");
   });
 
-  it("renders all following users as list items", () => {
+  it("renders all following users as list items", async () => {
     const wrapper = mount(FollowingActors, {
       localVue,
       vuetify,
       store
     });
 
+    await flushPromises();
     const listItems = wrapper.findAll(".follower-container .v-list-item");
-    expect(listItems.length).toBe(2);
+    expect(listItems.length).toBe(3);
   });
 });

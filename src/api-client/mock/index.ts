@@ -1,7 +1,8 @@
 import {
   OrderedCollectionPage,
   CollectionPage,
-  toJSON
+  toJSON,
+  Actor
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
@@ -9,6 +10,7 @@ import { User } from "@/model/user";
 import { Credential } from "@/model/credential";
 
 import * as userData from "./data/user.json";
+import * as actorsData from "./data/actors.json";
 import * as follwoingData from "./data/following.json";
 import * as collectionData from "./data/collection.json";
 import { Activity } from "@/model/mitra-activity";
@@ -55,6 +57,13 @@ export default {
     console.info(`token: ${token}, user: ${user}`);
 
     return returnResult(token, user, fetch(userData.default)) as Promise<User>;
+  },
+  async getActor(url: string): Promise<Actor> {
+    console.info(`url: ${url}`);
+    // eslint-disable-next-line
+    const actors = actorsData.default as any;
+    const actor = (actors as Actor[]).find($ => $ && $.id?.toString() === url);
+    return (await fetch(actor)) as Promise<Actor>;
   },
   async fetchFollowing(
     token: string,

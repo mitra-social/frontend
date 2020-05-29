@@ -2,10 +2,11 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { ActivityObject, Link, Article } from "activitypub-objects";
+import { ActivityObject, Link } from "activitypub-objects";
 
 import ActorPin from "@/components/actor/ActorPin.vue";
 import collection from "@/api-client/mock/data/collection.json";
+import { Activity } from "@/model/mitra-activity";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -25,7 +26,7 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Activity).actor
       }
     });
 
@@ -38,7 +39,7 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        attributedTo: (articles[2] as Article).attributedTo
+        actor: (articles[2] as Activity).actor
       }
     });
 
@@ -58,7 +59,7 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        attributedTo: (articles[0] as Article).attributedTo
+        actor: (articles[0] as Activity).actor
       }
     });
 
@@ -71,7 +72,7 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo
+        actor: (articles[1] as Activity).actor
       }
     });
 
@@ -79,16 +80,16 @@ describe("ActorPin.vue", () => {
     expect(wrapper.find(".v-image").exists()).toBe(false);
   });
 
-  it("attributedTo is a string", () => {
+  it("attributedTo is a url", () => {
     const wrapper = mount(ActorPin, {
       localVue,
       vuetify,
       propsData: {
-        attributedTo: (articles[1] as Article).attributedTo
+        actor: (articles[1] as Activity).actor
       }
     });
 
     const content = wrapper.find(".v-menu").find("div");
-    expect(content.text()).toBe("johnny");
+    expect(content.text()).toBe("http://johnny.example.org");
   });
 });

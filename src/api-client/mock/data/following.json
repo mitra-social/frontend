@@ -6,11 +6,12 @@
   "items": [
     {
       "type": "Person",
-      "name": "Sally"
+      "name": "Sally",
+      "id": "http://sally.example.org"
     },
     {
       "type": "Person",
-      "name": "John"
+      "id": "http://john.example.org"
     }
   ]
 }
