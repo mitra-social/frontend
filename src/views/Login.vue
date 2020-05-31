@@ -7,7 +7,7 @@
           :dark="!$vuetify.theme.dark"
           flat
         >
-          <v-toolbar-title>Login form</v-toolbar-title>
+          <v-toolbar-title>Login</v-toolbar-title>
         </v-toolbar>
         <v-card-text>
           <v-form>
@@ -35,6 +35,9 @@
           </v-form>
         </v-card-text>
         <v-card-actions>
+          <v-btn text x-small link :to="{ name: 'signup' }">
+            You don't have an account? Create one now!
+          </v-btn>
           <v-spacer />
           <v-btn
             :light="$vuetify.theme.dark"

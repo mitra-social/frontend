@@ -42,8 +42,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[0] as Activity).actor
-      }
+        actor: (articles[0] as Activity).actor,
+      },
     });
     const content = wrapper.find(".v-list-item__title");
     expect(content.text()).toBe("Sally");
@@ -55,22 +55,12 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[0] as Activity).actor
-      }
+        actor: (articles[0] as Activity).actor,
+      },
     });
 
-    expect(
-      wrapper
-        .find(".v-avatar")
-        .find(".v-icon")
-        .exists()
-    ).toBe(false);
-    expect(
-      wrapper
-        .find(".v-avatar")
-        .find(".v-image")
-        .exists()
-    ).toBe(true);
+    expect(wrapper.find(".v-avatar").find(".v-icon").exists()).toBe(false);
+    expect(wrapper.find(".v-avatar").find(".v-image").exists()).toBe(true);
   });
 
   it("attributedTo has no icon property and set default icon", () => {
@@ -79,22 +69,12 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[1] as Activity).actor
-      }
+        actor: (articles[1] as Activity).actor,
+      },
     });
 
-    expect(
-      wrapper
-        .find(".v-avatar")
-        .find(".v-icon")
-        .exists()
-    ).toBe(true);
-    expect(
-      wrapper
-        .find(".v-avatar")
-        .find(".v-image")
-        .exists()
-    ).toBe(false);
+    expect(wrapper.find(".v-avatar").find(".v-icon").exists()).toBe(true);
+    expect(wrapper.find(".v-avatar").find(".v-image").exists()).toBe(false);
   });
 
   it("attributedTo has 'Person' type property", () => {
@@ -103,8 +83,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[0] as Activity).actor
-      }
+        actor: (articles[0] as Activity).actor,
+      },
     });
 
     expect(wrapper.find(".attribute-type").exists()).toBe(true);
@@ -117,8 +97,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[1] as Activity).actor
-      }
+        actor: (articles[1] as Activity).actor,
+      },
     });
 
     expect(wrapper.find(".attribute-type").exists()).toBe(false);
@@ -130,8 +110,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[0] as Activity).actor
-      }
+        actor: (articles[0] as Activity).actor,
+      },
     });
 
     expect(wrapper.find(".attribute-summary").exists()).toBe(true);
@@ -146,8 +126,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[1] as Activity).actor
-      }
+        actor: (articles[1] as Activity).actor,
+      },
     });
 
     expect(wrapper.find(".attribute-summary").exists()).toBe(false);
@@ -159,8 +139,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[0] as Activity).actor
-      }
+        actor: (articles[0] as Activity).actor,
+      },
     });
 
     await flushPromises();
@@ -176,8 +156,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[1] as Activity).actor
-      }
+        actor: (articles[1] as Activity).actor,
+      },
     });
 
     await flushPromises();
@@ -187,7 +167,7 @@ describe("ActorSummarized.vue", () => {
     expect(followingRemoveIcon.exists()).toBe(false);
   });
 
-  it("Following an unfollowed actor", async done => {
+  it("Following an unfollowed actor", async (done) => {
     const actor = (articles[1] as Activity).actor as URL;
     const wrapper = mount(ActorSummarized, {
       localVue,
@@ -196,9 +176,9 @@ describe("ActorSummarized.vue", () => {
       propsData: {
         actor: {
           id: actor,
-          to: actor
-        }
-      }
+          to: actor,
+        },
+      },
     });
 
     await flushPromises().then(async () => {
@@ -229,8 +209,8 @@ describe("ActorSummarized.vue", () => {
       vuetify,
       store,
       propsData: {
-        actor: (articles[0] as Activity).actor
-      }
+        actor: (articles[0] as Activity).actor,
+      },
     });
 
     flushPromises().then(async () => {

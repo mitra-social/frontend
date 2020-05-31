@@ -4,6 +4,7 @@ import router from "@/router";
 import client from "apiClient";
 import { Credential } from "@/model/credential";
 import { AuthenticationUtil } from "@/utils/authentication-util";
+import { CreateUser } from "@/model/create-user";
 
 @Module({ namespaced: true })
 class Authentication extends VuexModule {
@@ -34,7 +35,7 @@ class Authentication extends VuexModule {
 
   @Action
   public async login(credential: Credential): Promise<void> {
-    return client
+    return await client
       .login(credential)
       .then((token: string) => {
         AuthenticationUtil.setUser(credential.username);
@@ -45,6 +46,11 @@ class Authentication extends VuexModule {
       .catch(() => {
         this.context.commit("loginError", 401);
       });
+  }
+
+  @Action({ rawError: true })
+  public async createUser(user: CreateUser): Promise<void> {
+    return await client.createUser(user);
   }
 }
 export default Authentication;

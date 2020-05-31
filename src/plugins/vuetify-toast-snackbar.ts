@@ -6,7 +6,7 @@ Vue.use(VuetifyToast, {
   multiLine: true,
   showClose: true,
   closeIcon: "mdi-close",
-  property: "$toast"
+  property: "$toast",
 });
 
 Vue.prototype.$toast;

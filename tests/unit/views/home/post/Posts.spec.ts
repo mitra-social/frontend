@@ -45,11 +45,7 @@ describe("Posts.vue", () => {
     const spy = jest.spyOn(wrapper.vm.$toast, "error");
     await flushPromises();
     expect(
-      wrapper
-        .findAll(".post")
-        .at(0)
-        .find("v-list-item-title-stub")
-        .text()
+      wrapper.findAll(".post").at(0).find("v-list-item-title-stub").text()
     ).toBe("Minecraft Signs");
     expect(
       wrapper

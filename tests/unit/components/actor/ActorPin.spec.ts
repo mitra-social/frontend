@@ -26,8 +26,8 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[0] as Activity).actor
-      }
+        actor: (articles[0] as Activity).actor,
+      },
     });
 
     const content = wrapper.find(".v-menu").find("div");
@@ -39,15 +39,15 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[2] as Activity).actor
-      }
+        actor: (articles[2] as Activity).actor,
+      },
     });
 
     const lang: string = navigator.language.substr(0, 2);
     const names: { [index: string]: string } = {
       de: "Hans",
       en: "John",
-      fr: "Jean"
+      fr: "Jean",
     };
 
     const content = wrapper.find(".v-menu").find("div");
@@ -59,8 +59,8 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[0] as Activity).actor
-      }
+        actor: (articles[0] as Activity).actor,
+      },
     });
 
     expect(wrapper.find(".v-icon").exists()).toBe(false);
@@ -72,8 +72,8 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[1] as Activity).actor
-      }
+        actor: (articles[1] as Activity).actor,
+      },
     });
 
     expect(wrapper.find(".v-icon").exists()).toBe(true);
@@ -85,8 +85,8 @@ describe("ActorPin.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[1] as Activity).actor
-      }
+        actor: (articles[1] as Activity).actor,
+      },
     });
 
     const content = wrapper.find(".v-menu").find("div");

@@ -17,19 +17,25 @@ describe("Login.vue", () => {
 
   beforeEach(() => {
     vuetify = new Vuetify();
+
+    if (router.currentRoute.path !== "/login") {
+      router.push({ name: "login" });
+    }
   });
+
   it("Login success", async () => {
     const wrapper = mount(Login, { localVue, vuetify, router, store });
 
     wrapper.setData({
       user: "johnny.doe@mail.ch",
-      password: "123"
+      password: "123",
     });
 
     const button = wrapper.find(".v-btn");
     button.trigger("click");
     flushPromises().then(() => {
       expect(wrapper.find(".v-alert").exists()).toBe(false);
+      expect(router.currentRoute.path).toBe("/");
     });
   });
 
@@ -38,7 +44,7 @@ describe("Login.vue", () => {
 
     wrapper.setData({
       user: "foo@bar.ch",
-      password: "123"
+      password: "123",
     });
 
     flushPromises().then(async () => {
@@ -46,6 +52,7 @@ describe("Login.vue", () => {
       button.trigger("click");
 
       expect(wrapper.find(".v-alert").exists()).toBe(true);
+      expect(router.currentRoute.path).toBe("/login");
     });
   });
 });

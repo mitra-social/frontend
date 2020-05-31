@@ -2,7 +2,7 @@ import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 import {
   OrderedCollectionPage,
   ActivityObject,
-  Link
+  Link,
 } from "activitypub-objects";
 
 import client from "apiClient";
@@ -23,10 +23,10 @@ class Collection extends VuexModule {
       return;
     }
 
-    const postTypeItems = this.items.filter($ => $.type in PostTypes);
+    const postTypeItems = this.items.filter(($) => $ && $.type in PostTypes);
 
     const activityItems = this.items
-      .filter($ => !($.type in PostTypes))
+      .filter(($) => $ && !($.type in PostTypes))
       .filter(
         ($: Activity) =>
           !!$.object &&
@@ -54,7 +54,7 @@ class Collection extends VuexModule {
     this.items = items;
   }
 
-  @Action
+  @Action({ rawError: true })
   public async fetchCollection(user: string): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
     return await client
@@ -74,7 +74,7 @@ class Collection extends VuexModule {
               if (url) {
                 return await client
                   .getActor(url.toString())
-                  .then($ => {
+                  .then(($) => {
                     if ($) {
                       if ((item as Activity).actor) {
                         (item as Activity).actor = $;
@@ -94,7 +94,7 @@ class Collection extends VuexModule {
           })
         );
       })
-      .then(items => {
+      .then((items) => {
         this.context.commit("setItems", items);
       });
   }

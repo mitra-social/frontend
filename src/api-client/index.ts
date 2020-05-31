@@ -1,15 +1,17 @@
 import {
   OrderedCollectionPage,
   CollectionPage,
-  Actor
+  Actor,
 } from "activitypub-objects";
 
 import { Activity } from "@/model/mitra-activity";
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
+import { CreateUser } from "@/model/create-user";
 
 export interface ApiClient {
   login(credential: Credential): Promise<string>;
+  createUser(user: CreateUser): Promise<void>;
   getUser(token: string, user: string): Promise<User>;
   getActor(url: string): Promise<Actor>;
   fetchFollowing(

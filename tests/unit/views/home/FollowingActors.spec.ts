@@ -30,7 +30,7 @@ describe("FollowingActors.vue", () => {
     const wrapper = mount(FollowingActors, {
       localVue,
       vuetify,
-      store
+      store,
     });
 
     await flushPromises();

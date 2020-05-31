@@ -3,37 +3,46 @@ import {
   OrderedCollectionPage,
   CollectionPage,
   toJSON,
-  Actor
+  ActivityObject,
+  Actor,
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
 import { Activity } from "@/model/mitra-activity";
+import { CreateUser } from "@/model/create-user";
+
+const urlPrefix = process.env.NODE_ENV === "production" ? "/api" : "";
 
 const config = {
   headers: {
     Accept: "application/json",
-    "Content-Type": "application/json"
-  }
+    "Content-Type": "application/json",
+  },
 };
 
 export default {
   async login(credential: Credential): Promise<string> {
-    return await axios.post("/token", credential, config).then(resp => {
-      return resp.data.token;
-    });
+    return await axios
+      .post(`${urlPrefix}/token`, credential, config)
+      .then((resp) => {
+        return resp.data.token;
+      });
+  },
+  async createUser(user: CreateUser) {
+    return await axios.post(`${urlPrefix}/user`, user, config);
   },
   async getUser(token: string, user: string): Promise<User> {
     return await axios
-      .get(`/user/${user}`, {
+      .get(`${urlPrefix}/user/${user}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .then(resp => {
+      .then((resp) => {
         return resp.data;
       });
   },
@@ -41,10 +50,10 @@ export default {
     return await axios
       .get(url, {
         headers: {
-          Accept: "application/activity+json"
-        }
+          Accept: "application/activity+json",
+        },
       })
-      .then(resp => {
+      .then((resp) => {
         return resp.data;
       });
   },
@@ -54,14 +63,14 @@ export default {
     page: number
   ): Promise<CollectionPage> {
     return await axios
-      .get(`/user/${user}/following?page=${page}`, {
+      .get(`${urlPrefix}/user/${user}/following?page=${page}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .then(resp => {
+      .then((resp) => {
         return resp.data;
       });
   },
@@ -71,15 +80,15 @@ export default {
     page: number
   ): Promise<OrderedCollectionPage> {
     return await axios
-      .get(`/user/${user}/inbox?page=${page}`, {
+      .get(`${urlPrefix}/user/${user}/inbox?page=${page}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
           // eslint - disable - next - line
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .then(resp => {
+      .then((resp) => {
         return resp.data;
       });
   },
@@ -92,11 +101,15 @@ export default {
     if (summary) {
       activity.summary = summary;
     }
-    return await axios.post(`/user/${user}/outbox`, toJSON(activity), {
-      headers: {
-        "Content-Type": "application/activity+json",
-        Authorization: `Bearer ${token}`
+    return await axios.post(
+      `${urlPrefix}/user/${user}/outbox`,
+      toJSON(activity as ActivityObject),
+      {
+        headers: {
+          "Content-Type": "application/activity+json",
+          Authorization: `Bearer ${token}`,
+        },
       }
-    });
-  }
+    );
+  },
 } as ApiClient;
