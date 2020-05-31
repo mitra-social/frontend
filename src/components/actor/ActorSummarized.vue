@@ -9,17 +9,15 @@
           <v-icon>mdi-account-circle</v-icon>
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title>{{ actor }}</v-list-item-title>
-          <v-list-item-subtitle
-            class="attribute-type"
-            v-if="attributedTo.type"
-            >{{ attributedTo.type }}</v-list-item-subtitle
-          >
+          <v-list-item-title>{{ name }}</v-list-item-title>
+          <v-list-item-subtitle class="attribute-type" v-if="actor.type">{{
+            actor.type
+          }}</v-list-item-subtitle>
           <v-list-item-subtitle
             class="attribute-summary"
-            v-if="attributedTo.summary"
-            >{{ attributedTo.summary }}</v-list-item-subtitle
-          >
+            v-if="actor.summary"
+            v-html="actor.summary"
+          ></v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-action>
           <v-btn
@@ -45,7 +43,6 @@ import { namespace } from "vuex-class";
 import { ActivityObject, Link } from "activitypub-objects";
 
 import { User } from "@/model/user";
-import { FollowPayload } from "@/model/mitra-follow-payload";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 import {Actor} from "activitypub-objects/dst";
 
@@ -54,22 +51,18 @@ const followingStore = namespace("Following");
 
 @Component
 export default class ActorSummarized extends Vue {
-  @Prop() readonly attributedTo!:
+  @Prop() readonly actor!:
     | ActivityObject
     | Link
     | URL
     | Array<ActivityObject | URL>;
 
-  get actor(): string | undefined {
-    return ActivityObjectHelper.extractActorName(
-      this.attributedTo as ActivityObject
-    );
+  get name(): string | undefined {
+    return ActivityObjectHelper.extractActorName(this.actor as ActivityObject);
   }
 
   get icon(): string | undefined {
-    return ActivityObjectHelper.extractIcon(
-      this.attributedTo as ActivityObject
-    );
+    return ActivityObjectHelper.extractIcon(this.actor as ActivityObject);
   }
 
   @userStore.Getter
@@ -85,63 +78,45 @@ export default class ActorSummarized extends Vue {
   public setIsFollowing!: (actor: string) => void;
 
   @followingStore.Action
-  public follow!: (payload: FollowPayload) => Promise<void>;
+  public follow!: (actor: Actor) => Promise<void>;
 
   @followingStore.Action
-  public unfollow!: (payload: FollowPayload) => Promise<void>;
+  public unfollow!: (actor: Actor) => Promise<void>;
 
   private isFollowing(): boolean {
     return this.getFollowing.some(
-      $ =>
+      ($) =>
         ActivityObjectHelper.extractId($) ===
-        ActivityObjectHelper.extractId(this.attributedTo)
+        ActivityObjectHelper.extractId(this.actor)
     );
   }
 
   private onFollow() {
-    const to = ActivityObjectHelper.normalizedObjectFollow(this.attributedTo);
-    const object = ActivityObjectHelper.normalizedObjectFollow(
-      this.attributedTo
-    );
-
-    if (to && object) {
-      this.follow({ to, object })
-        .then(() => {
-          this.isFollowing();
-        })
-        .catch(() => {
-          this.$toast.error(
-            `Follow ${ActivityObjectHelper.extractActorName(
-              this.attributedTo as ActivityObject
-            )} failed.`
-          );
-        });
-    } else {
-      this.$toast.error(`Follow ${to} failed.`);
-    }
+    this.follow(this.actor as Actor)
+      .then(() => {
+        this.isFollowing();
+      })
+      .catch(() => {
+        this.$toast.error(
+          `Following ${ActivityObjectHelper.extractActorName(
+            this.actor as ActivityObject
+          )} failed.`
+        );
+      });
   }
 
   private onUnfollow() {
-    const to = ActivityObjectHelper.normalizedObjectFollow(this.attributedTo);
-    const object = ActivityObjectHelper.normalizedObjectFollow(
-      this.attributedTo
-    );
-
-    if (to && object) {
-      this.unfollow({ to, object })
-        .then(() => {
-          this.isFollowing();
-        })
-        .catch(() => {
-          this.$toast.error(`Unfollow  ${to} failed.`);
-        });
-    } else {
-      this.$toast.error(
-        `Follow ${ActivityObjectHelper.extractActorName(
-          this.attributedTo as ActivityObject
-        )} failed.`
-      );
-    }
+    this.unfollow(this.actor as Actor)
+      .then(() => {
+        this.isFollowing();
+      })
+      .catch(() => {
+        this.$toast.error(
+          `Unfollowing  ${ActivityObjectHelper.extractActorName(
+            this.actor as ActivityObject
+          )} failed.`
+        );
+      });
   }
 }
 </script>

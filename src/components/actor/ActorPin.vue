@@ -14,13 +14,10 @@
         <v-avatar color="indigo" size="36" v-else>
           <v-icon dark>mdi-account-circle</v-icon>
         </v-avatar>
-        {{ author }}
+        {{ name }}
       </div>
     </template>
-    <SummarizedActor
-      v-if="this.attributedTo"
-      :attributedTo="this.attributedTo"
-    />
+    <SummarizedActor v-if="this.actor" :actor="this.actor" />
   </v-menu>
 </template>
 
@@ -33,26 +30,22 @@ import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
 @Component({
   components: {
-    SummarizedActor
-  }
+    SummarizedActor,
+  },
 })
 export default class ActorPin extends Vue {
-  @Prop() readonly attributedTo!:
+  @Prop() readonly actor!:
     | ActivityObject
     | Link
     | URL
     | Array<ActivityObject | URL>;
 
-  get author(): string | undefined {
-    return ActivityObjectHelper.extractActorName(
-      this.attributedTo as ActivityObject
-    );
+  get name(): string | undefined {
+    return ActivityObjectHelper.extractActorName(this.actor as ActivityObject);
   }
 
   get icon(): string | undefined {
-    return ActivityObjectHelper.extractIcon(
-      this.attributedTo as ActivityObject
-    );
+    return ActivityObjectHelper.extractIcon(this.actor as ActivityObject);
   }
 }
 </script>

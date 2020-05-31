@@ -1,25 +1,31 @@
 import {
   OrderedCollectionPage,
   CollectionPage,
-  toJSON
+  toJSON,
+  ActivityObject,
+  Actor,
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
 import { User } from "@/model/user";
 import { Credential } from "@/model/credential";
+import { CreateUser } from "@/model/create-user";
 
 import * as userData from "./data/user.json";
+import * as createUserData from "./data/create-user.json";
+import * as actorsData from "./data/actors.json";
 import * as follwoingData from "./data/following.json";
 import * as collectionData from "./data/collection.json";
 import { Activity } from "activitypub-objects/dst/activities/activity";
 
 const USER_NAME = "john.doe";
+const USER_EMAIL = "john.doe@mail.com";
 const USER_PWD = "123";
 const USER_TOKEN = "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi";
 
 // eslint-disable-next-line
 const fetch = (mockData: any): Promise<any> => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     resolve(mockData);
   });
 };
@@ -51,10 +57,33 @@ export default {
     }
     return await fetch(USER_TOKEN);
   },
+  async createUser(user: CreateUser) {
+    console.info(
+      `name: ${user.username}, email: ${user.email}, pwd: ${user.password}`
+    );
+    if (user.username === USER_NAME) {
+      return await error("User exists!");
+    }
+
+    if (user.email === USER_EMAIL) {
+      return await error("Email exists!");
+    }
+
+    return await fetch(createUserData.default);
+  },
   async getUser(token: string, user: string): Promise<User> {
     console.info(`token: ${token}, user: ${user}`);
 
     return returnResult(token, user, fetch(userData.default)) as Promise<User>;
+  },
+  async getActor(url: string): Promise<Actor> {
+    console.info(`url: ${url}`);
+    // eslint-disable-next-line
+    const actors = actorsData.default as any;
+    const actor = (actors as Actor[]).find(
+      ($) => $ && $.id?.toString() === url
+    );
+    return (await fetch(actor)) as Promise<Actor>;
   },
   async fetchFollowing(
     token: string,
@@ -86,8 +115,10 @@ export default {
       activity.summary = summary;
     }
     console.info(
-      `token: ${token}, user: ${user}, activity: ${toJSON(activity)}`
+      `token: ${token}, user: ${user}, activity: ${toJSON(
+        activity as ActivityObject
+      )}`
     );
     return returnResult(token, user, {} as Promise<void>);
-  }
+  },
 } as ApiClient;

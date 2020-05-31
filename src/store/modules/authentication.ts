@@ -4,11 +4,12 @@ import router from "@/router";
 import client from "apiClient";
 import { Credential } from "@/model/credential";
 import { AuthenticationUtil } from "@/utils/authentication-util";
+import { CreateUser } from "@/model/create-user";
 
 @Module({ namespaced: true })
 class Authentication extends VuexModule {
   public token = AuthenticationUtil.getToken();
-  public status = "";
+  public status = 0;
   public hasLoadedOnce = false;
 
   get isAuthenticated() {
@@ -21,20 +22,20 @@ class Authentication extends VuexModule {
 
   @Mutation
   public loginSuccess(token: string): void {
-    this.status = "success";
+    this.status = 200;
     this.token = token;
     this.hasLoadedOnce = true;
   }
 
   @Mutation
-  public loginError(): void {
-    this.status = "error";
+  public loginError(code: number): void {
+    this.status = code;
     this.hasLoadedOnce = false;
   }
 
   @Action
   public async login(credential: Credential): Promise<void> {
-    return client
+    return await client
       .login(credential)
       .then((token: string) => {
         AuthenticationUtil.setUser(credential.username);
@@ -42,9 +43,14 @@ class Authentication extends VuexModule {
         this.context.commit("loginSuccess", token);
         router.push("/");
       })
-      .catch((err: Error) => {
-        this.context.commit("loginError", err);
+      .catch(() => {
+        this.context.commit("loginError", 401);
       });
+  }
+
+  @Action({ rawError: true })
+  public async createUser(user: CreateUser): Promise<void> {
+    return await client.createUser(user);
   }
 }
 export default Authentication;

@@ -1,6 +1,6 @@
 import { ActivityObject, Link, Image } from "activitypub-objects";
 import { Activity } from "activitypub-objects/dst/activities/activity";
-import {Actor} from "activitypub-objects/dst";
+import { Actor } from "activitypub-objects/dst";
 
 export class ActivityObjectHelper {
   public static hasProperty(obj: object, property: string): boolean {
@@ -14,25 +14,34 @@ export class ActivityObjectHelper {
   public static extractActorName(
     object: ActivityObject | Link | URL
   ): string | undefined {
-    if ((object as ActivityObject).nameMap) {
+    const lang = navigator.language.substr(0, 2);
+
+    if (
+      ActivityObjectHelper.hasProperty(object, "nameMap")
+    ) {
       const lang = navigator.language.substr(0, 2);
       const activityObject = (object as ActivityObject);
 
-      if (lang in activityObject.nameMap) {
+      if (activityObject.nameMap && lang in activityObject.nameMap) {
         return activityObject.nameMap[lang];
       }
-    }
-
-    if ((object as ActivityObject).name) {
-      return (object as ActivityObject).name;
-    }
-
-    if ((object as Actor).preferredUsername) {
+    } else if (
+      ActivityObjectHelper.hasProperty(object, "name") &&
+      (object as Actor).name
+    ) {
+      return (object as Actor).name;
+    } else if (
+      ActivityObjectHelper.hasProperty(object, "preferredUsername") &&
+      (object as Actor).preferredUsername
+    ) {
       return (object as Actor).preferredUsername;
-    }
-
-    if (object) {
-      return ActivityObjectHelper.normalizedActorUrl(object as URL);
+    } else if (
+      ActivityObjectHelper.hasProperty(object, "id") &&
+      (object as Actor).id
+    ) {
+      return (object as Actor).id?.toString() ?? undefined;
+    } else if (typeof object === "string") {
+      return object;
     }
 
     return undefined;
@@ -64,9 +73,16 @@ export class ActivityObjectHelper {
   }
 
   public static extractId(
-    object: ActivityObject | Link | URL | Array<ActivityObject | URL>
+    object:
+      | ActivityObject
+      | Link
+      | URL
+      | Array<ActivityObject | URL>
+      | undefined
   ): string | undefined {
-    if (ActivityObjectHelper.hasProperty(object, "id")) {
+    if (!object) {
+      return;
+    } else if (ActivityObjectHelper.hasProperty(object, "id")) {
       return (object as ActivityObject).id?.toString();
     } else if (ActivityObjectHelper.hasProperty(object, "name")) {
       return (object as ActivityObject).name;
@@ -100,18 +116,6 @@ export class ActivityObjectHelper {
     }
 
     return undefined;
-  }
-
-  // TODO: Specified code for mastodon replace with issue https://github.com/mitra-social/mitra-frontend/pull/23
-  public static normalizedActorUrl(url: URL): string {
-    const urlStr = url.toString();
-    if (urlStr.startsWith("https://mastodon.social")) {
-      return `${urlStr.substring(
-        urlStr.lastIndexOf("/") + 1,
-        urlStr.length
-      )}@mastodon.social`;
-    }
-    return urlStr.substring(urlStr.indexOf("://") + 3, urlStr.indexOf("."));
   }
 
   public static extractObjectFromActivity(activity: Activity): ActivityObject {

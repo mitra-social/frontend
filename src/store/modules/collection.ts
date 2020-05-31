@@ -2,7 +2,7 @@ import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 import {
   OrderedCollectionPage,
   ActivityObject,
-  Link
+  Link,
 } from "activitypub-objects";
 
 import client from "apiClient";
@@ -23,10 +23,10 @@ class Collection extends VuexModule {
       return;
     }
 
-    const postTypeItems = this.items.filter($ => $.type in PostTypes);
+    const postTypeItems = this.items.filter(($) => $ && $.type in PostTypes);
 
     const activityItems = this.items
-      .filter($ => !($.type in PostTypes))
+      .filter(($) => $ && !($.type in PostTypes))
       .filter(
         ($: Activity) =>
           !!$.object &&
@@ -54,14 +54,50 @@ class Collection extends VuexModule {
     this.items = items;
   }
 
-  @Action
+  @Action({ rawError: true })
   public async fetchCollection(user: string): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
     return await client
       .fetchPosts(token, user, this.page)
       .then((collection: OrderedCollectionPage) => {
-        this.context.commit("setItems", collection.orderedItems);
+        return Promise.all(
+          collection.orderedItems.map(async (item: ActivityObject | Link) => {
+            if (
+              item.type !== "Link" &&
+              (typeof (item as ActivityObject).attributedTo === "string" ||
+                typeof (item as Activity).actor === "string")
+            ) {
+              const url =
+                (item as Activity).actor ??
+                (item as ActivityObject).attributedTo;
+
+              if (url) {
+                return await client
+                  .getActor(url.toString())
+                  .then(($) => {
+                    if ($) {
+                      if ((item as Activity).actor) {
+                        (item as Activity).actor = $;
+                      } else if ((item as ActivityObject).attributedTo) {
+                        (item as ActivityObject).attributedTo = $;
+                      }
+                    }
+                    return item;
+                  })
+                  .catch(() => Promise.resolve(undefined));
+              } else {
+                return item;
+              }
+            } else {
+              return item;
+            }
+          })
+        );
+      })
+      .then((items) => {
+        this.context.commit("setItems", items);
       });
   }
 }
+
 export default Collection;

@@ -4,7 +4,7 @@ import {
   format,
   parseISO,
   isThisYear,
-  formatDistanceToNowStrict
+  formatDistanceToNowStrict,
 } from "date-fns";
 
 Vue.filter("postDate", (date: string) => {
@@ -14,6 +14,6 @@ Vue.filter("postDate", (date: string) => {
 
 Vue.filter("postDateDistance", (date: string) => {
   return formatDistanceToNowStrict(parseISO(date), {
-    addSuffix: true
+    addSuffix: true,
   });
 });
