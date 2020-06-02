@@ -3,11 +3,10 @@ import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
 
-import { Article, ActivityObject } from "activitypub-objects";
+import { Article, ActivityObject, Activity } from "activitypub-objects";
 
 import collection from "@/api-client/mock/data/collection.json";
 import ActivityStreamsNoteType from "@/views/home/post/text-type/ActivityStreamsNoteType.vue";
-import { Activity } from "activitypub-objects/dst/activities/activity";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);

@@ -4,6 +4,7 @@ import {
   toJSON,
   ActivityObject,
   Actor,
+  Activity,
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
@@ -16,7 +17,6 @@ import * as createUserData from "./data/create-user.json";
 import * as actorsData from "./data/actors.json";
 import * as follwoingData from "./data/following.json";
 import * as collectionData from "./data/collection.json";
-import { Activity } from "activitypub-objects/dst/activities/activity";
 
 const USER_NAME = "john.doe";
 const USER_EMAIL = "john.doe@mail.com";

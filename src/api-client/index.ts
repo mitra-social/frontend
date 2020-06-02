@@ -2,11 +2,11 @@ import {
   OrderedCollectionPage,
   CollectionPage,
   Actor,
+  Activity,
 } from "activitypub-objects";
 
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
-import { Activity } from "activitypub-objects/dst/activities/activity";
 import { CreateUser } from "@/model/create-user";
 
 export interface ApiClient {

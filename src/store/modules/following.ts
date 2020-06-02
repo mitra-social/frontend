@@ -1,11 +1,15 @@
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
-import { ActivityObject, Link, CollectionPage } from "activitypub-objects";
+import {
+  ActivityObject,
+  Link,
+  CollectionPage,
+  Actor,
+  Activities,
+} from "activitypub-objects";
 
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Activities } from "activitypub-objects/dst/activities/activity";
-import {Actor} from "activitypub-objects/dst";
 
 @Module({ namespaced: true })
 class Following extends VuexModule {

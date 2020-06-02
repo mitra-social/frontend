@@ -1,6 +1,10 @@
-import { ActivityObject, Link, Image } from "activitypub-objects";
-import { Activity } from "activitypub-objects/dst/activities/activity";
-import { Actor } from "activitypub-objects/dst";
+import {
+  ActivityObject,
+  Link,
+  Image,
+  Actor,
+  Activity,
+} from "activitypub-objects";
 
 export class ActivityObjectHelper {
   public static hasProperty(obj: object, property: string): boolean {
@@ -14,13 +18,9 @@ export class ActivityObjectHelper {
   public static extractActorName(
     object: ActivityObject | Link | URL
   ): string | undefined {
-    const lang = navigator.language.substr(0, 2);
-
-    if (
-      ActivityObjectHelper.hasProperty(object, "nameMap")
-    ) {
+    if (ActivityObjectHelper.hasProperty(object, "nameMap")) {
       const lang = navigator.language.substr(0, 2);
-      const activityObject = (object as ActivityObject);
+      const activityObject = object as ActivityObject;
 
       if (activityObject.nameMap && lang in activityObject.nameMap) {
         return activityObject.nameMap[lang];

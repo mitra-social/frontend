@@ -3,13 +3,13 @@ import {
   OrderedCollectionPage,
   ActivityObject,
   Link,
+  Activity,
 } from "activitypub-objects";
 
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Activity } from "activitypub-objects/dst/activities/activity";
 
 @Module({ namespaced: true })
 class Collection extends VuexModule {

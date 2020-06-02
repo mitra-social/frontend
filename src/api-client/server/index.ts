@@ -5,12 +5,12 @@ import {
   toJSON,
   ActivityObject,
   Actor,
+  Activity,
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
-import { Activity } from "activitypub-objects/dst/activities/activity";
 import { CreateUser } from "@/model/create-user";
 
 const urlPrefix = process.env.NODE_ENV === "production" ? "/api" : "";

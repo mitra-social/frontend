@@ -40,11 +40,10 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { ActivityObject, Link } from "activitypub-objects";
+import { ActivityObject, Link, Actor } from "activitypub-objects";
 
 import { User } from "@/model/user";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import {Actor} from "activitypub-objects/dst";
 
 const userStore = namespace("User");
 const followingStore = namespace("Following");

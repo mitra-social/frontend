@@ -2,14 +2,13 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { ActivityObject, Link, Actors } from "activitypub-objects";
+import { ActivityObject, Link, Actors, Activity } from "activitypub-objects";
 import flushPromises from "flush-promises";
 
 import store from "@/store";
 import ActorSummarized from "@/components/actor/ActorSummarized.vue";
 import collection from "@/api-client/mock/data/collection.json";
 import { AuthenticationUtil } from "@/utils/authentication-util";
-import { Activity } from "@/model/mitra-activity";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);

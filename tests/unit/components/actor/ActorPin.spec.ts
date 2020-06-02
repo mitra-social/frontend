@@ -2,11 +2,10 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { ActivityObject, Link } from "activitypub-objects";
+import { ActivityObject, Link, Activity } from "activitypub-objects";
 
 import ActorPin from "@/components/actor/ActorPin.vue";
 import collection from "@/api-client/mock/data/collection.json";
-import { Activity } from "@/model/mitra-activity";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
