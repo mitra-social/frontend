@@ -61,9 +61,8 @@ class Collection extends VuexModule {
       .fetchPosts(token, user, this.page)
       .then((collection: OrderedCollectionPage) => {
         return Promise.all(
-          collection.orderedItems.map(async (item: ActivityObject | Link) => {
-            if (
-              item.type !== "Link" &&
+          collection.orderedItems.map(async (item: ActivityObject | Link | URL) => {
+            if ((item as ActivityObject).type !== "Link" &&
               (typeof (item as ActivityObject).attributedTo === "string" ||
                 typeof (item as Activity).actor === "string")
             ) {

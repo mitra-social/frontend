@@ -59,7 +59,7 @@ export default {
   },
   async createUser(user: CreateUser) {
     console.info(
-      `name: ${user.username}, email: ${user.email}, pwd: ${user.password}`
+      `createUser => name: ${user.username}, email: ${user.email}, pwd: ${user.password}`
     );
     if (user.username === USER_NAME) {
       return await error("User exists!");
@@ -72,12 +72,12 @@ export default {
     return await fetch(createUserData.default);
   },
   async getUser(token: string, user: string): Promise<User> {
-    console.info(`token: ${token}, user: ${user}`);
+    console.info(`getUser => token: ${token}, user: ${user}`);
 
     return returnResult(token, user, fetch(userData.default)) as Promise<User>;
   },
   async getActor(url: string): Promise<Actor> {
-    console.info(`url: ${url}`);
+    console.info(`getActor => url: ${url}`);
     // eslint-disable-next-line
     const actors = actorsData.default as any;
     const actor = (actors as Actor[]).find(
@@ -90,7 +90,7 @@ export default {
     user: string,
     page: number
   ): Promise<CollectionPage> {
-    console.info(`token: ${token}, user: ${user}, page: ${page}`);
+    console.info(`fetchFollowing => token: ${token}, user: ${user}, page: ${page}`);
     return returnResult(token, user, fetch(follwoingData.default)) as Promise<
       CollectionPage
     >;
@@ -100,7 +100,7 @@ export default {
     user: string,
     page: number
   ): Promise<OrderedCollectionPage> {
-    console.info(`token: ${token}, user: ${user}, page: ${page}`);
+    console.info(`fetchPosts => token: ${token}, user: ${user}, page: ${page}`);
     return returnResult(token, user, fetch(collectionData.default)) as Promise<
       OrderedCollectionPage
     >;
@@ -115,7 +115,7 @@ export default {
       activity.summary = summary;
     }
     console.info(
-      `token: ${token}, user: ${user}, activity: ${toJSON(
+      `writeToOutbox => token: ${token}, user: ${user}, activity: ${toJSON(
         activity as ActivityObject
       )}`
     );

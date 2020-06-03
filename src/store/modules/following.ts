@@ -51,7 +51,7 @@ class Following extends VuexModule {
       .fetchFollowing(token, user, 0)
       .then((collection: CollectionPage) => {
         return Promise.all(
-          collection.items.map(async (item: ActivityObject | Link) => {
+          collection.items.map(async (item: ActivityObject | Link | URL) => {
             if (
               !ActivityObjectHelper.hasProperty(item, "name") &&
               !ActivityObjectHelper.hasProperty(item, "nameMap")
