@@ -47,7 +47,7 @@
         </v-card-title>
         <v-card-text>
           You haven't got any posts yet because you're not following anyone yet.
-          Look for someone you can follow and enjoy reading
+          Look for someone you can follow and enjoy reading.
         </v-card-text>
       </v-card>
     </div>

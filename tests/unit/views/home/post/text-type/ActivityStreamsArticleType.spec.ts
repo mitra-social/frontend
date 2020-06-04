@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { Activity } from 'activitypub-objects';
+import { Activity } from "activitypub-objects";
 
 import collection from "@/api-client/mock/data/collection.json";
 import ActivityStreamsArticleType from "@/views/home/post/text-type/ActivityStreamsArticleType.vue";
@@ -13,12 +13,12 @@ Vue.use(Vuetify);
 describe("ActivityStreamsArticleType.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
-  let article: Activity;
+  let activity: Activity;
 
   beforeEach(() => {
     vuetify = new Vuetify();
-    const articles = collection.orderedItems as Activity[];
-    article = articles[0];
+    const activities = collection.orderedItems as Activity[];
+    activity = activities[0];
   });
 
   it("Check article has right content", () => {
@@ -26,7 +26,7 @@ describe("ActivityStreamsArticleType.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        data: article.object,
+        data: activity.object,
       },
     });
 

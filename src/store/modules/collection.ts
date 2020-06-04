@@ -61,36 +61,39 @@ class Collection extends VuexModule {
       .fetchPosts(token, user, this.page)
       .then((collection: OrderedCollectionPage) => {
         return Promise.all(
-          collection.orderedItems.map(async (item: ActivityObject | Link | URL) => {
-            if ((item as ActivityObject).type !== "Link" &&
-              (typeof (item as ActivityObject).attributedTo === "string" ||
-                typeof (item as Activity).actor === "string")
-            ) {
-              const url =
-                (item as Activity).actor ??
-                (item as ActivityObject).attributedTo;
+          collection.orderedItems.map(
+            async (item: ActivityObject | Link | URL) => {
+              if (
+                (item as ActivityObject).type !== "Link" &&
+                (typeof (item as ActivityObject).attributedTo === "string" ||
+                  typeof (item as Activity).actor === "string")
+              ) {
+                const url =
+                  (item as Activity).actor ??
+                  (item as ActivityObject).attributedTo;
 
-              if (url) {
-                return await client
-                  .getActor(url.toString())
-                  .then(($) => {
-                    if ($) {
-                      if ((item as Activity).actor) {
-                        (item as Activity).actor = $;
-                      } else if ((item as ActivityObject).attributedTo) {
-                        (item as ActivityObject).attributedTo = $;
+                if (url) {
+                  return await client
+                    .getActor(url.toString())
+                    .then(($) => {
+                      if ($) {
+                        if ((item as Activity).actor) {
+                          (item as Activity).actor = $;
+                        } else if ((item as ActivityObject).attributedTo) {
+                          (item as ActivityObject).attributedTo = $;
+                        }
                       }
-                    }
-                    return item;
-                  })
-                  .catch(() => Promise.resolve(undefined));
+                      return item;
+                    })
+                    .catch(() => Promise.resolve(undefined));
+                } else {
+                  return item;
+                }
               } else {
                 return item;
               }
-            } else {
-              return item;
             }
-          })
+          )
         );
       })
       .then((items) => {

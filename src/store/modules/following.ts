@@ -83,13 +83,13 @@ class Following extends VuexModule {
 
   @Action
   public async follow(actor: Actor): Promise<void> {
-    const oFollow = ActivityObjectHelper.normalizedObjectFollow(actor);
+    const objectFollow = ActivityObjectHelper.normalizedObjectFollow(actor);
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
-    const summary = `${user} followed ${oFollow}`;
+    const summary = `${user} followed ${objectFollow}`;
     const follow = {
-      to: oFollow,
-      object: oFollow,
+      to: objectFollow,
+      object: objectFollow,
       type: Activities.FOLLOW,
     };
 

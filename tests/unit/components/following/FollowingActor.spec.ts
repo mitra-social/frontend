@@ -16,7 +16,7 @@ describe("FollowingActor.vue", () => {
     vuetify = new Vuetify();
   });
 
-  it("actor is an object with preferredUsername property and no icon", () => {
+  it("Actor is an object with preferredUsername property and no icon", () => {
     const preferredUsername = "john.doe";
 
     const wrapper = mount(FollowingActor, {
@@ -42,7 +42,7 @@ describe("FollowingActor.vue", () => {
     expect(avatarImgElement.length).toBe(0);
   });
 
-  it("actor is an object with preferredUsername and name property and icon", () => {
+  it("Actor is an object with preferredUsername and name property and icon", () => {
     const name = "John";
     const iconUrl = "http://example.org/icon.png";
 
@@ -72,7 +72,7 @@ describe("FollowingActor.vue", () => {
     expect(avatarImgElement.length).toBe(1);
   });
 
-  it("actor is an object with preferredUsername, name and nameMap with required language property", () => {
+  it("Actor is an object with preferredUsername, name and nameMap with required language property", () => {
     const name = "John";
 
     const wrapper = mount(FollowingActor, {
@@ -96,7 +96,7 @@ describe("FollowingActor.vue", () => {
     expect(displayNameElement.text()).toBe(name);
   });
 
-  it("actor is an object with preferredUsername, name and nameMap without required language property", () => {
+  it("Actor is an object with preferredUsername, name and nameMap without required language property", () => {
     const name = "Foo";
 
     const wrapper = mount(FollowingActor, {

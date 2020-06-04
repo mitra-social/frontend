@@ -24,8 +24,7 @@ export default class FollowingActor extends Vue {
   }
 
   get icon(): string | undefined {
-    const icon = ActivityObjectHelper.extractIcon(this.actor as ActivityObject);
-    return icon;
+    return ActivityObjectHelper.extractIcon(this.actor as ActivityObject);
   }
 }
 </script>

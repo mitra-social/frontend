@@ -29,7 +29,7 @@ describe("SignUp.vue", () => {
     }
   });
 
-  it("SignUp success", async () => {
+  it("User sign up is successful", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
     wrapper.setData(data);
 
@@ -41,7 +41,7 @@ describe("SignUp.vue", () => {
     expect(router.currentRoute.path).toBe("/login");
   });
 
-  it("User is empty", async () => {
+  it("Value for field `username` is empty", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
     const input = wrapper.find('input[name="user"]');
     wrapper.setData(data);
@@ -53,7 +53,7 @@ describe("SignUp.vue", () => {
     expect(wrapper.find(".v-messages__message").text()).toBe("Required.");
   });
 
-  it("User is too short", async () => {
+  it("Value for field `username` is too short", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
 
     wrapper.setData(data);
@@ -95,7 +95,7 @@ describe("SignUp.vue", () => {
     expect(wrapper.find(".v-messages__message").text()).toBe("Required.");
   });
 
-  it("Email is not valid 1", async () => {
+  it("Value for field `email` is not valid 1", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
     const input = wrapper.find('input[name="email"]');
     wrapper.setData(data);
@@ -109,7 +109,7 @@ describe("SignUp.vue", () => {
     );
   });
 
-  it("Email is not valid 2", async () => {
+  it("Value for field `email` is not valid 2", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
     const input = wrapper.find('input[name="email"]');
     wrapper.setData(data);
@@ -123,7 +123,7 @@ describe("SignUp.vue", () => {
     );
   });
 
-  it("Email exists", async () => {
+  it("Email address is already taken", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
 
     wrapper.setData(data);
@@ -181,7 +181,7 @@ describe("SignUp.vue", () => {
     );
   });
 
-  it("Submit button is disabled when form validation has a error", async () => {
+  it("Submit button is disabled if form validation has an error", async () => {
     const wrapper = mount(SignUp, { localVue, vuetify, router, store });
     const input = wrapper.find('input[name="user"]');
     wrapper.setData(data);

@@ -62,11 +62,11 @@ export default {
       `createUser => name: ${user.username}, email: ${user.email}, pwd: ${user.password}`
     );
     if (user.username === USER_NAME) {
-      return await error("User exists!");
+      return await error("User already exists!");
     }
 
     if (user.email === USER_EMAIL) {
-      return await error("Email exists!");
+      return await error("This e-mail is already linked to an user.");
     }
 
     return await fetch(createUserData.default);
@@ -90,7 +90,9 @@ export default {
     user: string,
     page: number
   ): Promise<CollectionPage> {
-    console.info(`fetchFollowing => token: ${token}, user: ${user}, page: ${page}`);
+    console.info(
+      `fetchFollowing => token: ${token}, user: ${user}, page: ${page}`
+    );
     return returnResult(token, user, fetch(follwoingData.default)) as Promise<
       CollectionPage
     >;
