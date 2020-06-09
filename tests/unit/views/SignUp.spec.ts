@@ -34,8 +34,7 @@ describe("SignUp.vue", () => {
     wrapper.setData(data);
 
     await flushPromises();
-    const button = wrapper.find("#submit");
-    button.trigger("click");
+    wrapper.find("form").trigger("submit.prevent");
 
     await flushPromises();
     expect(router.currentRoute.path).toBe("/login");
@@ -76,11 +75,10 @@ describe("SignUp.vue", () => {
     wrapper.find('input[name="user"]').setValue("john.doe");
 
     await flushPromises();
-    const button = wrapper.find("#submit");
-    button.trigger("click");
+    wrapper.find("form").trigger("submit.prevent");
 
     await flushPromises();
-    expect(wrapper.find(".v-alert__content").text()).toBe("User exists!");
+    expect(wrapper.find(".v-alert__content").text()).toBe("User already exists!");
   });
 
   it("Email is required", async () => {
@@ -132,11 +130,10 @@ describe("SignUp.vue", () => {
     wrapper.find('input[name="email"]').setValue("john.doe@mail.com");
 
     await flushPromises();
-    const button = wrapper.find("#submit");
-    button.trigger("click");
+    wrapper.find("form").trigger("submit.prevent");
 
     await flushPromises();
-    expect(wrapper.find(".v-alert__content").text()).toBe("Email exists!");
+    expect(wrapper.find(".v-alert__content").text()).toBe("This e-mail is already linked to an user.");
   });
 
   it("Password is required", async () => {
@@ -172,8 +169,7 @@ describe("SignUp.vue", () => {
     input.setValue("notEqual");
 
     await flushPromises();
-    const button = wrapper.find("#submit");
-    button.trigger("click");
+    wrapper.find("form").trigger("submit.prevent");
 
     await flushPromises();
     expect(wrapper.find(".v-messages__message").text()).toBe(

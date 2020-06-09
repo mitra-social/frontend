@@ -26,7 +26,9 @@ export class ActivityObjectHelper {
       if (lang in activityObject.nameMap) {
         return activityObject.nameMap[lang];
       }
-    } else if (activityObject.name) {
+    }
+
+    if (activityObject.name) {
       return activityObject.name;
     } else if ((object as Actor).preferredUsername) {
       return (object as Actor).preferredUsername;
@@ -75,8 +77,8 @@ export class ActivityObjectHelper {
   ): string | undefined {
     const activityObject = object as ActivityObject;
 
-    if (!object) {
-      return;
+    if (typeof object === "string") {
+      return object;
     } else if (activityObject.id) {
       return activityObject.id.toString();
     } else if (activityObject.name) {
@@ -84,9 +86,6 @@ export class ActivityObjectHelper {
     } else if ((object as Link).href) {
       return (object as Link).href.toString();
     }
-
-    const url = object as URL;
-    return url ? url.toString() : url;
   }
 
   public static extractIcon(object: ActivityObject): string | undefined {

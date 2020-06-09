@@ -3,7 +3,7 @@
   "summary": "Sally's articles",
   "type": "OrderedCollectionPage",
   "partOf": "http://mock/user/john.doe/inbox",
-  "totalItems": 8,
+  "totalItems": 11,
   "orderedItems": [
     {
       "type": "Create",

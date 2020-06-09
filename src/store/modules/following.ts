@@ -10,24 +10,41 @@ import {
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
+import { Following } from "@/model/following";
 
 @Module({ namespaced: true })
-class Following extends VuexModule {
-  public following: (ActivityObject | Link)[] | undefined = undefined;
+class FollowingStore extends VuexModule {
+  private following: Following[] = [];
 
-  get getFollowing() {
+  get getFollowing(): Following[] {
     return this.following;
+  }
+
+  get isFollowing() {
+    const following = this.following;
+    return (actor: ActivityObject): boolean => {
+      return following.some(
+        ($) =>
+          ActivityObjectHelper.extractId($.actor) ===
+          ActivityObjectHelper.extractId(actor)
+      );
+    };
   }
 
   @Mutation
   public setFollowing(actors: Actor[]): void {
-    this.following = actors ? actors : [];
+    if (actors) {
+      actors.forEach(($) => {
+        const f = { actor: $, show: true };
+        this.following.push(f);
+      });
+    }
   }
 
   @Mutation
   public addFollowing(actor: ActivityObject | Link): void {
     if (this.following) {
-      this.following.push(actor);
+      this.following.push({ actor, show: true });
     }
   }
 
@@ -36,7 +53,7 @@ class Following extends VuexModule {
     if (this.following) {
       this.following = this.following.filter(($) => {
         return (
-          ActivityObjectHelper.extractId($) !==
+          ActivityObjectHelper.extractId($.actor) !==
           ActivityObjectHelper.extractId(actor)
         );
       });
@@ -121,4 +138,4 @@ class Following extends VuexModule {
       });
   }
 }
-export default Following;
+export default FollowingStore;
