@@ -1,5 +1,5 @@
 <template>
-  <v-list-item v-if="following">
+  <v-list-item inactive v-if="following">
     <v-list-item-avatar>
       <v-img src="icon" v-if="icon"></v-img>
       <v-icon v-else>mdi-account-circle</v-icon>

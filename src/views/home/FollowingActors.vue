@@ -1,13 +1,10 @@
 <template>
   <div class="follower-container">
     <v-list>
-      <v-list-item-group color="primary">
-        <v-list-item>
-          <v-list-item-avatar>
-            <v-icon>mdi-account-group</v-icon>
-          </v-list-item-avatar>
+      <v-list-item-group color="primary" no-action>
+        <v-list-item class="action-all" inactive>
           <v-list-item-content>
-            <v-list-item-title>Action for all</v-list-item-title>
+            <v-list-item-title>Action for all:</v-list-item-title>
           </v-list-item-content>
           <v-list-item-action class="d-flex flex-row align-center">
             <v-btn
@@ -119,25 +116,7 @@ h2 {
   margin-block-end: 0;
 }
 
-.v-list-item--link:before,
-.v-list-item {
-  border-bottom-left-radius: 32px !important;
-  border-top-left-radius: 32px !important;
-}
-
-.v-list-item {
-  min-height: 40px;
-  height: 42px;
-  margin-left: 20px;
-  padding: 0;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.v-list-item__avatar {
-  margin: 0;
-}
-
-.v-icon.v-icon {
-  font-size: 42px;
+.action-all {
+  padding-left: 32px;
 }
 </style>
