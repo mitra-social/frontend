@@ -78,7 +78,9 @@ describe("SignUp.vue", () => {
     wrapper.find("form").trigger("submit.prevent");
 
     await flushPromises();
-    expect(wrapper.find(".v-alert__content").text()).toBe("User already exists!");
+    expect(wrapper.find(".v-alert__content").text()).toBe(
+      "User already exists!"
+    );
   });
 
   it("Email is required", async () => {
@@ -133,7 +135,9 @@ describe("SignUp.vue", () => {
     wrapper.find("form").trigger("submit.prevent");
 
     await flushPromises();
-    expect(wrapper.find(".v-alert__content").text()).toBe("This e-mail is already linked to an user.");
+    expect(wrapper.find(".v-alert__content").text()).toBe(
+      "This e-mail is already linked to an user."
+    );
   });
 
   it("Password is required", async () => {

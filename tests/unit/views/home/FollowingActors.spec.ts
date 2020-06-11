@@ -19,10 +19,11 @@ describe("FollowingActors.vue", () => {
     const user = "john.doe";
     vuetify = new Vuetify();
 
-    AuthenticationUtil.setUser(user);
-    AuthenticationUtil.setToken(
-      "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi"
-    );
+    jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue(user);
+    jest
+      .spyOn(AuthenticationUtil, "getToken")
+      .mockReturnValue("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi");
+
     store.dispatch("Following/fetchFollowing", "john.doe");
   });
 
