@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { ActivityObject, Link, Actors, Activity } from "activitypub-objects";
+import { ActivityObject, Link, ActorType, Activity } from "activitypub-objects";
 import flushPromises from "flush-promises";
 
 import store from "@/store";
@@ -87,7 +87,7 @@ describe("ActorSummarized.vue", () => {
     });
 
     expect(wrapper.find(".attribute-type").exists()).toBe(true);
-    expect(wrapper.find(".attribute-type").text()).toBe(Actors.PERSON);
+    expect(wrapper.find(".attribute-type").text()).toBe(ActorType.PERSON);
   });
 
   it("Actor has no type property", () => {

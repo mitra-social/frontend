@@ -1,7 +1,7 @@
-import { Actors } from "activitypub-objects";
+import { ActorType } from "activitypub-objects";
 
 export interface User {
-  type: Actors.PERSON;
+  type: ActorType.PERSON;
   userId: string;
   email: string;
   registeredAt: Date;
