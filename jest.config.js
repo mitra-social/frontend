@@ -7,4 +7,5 @@ module.exports = {
   moduleNameMapper: {
     apiClient: "<rootDir>/src/api-client/mock",
   },
+  transformIgnorePatterns: ["/node_modules/(?!activitypub-objects).+\\.js$"],
 };
