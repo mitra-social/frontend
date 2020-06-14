@@ -1,5 +1,5 @@
 # base image
-FROM node:12.2.0-alpine as build
+FROM node:14-alpine as build
 
 RUN apk --no-cache upgrade && \
     apk add bash git
@@ -9,6 +9,8 @@ WORKDIR /app
 
 # add `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
+
+RUN npm install -g npm
 
 # install and cache app dependencies
 COPY package.json /app/package.json
