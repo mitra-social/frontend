@@ -105,8 +105,7 @@ export class ActivityObjectHelper {
       return undefined;
     }
 
-    if (typeof icon == 'string') {
-      console.log(icon);
+    if ('string' == typeof icon) {
       return icon;
     }
 
