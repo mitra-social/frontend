@@ -105,6 +105,11 @@ export class ActivityObjectHelper {
       return undefined;
     }
 
+    if (typeof icon == 'string') {
+      console.log(icon);
+      return icon;
+    }
+
     if ((icon as Link).href) {
       return (icon as Link).href.toString();
     } else if ((icon as Image).url) {

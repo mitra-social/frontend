@@ -27,6 +27,7 @@ import { ActivityObject, Link } from "activitypub-objects";
 
 import SummarizedActor from "@/components/actor/ActorSummarized.vue";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
+import md5 from "md5";
 
 @Component({
   components: {
@@ -45,7 +46,15 @@ export default class ActorPin extends Vue {
   }
 
   get icon(): string | undefined {
-    return ActivityObjectHelper.extractIcon(this.actor as ActivityObject);
+    const originalIconUri = ActivityObjectHelper.extractIcon(
+      this.actor as ActivityObject
+    );
+
+    if (!originalIconUri) {
+      return originalIconUri;
+    }
+
+    return process.env.VUE_APP_BACKEND_URL + "/media/" + md5(originalIconUri);
   }
 }
 </script>
