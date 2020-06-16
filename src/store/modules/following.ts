@@ -34,6 +34,8 @@ class FollowingStore extends VuexModule {
   @Mutation
   public setFollowing(actors: Actor[]): void {
     if (actors) {
+      this.following = [];
+
       actors.forEach(($) => {
         const f = { actor: $, show: true };
         this.following.push(f);

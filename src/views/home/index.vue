@@ -1,5 +1,5 @@
 <template>
-  <div class="content" no-gutters>
+  <div class="home-content" no-gutters>
     <div class="following-actors" v-if="isFollowingLoading">
       <FollowingActors />
     </div>
@@ -49,11 +49,23 @@ export default class MitraHome extends Vue {
 body {
   background-color: #333;
 }
-.content {
-  width: 100%;
+.home-content {
   height: 100%;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-height: 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.following-actors,
+.posts {
+  height: 100%;
+  overflow: auto;
 }
 
 .following-actors {
@@ -65,6 +77,5 @@ body {
   flex-basis: 0;
   flex-grow: 1;
   width: 100%;
-  min-height: 100%;
 }
 </style>
