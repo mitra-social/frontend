@@ -4,10 +4,10 @@ node_js:
   - 14
 
 addons:
-  chrome: 83
+  chrome: stable
 
 install:
-  - wget -N http://chromedriver.storage.googleapis.com/83.0.4103.39/chromedriver_linux64.zip -P ~/
+  - wget -N http://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip -P ~/
   - unzip ~/chromedriver_linux64.zip -d ~/
   - rm ~/chromedriver_linux64.zip
   - sudo mv -f ~/chromedriver /usr/local/share/
