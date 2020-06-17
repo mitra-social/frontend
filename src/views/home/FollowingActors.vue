@@ -79,7 +79,7 @@ export default class FollowingActors extends Vue {
   public fetchCollection!: (user: string) => Promise<void>;
 
   @collectionStore.Action
-  public addExludeActor!: (actoId: string) => void;
+  public addExcludeActor!: (actorId: string) => void;
 
   @collectionStore.Action
   public removeActorFromExclude!: (actorId: string) => void;
@@ -93,7 +93,7 @@ export default class FollowingActors extends Vue {
       }
 
       if (isAdd) {
-        this.addExludeActor(id);
+        this.addExcludeActor(id);
         following.show = false;
         return;
       }
