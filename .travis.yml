@@ -1,14 +1,10 @@
 language: node_js
 
 node_js:
-  - 12
+  - 14
 
 addons:
   chrome: stable
-
-before_install:
-#  - npm run serve
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost
 
 install:
   - wget -N http://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip -P ~/
@@ -23,8 +19,8 @@ cache:
     - node_modules
 
 script:
-  - "npm run test:unit"
-  - "npm run test:e2e"
+  - whereis google-chrome-stable
+  - whereis chromedriver
 
 after_success:
   - npm run coveralls
