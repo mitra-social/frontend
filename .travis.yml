@@ -18,14 +18,19 @@ script:
   - "npm run test:unit"
   - "npm run test:e2e"
 
-after_success:
-  - npm run coveralls
+#after_success:
+#  - npm run coveralls
 
 jobs:
   include:
     - stage: lint
       name: "Code style"
       script: npm run lint
+    - stage: test
+      name: "Tests"
+      script:
+        - "npm run test:unit"
+        - "npm run test:e2e"
 
 stages:
   - lint
