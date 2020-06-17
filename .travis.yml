@@ -3,23 +3,23 @@ language: node_js
 node_js:
   - 12
 
+addons:
+  chrome: stable
+
+before_install:
+#  - npm run serve
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost
+
 cache:
   directories:
     - node_modules
 
-before_install:
-  - npm install -g npm
-
-install:
-  - npm install
-
 script:
-  - npm build
   - "npm run test:unit"
   - "npm run test:e2e"
 
-#after_success:
-#  - npm run coveralls
+after_success:
+  - npm run coveralls
 
 jobs:
   include:
