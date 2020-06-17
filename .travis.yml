@@ -9,7 +9,6 @@ cache:
 
 script:
   - npm run test:unit
-  - npm run test:e2e
 
 after_success:
   - npm run coveralls
