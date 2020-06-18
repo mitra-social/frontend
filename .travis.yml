@@ -2,25 +2,38 @@ language: node_js
 
 node_js:
   - 12
+  - 14
+
+addons:
+  chrome: stable
+
+install:
+  - wget -N http://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip -P ~/
+  - unzip ~/chromedriver_linux64.zip -d ~/
+  - rm ~/chromedriver_linux64.zip
+  - sudo mv -f ~/chromedriver /usr/local/share/
+  - sudo chmod +x /usr/local/share/chromedriver
+  - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+  - npm install
 
 cache:
   directories:
-  - node_modules
+    - node_modules
 
 script:
-  - npm test
+  - whereis google-chrome-stable
+  - whereis chromedriver
+  - "npm run test:unit"
+  - "npm run test:e2e"
 
 after_success:
-  - npm run coveralls
+  - cat ./build/coverage/lcov.info | coveralls
 
 jobs:
   include:
     - stage: lint
       name: "Code style"
       script: npm run lint
-    - stage: test
-      name: "Run test"
-      script: npm run test
 
 stages:
   - lint
