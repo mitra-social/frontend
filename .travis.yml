@@ -27,7 +27,7 @@ script:
   - "npm run test:e2e"
 
 after_success:
-  - npm run coverage | coveralls
+  - jest --coverage --coverageReporters=lcov | coveralls
 
 jobs:
   include:

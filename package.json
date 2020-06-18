@@ -12,7 +12,7 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint --no-fix --max-warnings 0",
-    "coverage": "jest --coverage --coverageReporters=text-summary --coverageReporters=lcov"
+    "coverage": "jest --coverage --coverageReporters=text-summary"
   },
   "dependencies": {
     "@mdi/font": "^5.2.45",
