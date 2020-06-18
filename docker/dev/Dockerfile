@@ -14,7 +14,8 @@ RUN npm install -g npm
 
 # install and cache app dependencies
 COPY package.json /app/package.json
-RUN npm install
+# Fix run prepare of activitypub-objects (https://github.com/npm/npm/issues/17346)
+RUN npm config set unsafe-perm true && npm install
 RUN npm install @vue/cli@3.7.0 -g
 
 # start app
