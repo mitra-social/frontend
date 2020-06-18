@@ -17,7 +17,7 @@ module.exports = {
     this.init();
     this.waitForElementVisible("#app");
 
-    const result = await this.elements("css selector", "#app ul");
+    const result = await this.elements("css selector", "#app input");
     this.assert.strictEqual(result.value.length, 3);
   },
 };
