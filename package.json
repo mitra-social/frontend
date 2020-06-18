@@ -11,9 +11,7 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "lint": "vue-cli-service lint --no-fix --max-warnings 0",
-    "coverage": "jest",
-    "coveralls": "jest && cat ./build/coverage/lcov.info | coveralls"
+    "lint": "vue-cli-service lint --no-fix --max-warnings 0"
   },
   "dependencies": {
     "@mdi/font": "^5.2.45",

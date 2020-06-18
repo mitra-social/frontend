@@ -27,7 +27,7 @@ script:
   - "npm run test:e2e"
 
 after_success:
-  - npm run coveralls
+  - cat ./build/coverage/lcov.info | coveralls
 
 jobs:
   include:
