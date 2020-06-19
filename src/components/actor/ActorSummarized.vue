@@ -23,7 +23,7 @@
           <v-btn
             class="following-btn"
             icon
-            v-if="isFollowing()"
+            v-if="isFollowing(actor)"
             @click="onUnfollow()"
           >
             <v-icon>mdi-account-remove</v-icon>
@@ -70,11 +70,8 @@ export default class ActorSummarized extends Vue {
   @followingStore.Getter
   public getFollowing!: Actor[];
 
-  @followingStore.Action
-  public fetchFollowing!: (user: string) => Promise<void>;
-
-  @followingStore.Action
-  public setIsFollowing!: (actor: string) => void;
+  @followingStore.Getter
+  public isFollowing!: boolean;
 
   @followingStore.Action
   public follow!: (actor: Actor) => Promise<void>;
@@ -82,40 +79,24 @@ export default class ActorSummarized extends Vue {
   @followingStore.Action
   public unfollow!: (actor: Actor) => Promise<void>;
 
-  private isFollowing(): boolean {
-    return this.getFollowing.some(
-      ($) =>
-        ActivityObjectHelper.extractId($) ===
-        ActivityObjectHelper.extractId(this.actor)
-    );
-  }
-
   private onFollow() {
-    this.follow(this.actor as Actor)
-      .then(() => {
-        this.isFollowing();
-      })
-      .catch(() => {
-        this.$toast.error(
-          `Following ${ActivityObjectHelper.extractActorName(
-            this.actor as ActivityObject
-          )} failed.`
-        );
-      });
+    this.follow(this.actor as Actor).catch(() => {
+      this.$toast.error(
+        `Following ${ActivityObjectHelper.extractActorName(
+          this.actor as ActivityObject
+        )} failed.`
+      );
+    });
   }
 
   private onUnfollow() {
-    this.unfollow(this.actor as Actor)
-      .then(() => {
-        this.isFollowing();
-      })
-      .catch(() => {
-        this.$toast.error(
-          `Unfollowing  ${ActivityObjectHelper.extractActorName(
-            this.actor as ActivityObject
-          )} failed.`
-        );
-      });
+    this.unfollow(this.actor as Actor).catch(() => {
+      this.$toast.error(
+        `Unfollowing  ${ActivityObjectHelper.extractActorName(
+          this.actor as ActivityObject
+        )} failed.`
+      );
+    });
   }
 }
 </script>

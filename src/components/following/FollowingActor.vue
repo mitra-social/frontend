@@ -1,30 +1,86 @@
 <template>
-  <v-list-item>
+  <v-list-item inactive v-if="following">
     <v-list-item-avatar>
-      <v-img src="icon" v-if="icon"></v-img>
+      <v-img :src="icon" v-if="icon"></v-img>
       <v-icon v-else>mdi-account-circle</v-icon>
     </v-list-item-avatar>
     <v-list-item-content>
       <v-list-item-title v-html="name"></v-list-item-title>
     </v-list-item-content>
+    <v-list-item-action>
+      <v-btn
+        class="following-btn"
+        icon
+        v-if="!following.show"
+        @click="toggleExcludeActor(following, false)"
+      >
+        <v-icon>mdi-eye-off</v-icon>
+      </v-btn>
+      <v-btn
+        class="following-btn"
+        icon
+        v-else
+        @click="toggleExcludeActor(following, true)"
+      >
+        <v-icon>mdi-eye</v-icon>
+      </v-btn>
+    </v-list-item-action>
   </v-list-item>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { ActivityObject, Link } from "activitypub-objects";
+import { ActivityObject } from "activitypub-objects";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
+import { Following } from "../../model/following";
+import { namespace } from "vuex-class";
+import md5 from "md5";
+
+const collectionStore = namespace("Collection");
 
 @Component
 export default class FollowingActor extends Vue {
-  @Prop() readonly actor!: ActivityObject | Link;
+  @Prop() readonly following!: Following;
 
   get name(): string | undefined {
-    return ActivityObjectHelper.extractActorName(this.actor as ActivityObject);
+    return ActivityObjectHelper.extractActorName(
+      this.following.actor as ActivityObject
+    );
   }
 
   get icon(): string | undefined {
-    return ActivityObjectHelper.extractIcon(this.actor as ActivityObject);
+    const originalIconUri = ActivityObjectHelper.extractIcon(
+      this.following.actor as ActivityObject
+    );
+
+    if (!originalIconUri) {
+      return originalIconUri;
+    }
+
+    return process.env.VUE_APP_BACKEND_URL + "/media/" + md5(originalIconUri);
+  }
+
+  @collectionStore.Action
+  public addExcludeActor!: (actorId: string) => void;
+
+  @collectionStore.Action
+  public removeActorFromExclude!: (actorId: string) => void;
+
+  private toggleExcludeActor(following: Following, isAdd: boolean) {
+    const id = ActivityObjectHelper.extractId(following.actor);
+
+    if (!id) {
+      return;
+    }
+
+    if (isAdd) {
+      this.addExcludeActor(id);
+      following.show = false;
+      return;
+    }
+
+    this.removeActorFromExclude(id);
+    following.show = true;
   }
 }
 </script>

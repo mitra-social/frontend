@@ -23,9 +23,12 @@ describe("FollowingActor.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        actor: {
-          type: "Person",
-          preferredUsername: preferredUsername,
+        following: {
+          actor: {
+            type: "Person",
+            preferredUsername: preferredUsername,
+          },
+          show: true,
         },
       },
     });
@@ -50,17 +53,20 @@ describe("FollowingActor.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        actor: {
-          type: "Person",
-          preferredUsername: "john.doe",
-          name: name,
-          icon: {
-            type: "Image",
-            name: "Avatar",
-            url: iconUrl,
-            width: 16,
-            height: 16,
+        following: {
+          actor: {
+            type: "Person",
+            preferredUsername: "john.doe",
+            name: name,
+            icon: {
+              type: "Image",
+              name: "Avatar",
+              url: iconUrl,
+              width: 16,
+              height: 16,
+            },
           },
+          show: true,
         },
       },
     });
@@ -79,15 +85,18 @@ describe("FollowingActor.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        actor: {
-          type: "Person",
-          preferredUsername: "john.doe",
-          name: "Foo",
-          nameMap: {
-            de: "Hans",
-            fr: "Jean",
-            en: name,
+        following: {
+          actor: {
+            type: "Person",
+            preferredUsername: "john.doe",
+            name: "Foo",
+            nameMap: {
+              de: "Hans",
+              fr: "Jean",
+              en: name,
+            },
           },
+          show: true,
         },
       },
     });
@@ -103,14 +112,17 @@ describe("FollowingActor.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        actor: {
-          type: "Person",
-          preferredUsername: "john.doe",
-          name: name,
-          nameMap: {
-            de: "Hans",
-            fr: "Jean",
+        following: {
+          actor: {
+            type: "Person",
+            preferredUsername: "john.doe",
+            name: name,
+            nameMap: {
+              de: "Hans",
+              fr: "Jean",
+            },
           },
+          show: true,
         },
       },
     });

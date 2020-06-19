@@ -17,8 +17,9 @@ class Collection extends VuexModule {
   public partOf = "";
   public totalItems = 0;
   public page = 0;
+  public excludedActors: string[] = [];
 
-  get getPosts() {
+  get getPosts(): (ActivityObject | Link)[] | undefined {
     if (!this.items) {
       return;
     }
@@ -34,24 +35,53 @@ class Collection extends VuexModule {
           ($.object as ActivityObject).type in PostTypes
       )
       .map(ActivityObjectHelper.extractObjectFromActivity);
-    return postTypeItems.concat(activityItems);
+    return postTypeItems
+      .concat(activityItems)
+      .filter(
+        (item) =>
+          !this.excludedActors.some(
+            (actor) =>
+              ActivityObjectHelper.extractId(
+                (item as ActivityObject).attributedTo as ActivityObject
+              ) === actor
+          )
+      );
   }
 
-  get getPartOf() {
+  get excludeActorLength(): number {
+    return this.excludedActors.length;
+  }
+
+  get getPartOf(): string {
     return this.partOf;
   }
 
-  get getTotalItems() {
+  get getTotalItems(): number {
     return this.totalItems;
   }
 
-  get getPage() {
+  get getPage(): number {
     return this.page;
   }
 
   @Mutation
   public setItems(items: Array<ActivityObject | Link>): void {
     this.items = items;
+  }
+
+  @Mutation
+  public setActorFilter(filterActorList: string[]): void {
+    this.excludedActors = filterActorList;
+  }
+
+  @Mutation
+  public excludeActor(actorId: string): void {
+    this.excludedActors.push(actorId);
+  }
+
+  @Mutation
+  public removeExcludedActor(actorId: string): void {
+    this.excludedActors = this.excludedActors.filter(($) => $ !== actorId);
   }
 
   @Action({ rawError: true })
@@ -99,6 +129,16 @@ class Collection extends VuexModule {
       .then((items) => {
         this.context.commit("setItems", items);
       });
+  }
+
+  @Action
+  public addExcludeActor(actorId: string): void {
+    this.context.commit("excludeActor", actorId);
+  }
+
+  @Action
+  public removeActorFromExclude(actorId: string): void {
+    this.context.commit("removeExcludedActor", actorId);
   }
 }
 
