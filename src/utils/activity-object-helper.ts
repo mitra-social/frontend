@@ -105,6 +105,10 @@ export class ActivityObjectHelper {
       return undefined;
     }
 
+    if ("string" == typeof icon) {
+      return icon;
+    }
+
     if ((icon as Link).href) {
       return (icon as Link).href.toString();
     } else if ((icon as Image).url) {

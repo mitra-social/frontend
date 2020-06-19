@@ -17,7 +17,7 @@ class Collection extends VuexModule {
   public partOf = "";
   public totalItems = 0;
   public page = 0;
-  public excludeActor: string[] = [];
+  public excludedActors: string[] = [];
 
   get getPosts(): (ActivityObject | Link)[] | undefined {
     if (!this.items) {
@@ -39,7 +39,7 @@ class Collection extends VuexModule {
       .concat(activityItems)
       .filter(
         (item) =>
-          !this.excludeActor.some(
+          !this.excludedActors.some(
             (actor) =>
               ActivityObjectHelper.extractId(
                 (item as ActivityObject).attributedTo as ActivityObject
@@ -49,7 +49,7 @@ class Collection extends VuexModule {
   }
 
   get excludeActorLength(): number {
-    return this.excludeActor.length;
+    return this.excludedActors.length;
   }
 
   get getPartOf(): string {
@@ -71,17 +71,17 @@ class Collection extends VuexModule {
 
   @Mutation
   public setActorFilter(filterActorList: string[]): void {
-    this.excludeActor = filterActorList;
+    this.excludedActors = filterActorList;
   }
 
   @Mutation
-  public exludeActor(actoId: string): void {
-    this.excludeActor.push(actoId);
+  public excludeActor(actorId: string): void {
+    this.excludedActors.push(actorId);
   }
 
   @Mutation
-  public removeExludeActor(actoId: string): void {
-    this.excludeActor = this.excludeActor.filter(($) => $ !== actoId);
+  public removeExcludedActor(actorId: string): void {
+    this.excludedActors = this.excludedActors.filter(($) => $ !== actorId);
   }
 
   @Action({ rawError: true })
@@ -132,13 +132,13 @@ class Collection extends VuexModule {
   }
 
   @Action
-  public addExludeActor(actoId: string): void {
-    this.context.commit("exludeActor", actoId);
+  public addExcludeActor(actorId: string): void {
+    this.context.commit("excludeActor", actorId);
   }
 
   @Action
-  public removeActorFromExclude(actoId: string): void {
-    this.context.commit("removeExludeActor", actoId);
+  public removeActorFromExclude(actorId: string): void {
+    this.context.commit("removeExcludedActor", actorId);
   }
 }
 

@@ -1,7 +1,7 @@
 <template>
   <v-list-item inactive v-if="following">
     <v-list-item-avatar>
-      <v-img src="icon" v-if="icon"></v-img>
+      <v-img :src="icon" v-if="icon"></v-img>
       <v-icon v-else>mdi-account-circle</v-icon>
     </v-list-item-avatar>
     <v-list-item-content>
@@ -34,6 +34,7 @@ import { ActivityObject } from "activitypub-objects";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 import { Following } from "../../model/following";
 import { namespace } from "vuex-class";
+import md5 from "md5";
 
 const collectionStore = namespace("Collection");
 
@@ -48,13 +49,19 @@ export default class FollowingActor extends Vue {
   }
 
   get icon(): string | undefined {
-    return ActivityObjectHelper.extractIcon(
+    const originalIconUri = ActivityObjectHelper.extractIcon(
       this.following.actor as ActivityObject
     );
+
+    if (!originalIconUri) {
+      return originalIconUri;
+    }
+
+    return process.env.VUE_APP_BACKEND_URL + "/media/" + md5(originalIconUri);
   }
 
   @collectionStore.Action
-  public addExludeActor!: (actoId: string) => void;
+  public addExcludeActor!: (actorId: string) => void;
 
   @collectionStore.Action
   public removeActorFromExclude!: (actorId: string) => void;
@@ -67,7 +74,7 @@ export default class FollowingActor extends Vue {
     }
 
     if (isAdd) {
-      this.addExludeActor(id);
+      this.addExcludeActor(id);
       following.show = false;
       return;
     }
