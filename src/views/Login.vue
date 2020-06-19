@@ -11,7 +11,7 @@
         </v-toolbar>
         <v-form @submit.prevent="handleSubmit">
           <v-card-text>
-            <v-alert v-if="authStatus === 404" dense outlined type="error">
+            <v-alert v-if="authStatus === 401" dense outlined type="error">
               The user name or password you entered isn't correct. Try entering
               it again.
             </v-alert>
@@ -55,29 +55,33 @@ import { namespace } from "vuex-class";
 
 import { Credential } from "@/model/credential";
 
-const auth = namespace("Auth");
+const authStore = namespace("Auth");
+const notifyStore = namespace("Notify");
 
 @Component
 export default class Login extends Vue {
   private user = "";
   private password = "";
 
-  @auth.Getter
+  @authStore.Getter
   public authStatus!: number;
 
-  @auth.Action
+  @authStore.Action
   public login!: (credential: Credential) => void;
+
+  @notifyStore.Action
+  public error!: (message: string) => void;
 
   public handleSubmit() {
     this.login({ username: this.user, password: this.password });
   }
 
-  private created() {
+  private created(): void {
     if (
       this.$router.currentRoute.params.redirectFrom &&
       this.authStatus === 401
     ) {
-      this.$toast.error("Authenctication failed.");
+      this.error("Authenctication failed.");
     }
   }
 }

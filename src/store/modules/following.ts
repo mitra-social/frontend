@@ -63,6 +63,7 @@ class FollowingStore extends VuexModule {
   @Action
   public async fetchFollowing(user: string): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
+    this.context.commit("setFollowing", []);
 
     return await client
       .fetchFollowing(token, user, 0)

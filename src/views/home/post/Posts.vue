@@ -69,6 +69,7 @@ import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
 
 const collectionStore = namespace("Collection");
+const notifyStore = namespace("Notify");
 
 @Component({
   components: {
@@ -89,6 +90,9 @@ export default class MitraPosts extends Vue {
 
   @collectionStore.Action
   public fetchCollection!: (user: string) => Promise<void>;
+
+  @notifyStore.Action
+  public error!: (message: string) => void;
 
   private created() {
     this.initGetUser();
@@ -113,7 +117,7 @@ export default class MitraPosts extends Vue {
   private notAllowedUser() {
     AuthenticationUtil.clear();
     router.push("/login");
-    this.$toast.error("Authentication is incorrect");
+    this.error("Authentication is incorrect");
   }
 }
 </script>

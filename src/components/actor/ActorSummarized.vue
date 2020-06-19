@@ -47,6 +47,7 @@ import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
 const userStore = namespace("User");
 const followingStore = namespace("Following");
+const notifyStore = namespace("Notify");
 
 @Component
 export default class ActorSummarized extends Vue {
@@ -79,9 +80,12 @@ export default class ActorSummarized extends Vue {
   @followingStore.Action
   public unfollow!: (actor: Actor) => Promise<void>;
 
+  @notifyStore.Action
+  public error!: (message: string) => void;
+
   private onFollow() {
     this.follow(this.actor as Actor).catch(() => {
-      this.$toast.error(
+      this.error(
         `Following ${ActivityObjectHelper.extractActorName(
           this.actor as ActivityObject
         )} failed.`
@@ -91,7 +95,7 @@ export default class ActorSummarized extends Vue {
 
   private onUnfollow() {
     this.unfollow(this.actor as Actor).catch(() => {
-      this.$toast.error(
+      this.error(
         `Unfollowing  ${ActivityObjectHelper.extractActorName(
           this.actor as ActivityObject
         )} failed.`
