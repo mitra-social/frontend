@@ -33,10 +33,8 @@ describe("Posts.vue", () => {
   it("Count posts", async () => {
     AuthenticationUtil.setUser("john.doe");
     const wrapper = shallowMount(Posts, { localVue, vuetify, store });
-    // const spy = jest.spyOn(wrapper.vm.$toast, "error");
     await flushPromises();
     expect(wrapper.findAll(".post").length).toBe(9);
-    // expect(spy).toHaveBeenCalledTimes(0);
   });
 
   it("First post is article type", async () => {
