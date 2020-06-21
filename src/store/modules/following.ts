@@ -113,6 +113,10 @@ class FollowingStore extends VuexModule {
 
     return await client.writeToOutbox(token, user, follow, summary).then(() => {
       this.context.commit("addFollowing", actor);
+    }).catch(() => {
+      this.context.dispatch("Notify/error",
+        `Following  ${ActivityObjectHelper.extractActorName(actor)} failed.`,
+        { root: true })
     });
   }
 
@@ -136,6 +140,10 @@ class FollowingStore extends VuexModule {
       .writeToOutbox(token, user, undo as ActivityObject, summary)
       .then(() => {
         this.context.commit("removeFollowing", actor);
+      }).catch(() => {
+        this.context.dispatch("Notify/error",
+          `Unfollowing  ${ActivityObjectHelper.extractActorName(actor)} failed.`,
+          { root: true })
       });
   }
 }

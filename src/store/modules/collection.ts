@@ -128,6 +128,9 @@ class Collection extends VuexModule {
       })
       .then((items) => {
         this.context.commit("setItems", items);
+      })
+      .catch(error => {
+        this.context.dispatch("Notify/error", error, { root: true });
       });
   }
 
