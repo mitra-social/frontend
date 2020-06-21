@@ -7,6 +7,7 @@ import flushPromises from "flush-promises";
 import store from "@/store";
 import Posts from "@/views/home/post/Posts.vue";
 import { AuthenticationUtil } from "@/utils/authentication-util";
+import { Notify } from '@/model/notify';
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -41,7 +42,6 @@ describe("Posts.vue", () => {
   it("First post is article type", async () => {
     AuthenticationUtil.setUser("john.doe");
     const wrapper = shallowMount(Posts, { localVue, vuetify, store });
-    // const spy = jest.spyOn(wrapper.vm.$toast, "error");
     await flushPromises();
     expect(
       wrapper.findAll(".post").at(0).find("v-list-item-title-stub").text()
@@ -53,15 +53,17 @@ describe("Posts.vue", () => {
         .find("ActivityStreamsArticleType-stub")
         .exists()
     ).toBe(true);
-    // expect(spy).toHaveBeenCalledTimes(0);
   });
 
-  it("Wrong user", async () => {
+  it("Wrong user", async done => {
     AuthenticationUtil.setUser("jenny.moe");
     const wrapper = shallowMount(Posts, { localVue, vuetify, store });
-    // const spy = jest.spyOn(wrapper.vm.$toast, "error");
-    await flushPromises();
-    await wrapper.vm.$nextTick();
-    // expect(spy).toHaveBeenCalled();
+    wrapper.vm.$store.subscribe((mutation, state) => {
+      if (mutation.type === "Notify/setNofify") {
+        const notification: Notify = state.Notify.notification;
+        expect(notification.message).toBe("Authentication is incorrect");
+      }
+    });
+    done();
   });
 });
