@@ -40,6 +40,8 @@ router.beforeEach((to, from, next) => {
   const publicPages = ["/login", "/signup"];
   const authRequired = !publicPages.includes(to.path);
 
+  console.info(authRequired);
+  console.info(!store.getters["Auth/isAuthenticated"]);
   if (authRequired && !store.getters["Auth/isAuthenticated"]) {
     next({ name: "login" });
   } else if (authRequired && !store.getters["User/isUserFetch"]) {
