@@ -1,7 +1,7 @@
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 
-import { NotifyType } from '@/model/notify-type';
-import { Notify } from '@/model/notify';
+import { NotifyType } from "@/model/notify-type";
+import { Notify } from "@/model/notify";
 
 @Module({ namespaced: true })
 class NotifyStore extends VuexModule {

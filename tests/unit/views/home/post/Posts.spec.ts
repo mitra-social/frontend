@@ -7,7 +7,7 @@ import flushPromises from "flush-promises";
 import store from "@/store";
 import Posts from "@/views/home/post/Posts.vue";
 import { AuthenticationUtil } from "@/utils/authentication-util";
-import { Notify } from '@/model/notify';
+import { Notify } from "@/model/notify";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -53,7 +53,7 @@ describe("Posts.vue", () => {
     ).toBe(true);
   });
 
-  it("Wrong user", async done => {
+  it("Wrong user", async (done) => {
     AuthenticationUtil.setUser("jenny.moe");
     const wrapper = shallowMount(Posts, { localVue, vuetify, store });
     wrapper.vm.$store.subscribe((mutation, state) => {
