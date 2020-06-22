@@ -4,7 +4,7 @@ import Vuetify from "vuetify";
 import { mount, createLocalVue } from "@vue/test-utils";
 import { Activity } from "activitypub-objects";
 
-import collection from "@/api-client/mock/data/collection.json";
+import collection from "@/api-client/mock/data/collection-page-1.json";
 import ActivityStreamsArticleType from "@/views/home/post/text-type/ActivityStreamsArticleType.vue";
 
 const localVue = createLocalVue();

@@ -7,7 +7,7 @@ import flushPromises from "flush-promises";
 
 import store from "@/store";
 import ActorSummarized from "@/components/actor/ActorSummarized.vue";
-import collection from "@/api-client/mock/data/collection.json";
+import collection from "@/api-client/mock/data/collection-page-1.json";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 
 const localVue = createLocalVue();

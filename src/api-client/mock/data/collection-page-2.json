@@ -3,15 +3,16 @@
   "summary": "Sally's articles",
   "type": "OrderedCollectionPage",
   "partOf": "http://mock/user/john.doe/inbox",
-  "totalItems": 11,
+  "totalItems": 6,
+  "prev": "http://example.org/collection?page=0",
   "orderedItems": [
     {
       "type": "Create",
       "id": "http://activities.example.com/1",
       "object": {
         "type": "Article",
-        "name": "Minecraft Signs",
-        "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>"
+        "name": "Page 2: Minecraft Signs",
+        "content": "Page 2: <p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>"
       },
       "actor": {
         "id": "http://sally.example.org",
@@ -29,8 +30,8 @@
       "id": "http://activities.example.com/2",
       "object": {
         "type": "Article",
-        "name": "Hi/Ho",
-        "content": "<p><span style=\"color: red\">SAVIOR OF SONG</span> (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>"
+        "name": "Page 2: Hi/Ho",
+        "content": "Page 2: <p><span style=\"color: blue\">SAVIOR OF SONG</span> (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>"
       },
       "actor": "http://johnny.example.org"
     },
@@ -39,8 +40,8 @@
       "id": "http://activities.example.com/3",
       "object": {
         "type": "Article",
-        "name": "The Clinic",
-        "content": "<p>the misinformation and outright lies on this webbed site about Covid 19 driven by certain anarchists is wild. nice to know we're all Karens at the core waiting for the right activation call</p>"
+        "name": "Page 2: The Clinic",
+        "content": "Page 2: <p>the misinformation and outright lies on this webbed site about Covid 19 driven by certain anarchists is wild. nice to know we're all Karens at the core waiting for the right activation call</p>"
       },
       "actor": {
         "id": "http://john.example.org",
@@ -65,7 +66,7 @@
         "summary": "A note",
         "type": "Note",
         "id": "http://notes.example.com/1",
-        "content": "A create note"
+        "content": "Page 2: A create note"
       }
     },
     {
@@ -79,31 +80,7 @@
         "summary": "A note",
         "type": "Note",
         "id": "http://notes.example.com/1",
-        "content": "A create note with published and updated datetime"
-      }
-    },
-    {
-      "summary": "Sally updated her note",
-      "type": "Update",
-      "actor": {
-        "type": "Person",
-        "name": "Sally",
-        "id": "http://sally.example.org"
-      },
-      "object": "http://example.org/notes/5"
-    },
-    {
-      "summary": "Sally deleted a note",
-      "type": "Delete",
-      "actor": {
-        "type": "Person",
-        "name": "Sally",
-        "id": "http://sally.example.org"
-      },
-      "object": "http://example.org/notes/4",
-      "origin": {
-        "type": "Collection",
-        "name": "Sally's Notes"
+        "content": "Page 2: A create note with published and updated datetime"
       }
     },
     {
@@ -121,8 +98,8 @@
       "id": "http://activities.example.com/2",
       "object": {
         "type": "Article",
-        "name": "Memory, time, and technology",
-        "content": "Cole has been thrust from another world into ours and he's confronted by the confusion we live in, which most people somehow accept as normal. So he appears abnormal, and what's happening around him seems random and weird. Is he mad or are we?"
+        "name": "Page 2: Memory, time, and technology",
+        "content": "Page 2: Cole has been thrust from another world into ours and he's confronted by the confusion we live in, which most people somehow accept as normal. So he appears abnormal, and what's happening around him seems random and weird. Is he mad or are we?"
       },
       "actor": "https://mitra-social.herokuapp.com/user/franco.g"
     },
@@ -139,9 +116,9 @@
         "cc": [
           "https://mastodon.social/users/fraenki/followers"
         ],
-        "content": "<p>With typescript, vuejs is even more fun</p>",
+        "content": "Page 2: <p>With typescript, vuejs is even more fun</p>",
         "contentMap": {
-          "en": "<p>With typescript, vuejs is even more fun</p>"
+          "en": "Page 2: <p>With typescript, vuejs is even more fun</p>"
         },
         "conversation": "tag:mastodon.social,2020-04-20:objectId=167641654:objectType=Conversation",
         "id": "https://mastodon.social/users/fraenki/statuses/104030050906488438",
@@ -186,9 +163,9 @@
         "cc": [
           "https://mastodon.social/users/fraenki/followers"
         ],
-        "content": "<p>Vuesj rocks</p>",
+        "content": "Page 2: <p>Vuesj rocks</p>",
         "contentMap": {
-          "en": "<p>Vuesj rocks</p>"
+          "en": "Page 2: <p>Vuesj rocks</p>"
         },
         "conversation": "tag:mastodon.social,2020-04-20:objectId=167641597:objectType=Conversation",
         "id": "https://mastodon.social/users/fraenki/statuses/104030048336906060",

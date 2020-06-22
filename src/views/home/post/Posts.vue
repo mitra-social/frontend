@@ -1,8 +1,8 @@
 <template>
-  <div class="post-container" v-if="getPosts">
+  <div id="scroll-target" class="post-container" v-if="getPosts">
     <div v-if="getPosts.length > 0">
       <div v-for="(post, index) in getPosts" :key="index">
-        <v-card class="post">
+        <v-card class="post" v-intersect="onIntersect" :data-index="index">
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="headline">{{
@@ -67,7 +67,9 @@ import ActorPin from "@/components/actor/ActorPin.vue";
 import Date from "@/components/ui/Date.vue";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
+import { User } from "@/model/user";
 
+const userStore = namespace("User");
 const collectionStore = namespace("Collection");
 const notifyStore = namespace("Notify");
 
@@ -85,11 +87,20 @@ const notifyStore = namespace("Notify");
   },
 })
 export default class MitraPosts extends Vue {
+  @userStore.Getter
+  public getUser!: User;
+
   @collectionStore.Getter
   public getPosts!: Array<ActivityObject | Link>;
 
+  @collectionStore.Getter
+  public getHasNext!: boolean;
+
   @collectionStore.Action
   public fetchCollection!: (user: string) => Promise<void>;
+
+  @collectionStore.Action
+  public nextCollection!: (user: string) => Promise<void>;
 
   @notifyStore.Action
   public error!: (message: string) => void;
@@ -99,10 +110,8 @@ export default class MitraPosts extends Vue {
   }
 
   private initGetUser() {
-    const user = AuthenticationUtil.getUser();
-
-    if (user) {
-      this.fetchCollection(user);
+    if (this.getUser) {
+      this.fetchCollection(this.getUser.preferredUsername);
     } else {
       AuthenticationUtil.clear();
       this.error("Authentication is incorrect");
@@ -112,6 +121,17 @@ export default class MitraPosts extends Vue {
 
   private getComponent(type: string) {
     return PostTypes[type as keyof typeof PostTypes];
+  }
+
+  private onIntersect(entries: IntersectionObserverEntry[]) {
+    if (this.getHasNext && entries[0].isIntersecting) {
+      const target: Element = entries[0].target as Element;
+      const index: number = +(target.getAttribute("data-index") ?? 0);
+
+      if (index > this.getPosts.length - 3) {
+        this.nextCollection(this.getUser.preferredUsername);
+      }
+    }
   }
 }
 </script>
