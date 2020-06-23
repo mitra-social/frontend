@@ -4,7 +4,8 @@ WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 RUN npm install -g npm
 COPY package.json /app/package.json
-RUN npm install --silent
+# Fix run prepare of activitypub-objects (https://github.com/npm/npm/issues/17346)
+RUN npm config set unsafe-perm true && npm install --silent
 RUN npm install @vue/cli@3.7.0 -g
 COPY . /app
 RUN npm run build

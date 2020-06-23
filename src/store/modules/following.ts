@@ -4,7 +4,7 @@ import {
   Link,
   CollectionPage,
   Actor,
-  Activities,
+  ActivityType,
 } from "activitypub-objects";
 
 import client from "apiClient";
@@ -107,7 +107,7 @@ class FollowingStore extends VuexModule {
     const follow = {
       to: objectFollow,
       object: objectFollow,
-      type: Activities.FOLLOW,
+      type: ActivityType.FOLLOW,
     };
 
     return await client.writeToOutbox(token, user, follow, summary).then(() => {
@@ -126,9 +126,9 @@ class FollowingStore extends VuexModule {
       object: {
         to: objectFollow,
         object: objectFollow,
-        type: Activities.FOLLOW,
+        type: ActivityType.FOLLOW,
       },
-      type: Activities.UNDO,
+      type: ActivityType.UNDO,
     };
 
     return await client
