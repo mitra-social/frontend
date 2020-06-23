@@ -20,7 +20,7 @@
         "name": "Sally",
         "icon": {
           "name": "avater",
-          "url": "https://i.picsum.photos/id/1062/5092/3395.jpg"
+          "url": "https://picsum.photos/200/1014"
         }
       }
     },
@@ -52,7 +52,7 @@
         },
         "icon": {
           "name": "avater",
-          "url": "https://i.picsum.photos/id/1059/7360/4912.jpg"
+          "url": "https://picsum.photos/200/103"
         }
       }
     },

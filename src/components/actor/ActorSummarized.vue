@@ -42,6 +42,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { ActivityObject, Link, Actor } from "activitypub-objects";
 
+import client from "apiClient";
 import { User } from "@/model/user";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
@@ -61,7 +62,11 @@ export default class ActorSummarized extends Vue {
   }
 
   get icon(): string | undefined {
-    return ActivityObjectHelper.extractIcon(this.actor as ActivityObject);
+    const originalIconUri = ActivityObjectHelper.extractIcon(
+      this.actor as ActivityObject
+    );
+
+    return client.getMedia(originalIconUri);
   }
 
   @userStore.Getter
