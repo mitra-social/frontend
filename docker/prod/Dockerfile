@@ -1,7 +1,8 @@
 # build environment
-FROM node:12.2.0-alpine as build
+FROM node:14-alpine as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
+RUN npm install -g npm
 COPY package.json /app/package.json
 RUN npm install --silent
 RUN npm install @vue/cli@3.7.0 -g
