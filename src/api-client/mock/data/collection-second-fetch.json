@@ -19,7 +19,7 @@
         "summary": "Nice persone you know",
         "name": "Sally",
         "icon": {
-          "name": "avater",
+          "name": "avatar",
           "url": "https://picsum.photos/200/1014"
         }
       }
@@ -51,7 +51,7 @@
           "fr": "Jean"
         },
         "icon": {
-          "name": "avater",
+          "name": "avatar",
           "url": "https://picsum.photos/200/103"
         }
       }

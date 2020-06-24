@@ -9,7 +9,7 @@
       "name": "Sally",
       "id": "http://sally.example.org",
       "icon": {
-        "name": "avater",
+        "name": "avatar",
         "url": "https://picsum.photos/200/1014"
       }
     },
