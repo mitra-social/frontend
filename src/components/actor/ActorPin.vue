@@ -25,6 +25,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { ActivityObject, Link } from "activitypub-objects";
 
+import client from "apiClient";
 import SummarizedActor from "@/components/actor/ActorSummarized.vue";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
@@ -45,7 +46,11 @@ export default class ActorPin extends Vue {
   }
 
   get icon(): string | undefined {
-    return ActivityObjectHelper.extractIcon(this.actor as ActivityObject);
+    const originalIconUri = ActivityObjectHelper.extractIcon(
+      this.actor as ActivityObject
+    );
+
+    return client.getMedia(originalIconUri);
   }
 }
 </script>

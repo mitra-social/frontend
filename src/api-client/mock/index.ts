@@ -145,4 +145,8 @@ export default {
     );
     return returnResult(token, user, {} as Promise<void>);
   },
+  getMedia(uri: string | undefined): string | undefined {
+    console.info(`getMedia => uri: ${uri}`);
+    return uri;
+  },
 } as ApiClient;

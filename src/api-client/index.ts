@@ -35,4 +35,5 @@ export interface ApiClient {
     activity: Activity,
     summary?: string
   ): Promise<void>;
+  getMedia(uri: string | undefined): string | undefined;
 }

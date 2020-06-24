@@ -1,6 +1,7 @@
 module.exports = {
   transpileDependencies: ["vuetify"],
   configureWebpack: {
+    devtool: "source-map",
     resolve: {
       alias: {
         apiClient: require("path").resolve(

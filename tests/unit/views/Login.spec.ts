@@ -31,7 +31,7 @@ describe("Login.vue", () => {
       password: "123",
     });
 
-    const button = wrapper.find(".v-btn");
+    const button = wrapper.find("#login-btn");
     button.trigger("click");
     flushPromises().then(() => {
       expect(wrapper.find(".v-alert").exists()).toBe(false);
@@ -48,11 +48,21 @@ describe("Login.vue", () => {
     });
 
     flushPromises().then(async () => {
-      const button = wrapper.find(".v-btn");
+      const button = wrapper.find("#login-btn");
       button.trigger("click");
 
       expect(wrapper.find(".v-alert").exists()).toBe(true);
       expect(router.currentRoute.path).toBe("/login");
+    });
+  });
+
+  it("Goto signup", async () => {
+    const wrapper = mount(Login, { localVue, vuetify, router, store });
+    const button = wrapper.find("#signup-link");
+    button.trigger("click");
+
+    flushPromises().then(async () => {
+      expect(router.currentRoute.path).toBe("/signup");
     });
   });
 });
