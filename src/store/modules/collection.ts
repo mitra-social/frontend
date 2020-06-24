@@ -3,13 +3,13 @@ import {
   OrderedCollectionPage,
   ActivityObject,
   Link,
+  Activity,
 } from "activitypub-objects";
 
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Activity } from "@/model/mitra-activity";
 
 @Module({ namespaced: true })
 class Collection extends VuexModule {
@@ -17,8 +17,9 @@ class Collection extends VuexModule {
   public partOf = "";
   public totalItems = 0;
   public page = 0;
+  public excludedActors: string[] = [];
 
-  get getPosts() {
+  get getPosts(): (ActivityObject | Link)[] | undefined {
     if (!this.items) {
       return;
     }
@@ -34,24 +35,53 @@ class Collection extends VuexModule {
           ($.object as ActivityObject).type in PostTypes
       )
       .map(ActivityObjectHelper.extractObjectFromActivity);
-    return postTypeItems.concat(activityItems);
+    return postTypeItems
+      .concat(activityItems)
+      .filter(
+        (item) =>
+          !this.excludedActors.some(
+            (actor) =>
+              ActivityObjectHelper.extractId(
+                (item as ActivityObject).attributedTo as ActivityObject
+              ) === actor
+          )
+      );
   }
 
-  get getPartOf() {
+  get excludeActorLength(): number {
+    return this.excludedActors.length;
+  }
+
+  get getPartOf(): string {
     return this.partOf;
   }
 
-  get getTotalItems() {
+  get getTotalItems(): number {
     return this.totalItems;
   }
 
-  get getPage() {
+  get getPage(): number {
     return this.page;
   }
 
   @Mutation
   public setItems(items: Array<ActivityObject | Link>): void {
     this.items = items;
+  }
+
+  @Mutation
+  public setActorFilter(filterActorList: string[]): void {
+    this.excludedActors = filterActorList;
+  }
+
+  @Mutation
+  public excludeActor(actorId: string): void {
+    this.excludedActors.push(actorId);
+  }
+
+  @Mutation
+  public removeExcludedActor(actorId: string): void {
+    this.excludedActors = this.excludedActors.filter(($) => $ !== actorId);
   }
 
   @Action({ rawError: true })
@@ -61,42 +91,57 @@ class Collection extends VuexModule {
       .fetchPosts(token, user, this.page)
       .then((collection: OrderedCollectionPage) => {
         return Promise.all(
-          collection.orderedItems.map(async (item: ActivityObject | Link) => {
-            if (
-              item.type !== "Link" &&
-              (typeof (item as ActivityObject).attributedTo === "string" ||
-                typeof (item as Activity).actor === "string")
-            ) {
-              const url =
-                (item as Activity).actor ??
-                (item as ActivityObject).attributedTo;
+          collection.orderedItems.map(
+            async (item: ActivityObject | Link | URL) => {
+              if (
+                (item as ActivityObject).type !== "Link" &&
+                (typeof (item as ActivityObject).attributedTo === "string" ||
+                  typeof (item as Activity).actor === "string")
+              ) {
+                const url =
+                  (item as Activity).actor ??
+                  (item as ActivityObject).attributedTo;
 
-              if (url) {
-                return await client
-                  .getActor(url.toString())
-                  .then(($) => {
-                    if ($) {
-                      if ((item as Activity).actor) {
-                        (item as Activity).actor = $;
-                      } else if ((item as ActivityObject).attributedTo) {
-                        (item as ActivityObject).attributedTo = $;
+                if (url) {
+                  return await client
+                    .getActor(url.toString())
+                    .then(($) => {
+                      if ($) {
+                        if ((item as Activity).actor) {
+                          (item as Activity).actor = $;
+                        } else if ((item as ActivityObject).attributedTo) {
+                          (item as ActivityObject).attributedTo = $;
+                        }
                       }
-                    }
-                    return item;
-                  })
-                  .catch(() => Promise.resolve(undefined));
+                      return item;
+                    })
+                    .catch(() => Promise.resolve(undefined));
+                } else {
+                  return item;
+                }
               } else {
                 return item;
               }
-            } else {
-              return item;
             }
-          })
+          )
         );
       })
       .then((items) => {
         this.context.commit("setItems", items);
+      })
+      .catch((error: Error) => {
+        this.context.dispatch("Notify/error", error.message, { root: true });
       });
+  }
+
+  @Action
+  public addExcludeActor(actorId: string): void {
+    this.context.commit("excludeActor", actorId);
+  }
+
+  @Action
+  public removeActorFromExclude(actorId: string): void {
+    this.context.commit("removeExcludedActor", actorId);
   }
 }
 

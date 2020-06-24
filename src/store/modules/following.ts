@@ -1,29 +1,50 @@
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
-import { ActivityObject, Link, CollectionPage } from "activitypub-objects";
+import {
+  ActivityObject,
+  Link,
+  CollectionPage,
+  Actor,
+  ActivityType,
+} from "activitypub-objects";
 
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Activities } from "activitypub-objects/dst/activities/activity";
-import { Actor } from "@/model/mitra-actor";
+import { Following } from "@/model/following";
 
 @Module({ namespaced: true })
-class Following extends VuexModule {
-  public following: (ActivityObject | Link)[] | undefined = undefined;
+class FollowingStore extends VuexModule {
+  private following: Following[] = [];
 
-  get getFollowing() {
+  get getFollowing(): Following[] {
     return this.following;
+  }
+
+  get isFollowing() {
+    const following = this.following;
+    return (actor: ActivityObject): boolean => {
+      return following.some(
+        ($) =>
+          ActivityObjectHelper.extractId($.actor) ===
+          ActivityObjectHelper.extractId(actor)
+      );
+    };
   }
 
   @Mutation
   public setFollowing(actors: Actor[]): void {
-    this.following = actors ? actors : [];
+    if (actors) {
+      actors.forEach(($) => {
+        const f = { actor: $, show: true };
+        this.following.push(f);
+      });
+    }
   }
 
   @Mutation
   public addFollowing(actor: ActivityObject | Link): void {
     if (this.following) {
-      this.following.push(actor);
+      this.following.push({ actor, show: true });
     }
   }
 
@@ -32,7 +53,7 @@ class Following extends VuexModule {
     if (this.following) {
       this.following = this.following.filter(($) => {
         return (
-          ActivityObjectHelper.extractId($) !==
+          ActivityObjectHelper.extractId($.actor) !==
           ActivityObjectHelper.extractId(actor)
         );
       });
@@ -42,12 +63,13 @@ class Following extends VuexModule {
   @Action
   public async fetchFollowing(user: string): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
+    this.context.commit("setFollowing", []);
 
     return await client
       .fetchFollowing(token, user, 0)
       .then((collection: CollectionPage) => {
         return Promise.all(
-          collection.items.map(async (item: ActivityObject | Link) => {
+          collection.items.map(async (item: ActivityObject | Link | URL) => {
             if (
               !ActivityObjectHelper.hasProperty(item, "name") &&
               !ActivityObjectHelper.hasProperty(item, "nameMap")
@@ -79,19 +101,28 @@ class Following extends VuexModule {
 
   @Action
   public async follow(actor: Actor): Promise<void> {
-    const oFollow = ActivityObjectHelper.normalizedObjectFollow(actor);
+    const objectFollow = ActivityObjectHelper.normalizedObjectFollow(actor);
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
-    const summary = `${user} followed ${oFollow}`;
+    const summary = `${user} followed ${objectFollow}`;
     const follow = {
-      to: oFollow,
-      object: oFollow,
-      type: Activities.FOLLOW,
+      to: objectFollow,
+      object: objectFollow,
+      type: ActivityType.FOLLOW,
     };
 
-    return await client.writeToOutbox(token, user, follow, summary).then(() => {
-      this.context.commit("addFollowing", actor);
-    });
+    return await client
+      .writeToOutbox(token, user, follow, summary)
+      .then(() => {
+        this.context.commit("addFollowing", actor);
+      })
+      .catch(() => {
+        this.context.dispatch(
+          "Notify/error",
+          `Following  ${ActivityObjectHelper.extractActorName(actor)} failed.`,
+          { root: true }
+        );
+      });
   }
 
   @Action
@@ -105,16 +136,25 @@ class Following extends VuexModule {
       object: {
         to: objectFollow,
         object: objectFollow,
-        type: Activities.FOLLOW,
+        type: ActivityType.FOLLOW,
       },
-      type: Activities.UNDO,
+      type: ActivityType.UNDO,
     };
 
     return await client
       .writeToOutbox(token, user, undo as ActivityObject, summary)
       .then(() => {
         this.context.commit("removeFollowing", actor);
+      })
+      .catch(() => {
+        this.context.dispatch(
+          "Notify/error",
+          `Unfollowing  ${ActivityObjectHelper.extractActorName(
+            actor
+          )} failed.`,
+          { root: true }
+        );
       });
   }
 }
-export default Following;
+export default FollowingStore;

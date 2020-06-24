@@ -2,14 +2,13 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { ActivityObject, Link, Actors } from "activitypub-objects";
+import { ActivityObject, Link, ActorType, Activity } from "activitypub-objects";
 import flushPromises from "flush-promises";
 
 import store from "@/store";
 import ActorSummarized from "@/components/actor/ActorSummarized.vue";
 import collection from "@/api-client/mock/data/collection.json";
 import { AuthenticationUtil } from "@/utils/authentication-util";
-import { Activity } from "@/model/mitra-activity";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -36,7 +35,7 @@ describe("ActorSummarized.vue", () => {
     AuthenticationUtil.clear();
   });
 
-  it("attributedTo is a object with name property", () => {
+  it("Actor is a object with name property", () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
@@ -49,7 +48,7 @@ describe("ActorSummarized.vue", () => {
     expect(content.text()).toBe("Sally");
   });
 
-  it("attributedTo has a icon property as a image", () => {
+  it("Actor has a icon property as a image", () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
@@ -63,7 +62,7 @@ describe("ActorSummarized.vue", () => {
     expect(wrapper.find(".v-avatar").find(".v-image").exists()).toBe(true);
   });
 
-  it("attributedTo has no icon property and set default icon", () => {
+  it("Actor has no icon property and set default icon", () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
@@ -77,7 +76,7 @@ describe("ActorSummarized.vue", () => {
     expect(wrapper.find(".v-avatar").find(".v-image").exists()).toBe(false);
   });
 
-  it("attributedTo has 'Person' type property", () => {
+  it("Actor has 'Person' type property", () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
@@ -88,10 +87,10 @@ describe("ActorSummarized.vue", () => {
     });
 
     expect(wrapper.find(".attribute-type").exists()).toBe(true);
-    expect(wrapper.find(".attribute-type").text()).toBe(Actors.PERSON);
+    expect(wrapper.find(".attribute-type").text()).toBe(ActorType.PERSON);
   });
 
-  it("attributedTo has no type property", () => {
+  it("Actor has no type property", () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
@@ -104,7 +103,7 @@ describe("ActorSummarized.vue", () => {
     expect(wrapper.find(".attribute-type").exists()).toBe(false);
   });
 
-  it("attributedTo has summary property", () => {
+  it("Actor has summary property", () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
@@ -120,7 +119,7 @@ describe("ActorSummarized.vue", () => {
     );
   });
 
-  it("attributedTo has no summary property", () => {
+  it("Actor has no summary property", () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
@@ -150,7 +149,7 @@ describe("ActorSummarized.vue", () => {
     expect(followingRemoveIcon.exists()).toBe(true);
   });
 
-  it("Actor is no following", async () => {
+  it("Actor is not followed by user", async () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
@@ -167,7 +166,7 @@ describe("ActorSummarized.vue", () => {
     expect(followingRemoveIcon.exists()).toBe(false);
   });
 
-  it("Following an unfollowed actor", async (done) => {
+  it("User follows an unfollowed actor", async (done) => {
     const actor = (articles[1] as Activity).actor as URL;
     const wrapper = mount(ActorSummarized, {
       localVue,
@@ -203,7 +202,7 @@ describe("ActorSummarized.vue", () => {
     });
   });
 
-  it("Unfollowing an followed actor", () => {
+  it("User unfollows a followed actor", () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,

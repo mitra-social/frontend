@@ -57,8 +57,8 @@ body {
 }
 
 .following-actors {
-  flex: 0 0 25%;
-  max-width: 25%;
+  flex: 0 0 30%;
+  max-width: 30%;
 }
 
 .posts {

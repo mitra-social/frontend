@@ -9,9 +9,9 @@
         >
           <v-toolbar-title>Login</v-toolbar-title>
         </v-toolbar>
-        <v-card-text>
-          <v-form>
-            <v-alert v-if="authStatus === 404" dense outlined type="error">
+        <v-form @submit.prevent="handleSubmit">
+          <v-card-text>
+            <v-alert v-if="authStatus === 401" dense outlined type="error">
               The user name or password you entered isn't correct. Try entering
               it again.
             </v-alert>
@@ -21,7 +21,6 @@
               prepend-icon="mdi-account"
               type="text"
               v-model="user"
-              v-on:keyup.enter="handleSubmit"
             />
             <v-text-field
               id="password"
@@ -30,22 +29,22 @@
               prepend-icon="mdi-lock"
               type="password"
               v-model="password"
-              v-on:keyup.enter="handleSubmit"
             />
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn text x-small link :to="{ name: 'signup' }">
-            You don't have an account? Create one now!
-          </v-btn>
-          <v-spacer />
-          <v-btn
-            :light="$vuetify.theme.dark"
-            :dark="!$vuetify.theme.dark"
-            @click="handleSubmit"
-            >Login</v-btn
-          >
-        </v-card-actions>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn id="signup-link" text x-small link :to="{ name: 'signup' }">
+              You don't have an account? Create one now!
+            </v-btn>
+            <v-spacer />
+            <v-btn
+              id="login-btn"
+              type="submit"
+              :light="$vuetify.theme.dark"
+              :dark="!$vuetify.theme.dark"
+              >Login</v-btn
+            >
+          </v-card-actions>
+        </v-form>
       </v-card>
     </v-col>
   </v-row>
@@ -57,29 +56,33 @@ import { namespace } from "vuex-class";
 
 import { Credential } from "@/model/credential";
 
-const auth = namespace("Auth");
+const authStore = namespace("Auth");
+const notifyStore = namespace("Notify");
 
 @Component
 export default class Login extends Vue {
   private user = "";
   private password = "";
 
-  @auth.Getter
+  @authStore.Getter
   public authStatus!: number;
 
-  @auth.Action
+  @authStore.Action
   public login!: (credential: Credential) => void;
+
+  @notifyStore.Action
+  public error!: (message: string) => void;
 
   public handleSubmit() {
     this.login({ username: this.user, password: this.password });
   }
 
-  private created() {
+  private created(): void {
     if (
       this.$router.currentRoute.params.redirectFrom &&
       this.authStatus === 401
     ) {
-      this.$toast.error("Authenctication failed.");
+      this.error("Authenctication failed.");
     }
   }
 }

@@ -9,8 +9,13 @@
         >
           <v-toolbar-title>Sign Up</v-toolbar-title>
         </v-toolbar>
-        <v-card-text>
-          <v-form lazy-validation v-model="valid" ref="signUpForm">
+        <v-form
+          lazy-validation
+          v-model="valid"
+          ref="signUpForm"
+          @submit.prevent="handleSubmit"
+        >
+          <v-card-text>
             <v-alert v-if="alertMsg" dense outlined type="error">
               {{ alertMsg }}
             </v-alert>
@@ -55,22 +60,22 @@
               @input="resetConfirmPassword()"
               @click:append="showConfirmPasswor = !showConfirmPasswor"
             />
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn id="login" text x-small link :to="{ name: 'login' }">
-            You already have an account? Sign in now!
-          </v-btn>
-          <v-spacer />
-          <v-btn
-            id="submit"
-            :light="$vuetify.theme.dark && valid"
-            :dark="!$vuetify.theme.dark && valid"
-            @click="handleSubmit"
-            :disabled="!valid"
-            >Sign Up</v-btn
-          >
-        </v-card-actions>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn id="login" text x-small link :to="{ name: 'login' }">
+              You already have an account? Sign in now!
+            </v-btn>
+            <v-spacer />
+            <v-btn
+              id="submit"
+              type="submit"
+              :light="$vuetify.theme.dark && valid"
+              :dark="!$vuetify.theme.dark && valid"
+              :disabled="!valid"
+              >Sign Up</v-btn
+            >
+          </v-card-actions>
+        </v-form>
       </v-card>
     </v-col>
   </v-row>

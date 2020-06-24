@@ -34,7 +34,7 @@ describe("Header.vue", () => {
     );
   });
 
-  it("User is set and has name 'john.doe'", async (done) => {
+  it("User is set and has a name", async (done) => {
     const wrapper = mount(Header, { localVue, vuetify, store });
     store.dispatch("User/fetchUser", AuthenticationUtil.getUser()).then(() => {
       expect(wrapper.find(".user-content").text()).toBe("john.doe");
@@ -42,7 +42,7 @@ describe("Header.vue", () => {
     });
   });
 
-  it("User is set and has avater", async (done) => {
+  it("User is set and has an avater", async (done) => {
     const wrapper = mount(Header, { localVue, vuetify, store });
     store.dispatch("User/fetchUser", AuthenticationUtil.getUser()).then(() => {
       expect(wrapper.find(".user-content").find(".v-avatar").exists()).toBe(

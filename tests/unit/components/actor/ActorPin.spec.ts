@@ -2,11 +2,10 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { ActivityObject, Link } from "activitypub-objects";
+import { Activity } from "activitypub-objects";
 
 import ActorPin from "@/components/actor/ActorPin.vue";
 import collection from "@/api-client/mock/data/collection.json";
-import { Activity } from "@/model/mitra-activity";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -14,19 +13,19 @@ Vue.use(Vuetify);
 describe("ActorPin.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
-  let articles: Array<ActivityObject | Link>;
+  let activities: Array<Activity>;
 
   beforeEach(() => {
     vuetify = new Vuetify();
-    articles = collection.orderedItems as Array<ActivityObject | Link>;
+    activities = collection.orderedItems as Array<Activity>;
   });
 
-  it("attributedTo is a object with name property", () => {
+  it("Actor is an object with name property", () => {
     const wrapper = mount(ActorPin, {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[0] as Activity).actor,
+        actor: activities[0].actor,
       },
     });
 
@@ -34,12 +33,12 @@ describe("ActorPin.vue", () => {
     expect(content.text()).toBe("Sally");
   });
 
-  it("attributedTo is a object with nameMap property", () => {
+  it("Actor is a object with nameMap property", () => {
     const wrapper = mount(ActorPin, {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[2] as Activity).actor,
+        actor: activities[2].actor,
       },
     });
 
@@ -54,12 +53,12 @@ describe("ActorPin.vue", () => {
     expect(content.text()).toBe(names[lang]);
   });
 
-  it("attributedTo has a icon property as a image", () => {
+  it("Actor has an icon property as an image", () => {
     const wrapper = mount(ActorPin, {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[0] as Activity).actor,
+        actor: activities[0].actor,
       },
     });
 
@@ -67,12 +66,12 @@ describe("ActorPin.vue", () => {
     expect(wrapper.find(".v-image").exists()).toBe(true);
   });
 
-  it("attributedTo has no icon property and set default icon", () => {
+  it("Actor has no icon property and set default icon", () => {
     const wrapper = mount(ActorPin, {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[1] as Activity).actor,
+        actor: activities[1].actor,
       },
     });
 
@@ -80,12 +79,12 @@ describe("ActorPin.vue", () => {
     expect(wrapper.find(".v-image").exists()).toBe(false);
   });
 
-  it("attributedTo is a url", () => {
+  it("Actor is an url", () => {
     const wrapper = mount(ActorPin, {
       localVue,
       vuetify,
       propsData: {
-        actor: (articles[1] as Activity).actor,
+        actor: activities[1].actor,
       },
     });
 

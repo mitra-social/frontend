@@ -1,8 +1,10 @@
-import { ActivityObject, Link, Image } from "activitypub-objects";
-
-import { RdfLangString } from "@/model/rdf-lang-string";
-import { Activity } from "@/model/mitra-activity";
-import { Actor } from "@/model/mitra-actor";
+import {
+  ActivityObject,
+  Link,
+  Image,
+  Actor,
+  Activity,
+} from "activitypub-objects";
 
 export class ActivityObjectHelper {
   public static hasProperty(obj: object, property: string): boolean {
@@ -14,31 +16,24 @@ export class ActivityObjectHelper {
   }
 
   public static extractActorName(
-    object: ActivityObject | Link | URL | Array<ActivityObject | URL>
+    object: ActivityObject | Link | URL
   ): string | undefined {
-    const lang = navigator.language.substr(0, 2);
+    const activityObject = object as ActivityObject;
 
-    if (
-      ActivityObjectHelper.hasProperty(object, "nameMap") &&
-      (object as RdfLangString).nameMap &&
-      lang in (object as RdfLangString).nameMap
-    ) {
-      return (object as RdfLangString).nameMap[lang];
-    } else if (
-      ActivityObjectHelper.hasProperty(object, "name") &&
-      (object as Actor).name
-    ) {
-      return (object as Actor).name;
-    } else if (
-      ActivityObjectHelper.hasProperty(object, "preferredUsername") &&
-      (object as Actor).preferredUsername
-    ) {
+    if (activityObject.nameMap) {
+      const lang = navigator.language.substr(0, 2);
+
+      if (lang in activityObject.nameMap) {
+        return activityObject.nameMap[lang];
+      }
+    }
+
+    if (activityObject.name) {
+      return activityObject.name;
+    } else if ((object as Actor).preferredUsername) {
       return (object as Actor).preferredUsername;
-    } else if (
-      ActivityObjectHelper.hasProperty(object, "id") &&
-      (object as Actor).id
-    ) {
-      return (object as Actor).id?.toString() ?? undefined;
+    } else if (activityObject.id) {
+      return activityObject.id?.toString() ?? undefined;
     } else if (typeof object === "string") {
       return object;
     }
@@ -49,10 +44,12 @@ export class ActivityObjectHelper {
   public static normalizedToFollow(
     object: ActivityObject | Link | URL | Array<ActivityObject | URL>
   ): ActivityObject | Link {
-    if (ActivityObjectHelper.hasProperty(object, "id")) {
-      return { type: "Link", href: (object as ActivityObject).id };
-    } else if (ActivityObjectHelper.hasProperty(object, "name")) {
-      return object as ActivityObject;
+    const activityObject = object as ActivityObject;
+
+    if (activityObject.id) {
+      return { type: "Link", href: activityObject.id };
+    } else if (activityObject.name) {
+      return activityObject;
     }
     return { type: "Link", href: object as URL };
   }
@@ -60,13 +57,12 @@ export class ActivityObjectHelper {
   public static normalizedObjectFollow(
     object: ActivityObject | Link | URL | Array<ActivityObject | URL>
   ): ActivityObject | URL | undefined {
-    if (ActivityObjectHelper.hasProperty(object, "id")) {
-      return (object as ActivityObject).id;
-    } else if (
-      ActivityObjectHelper.hasProperty(object, "type") &&
-      !ActivityObjectHelper.hasProperty(object, "href")
-    ) {
-      return object as ActivityObject;
+    const activityObject = object as ActivityObject;
+
+    if (activityObject.id) {
+      return activityObject.id;
+    } else if (activityObject.type && !(object as Link).href) {
+      return activityObject;
     }
     return object as URL;
   }
@@ -79,26 +75,27 @@ export class ActivityObjectHelper {
       | Array<ActivityObject | URL>
       | undefined
   ): string | undefined {
-    if (!object) {
-      return;
-    } else if (ActivityObjectHelper.hasProperty(object, "id")) {
-      return (object as ActivityObject).id?.toString();
-    } else if (ActivityObjectHelper.hasProperty(object, "name")) {
-      return (object as ActivityObject).name;
-    } else if (ActivityObjectHelper.hasProperty(object, "href")) {
+    const activityObject = object as ActivityObject;
+
+    if (typeof object === "string") {
+      return object;
+    } else if (activityObject.id) {
+      return activityObject.id.toString();
+    } else if (activityObject.name) {
+      return activityObject.name;
+    } else if ((object as Link).href) {
       return (object as Link).href.toString();
     }
-
-    const url = object as URL;
-    return url ? url.toString() : url;
   }
 
   public static extractIcon(object: ActivityObject): string | undefined {
-    if (!ActivityObjectHelper.hasProperty(object, "icon")) {
+    const activityObject = object as ActivityObject;
+
+    if (!activityObject.icon) {
       return undefined;
     }
 
-    const icon = object.icon;
+    const icon = activityObject.icon;
 
     if (!icon) {
       return undefined;
@@ -108,9 +105,13 @@ export class ActivityObjectHelper {
       return undefined;
     }
 
-    if (ActivityObjectHelper.hasProperty(icon, "href")) {
+    if ("string" == typeof icon) {
+      return icon;
+    }
+
+    if ((icon as Link).href) {
       return (icon as Link).href.toString();
-    } else if (ActivityObjectHelper.hasProperty(icon, "url")) {
+    } else if ((icon as Image).url) {
       return (icon as Image).url.toString();
     }
 

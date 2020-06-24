@@ -2,9 +2,9 @@ import {
   OrderedCollectionPage,
   CollectionPage,
   Actor,
+  Activity,
 } from "activitypub-objects";
 
-import { Activity } from "@/model/mitra-activity";
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
 import { CreateUser } from "@/model/create-user";
@@ -30,4 +30,5 @@ export interface ApiClient {
     activity: Activity,
     summary?: string
   ): Promise<void>;
+  getMedia(uri: string | undefined): string | undefined;
 }

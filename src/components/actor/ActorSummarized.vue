@@ -23,7 +23,7 @@
           <v-btn
             class="following-btn"
             icon
-            v-if="isFollowing()"
+            v-if="isFollowing(actor)"
             @click="onUnfollow()"
           >
             <v-icon>mdi-account-remove</v-icon>
@@ -40,11 +40,11 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { ActivityObject, Link } from "activitypub-objects";
+import { ActivityObject, Link, Actor } from "activitypub-objects";
 
+import client from "apiClient";
 import { User } from "@/model/user";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Actor } from "../../model/mitra-actor";
 
 const userStore = namespace("User");
 const followingStore = namespace("Following");
@@ -62,7 +62,11 @@ export default class ActorSummarized extends Vue {
   }
 
   get icon(): string | undefined {
-    return ActivityObjectHelper.extractIcon(this.actor as ActivityObject);
+    const originalIconUri = ActivityObjectHelper.extractIcon(
+      this.actor as ActivityObject
+    );
+
+    return client.getMedia(originalIconUri);
   }
 
   @userStore.Getter
@@ -71,11 +75,8 @@ export default class ActorSummarized extends Vue {
   @followingStore.Getter
   public getFollowing!: Actor[];
 
-  @followingStore.Action
-  public fetchFollowing!: (user: string) => Promise<void>;
-
-  @followingStore.Action
-  public setIsFollowing!: (actor: string) => void;
+  @followingStore.Getter
+  public isFollowing!: boolean;
 
   @followingStore.Action
   public follow!: (actor: Actor) => Promise<void>;
@@ -83,40 +84,12 @@ export default class ActorSummarized extends Vue {
   @followingStore.Action
   public unfollow!: (actor: Actor) => Promise<void>;
 
-  private isFollowing(): boolean {
-    return this.getFollowing.some(
-      ($) =>
-        ActivityObjectHelper.extractId($) ===
-        ActivityObjectHelper.extractId(this.actor)
-    );
-  }
-
   private onFollow() {
-    this.follow(this.actor as Actor)
-      .then(() => {
-        this.isFollowing();
-      })
-      .catch(() => {
-        this.$toast.error(
-          `Following ${ActivityObjectHelper.extractActorName(
-            this.actor as ActivityObject
-          )} failed.`
-        );
-      });
+    this.follow(this.actor as Actor);
   }
 
   private onUnfollow() {
-    this.unfollow(this.actor as Actor)
-      .then(() => {
-        this.isFollowing();
-      })
-      .catch(() => {
-        this.$toast.error(
-          `Unfollowing  ${ActivityObjectHelper.extractActorName(
-            this.actor as ActivityObject
-          )} failed.`
-        );
-      });
+    this.unfollow(this.actor as Actor);
   }
 }
 </script>

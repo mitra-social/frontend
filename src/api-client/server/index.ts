@@ -1,16 +1,17 @@
 import axios from "axios";
+import md5 from "md5";
 import {
   OrderedCollectionPage,
   CollectionPage,
   toJSON,
   ActivityObject,
   Actor,
+  Activity,
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
-import { Activity } from "@/model/mitra-activity";
 import { CreateUser } from "@/model/create-user";
 
 const urlPrefix = process.env.NODE_ENV === "production" ? "/api" : "";
@@ -111,5 +112,12 @@ export default {
         },
       }
     );
+  },
+  getMedia(uri: string | undefined): string | undefined {
+    if (!uri) {
+      return uri;
+    }
+
+    return `${process.env.VUE_APP_BACKEND_URL}/media/${md5(uri)}`;
   },
 } as ApiClient;
