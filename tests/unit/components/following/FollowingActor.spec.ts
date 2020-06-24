@@ -135,10 +135,10 @@ describe("FollowingActor.vue", () => {
   });
 
   it("Toggle exclude all actors from posts", async () => {
-    AuthenticationUtil.setUser("john.doe");
-    AuthenticationUtil.setToken(
-      "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi"
-    );
+    jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue("john.doe");
+    jest
+      .spyOn(AuthenticationUtil, "getToken")
+      .mockReturnValue("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi");
     store.dispatch("Following/fetchFollowing", "john.doe");
     await flushPromises();
     const actor = store.state.Following.following[0];

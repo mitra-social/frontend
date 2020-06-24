@@ -98,7 +98,7 @@ describe("Posts.vue", () => {
   });
 
   it("Wrong user", async (done) => {
-    jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue("jenny.moe")
+    jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue("jenny.moe");
     const wrapper = shallowMount(Posts, { localVue, vuetify, store });
     wrapper.vm.$store.subscribe((mutation, state) => {
       if (mutation.type === "Notify/setNofify") {
