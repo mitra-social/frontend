@@ -9,6 +9,7 @@
     </v-list-item-content>
     <v-list-item-action>
       <v-btn
+        id="remove-exclude-actor-btn"
         class="following-btn"
         icon
         v-if="!following.show"
@@ -17,6 +18,7 @@
         <v-icon>mdi-eye-off</v-icon>
       </v-btn>
       <v-btn
+        id="add-exclude-actor-btn"
         class="following-btn"
         icon
         v-else
@@ -32,9 +34,10 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { ActivityObject } from "activitypub-objects";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Following } from "../../model/following";
+
+import client from "apiClient";
+import { Following } from "@/model/following";
 import { namespace } from "vuex-class";
-import md5 from "md5";
 
 const collectionStore = namespace("Collection");
 
@@ -52,12 +55,7 @@ export default class FollowingActor extends Vue {
     const originalIconUri = ActivityObjectHelper.extractIcon(
       this.following.actor as ActivityObject
     );
-
-    if (!originalIconUri) {
-      return originalIconUri;
-    }
-
-    return process.env.VUE_APP_BACKEND_URL + "/media/" + md5(originalIconUri);
+    return client.getMedia(originalIconUri);
   }
 
   @collectionStore.Action

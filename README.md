@@ -1,5 +1,6 @@
 # mitra-frontend
 
+[![Coverage Status](https://coveralls.io/repos/github/mitra-social/mitra-frontend/badge.svg)](https://coveralls.io/github/mitra-social/mitra-frontend)
 The frontend powering Mitra - the distributed social network.
 
 ## Project setup
@@ -7,7 +8,9 @@ The frontend powering Mitra - the distributed social network.
 ```
 npm install
 ```
-### Compiles and hot-reloads for mock  environment
+
+### Compiles and hot-reloads for mock environment
+
 ```
 npm run mock
 ```

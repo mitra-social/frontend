@@ -1,4 +1,5 @@
 import axios from "axios";
+import md5 from "md5";
 import {
   OrderedCollectionPage,
   CollectionPage,
@@ -111,5 +112,12 @@ export default {
         },
       }
     );
+  },
+  getMedia(uri: string | undefined): string | undefined {
+    if (!uri) {
+      return uri;
+    }
+
+    return `${process.env.VUE_APP_BACKEND_URL}/media/${md5(uri)}`;
   },
 } as ApiClient;
