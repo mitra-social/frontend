@@ -81,6 +81,65 @@ describe("Posts.vue", () => {
     ).toBe(true);
   });
 
+  it("First post is note type", async () => {
+    AuthenticationUtil.setUser("john.doe");
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
+    await flushPromises();
+    expect(
+      wrapper.findAll(".post").at(3).find("v-list-item-title-stub").text()
+    ).toBe("A note");
+    expect(
+      wrapper
+        .findAll(".post")
+        .at(3)
+        .find("ActivityStreamsNoteType-stub")
+        .exists()
+    ).toBe(true);
+  });
+
+  it("Has published date", async () => {
+    AuthenticationUtil.setUser("john.doe");
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
+    await flushPromises();
+
+    const updateDate = wrapper
+      .findAll(".post")
+      .at(4)
+      .findAll("date-stub")
+      .at(0);
+    expect(updateDate.attributes().icon).toBe("mdi-publish");
+    expect(updateDate.attributes().date).toBe("2020-04-28T16:12:12Z");
+  });
+
+  it("Has updated date", async () => {
+    AuthenticationUtil.setUser("john.doe");
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
+    await flushPromises();
+
+    const updateDate = wrapper
+      .findAll(".post")
+      .at(4)
+      .findAll("date-stub")
+      .at(1);
+    expect(updateDate.attributes().icon).toBe("mdi-update");
+    expect(updateDate.attributes().date).toBe("2020-04-28T17:49:12Z");
+  });
+
   it("Wrong user", async (done) => {
     AuthenticationUtil.setUser("jenny.moe");
     const wrapper = shallowMount(Posts, {
@@ -96,5 +155,22 @@ describe("Posts.vue", () => {
       }
     });
     done();
+  });
+
+  it("Has no post", async () => {
+    AuthenticationUtil.setUser("john.doe");
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
+    await flushPromises();
+    store.state.Collection.items = [];
+    await flushPromises();
+    expect(wrapper.findAll(".post").length).toBe(1);
+    expect(wrapper.find("v-card-text-stub").text()).toContain(
+      "You haven't got any posts yet because you're not following anyone yet"
+    );
   });
 });

@@ -20,8 +20,8 @@
         "summary": "Nice persone you know",
         "name": "Sally",
         "icon": {
-          "name": "avater",
-          "url": "https://i.picsum.photos/id/1062/5092/3395.jpg"
+          "name": "avatar",
+          "url": "https://picsum.photos/200/1014"
         }
       }
     },
@@ -52,8 +52,8 @@
           "fr": "Jean"
         },
         "icon": {
-          "name": "avater",
-          "url": "https://i.picsum.photos/id/1059/7360/4912.jpg"
+          "name": "avatar",
+          "url": "https://picsum.photos/200/103"
         }
       }
     },

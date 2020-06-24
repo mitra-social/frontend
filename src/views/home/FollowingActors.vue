@@ -8,6 +8,7 @@
           </v-list-item-content>
           <v-list-item-action class="d-flex flex-row align-center">
             <v-btn
+              id="refresh-btn"
               class="following-btn"
               icon
               @click="fetchCollection(getUser.preferredUsername)"
@@ -15,6 +16,7 @@
               <v-icon>mdi-reload</v-icon>
             </v-btn>
             <v-btn
+              id="remove-exclude-actor-btn"
               class="following-btn"
               icon
               @click="toggleExcludeActor(false)"
@@ -23,6 +25,7 @@
               <v-icon>mdi-eye</v-icon>
             </v-btn>
             <v-btn
+              id="add-exclude-actor-btn"
               class="following-btn"
               icon
               @click="toggleExcludeActor(true)"
@@ -84,7 +87,7 @@ export default class FollowingActors extends Vue {
   @collectionStore.Action
   public removeActorFromExclude!: (actorId: string) => void;
 
-  private toggleExcludeActor(isAdd: boolean) {
+  private toggleExcludeActor(isAdd: boolean): void {
     this.getFollowing.forEach((following) => {
       const id = ActivityObjectHelper.extractId(following.actor);
 
