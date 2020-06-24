@@ -9,6 +9,7 @@
     </v-list-item-content>
     <v-list-item-action>
       <v-btn
+        id="remove-exclude-actor-btn"
         class="following-btn"
         icon
         v-if="!following.show"
@@ -17,6 +18,7 @@
         <v-icon>mdi-eye-off</v-icon>
       </v-btn>
       <v-btn
+        id="add-exclude-actor-btn"
         class="following-btn"
         icon
         v-else

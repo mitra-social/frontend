@@ -32,11 +32,12 @@
             />
           </v-card-text>
           <v-card-actions>
-            <v-btn text x-small link :to="{ name: 'signup' }">
+            <v-btn id="signup-link" text x-small link :to="{ name: 'signup' }">
               You don't have an account? Create one now!
             </v-btn>
             <v-spacer />
             <v-btn
+              id="login-btn"
               type="submit"
               :light="$vuetify.theme.dark"
               :dark="!$vuetify.theme.dark"
