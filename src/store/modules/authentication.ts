@@ -12,11 +12,11 @@ class Authentication extends VuexModule {
   public status = 0;
   public hasLoadedOnce = false;
 
-  get isAuthenticated() {
+  get isAuthenticated(): boolean {
     return !!this.token;
   }
 
-  get authStatus() {
+  get authStatus(): number {
     return this.status;
   }
 

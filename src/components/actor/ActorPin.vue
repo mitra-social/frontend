@@ -25,9 +25,9 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { ActivityObject, Link } from "activitypub-objects";
 
+import client from "apiClient";
 import SummarizedActor from "@/components/actor/ActorSummarized.vue";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import md5 from "md5";
 
 @Component({
   components: {
@@ -50,11 +50,7 @@ export default class ActorPin extends Vue {
       this.actor as ActivityObject
     );
 
-    if (!originalIconUri) {
-      return originalIconUri;
-    }
-
-    return process.env.VUE_APP_BACKEND_URL + "/media/" + md5(originalIconUri);
+    return client.getMedia(originalIconUri);
   }
 }
 </script>

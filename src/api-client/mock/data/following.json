@@ -7,7 +7,11 @@
     {
       "type": "Person",
       "name": "Sally",
-      "id": "http://sally.example.org"
+      "id": "http://sally.example.org",
+      "icon": {
+        "name": "avater",
+        "url": "https://picsum.photos/200/1014"
+      }
     },
     {
       "type": "Person",

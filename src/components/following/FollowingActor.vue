@@ -32,9 +32,10 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { ActivityObject } from "activitypub-objects";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Following } from "../../model/following";
+
+import client from "apiClient";
+import { Following } from "@/model/following";
 import { namespace } from "vuex-class";
-import md5 from "md5";
 
 const collectionStore = namespace("Collection");
 
@@ -52,12 +53,7 @@ export default class FollowingActor extends Vue {
     const originalIconUri = ActivityObjectHelper.extractIcon(
       this.following.actor as ActivityObject
     );
-
-    if (!originalIconUri) {
-      return originalIconUri;
-    }
-
-    return process.env.VUE_APP_BACKEND_URL + "/media/" + md5(originalIconUri);
+    return client.getMedia(originalIconUri);
   }
 
   @collectionStore.Action
