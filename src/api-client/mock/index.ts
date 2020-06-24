@@ -15,7 +15,8 @@ import { CreateUser } from "@/model/create-user";
 import * as userData from "./data/user.json";
 import * as createUserData from "./data/create-user.json";
 import * as actorsData from "./data/actors.json";
-import * as follwoingData from "./data/following.json";
+import * as followingData from "./data/following.json";
+import * as followerData from "./data/followers.json";
 import * as collectionData from "./data/collection.json";
 import * as collectionSecondFetchData from "./data/collection-second-fetch.json";
 
@@ -96,7 +97,19 @@ export default {
     console.info(
       `fetchFollowing => token: ${token}, user: ${user}, page: ${page}`
     );
-    return returnResult(token, user, fetch(follwoingData.default)) as Promise<
+    return returnResult(token, user, fetch(followingData.default)) as Promise<
+      CollectionPage
+    >;
+  },
+  async fetchFollowers(
+    token: string,
+    user: string,
+    page: number
+  ): Promise<CollectionPage> {
+    console.info(
+      `fetchFollowers => token: ${token}, user: ${user}, page: ${page}`
+    );
+    return returnResult(token, user, fetch(followerData.default)) as Promise<
       CollectionPage
     >;
   },

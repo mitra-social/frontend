@@ -1,9 +1,9 @@
 <template>
   <div class="home-content" no-gutters>
-    <div class="following-actors" v-if="isFollowingLoading">
+    <div class="following-actors">
       <FollowingActors />
     </div>
-    <div class="posts" v-if="isFollowingLoading">
+    <div class="posts">
       <Posts />
     </div>
   </div>
@@ -18,7 +18,6 @@ import Posts from "./post/Posts.vue";
 import { User } from "@/model/user";
 
 const userStore = namespace("User");
-const followingStore = namespace("Following");
 
 @Component({
   components: {
@@ -27,21 +26,8 @@ const followingStore = namespace("Following");
   },
 })
 export default class MitraHome extends Vue {
-  private isFollowingLoading = false;
-
   @userStore.Getter
   public getUser!: User;
-
-  @followingStore.Action
-  public fetchFollowing!: (user: string) => Promise<void>;
-
-  private created() {
-    if (this.getUser) {
-      this.fetchFollowing(this.getUser.preferredUsername).then(() => {
-        this.isFollowingLoading = true;
-      });
-    }
-  }
 }
 </script>
 

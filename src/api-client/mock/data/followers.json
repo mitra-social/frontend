@@ -1,0 +1,121 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "summary": "Sally's articles",
+  "type": "CollectionPage",
+  "totalItems": 4,
+  "items": [
+    {
+      "type": "Person",
+      "name": "franco.g",
+      "acct": "franco.g@mitra-social.herokuapp.com",
+      "locked": false,
+      "bot": false,
+      "discoverable": false,
+      "group": false,
+      "created_at": "2020-04-20T08:24:12.102Z",
+      "note": "",
+      "url": "https://mitra-social.herokuapp.com/user/franco.g",
+      "avatar": "https://mastodon.social/avatars/original/missing.png",
+      "avatar_static": "https://mastodon.social/avatars/original/missing.png",
+      "header": "https://mastodon.social/headers/original/missing.png",
+      "header_static": "https://mastodon.social/headers/original/missing.png",
+      "followers_count": 0,
+      "following_count": 2,
+      "statuses_count": 0,
+      "last_status_at": null,
+      "emojis": [],
+      "fields": []
+    },
+    {
+      "type": "Person",
+      "name": "kubikpixel",
+      "acct": "kubikpixel",
+      "preferredUsername": "KubikPixel :mastodon:",
+      "locked": false,
+      "bot": false,
+      "discoverable": true,
+      "group": false,
+      "created_at": "2019-05-09T09:19:24.303Z",
+      "note": "<p>Web &amp; App developer with 3D experiments and a Nerd with a Punk attitude. </p><p>Ethereum (ETH): 0x73aEbc431A94458a369A49F5445116aeA6EEE1CF</p>",
+      "url": "https://mastodon.social/@kubikpixel",
+      "avatar": "https://files.mastodon.social/accounts/avatars/000/806/366/original/8dac274740d13673.png",
+      "avatar_static": "https://files.mastodon.social/accounts/avatars/000/806/366/original/8dac274740d13673.png",
+      "header": "https://files.mastodon.social/accounts/headers/000/806/366/original/4425bc3fd2a2933f.jpeg",
+      "header_static": "https://files.mastodon.social/accounts/headers/000/806/366/original/4425bc3fd2a2933f.jpeg",
+      "followers_count": 151,
+      "following_count": 326,
+      "statuses_count": 1599,
+      "last_status_at": "2020-06-16",
+      "emojis": [
+        {
+          "shortcode": "mastodon",
+          "url": "https://files.mastodon.social/custom_emojis/images/000/003/675/original/089aaae26a2abcc1.png",
+          "static_url": "https://files.mastodon.social/custom_emojis/images/000/003/675/static/089aaae26a2abcc1.png",
+          "visible_in_picker": true
+        }
+      ],
+      "fields": [
+        {
+          "name": "Language",
+          "value": "DE, en",
+          "verified_at": null
+        },
+        {
+          "name": "Git Repos",
+          "value": "<a href=\"https://codeberg.org/KubikPixel\" rel=\"me nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">codeberg.org/KubikPixel</span><span class=\"invisible\"></span></a>",
+          "verified_at": null
+        },
+        {
+          "name": "[matrix]",
+          "value": "@knuckle_noise:matrix.org",
+          "verified_at": null
+        }
+      ]
+    },
+    {
+      "type": "Person",
+      "name": "TiMESPLiNTER",
+      "acct": "TiMESPLiNTER@mitra-social.herokuapp.com",
+      "locked": false,
+      "bot": false,
+      "discoverable": false,
+      "group": false,
+      "created_at": "2020-04-06T16:56:08.955Z",
+      "note": "",
+      "url": "https://mitra-social.herokuapp.com/user/TiMESPLiNTER",
+      "avatar": "https://mastodon.social/avatars/original/missing.png",
+      "avatar_static": "https://mastodon.social/avatars/original/missing.png",
+      "header": "https://mastodon.social/headers/original/missing.png",
+      "header_static": "https://mastodon.social/headers/original/missing.png",
+      "followers_count": 0,
+      "following_count": 2,
+      "statuses_count": 0,
+      "last_status_at": null,
+      "emojis": [],
+      "fields": []
+    },
+    {
+      "type": "Person",
+      "name": "pascalmyself",
+      "acct": "pascalmyself",
+      "preferredUsername": "Pascal",
+      "locked": false,
+      "bot": false,
+      "discoverable": false,
+      "group": false,
+      "created_at": "2019-07-10T09:16:24.233Z",
+      "note": "<p>I&apos;m a tech fascinated guy who believes in a decentralized and uncensored world wide web.</p>",
+      "url": "https://mastodon.social/@pascalmyself",
+      "avatar": "https://files.mastodon.social/accounts/avatars/000/853/758/original/4f8619044e89f331.jpg",
+      "avatar_static": "https://files.mastodon.social/accounts/avatars/000/853/758/original/4f8619044e89f331.jpg",
+      "header": "https://mastodon.social/headers/original/missing.png",
+      "header_static": "https://mastodon.social/headers/original/missing.png",
+      "followers_count": 4,
+      "following_count": 5,
+      "statuses_count": 20,
+      "last_status_at": "2020-06-05",
+      "emojis": [],
+      "fields": []
+    }
+  ]
+}

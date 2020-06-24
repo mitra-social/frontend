@@ -74,6 +74,23 @@ export default {
         return resp.data;
       });
   },
+  async fetchFollowers(
+    token: string,
+    user: string,
+    page: number
+  ): Promise<CollectionPage> {
+    return await axios
+      .get(`${urlPrefix}/user/${user}/follower?page=${page}`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((resp) => {
+        return resp.data;
+      });
+  },
   async fetchPosts(
     token: string,
     user: string,

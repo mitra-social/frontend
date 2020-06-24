@@ -32,6 +32,33 @@
         <v-divider :key="`divider-${idx}`"></v-divider>
       </template>
     </v-list>
+
+    <v-list subheader>
+      <v-subheader>Recent chat</v-subheader>
+      <template v-for="(following, idx) in getFollowers">
+        <v-list-item :key="`item-${idx}`">
+          <v-list-item-action>
+            <v-icon
+              v-if="!isSelected({ id: idx, actor: following })"
+              @click="select({ id: idx, actor: following })"
+              >mdi-checkbox-blank-circle-outline</v-icon
+            >
+            <v-icon v-else @click="unselect({ id: idx, actor: following })"
+              >mdi-checkbox-marked-circle-outline</v-icon
+            >
+          </v-list-item-action>
+          <v-list-item-content>
+            <ActorPin v-if="following" :actor="following" />
+          </v-list-item-content>
+          <v-list-item-icon>
+            <v-icon :color="following ? 'deep-purple accent-4' : 'grey'"
+              >chat_bubble</v-icon
+            >
+          </v-list-item-icon>
+        </v-list-item>
+        <v-divider :key="`divider-${idx}`"></v-divider>
+      </template>
+    </v-list>
   </div>
 </template>
 
@@ -44,10 +71,11 @@ import { Following } from "@/model/following";
 import { User } from "@/model/user";
 import { ActorItem } from "@/model/actor-item";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { ActivityObject } from "activitypub-objects";
+import { ActivityObject, Link } from "activitypub-objects";
 
 const userStore = namespace("User");
 const followingStore = namespace("Following");
+const followerStore = namespace("Follower");
 
 @Component({
   components: {
@@ -56,16 +84,23 @@ const followingStore = namespace("Following");
 })
 export default class FollowerFollowing extends Vue {
   private isFollowingLoading = false;
+  private isFollowersLoading = false;
   private selectedList: ActorItem[] = [];
 
   @userStore.Getter
   public getUser!: User;
 
   @followingStore.Getter
-  public getFollowing!: Array<Following>;
+  public getFollowing!: Following[];
+
+  @followerStore.Getter
+  public getFollowers!: (ActivityObject | Link)[];
 
   @followingStore.Action
   public fetchFollowing!: (user: string) => Promise<void>;
+
+  @followerStore.Action
+  public fetchFollowers!: (user: string) => Promise<void>;
 
   public name(actor: ActivityObject): string | undefined {
     return ActivityObjectHelper.extractActorName(actor);
@@ -91,6 +126,10 @@ export default class FollowerFollowing extends Vue {
     if (this.getUser) {
       this.fetchFollowing(this.getUser.preferredUsername).then(() => {
         this.isFollowingLoading = true;
+      });
+
+      this.fetchFollowers(this.getUser.preferredUsername).then(() => {
+        this.isFollowersLoading = true;
       });
     }
   }

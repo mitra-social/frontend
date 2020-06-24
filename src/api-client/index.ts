@@ -19,6 +19,11 @@ export interface ApiClient {
     user: string,
     page: number
   ): Promise<CollectionPage>;
+  fetchFollowers(
+    token: string,
+    user: string,
+    page: number
+  ): Promise<CollectionPage>;
   fetchPosts(
     token: string,
     user: string,
