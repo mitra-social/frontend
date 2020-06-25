@@ -3,13 +3,23 @@ import Cookies from "js-cookie";
 export class AuthenticationUtil {
   private static readonly USER = "user";
   private static readonly USER_TOKEN = "user-token";
+  private static readonly EXPIRED_IN_DAYS = 1;
 
   // Attributes for cookies
-  private static readonly ATTRS = {
-    expires: 1,
+  private static readonly ATTRS_FOR_PRODUCTION = {
+    expires: AuthenticationUtil.EXPIRED_IN_DAYS,
     secure: true,
     samesite: "lax",
   };
+
+  private static readonly ATTRS_FOR_MOCK = {
+    expires: AuthenticationUtil.EXPIRED_IN_DAYS,
+  };
+
+  private static readonly ATTRS =
+    process.env.NODE_ENV === "development"
+      ? AuthenticationUtil.ATTRS_FOR_MOCK
+      : AuthenticationUtil.ATTRS_FOR_PRODUCTION;
 
   public static setAuth(user: string, token: string) {
     AuthenticationUtil.setUser(user);
