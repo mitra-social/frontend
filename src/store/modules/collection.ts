@@ -61,6 +61,7 @@ class Collection extends VuexModule {
   public page = 0;
   public hasPrev = false;
   public hasNext = true;
+  public loadMorePostState = false;
   public excludedActors: string[] = [];
 
   get getPosts(): (ActivityObject | Link)[] | undefined {
@@ -92,12 +93,16 @@ class Collection extends VuexModule {
       );
   }
 
-  get getHasPrev() {
+  get getHasPrev(): boolean {
     return this.hasPrev;
   }
 
-  get getHasNext() {
+  get getHasNext(): boolean {
     return this.hasNext;
+  }
+
+  get getLoadMorePostState(): boolean {
+    return this.loadMorePostState;
   }
 
   get excludeActorLength(): number {
@@ -134,6 +139,11 @@ class Collection extends VuexModule {
   @Mutation
   public setHasNext(hasNext: boolean): void {
     this.hasNext = hasNext;
+  }
+
+  @Mutation
+  public setLoadMorePostState(isLoading: boolean): void {
+    this.loadMorePostState = isLoading;
   }
 
   @Mutation
@@ -179,8 +189,10 @@ class Collection extends VuexModule {
 
   @Action({ rawError: true })
   public async nextCollection(user: string): Promise<void> {
+    this.context.commit("setLoadMorePostState", true);
     const token = AuthenticationUtil.getToken() || "";
     this.context.commit("pageUp");
+
     return await client
       .fetchPosts(token, user, this.page)
       .then((collection: OrderedCollectionPage) => {
@@ -196,7 +208,8 @@ class Collection extends VuexModule {
       })
       .catch((error: Error) => {
         this.context.dispatch("Notify/error", error.message, { root: true });
-      });
+      })
+      .finally(() => this.context.commit("setLoadMorePostState", false));
   }
 
   @Action

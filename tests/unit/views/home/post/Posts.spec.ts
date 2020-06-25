@@ -170,7 +170,7 @@ describe("Posts.vue", () => {
     await flushPromises();
     expect(wrapper.findAll(".post").length).toBe(1);
     expect(wrapper.find("v-card-text-stub").text()).toContain(
-      "You haven't got any posts yet because you're not following anyone yet"
+      "You haven't got any posts yet because"
     );
   });
 });

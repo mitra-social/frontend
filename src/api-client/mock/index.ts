@@ -52,6 +52,10 @@ const returnResult = async (
   return promis;
 };
 
+const delay = async (ms: number) => {
+  return await new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 let fetchPostCount = 0;
 
 export default {
@@ -118,6 +122,7 @@ export default {
 
     if (page === 1) {
       data = fetch(collectionPageTwoData.default);
+      await delay(5000);
     }
 
     if (page === 2) {

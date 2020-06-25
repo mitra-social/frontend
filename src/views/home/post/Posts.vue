@@ -1,56 +1,74 @@
 <template>
-  <div id="scroll-target" class="post-container" v-if="getPosts">
-    <div v-if="getPosts.length > 0">
-      <div v-for="(post, index) in getPosts" :key="index">
-        <v-card class="post" v-intersect="onIntersect" :data-index="index">
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title class="headline">{{
-                post.name ? post.name : post.summary | stripHtmlTags
-              }}</v-list-item-title>
-              <v-list-item-subtitle>
-                <div class="d-flex flex-row justify-space-between">
-                  <Date
-                    v-if="post.published"
-                    icon="mdi-publish"
-                    :date="post.published"
-                  />
-                  <Date
-                    v-if="post.updated"
-                    icon="mdi-update"
-                    :date="post.updated"
-                  />
-                </div>
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-divider class="mx-4"></v-divider>
+  <div class="post-layout">
+    <div id="scroll-target" class="post-container" v-if="getPosts">
+      <div v-if="getPosts.length > 0">
+        <div v-for="(post, index) in getPosts" :key="index">
+          <v-card class="post" v-intersect="onIntersect" :data-index="index">
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title class="headline">{{
+                  post.name ? post.name : post.summary | stripHtmlTags
+                }}</v-list-item-title>
+                <v-list-item-subtitle>
+                  <div class="d-flex flex-row justify-space-between">
+                    <Date
+                      v-if="post.published"
+                      icon="mdi-publish"
+                      :date="post.published"
+                    />
+                    <Date
+                      v-if="post.updated"
+                      icon="mdi-update"
+                      :date="post.updated"
+                    />
+                  </div>
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-divider class="mx-4"></v-divider>
+            <v-card-text>
+              <component :is="getComponent(post.type)" :data="post" />
+            </v-card-text>
+            <v-divider class="mx-4"></v-divider>
+            <v-card-actions>
+              <ActorPin v-if="post.attributedTo" :actor="post.attributedTo" />
+              <v-spacer></v-spacer>
+              <v-btn icon disabled>
+                <v-icon>mdi-comment-outline</v-icon>
+              </v-btn>
+              <v-btn icon disabled>
+                <v-icon>mdi-heart-circle-outline</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </div>
+      </div>
+      <div v-else>
+        <v-card class="post">
+          <v-card-title>
+            <v-icon class="search-user-icon">mdi-account-search-outline</v-icon>
+          </v-card-title>
           <v-card-text>
-            <component :is="getComponent(post.type)" :data="post" />
+            You haven't got any posts yet because you're not following anyone
+            yet. Look for someone you can follow and enjoy reading.
           </v-card-text>
-          <v-divider class="mx-4"></v-divider>
-          <v-card-actions>
-            <ActorPin v-if="post.attributedTo" :actor="post.attributedTo" />
-            <v-spacer></v-spacer>
-            <v-btn icon disabled> <v-icon>mdi-comment-outline</v-icon> </v-btn>
-            <v-btn icon disabled>
-              <v-icon>mdi-heart-circle-outline</v-icon>
-            </v-btn>
-          </v-card-actions>
         </v-card>
       </div>
     </div>
-    <div v-else>
-      <v-card class="post">
-        <v-card-title>
-          <v-icon class="search-user-icon">mdi-account-search-outline</v-icon>
-        </v-card-title>
-        <v-card-text>
-          You haven't got any posts yet because you're not following anyone yet.
-          Look for someone you can follow and enjoy reading.
-        </v-card-text>
-      </v-card>
-    </div>
+    <v-progress-linear
+      :light="$vuetify.theme.dark"
+      :dark="!$vuetify.theme.dark"
+      :active="getLoadMorePostState"
+      class="mx-1"
+      indeterminate
+      height="15"
+      absolute
+      bottom
+    >
+      <template v-slot>
+        <strong class="caption">loading more...</strong>
+      </template></v-progress-linear
+    >
   </div>
 </template>
 
@@ -96,6 +114,9 @@ export default class MitraPosts extends Vue {
   @collectionStore.Getter
   public getHasNext!: boolean;
 
+  @collectionStore.Getter
+  public getLoadMorePostState!: boolean;
+
   @collectionStore.Action
   public fetchCollection!: (user: string) => Promise<void>;
 
@@ -128,7 +149,7 @@ export default class MitraPosts extends Vue {
       const target: Element = entries[0].target as Element;
       const index: number = +(target.getAttribute("data-index") ?? 0);
 
-      if (index > this.getPosts.length - 3) {
+      if (index > this.getPosts.length - 3 && !this.getLoadMorePostState) {
         this.nextCollection(this.getUser.preferredUsername);
       }
     }
@@ -137,6 +158,11 @@ export default class MitraPosts extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.post-layout {
+  position: relative;
+  height: 100%;
+}
+
 .post-container {
   height: 100%;
   overflow-y: scroll;
