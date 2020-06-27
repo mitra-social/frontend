@@ -71,6 +71,7 @@ import { PostTypes } from "@/utils/post-types";
 import Attachments from "@/views/home/post/Attachments.vue";
 
 const collectionStore = namespace("Collection");
+const notifyStore = namespace("Notify");
 
 @Component({
   components: {
@@ -93,6 +94,9 @@ export default class MitraPosts extends Vue {
   @collectionStore.Action
   public fetchCollection!: (user: string) => Promise<void>;
 
+  @notifyStore.Action
+  public error!: (message: string) => void;
+
   private created() {
     this.initGetUser();
   }
@@ -101,22 +105,16 @@ export default class MitraPosts extends Vue {
     const user = AuthenticationUtil.getUser();
 
     if (user) {
-      this.fetchCollection(user).catch(() => {
-        this.notAllowedUser();
-      });
+      this.fetchCollection(user);
     } else {
-      this.notAllowedUser();
+      AuthenticationUtil.clear();
+      this.error("Authentication is incorrect");
+      router.push("/login");
     }
   }
 
   private getComponent(type: string) {
     return PostTypes[type as keyof typeof PostTypes];
-  }
-
-  private notAllowedUser() {
-    AuthenticationUtil.clear();
-    router.push("/login");
-    this.$toast.error("Authentication is incorrect");
   }
 }
 </script>

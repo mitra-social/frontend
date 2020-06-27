@@ -63,6 +63,7 @@ class FollowingStore extends VuexModule {
   @Action
   public async fetchFollowing(user: string): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
+    this.context.commit("setFollowing", []);
 
     return await client
       .fetchFollowing(token, user, 0)
@@ -110,9 +111,18 @@ class FollowingStore extends VuexModule {
       type: ActivityType.FOLLOW,
     };
 
-    return await client.writeToOutbox(token, user, follow, summary).then(() => {
-      this.context.commit("addFollowing", actor);
-    });
+    return await client
+      .writeToOutbox(token, user, follow, summary)
+      .then(() => {
+        this.context.commit("addFollowing", actor);
+      })
+      .catch(() => {
+        this.context.dispatch(
+          "Notify/error",
+          `Following  ${ActivityObjectHelper.extractActorName(actor)} failed.`,
+          { root: true }
+        );
+      });
   }
 
   @Action
@@ -135,6 +145,15 @@ class FollowingStore extends VuexModule {
       .writeToOutbox(token, user, undo as ActivityObject, summary)
       .then(() => {
         this.context.commit("removeFollowing", actor);
+      })
+      .catch(() => {
+        this.context.dispatch(
+          "Notify/error",
+          `Unfollowing  ${ActivityObjectHelper.extractActorName(
+            actor
+          )} failed.`,
+          { root: true }
+        );
       });
   }
 }

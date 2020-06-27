@@ -19,8 +19,8 @@
         "summary": "Nice persone you know",
         "name": "Sally",
         "icon": {
-          "name": "avater",
-          "url": "https://i.picsum.photos/id/1062/5092/3395.jpg"
+          "name": "avatar",
+          "url": "https://picsum.photos/200/1014"
         }
       }
     },
@@ -30,7 +30,7 @@
       "object": {
         "type": "Article",
         "name": "Hi/Ho",
-        "content": "<p><span style=\"color: red\">SAVIOR OF SONG</span> (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>"
+        "content": "<p><span style=\"color: purple\">SAVIOR OF SONG</span> (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>"
       },
       "actor": "http://johnny.example.org"
     },
@@ -51,8 +51,8 @@
           "fr": "Jean"
         },
         "icon": {
-          "name": "avater",
-          "url": "https://i.picsum.photos/id/1059/7360/4912.jpg"
+          "name": "avatar",
+          "url": "https://picsum.photos/200/103"
         }
       }
     },
