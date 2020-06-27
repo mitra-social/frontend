@@ -1,9 +1,23 @@
 <template>
-  <div v-if="getAttachments.length > 0">
-    <div v-for="(attachment, index) in getAttachments" :key="index">
-      <a :href="attachment.url">{{ attachment.url }}</a>
-    </div>
-  </div>
+  <v-row>
+    <v-col
+      v-for="(attach, index) in getAttachments"
+      :key="index"
+      class="d-flex child-flex"
+      cols="8"
+    >
+      <v-img :src="attach.url" :lazy-src="attach.url" aspect-ratio="1">
+        <template v-slot:placeholder>
+          <v-row class="fill-height ma-0" align="center" justify="center">
+            <v-progress-circular
+              indeterminate
+              color="grey lighten-5"
+            ></v-progress-circular>
+          </v-row>
+        </template>
+      </v-img>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">
@@ -16,7 +30,8 @@ import { Link } from "activitypub-objects/dist";
 export default class ActivityStreamsAttachments extends Vue {
   @Prop() readonly attachments!: Array<ActivityObject | URL>;
 
-  get getAttachments(): Array<Attachment> {
+  get getAttachments(): Attachment[] {
+    console.log(this.attachments);
     const normalizedAttachments: Array<ActivityObject | URL> = Array.isArray(
       this.attachments
     )
@@ -25,25 +40,27 @@ export default class ActivityStreamsAttachments extends Vue {
 
     const foo: Array<Attachment | undefined> = normalizedAttachments.map<
       Attachment | undefined
-    >((param: ActivityObject | URL, index: number): Attachment | undefined => {
+    >((param: ActivityObject | URL): Attachment | undefined => {
+      const object = param as ActivityObject;
+
+      if (object.type === "Link") {
+        const href: string = (object as Link).href.toString();
+        return new Attachment(href, object.mediaType);
+      }
+
       if ((param as ActivityObject).type) {
-        const object = param as ActivityObject;
-        const objectUrl: Link | URL | undefined = !Array.isArray(object.url)
+        const url: Link | URL | undefined = !Array.isArray(object.url)
           ? object.url
           : object.url[0];
 
-        if (objectUrl === undefined) {
+        if (url === undefined) {
           return undefined;
         }
 
-        const url: URL = (objectUrl as Link).type
-          ? (objectUrl as Link).href
-          : (objectUrl as URL);
-
-        return new Attachment(url.href, object.mediaType);
+        return new Attachment(url.toString(), object.mediaType);
       }
 
-      return new Attachment((param as URL).href, undefined);
+      return new Attachment(param.toString(), undefined);
     });
 
     return foo
