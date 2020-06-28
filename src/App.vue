@@ -1,5 +1,6 @@
 <template>
   <v-app class="app-container">
+    <Dialog />
     <Notify />
     <header>
       <Header />
@@ -15,14 +16,18 @@ import { Component, Vue } from "vue-property-decorator";
 
 import Header from "@/components/layout/MitraHeader.vue";
 import Notify from "@/components/ui/Notify.vue";
+import Dialog from "@/components/ui/Dialog.vue";
 
 @Component({
   components: {
     Header,
     Notify,
+    Dialog,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  public dialog = false;
+}
 </script>
 
 <style lang="scss">

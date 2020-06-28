@@ -44,6 +44,35 @@
           </v-list-item-action>
         </v-list-item>
       </v-list>
+
+      <v-divider></v-divider>
+
+      <v-list dense>
+        <v-list-item
+          link
+          @click="toggleDialog({ title: 'Profile', component: 'Profile' })"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-account</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Profile</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          @click="toggleDialog({ title: 'Password', component: 'Password' })"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-key-variant</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Password</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
   </div>
 </template>
@@ -54,8 +83,11 @@ import { namespace } from "vuex-class";
 
 import FollowingActors from "./FollowingActors.vue";
 import Posts from "./post/Posts.vue";
+import Profile from "@/views/settings/Profile.vue";
+import Password from "@/views/settings/Password.vue";
 import { User } from "@/model/user";
 
+const dialogStore = namespace("Dialog");
 const userStore = namespace("User");
 const followingStore = namespace("Following");
 
@@ -63,15 +95,21 @@ const followingStore = namespace("Following");
   components: {
     FollowingActors,
     Posts,
+    Profile,
+    Password,
   },
 })
 export default class MitraHome extends Vue {
   private isFollowingLoading = false;
   private drawer = true;
   private mini = true;
+  private dialog = false;
 
   @userStore.Getter
   public getUser!: User;
+
+  @dialogStore.Action
+  public toggleDialog!: ({ title, component }: any) => Promise<void>;
 
   @followingStore.Action
   public fetchFollowing!: (user: string) => Promise<void>;

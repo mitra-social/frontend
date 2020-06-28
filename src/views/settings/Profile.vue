@@ -1,44 +1,38 @@
 <template>
-  <div class="content" no-gutters>
-    <h1>
-      Profile
-    </h1>
-    <v-divider></v-divider>
-    <v-form
-      lazy-validation
-      v-model="valid"
-      ref="signUpForm"
-      @submit.prevent="handleSubmit"
+  <v-form
+    lazy-validation
+    v-model="valid"
+    ref="signUpForm"
+    @submit.prevent="handleSubmit"
+  >
+    <v-alert v-if="alertMsg" dense outlined type="error">
+      {{ alertMsg }}
+    </v-alert>
+    <v-text-field
+      label="Username"
+      name="user"
+      prepend-icon="mdi-account"
+      type="text"
+      v-model="getUser.preferredUsername"
+      :rules="[rules.required, rules.usernameMin]"
+    />
+    <v-text-field
+      label="E-mail address"
+      name="email"
+      prepend-icon="mdi-email"
+      type="email"
+      v-model="getUser.email"
+      :rules="[rules.required, rules.emailRules]"
+    />
+    <v-btn
+      id="submit"
+      type="submit"
+      :light="$vuetify.theme.dark && valid"
+      :dark="!$vuetify.theme.dark && valid"
+      :disabled="!valid"
+      >Save</v-btn
     >
-      <v-alert v-if="alertMsg" dense outlined type="error">
-        {{ alertMsg }}
-      </v-alert>
-      <v-text-field
-        label="Username"
-        name="user"
-        prepend-icon="mdi-account"
-        type="text"
-        v-model="getUser.preferredUsername"
-        :rules="[rules.required, rules.usernameMin]"
-      />
-      <v-text-field
-        label="E-mail address"
-        name="email"
-        prepend-icon="mdi-email"
-        type="email"
-        v-model="getUser.email"
-        :rules="[rules.required, rules.emailRules]"
-      />
-      <v-btn
-        id="submit"
-        type="submit"
-        :light="$vuetify.theme.dark && valid"
-        :dark="!$vuetify.theme.dark && valid"
-        :disabled="!valid"
-        >Save</v-btn
-      >
-    </v-form>
-  </div>
+  </v-form>
 </template>
 
 <script lang="ts">
