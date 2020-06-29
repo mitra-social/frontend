@@ -16,10 +16,11 @@ describe("Header.vue", () => {
 
   beforeEach(() => {
     vuetify = new Vuetify();
-    AuthenticationUtil.setUser("john.doe");
-    AuthenticationUtil.setToken(
-      "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi"
-    );
+
+    jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue("john.doe");
+    jest
+      .spyOn(AuthenticationUtil, "getToken")
+      .mockReturnValue("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi");
   });
 
   afterEach(() => {
