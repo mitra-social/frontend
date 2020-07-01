@@ -37,10 +37,11 @@ describe("Posts.vue", () => {
       preferredUsername: "john.doe",
       inbox: "https://social.example/john.doe/inbox/",
     };
-    AuthenticationUtil.setUser("john.doe");
-    AuthenticationUtil.setToken(
-      "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi"
-    );
+
+    jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue("john.doe");
+    jest
+      .spyOn(AuthenticationUtil, "getToken")
+      .mockReturnValue("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi");
   });
 
   afterEach(() => {
@@ -141,13 +142,14 @@ describe("Posts.vue", () => {
   });
 
   it("Wrong user", async (done) => {
-    AuthenticationUtil.setUser("jenny.moe");
+    jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue("jenny.moe");
     const wrapper = shallowMount(Posts, {
       localVue,
       vuetify,
       store,
       directives: { Intersect: mockIntersectDirective },
     });
+
     wrapper.vm.$store.subscribe((mutation, state) => {
       if (mutation.type === "Notify/setNofify") {
         const notification: Notify = state.Notify.notification;
