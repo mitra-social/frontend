@@ -38,8 +38,7 @@ class Authentication extends VuexModule {
     return await client
       .login(credential)
       .then((token: string) => {
-        AuthenticationUtil.setUser(credential.username);
-        AuthenticationUtil.setToken(token);
+        AuthenticationUtil.setAuth(credential.username, token);
         this.context.commit("loginSuccess", token);
         router.push("/");
       })
