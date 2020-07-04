@@ -4,13 +4,11 @@ import {
   Link,
   CollectionPage,
   Actor,
-  ActivityType,
 } from "activitypub-objects";
 
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Following } from "@/model/following";
 
 @Module({ namespaced: true })
 class FollowerStore extends VuexModule {
@@ -78,6 +76,5 @@ class FollowerStore extends VuexModule {
         this.context.commit("setFollowers", actors);
       });
   }
-
 }
 export default FollowerStore;

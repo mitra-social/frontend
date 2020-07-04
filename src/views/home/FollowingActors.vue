@@ -33,6 +33,16 @@
             >
               <v-icon>mdi-eye-off</v-icon>
             </v-btn>
+            <v-btn
+              id="add-exclude-actor-btn"
+              class="following-btn"
+              icon
+              @click="
+                toggleDialog({ title: 'Find User', component: 'SearchActor' })
+              "
+            >
+              <v-icon>mdi-account-plus-outline</v-icon>
+            </v-btn>
           </v-list-item-action>
         </v-list-item>
         <FollowingActor
@@ -56,10 +66,12 @@ import FollowingActor from "@/components/following/FollowingActor.vue";
 import { Following } from "@/model/following";
 import { ActivityObjectHelper } from "../../utils/activity-object-helper";
 import { User } from "../../model/user";
+import { DialogSettings } from "../../model/dialog-settings";
 
 const userStore = namespace("User");
 const followingStore = namespace("Following");
 const collectionStore = namespace("Collection");
+const dialogStore = namespace("Dialog");
 
 @Component({
   components: {
@@ -71,6 +83,9 @@ export default class FollowingActors extends Vue {
 
   @userStore.Getter
   public getUser!: User;
+
+  @dialogStore.Action
+  public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
 
   @followingStore.Getter
   public getFollowing!: Array<Following>;

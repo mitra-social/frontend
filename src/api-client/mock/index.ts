@@ -80,6 +80,12 @@ export default {
 
     return returnResult(token, user, fetch(userData.default)) as Promise<User>;
   },
+  async findActor(query: string): Promise<Actor | undefined> {
+    // TODO:
+    // const actors = [this.getActor("https://mastodon.social/users/fraenki")]
+    console.info(`findActor => query: ${query}`);
+    return fetch(this.getActor("https://mastodon.social/users/fraenki"));
+  },
   async getActor(url: string): Promise<Actor> {
     console.info(`getActor => url: ${url}`);
     // eslint-disable-next-line

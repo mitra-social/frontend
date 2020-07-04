@@ -13,6 +13,8 @@ import { ApiClient } from "@/api-client";
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
 import { CreateUser } from "@/model/create-user";
+import { Webfinger } from "@/model/webfinger";
+import { ActorExtended } from "@/store/modules/actor-extended";
 
 const urlPrefix = process.env.NODE_ENV === "production" ? "/api" : "";
 
@@ -41,17 +43,6 @@ export default {
           Accept: "application/json",
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((resp) => {
-        return resp.data;
-      });
-  },
-  async getActor(url: string): Promise<Actor> {
-    return await axios
-      .get(url, {
-        headers: {
-          Accept: "application/activity+json",
         },
       })
       .then((resp) => {
@@ -136,5 +127,81 @@ export default {
     }
 
     return `${process.env.VUE_APP_BACKEND_URL}/media/${md5(uri)}`;
+  },
+  // Fediverse
+  async findActor(query: string): Promise<ActorExtended | undefined> {
+    return await axios
+      .get<Webfinger>(
+        `https://${query.substring(
+          query.indexOf("@"),
+          query.length
+        )}/.well-known/webfinger?resource=acct:${query}`
+      )
+      .then((resp) => {
+        const webfinger = resp.data;
+        const link = webfinger.links.find(($) => $.rel === "self");
+
+        if (link) {
+          return this.getActorExtended(link.href);
+        }
+        return;
+      });
+  },
+  async getActor(url: string): Promise<Actor> {
+    return await axios
+      .get(url, {
+        headers: {
+          Accept: "application/activity+json",
+        },
+      })
+      .then((resp) => {
+        return resp.data;
+      })
+      .catch((err) => console.log(err));
+  },
+  async getActorExtended(url: string): Promise<ActorExtended> {
+    return await axios
+      .get(url, {
+        headers: {
+          Accept: "application/activity+json",
+        },
+      })
+      .then((resp) => {
+        const user: User = resp.data;
+        console.log(user);
+        return this.getFediversCollection(`${user.following}?page=1`).then(
+          (collectionFollowing) => {
+            return this.getFediversCollection(`${user.followers}?page=1`).then(
+              (collectionFollowers) => {
+                console.log(collectionFollowers);
+                console.log(collectionFollowers);
+                return {
+                  type: user.type,
+                  id: user.userId,
+                  name: user.name,
+                  summary: user.summary,
+                  preferredUsername: user.preferredUsername,
+                  followingIds: collectionFollowing.orderedItems,
+                  followingCount: collectionFollowing.totalItems,
+                  followersIds: collectionFollowers.orderedItems,
+                  followerCount: collectionFollowers.totalItems,
+                };
+              }
+            );
+          }
+        );
+        return resp.data;
+      });
+  },
+  async getFediversCollection(url: string): Promise<OrderedCollectionPage> {
+    return await axios
+      .get(url, {
+        headers: {
+          Accept: "application/activity+json",
+        },
+      })
+      .then((resp) => {
+        return resp.data;
+      });
   },
 } as ApiClient;

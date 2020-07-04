@@ -1,4 +1,5 @@
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
+import { DialogSettings } from "@/model/dialog-settings";
 
 @Module({ namespaced: true })
 class DialogStore extends VuexModule {
@@ -34,8 +35,8 @@ class DialogStore extends VuexModule {
   }
 
   @Action
-  public toggleDialog({ title, component }: any): void {
-    const isOpen = !this.isOpen
+  public toggleDialog({ title, component }: DialogSettings): void {
+    const isOpen = !this.isOpen;
 
     if (isOpen) {
       this.context.commit("setTitle", title);
@@ -45,8 +46,6 @@ class DialogStore extends VuexModule {
       this.context.commit("setComponent", undefined);
     }
     this.context.commit("setIsOpen", isOpen);
-
   }
-
 }
 export default DialogStore;

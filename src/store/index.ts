@@ -19,6 +19,6 @@ export default new Vuex.Store({
     User,
     Collection,
     Following,
-    Follower
+    Follower,
   },
 });

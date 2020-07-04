@@ -8,12 +8,12 @@ import {
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
 import { CreateUser } from "@/model/create-user";
+import { ActorExtended } from "@/store/modules/actor-extended";
 
 export interface ApiClient {
   login(credential: Credential): Promise<string>;
   createUser(user: CreateUser): Promise<void>;
   getUser(token: string, user: string): Promise<User>;
-  getActor(url: string): Promise<Actor>;
   fetchFollowing(
     token: string,
     user: string,
@@ -36,4 +36,9 @@ export interface ApiClient {
     summary?: string
   ): Promise<void>;
   getMedia(uri: string | undefined): string | undefined;
+  // Fediverse
+  getActor(url: string): Promise<Actor>;
+  getActorExtended(url: string): Promise<ActorExtended>;
+  findActor(query: string): Promise<ActorExtended | undefined>;
+  getFediversCollection(id: string): Promise<OrderedCollectionPage>;
 }

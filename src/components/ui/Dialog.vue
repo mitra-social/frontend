@@ -3,14 +3,9 @@
     <v-dialog
       v-model="getIsOpen"
       @click:outside="toggleDialog({ title: undefined, components: undefined })"
-      width="500"
     >
-      <v-card>
-        <v-card-title
-          class="headline grey lighten-2"
-          primary-title
-          v-if="getTitle"
-        >
+      <v-card :light="!$vuetify.theme.dark" :dark="$vuetify.theme.dark">
+        <v-card-title primary-title v-if="getTitle">
           {{ getTitle }}
         </v-card-title>
         <v-card-text>
@@ -27,6 +22,8 @@ import { namespace } from "vuex-class";
 
 import Profile from "@/views/settings/Profile.vue";
 import Password from "@/views/settings/Password.vue";
+import SearchActor from "@/views/home/SearchActor.vue";
+import { DialogSettings } from "../../model/dialog-settings";
 
 const dialogStore = namespace("Dialog");
 
@@ -34,6 +31,7 @@ const dialogStore = namespace("Dialog");
   components: {
     Profile,
     Password,
+    SearchActor,
   },
 })
 export default class MitraDialog extends Vue {
@@ -49,12 +47,7 @@ export default class MitraDialog extends Vue {
   public getComponent!: string;
 
   @dialogStore.Action
-  public toggleDialog!: ({ title, component }: any) => Promise<void>;
-
-  // public iii() {
-
-  //   this.toggleDialog({title})
-  // }
+  public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
 }
 </script>
 

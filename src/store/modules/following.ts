@@ -117,6 +117,7 @@ class FollowingStore extends VuexModule {
       .writeToOutbox(token, user, follow, summary)
       .then(() => {
         this.context.commit("addFollowing", actor);
+        this.context.dispatch("fetchFollowing", user);
       })
       .catch(() => {
         this.context.dispatch(
@@ -147,6 +148,7 @@ class FollowingStore extends VuexModule {
       .writeToOutbox(token, user, undo as ActivityObject, summary)
       .then(() => {
         this.context.commit("removeFollowing", actor);
+        this.context.dispatch("fetchFollowing", user);
       })
       .catch(() => {
         this.context.dispatch(

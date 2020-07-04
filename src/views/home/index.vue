@@ -86,6 +86,7 @@ import Posts from "./post/Posts.vue";
 import Profile from "@/views/settings/Profile.vue";
 import Password from "@/views/settings/Password.vue";
 import { User } from "@/model/user";
+import { DialogSettings } from "@/model/dialog-settings";
 
 const dialogStore = namespace("Dialog");
 const userStore = namespace("User");
@@ -109,7 +110,7 @@ export default class MitraHome extends Vue {
   public getUser!: User;
 
   @dialogStore.Action
-  public toggleDialog!: ({ title, component }: any) => Promise<void>;
+  public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
 
   @followingStore.Action
   public fetchFollowing!: (user: string) => Promise<void>;
