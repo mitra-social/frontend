@@ -147,6 +147,11 @@ class Collection extends VuexModule {
   }
 
   @Mutation
+  public setPage(page: number): void {
+    this.page = page;
+  }
+
+  @Mutation
   public pageUp(): void {
     this.page++;
   }
@@ -166,8 +171,22 @@ class Collection extends VuexModule {
     this.excludedActors = this.excludedActors.filter(($) => $ !== actorId);
   }
 
+  @Mutation
+  public reset() {
+    this.items = [];
+    this.partOf = "";
+    this.totalItems = 0;
+    this.page = 0;
+    this.hasPrev = false;
+    this.hasNext = true;
+    this.loadMorePostState = false;
+    this.excludedActors = [];
+  }
+
   @Action({ rawError: true })
   public async fetchCollection(user: string): Promise<void> {
+    this.context.commit("reset");
+
     const token = AuthenticationUtil.getToken() || "";
     return await client
       .fetchPosts(token, user, this.page)
@@ -179,17 +198,16 @@ class Collection extends VuexModule {
       .then((colleciton: OrderedCollectionPage) =>
         normalizedCollection(colleciton)
       )
-      .then((items) => {
-        this.context.commit("setItems", items);
-      })
-      .catch((error: Error) => {
-        this.context.dispatch("Notify/error", error.message, { root: true });
-      });
+      .then((items) => this.context.commit("setItems", items))
+      .catch((error: Error) =>
+        this.context.dispatch("Notify/error", error.message, { root: true })
+      );
   }
 
   @Action({ rawError: true })
   public async nextCollection(user: string): Promise<void> {
     this.context.commit("setLoadMorePostState", true);
+
     const token = AuthenticationUtil.getToken() || "";
     this.context.commit("pageUp");
 

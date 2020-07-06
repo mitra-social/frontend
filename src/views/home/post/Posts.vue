@@ -126,11 +126,11 @@ export default class MitraPosts extends Vue {
   @notifyStore.Action
   public error!: (message: string) => void;
 
-  private created() {
+  private created(): void {
     this.initGetUser();
   }
 
-  private initGetUser() {
+  private initGetUser(): void {
     if (this.getUser) {
       this.fetchCollection(this.getUser.preferredUsername);
     } else {
@@ -140,11 +140,11 @@ export default class MitraPosts extends Vue {
     }
   }
 
-  private getComponent(type: string) {
+  private getComponent(type: string): PostTypes {
     return PostTypes[type as keyof typeof PostTypes];
   }
 
-  private onIntersect(entries: IntersectionObserverEntry[]) {
+  private onIntersect(entries: IntersectionObserverEntry[]): void {
     if (this.getHasNext && entries[0].isIntersecting) {
       const target: Element = entries[0].target as Element;
       const index: number = +(target.getAttribute("data-index") ?? 0);

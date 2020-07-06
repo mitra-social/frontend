@@ -3,16 +3,15 @@
   "summary": "Sally's articles",
   "type": "OrderedCollectionPage",
   "partOf": "http://mock/user/john.doe/inbox",
-  "totalItems": 6,
-  "prev": "http://example.org/collection?page=0",
+  "totalItems": 7,
   "orderedItems": [
     {
       "type": "Create",
       "id": "http://activities.example.com/1",
       "object": {
         "type": "Article",
-        "name": "Page 2: Minecraft Signs",
-        "content": "Page 2: <p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>"
+        "name": "Second Fetch Minecraft Signs",
+        "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>"
       },
       "actor": {
         "id": "http://sally.example.org",
@@ -20,8 +19,8 @@
         "summary": "Nice persone you know",
         "name": "Sally",
         "icon": {
-          "name": "avater",
-          "url": "https://i.picsum.photos/id/1062/5092/3395.jpg"
+          "name": "avatar",
+          "url": "https://picsum.photos/200/1014"
         }
       }
     },
@@ -30,8 +29,8 @@
       "id": "http://activities.example.com/2",
       "object": {
         "type": "Article",
-        "name": "Page 2: Hi/Ho",
-        "content": "Page 2: <p><span style=\"color: blue\">SAVIOR OF SONG</span> (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>"
+        "name": "Second Fetch Hi/Ho",
+        "content": "<p><span style=\"color: purple\">SAVIOR OF SONG</span> (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>"
       },
       "actor": "http://johnny.example.org"
     },
@@ -40,8 +39,8 @@
       "id": "http://activities.example.com/3",
       "object": {
         "type": "Article",
-        "name": "Page 2: The Clinic",
-        "content": "Page 2: <p>the misinformation and outright lies on this webbed site about Covid 19 driven by certain anarchists is wild. nice to know we're all Karens at the core waiting for the right activation call</p>"
+        "name": "Second Fetch The Clinic",
+        "content": "<p>the misinformation and outright lies on this webbed site about Covid 19 driven by certain anarchists is wild. nice to know we're all Karens at the core waiting for the right activation call</p>"
       },
       "actor": {
         "id": "http://john.example.org",
@@ -52,8 +51,8 @@
           "fr": "Jean"
         },
         "icon": {
-          "name": "avater",
-          "url": "https://i.picsum.photos/id/1059/7360/4912.jpg"
+          "name": "avatar",
+          "url": "https://picsum.photos/200/103"
         }
       }
     },
@@ -63,10 +62,10 @@
       "id": "http://activities.example.com/4",
       "actor": "http://sally.example.org",
       "object": {
-        "summary": "A note",
+        "summary": "Second Fetch A note",
         "type": "Note",
         "id": "http://notes.example.com/1",
-        "content": "Page 2: A create note"
+        "content": "Second Fetch A create note"
       }
     },
     {
@@ -77,125 +76,35 @@
       "updated": "2020-04-28T17:49:12Z",
       "published": "2020-04-28T16:12:12Z",
       "object": {
-        "summary": "A note",
+        "summary": "Second Fetch A note",
         "type": "Note",
         "id": "http://notes.example.com/1",
-        "content": "Page 2: A create note with published and updated datetime"
+        "content": "Second Fetch A create note with published and updated datetime"
       }
     },
     {
-      "type": "Create",
-      "id": "http://activities.example.com/2",
-      "object": {
-        "type": "Article",
-        "name": "Might the force be with you",
-        "content": "\"May the Force be with you\" was a phrase used to wish an individual or group good luck or good will, one that expressed the speaker's wish that the Force work in the favor of the addressee. The phrase was often used as individuals parted ways or in the face of an impending challenge."
+      "summary": "Sally updated her note",
+      "type": "Update",
+      "actor": {
+        "type": "Person",
+        "name": "Sally",
+        "id": "http://sally.example.org"
       },
-      "actor": "https://mastodon.social/users/fraenki"
+      "object": "http://example.org/notes/5"
     },
     {
-      "type": "Create",
-      "id": "http://activities.example.com/2",
-      "object": {
-        "type": "Article",
-        "name": "Page 2: Memory, time, and technology",
-        "content": "Page 2: Cole has been thrust from another world into ours and he's confronted by the confusion we live in, which most people somehow accept as normal. So he appears abnormal, and what's happening around him seems random and weird. Is he mad or are we?"
+      "summary": "Second Fetch Sally deleted a note",
+      "type": "Delete",
+      "actor": {
+        "type": "Person",
+        "name": "Sally",
+        "id": "http://sally.example.org"
       },
-      "actor": "https://mitra-social.herokuapp.com/user/franco.g"
-    },
-    {
-      "actor": "https://mastodon.social/users/fraenki",
-      "cc": [
-        "https://mastodon.social/users/fraenki/followers"
-      ],
-      "id": "https://mastodon.social/users/fraenki/statuses/104030050906488438/activity",
-      "object": {
-        "atomUri": "https://mastodon.social/users/fraenki/statuses/104030050906488438",
-        "attachment": [],
-        "attributedTo": "https://mastodon.social/users/fraenki",
-        "cc": [
-          "https://mastodon.social/users/fraenki/followers"
-        ],
-        "content": "Page 2: <p>With typescript, vuejs is even more fun</p>",
-        "contentMap": {
-          "en": "Page 2: <p>With typescript, vuejs is even more fun</p>"
-        },
-        "conversation": "tag:mastodon.social,2020-04-20:objectId=167641654:objectType=Conversation",
-        "id": "https://mastodon.social/users/fraenki/statuses/104030050906488438",
-        "inReplyTo": null,
-        "inReplyToAtomUri": null,
-        "published": "2020-04-20T08:50:02Z",
-        "replies": {
-          "first": {
-            "items": [],
-            "next": "https://mastodon.social/users/fraenki/statuses/104030050906488438/replies?only_other_accounts=true&page=true",
-            "partOf": "https://mastodon.social/users/fraenki/statuses/104030050906488438/replies",
-            "type": "CollectionPage"
-          },
-          "id": "https://mastodon.social/users/fraenki/statuses/104030050906488438/replies",
-          "type": "Collection"
-        },
-        "sensitive": false,
-        "summary": null,
-        "tag": [],
-        "to": [
-          "https://www.w3.org/ns/activitystreams#Public"
-        ],
-        "type": "Note",
-        "url": "https://mastodon.social/@fraenki/104030050906488438"
-      },
-      "published": "2020-04-20T08:50:02Z",
-      "to": [
-        "https://www.w3.org/ns/activitystreams#Public"
-      ],
-      "type": "Create"
-    },
-    {
-      "actor": "https://mastodon.social/users/fraenki",
-      "cc": [
-        "https://mastodon.social/users/fraenki/followers"
-      ],
-      "id": "https://mastodon.social/users/fraenki/statuses/104030048336906060/activity",
-      "object": {
-        "atomUri": "https://mastodon.social/users/fraenki/statuses/104030048336906060",
-        "attachment": [],
-        "attributedTo": "https://mastodon.social/users/fraenki",
-        "cc": [
-          "https://mastodon.social/users/fraenki/followers"
-        ],
-        "content": "Page 2: <p>Vuesj rocks</p>",
-        "contentMap": {
-          "en": "Page 2: <p>Vuesj rocks</p>"
-        },
-        "conversation": "tag:mastodon.social,2020-04-20:objectId=167641597:objectType=Conversation",
-        "id": "https://mastodon.social/users/fraenki/statuses/104030048336906060",
-        "inReplyTo": null,
-        "inReplyToAtomUri": null,
-        "published": "2020-04-20T08:49:23Z",
-        "replies": {
-          "first": {
-            "items": [],
-            "next": "https://mastodon.social/users/fraenki/statuses/104030048336906060/replies?only_other_accounts=true&page=true",
-            "partOf": "https://mastodon.social/users/fraenki/statuses/104030048336906060/replies",
-            "type": "CollectionPage"
-          },
-          "id": "https://mastodon.social/users/fraenki/statuses/104030048336906060/replies",
-          "type": "Collection"
-        },
-        "sensitive": false,
-        "summary": null,
-        "tag": [],
-        "to": [
-          "https://www.w3.org/ns/activitystreams#Public"
-        ],
-        "type": "Note",
-        "url": "https://mastodon.social/@fraenki/104030048336906060"
-      },
-      "published": "2020-04-20T08:49:23Z",
-      "to": [
-        "https://www.w3.org/ns/activitystreams#Public"
-      ],
-      "type": "Create"
+      "object": "http://example.org/notes/4",
+      "origin": {
+        "type": "Collection",
+        "name": "Second Fetch Sally's Notes"
+      }
     }
   ]
 }

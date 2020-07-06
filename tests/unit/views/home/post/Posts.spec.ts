@@ -7,6 +7,7 @@ import flushPromises from "flush-promises";
 import store from "@/store";
 import router from "@/router";
 import Posts from "@/views/home/post/Posts.vue";
+import apiService from "@/api-client/mock/index";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { Notify } from "@/model/notify";
 
@@ -23,7 +24,7 @@ describe("Posts.vue", () => {
     };
   };
 
-  beforeEach(() => {
+  beforeEach(async () => {
     vuetify = new Vuetify();
 
     if (router.currentRoute.path !== "/") {
@@ -42,11 +43,17 @@ describe("Posts.vue", () => {
     jest
       .spyOn(AuthenticationUtil, "getToken")
       .mockReturnValue("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi");
+    await flushPromises();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     AuthenticationUtil.clear();
-    store.state.Collection.items = [];
+    store.commit("Collection/reset");
+
+    // eslint-disable-next-line
+    const jestReset = (apiService as any).getJestReset();
+    jestReset();
+    await flushPromises();
   });
 
   it("Count posts", async () => {
@@ -59,6 +66,35 @@ describe("Posts.vue", () => {
     });
     await flushPromises();
     expect(wrapper.findAll(".post").length).toBe(9);
+  });
+
+  it("Test scroll paging", async (done) => {
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
+    await flushPromises();
+
+    expect(wrapper.findAll(".post").length).toBe(9);
+
+    const intersectArray = [
+      {
+        isIntersecting: true,
+        target: {
+          getAttribute: () => {
+            return wrapper.findAll(".post").length - 2;
+          },
+        },
+      },
+    ];
+    // eslint-disable-next-line
+    (wrapper.vm as any).onIntersect(intersectArray);
+    flushPromises().then(async () => {
+      expect(wrapper.findAll(".post").length).toBe(14);
+      done();
+    });
   });
 
   it("First post is article type", async () => {

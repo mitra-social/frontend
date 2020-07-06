@@ -53,10 +53,19 @@ const returnResult = async (
 };
 
 const delay = async (ms: number) => {
-  return await new Promise((resolve) => setTimeout(resolve, ms));
+  return await new Promise((resolve) => {
+    if (process.env.NODE_ENV === "test") {
+      jest.useFakeTimers();
+    }
+    setTimeout(resolve, ms);
+    if (process.env.NODE_ENV === "test") {
+      jest.runAllTimers();
+    }
+  });
 };
 
 let fetchPostCount = 0;
+const NEXT_PAGE_DELAY = 5000;
 
 export default {
   async login(credential: Credential): Promise<string> {
@@ -118,11 +127,12 @@ export default {
 
     if (fetchPostCount > 1) {
       data = fetch(collectionSecondFetchData.default);
+      fetchPostCount = 0;
     }
 
     if (page === 1) {
       data = fetch(collectionPageTwoData.default);
-      await delay(5000);
+      await delay(NEXT_PAGE_DELAY);
     }
 
     if (page === 2) {
@@ -149,5 +159,13 @@ export default {
   getMedia(uri: string | undefined): string | undefined {
     console.info(`getMedia => uri: ${uri}`);
     return uri;
+  },
+  getJestReset: () => {
+    if (process.env.NODE_ENV === "test") {
+      console.info(`getJestReset => fetchPostCount: ${fetchPostCount}`);
+      return jest.fn().mockImplementation(() => {
+        fetchPostCount = 0;
+      });
+    }
   },
 } as ApiClient;
