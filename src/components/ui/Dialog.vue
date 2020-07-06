@@ -1,10 +1,11 @@
 <template>
   <div class="text-center">
     <v-dialog
+      origin="center top"
       v-model="getIsOpen"
       @click:outside="toggleDialog({ title: undefined, components: undefined })"
     >
-      <v-card :light="!$vuetify.theme.dark" :dark="$vuetify.theme.dark">
+      <v-card :light="$vuetify.theme.dark" :dark="!$vuetify.theme.dark">
         <v-card-title primary-title v-if="getTitle">
           {{ getTitle }}
         </v-card-title>
@@ -52,16 +53,7 @@ export default class MitraDialog extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.post-container {
-  height: 100%;
-  overflow-y: scroll;
-}
-
-.post {
-  margin: 5px;
-}
-
-.v-card__text {
-  width: inherit;
+.v-dialog__content {
+  align-items: flex-start;
 }
 </style>
