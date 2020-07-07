@@ -27,7 +27,10 @@
           <v-divider class="mx-4"></v-divider>
           <v-card-text>
             <component :is="getComponent(post.type)" :data="post" />
-            <Attachments :attachments="post.attachment" />
+            <Attachments
+              v-if="post.attachment"
+              :attachments="post.attachment"
+            />
           </v-card-text>
           <v-divider class="mx-4"></v-divider>
           <v-card-actions>
@@ -64,11 +67,11 @@ import striptags from "striptags";
 
 import ActivityStreamsArticleType from "@/views/home/post/text-type/ActivityStreamsArticleType.vue";
 import ActivityStreamsNoteType from "@/views/home/post/text-type/ActivityStreamsNoteType.vue";
+import Attachments from "@/views/home/post/attachments/index.vue";
 import ActorPin from "@/components/actor/ActorPin.vue";
 import Date from "@/components/ui/Date.vue";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
-import Attachments from "@/views/home/post/Attachments.vue";
 
 const collectionStore = namespace("Collection");
 const notifyStore = namespace("Notify");

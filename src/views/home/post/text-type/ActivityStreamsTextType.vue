@@ -12,11 +12,11 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { Article } from "activitypub-objects";
 
-import Attachment from "@/views/home/post/Attachments.vue";
+import Attachments from "@/views/home/post/attachments/index.vue";
 
 @Component({
   components: {
-    Attachment,
+    Attachments,
   },
 })
 export default class ActivityStreamsTextType extends Vue {
