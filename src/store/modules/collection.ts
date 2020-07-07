@@ -29,23 +29,26 @@ function normalizedCollection(
         const url =
           (item as Activity).actor ?? (item as ActivityObject).attributedTo;
 
-        if (url) {
-          return await client
-            .getActor(url.toString())
-            .then(($) => {
-              if ($) {
-                if ((item as Activity).actor) {
-                  (item as Activity).actor = $;
-                } else if ((item as ActivityObject).attributedTo) {
-                  (item as ActivityObject).attributedTo = $;
-                }
-              }
-              return item;
-            })
-            .catch(() => Promise.resolve(undefined));
-        } else {
+        if (!url) {
           return item;
         }
+
+        return await client
+          .getActor(url.toString())
+          .then(($) => {
+            if (!$) {
+              return item;
+            }
+
+            if ((item as Activity).actor) {
+              (item as Activity).actor = $;
+            } else if ((item as ActivityObject).attributedTo) {
+              (item as ActivityObject).attributedTo = $;
+            }
+
+            return item;
+          })
+          .catch(() => Promise.resolve(undefined));
       } else {
         return item;
       }
@@ -97,7 +100,7 @@ class Collection extends VuexModule {
     return this.hasPrev;
   }
 
-  get getHasNext(): boolean {
+  get hasNextPage(): boolean {
     return this.hasNext;
   }
 
@@ -152,7 +155,7 @@ class Collection extends VuexModule {
   }
 
   @Mutation
-  public pageUp(): void {
+  public nextPage(): void {
     this.page++;
   }
 
@@ -205,11 +208,11 @@ class Collection extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public async nextCollection(user: string): Promise<void> {
+  public async nextCollectionPage(user: string): Promise<void> {
     this.context.commit("setLoadMorePostState", true);
 
     const token = AuthenticationUtil.getToken() || "";
-    this.context.commit("pageUp");
+    this.context.commit("nextPage");
 
     return await client
       .fetchPosts(token, user, this.page)

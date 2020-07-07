@@ -49,8 +49,8 @@
             <v-icon class="search-user-icon">mdi-account-search-outline</v-icon>
           </v-card-title>
           <v-card-text>
-            You haven't got any posts yet because you're not following anyone
-            yet. Look for someone you can follow and enjoy reading.
+            You haven't got any posts yet because you're not following anyone.
+            Look for someone you can follow and enjoy reading.
           </v-card-text>
         </v-card>
       </div>
@@ -112,7 +112,7 @@ export default class MitraPosts extends Vue {
   public getPosts!: Array<ActivityObject | Link>;
 
   @collectionStore.Getter
-  public getHasNext!: boolean;
+  public hasNextPage!: boolean;
 
   @collectionStore.Getter
   public getLoadMorePostState!: boolean;
@@ -121,7 +121,7 @@ export default class MitraPosts extends Vue {
   public fetchCollection!: (user: string) => Promise<void>;
 
   @collectionStore.Action
-  public nextCollection!: (user: string) => Promise<void>;
+  public nextCollectionPage!: (user: string) => Promise<void>;
 
   @notifyStore.Action
   public error!: (message: string) => void;
@@ -145,12 +145,12 @@ export default class MitraPosts extends Vue {
   }
 
   private onIntersect(entries: IntersectionObserverEntry[]): void {
-    if (this.getHasNext && entries[0].isIntersecting) {
+    if (this.hasNextPage && entries[0].isIntersecting) {
       const target: Element = entries[0].target as Element;
       const index: number = +(target.getAttribute("data-index") ?? 0);
 
       if (index > this.getPosts.length - 3 && !this.getLoadMorePostState) {
-        this.nextCollection(this.getUser.preferredUsername);
+        this.nextCollectionPage(this.getUser.preferredUsername);
       }
     }
   }
