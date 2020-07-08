@@ -5,7 +5,7 @@ import { mount, createLocalVue } from "@vue/test-utils";
 
 import { Article, ActivityObject, Activity } from "activitypub-objects";
 
-import collection from "@/api-client/mock/data/collection.json";
+import collection from "@/api-client/mock/data/collection-page-1.json";
 import ActivityStreamsNoteType from "@/views/home/post/text-type/ActivityStreamsNoteType.vue";
 
 const localVue = createLocalVue();
