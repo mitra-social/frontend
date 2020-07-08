@@ -4,6 +4,7 @@
   "type": "OrderedCollectionPage",
   "partOf": "http://mock/user/john.doe/inbox",
   "totalItems": 11,
+  "next": "http://example.org/collection?page=1",
   "orderedItems": [
     {
       "type": "Create",

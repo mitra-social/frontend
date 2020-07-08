@@ -5,7 +5,9 @@ import { createLocalVue, shallowMount } from "@vue/test-utils";
 import flushPromises from "flush-promises";
 
 import store from "@/store";
+import router from "@/router";
 import Posts from "@/views/home/post/Posts.vue";
+import apiService from "@/api-client/mock/index";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { Notify } from "@/model/notify";
 
@@ -15,31 +17,94 @@ Vue.use(Vuetify);
 describe("Posts.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
+  const mockIntersectDirective = () => {
+    return {
+      observe: jest.fn(),
+      unobserve: jest.fn(),
+    };
+  };
 
-  beforeEach(() => {
+  beforeEach(async () => {
     vuetify = new Vuetify();
+
+    if (router.currentRoute.path !== "/") {
+      router.push({ name: "Home" });
+    }
+
+    store.state.User.user = {
+      userId: "id",
+      email: "test@mail.ch",
+      registeredAt: new Date(),
+      preferredUsername: "john.doe",
+      inbox: "https://social.example/john.doe/inbox/",
+    };
 
     jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue("john.doe");
     jest
       .spyOn(AuthenticationUtil, "getToken")
       .mockReturnValue("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi");
+    await flushPromises();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     AuthenticationUtil.clear();
-    store.state.Collection.items = [];
+    store.commit("Collection/reset");
+
+    // eslint-disable-next-line
+    const jestReset = (apiService as any).getJestReset();
+    jestReset();
+    await flushPromises();
   });
 
   it("Count posts", async () => {
     AuthenticationUtil.setUser("john.doe");
-    const wrapper = shallowMount(Posts, { localVue, vuetify, store });
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
     await flushPromises();
     expect(wrapper.findAll(".post").length).toBe(9);
   });
 
+  it("Test scroll paging", async (done) => {
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
+    await flushPromises();
+
+    expect(wrapper.findAll(".post").length).toBe(9);
+
+    const intersectArray = [
+      {
+        isIntersecting: true,
+        target: {
+          getAttribute: () => {
+            return wrapper.findAll(".post").length - 2;
+          },
+        },
+      },
+    ];
+    // eslint-disable-next-line
+    (wrapper.vm as any).onIntersect(intersectArray);
+    flushPromises().then(async () => {
+      expect(wrapper.findAll(".post").length).toBe(14);
+      done();
+    });
+  });
+
   it("First post is article type", async () => {
     AuthenticationUtil.setUser("john.doe");
-    const wrapper = shallowMount(Posts, { localVue, vuetify, store });
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
     await flushPromises();
     expect(
       wrapper.findAll(".post").at(0).find("v-list-item-title-stub").text()
@@ -55,7 +120,12 @@ describe("Posts.vue", () => {
 
   it("First post is note type", async () => {
     AuthenticationUtil.setUser("john.doe");
-    const wrapper = shallowMount(Posts, { localVue, vuetify, store });
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
     await flushPromises();
     expect(
       wrapper.findAll(".post").at(3).find("v-list-item-title-stub").text()
@@ -71,7 +141,12 @@ describe("Posts.vue", () => {
 
   it("Has published date", async () => {
     AuthenticationUtil.setUser("john.doe");
-    const wrapper = shallowMount(Posts, { localVue, vuetify, store });
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
     await flushPromises();
 
     const updateDate = wrapper
@@ -85,7 +160,12 @@ describe("Posts.vue", () => {
 
   it("Has updated date", async () => {
     AuthenticationUtil.setUser("john.doe");
-    const wrapper = shallowMount(Posts, { localVue, vuetify, store });
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
     await flushPromises();
 
     const updateDate = wrapper
@@ -99,7 +179,13 @@ describe("Posts.vue", () => {
 
   it("Wrong user", async (done) => {
     jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue("jenny.moe");
-    const wrapper = shallowMount(Posts, { localVue, vuetify, store });
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
+
     wrapper.vm.$store.subscribe((mutation, state) => {
       if (mutation.type === "Notify/setNofify") {
         const notification: Notify = state.Notify.notification;
@@ -111,13 +197,18 @@ describe("Posts.vue", () => {
 
   it("Has no post", async () => {
     AuthenticationUtil.setUser("john.doe");
-    const wrapper = shallowMount(Posts, { localVue, vuetify, store });
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
     await flushPromises();
     store.state.Collection.items = [];
     await flushPromises();
     expect(wrapper.findAll(".post").length).toBe(1);
     expect(wrapper.find("v-card-text-stub").text()).toContain(
-      "You haven't got any posts yet because you're not following anyone yet"
+      "You haven't got any posts yet because"
     );
   });
 });

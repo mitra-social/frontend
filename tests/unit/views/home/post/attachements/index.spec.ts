@@ -3,7 +3,7 @@ import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
 
-import collection from "@/api-client/mock/data/collection.json";
+import collection from "@/api-client/mock/data/collection-page-1.json";
 import ActivityStreamsAttachments from "@/views/home/post/attachments/index.vue";
 import { ActivityObject, Activity } from "activitypub-objects";
 

@@ -16,7 +16,8 @@ import * as userData from "./data/user.json";
 import * as createUserData from "./data/create-user.json";
 import * as actorsData from "./data/actors.json";
 import * as follwoingData from "./data/following.json";
-import * as collectionData from "./data/collection.json";
+import * as collectionPageOneData from "./data/collection-page-1.json";
+import * as collectionPageTwoData from "./data/collection-page-2.json";
 import * as collectionSecondFetchData from "./data/collection-second-fetch.json";
 
 const USER_NAME = "john.doe";
@@ -51,7 +52,20 @@ const returnResult = async (
   return promis;
 };
 
+const delay = async (ms: number) => {
+  return await new Promise((resolve) => {
+    if (process.env.NODE_ENV === "test") {
+      jest.useFakeTimers();
+    }
+    setTimeout(resolve, ms);
+    if (process.env.NODE_ENV === "test") {
+      jest.runAllTimers();
+    }
+  });
+};
+
 let fetchPostCount = 0;
+const NEXT_PAGE_DELAY = 5000;
 
 export default {
   async login(credential: Credential): Promise<string> {
@@ -105,7 +119,7 @@ export default {
     user: string,
     page: number
   ): Promise<OrderedCollectionPage> {
-    let data = fetch(collectionData.default);
+    let data = fetch(collectionPageOneData.default);
     fetchPostCount++;
     console.info(
       `fetchPosts => fetch count: ${fetchPostCount}, token: ${token}, user: ${user}, page: ${page}`
@@ -113,6 +127,16 @@ export default {
 
     if (fetchPostCount > 1) {
       data = fetch(collectionSecondFetchData.default);
+      fetchPostCount = 0;
+    }
+
+    if (page === 1) {
+      data = fetch(collectionPageTwoData.default);
+      await delay(NEXT_PAGE_DELAY);
+    }
+
+    if (page === 2) {
+      return await error("Not found");
     }
     return returnResult(token, user, data) as Promise<OrderedCollectionPage>;
   },
@@ -135,5 +159,13 @@ export default {
   getMedia(uri: string | undefined): string | undefined {
     console.info(`getMedia => uri: ${uri}`);
     return uri;
+  },
+  getJestReset: () => {
+    if (process.env.NODE_ENV === "test") {
+      console.info(`getJestReset => fetchPostCount: ${fetchPostCount}`);
+      return jest.fn().mockImplementation(() => {
+        fetchPostCount = 0;
+      });
+    }
   },
 } as ApiClient;
