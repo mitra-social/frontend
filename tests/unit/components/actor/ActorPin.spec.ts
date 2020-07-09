@@ -5,7 +5,7 @@ import { mount, createLocalVue } from "@vue/test-utils";
 import { Activity } from "activitypub-objects";
 
 import ActorPin from "@/components/actor/ActorPin.vue";
-import collection from "@/api-client/mock/data/collection.json";
+import collection from "@/api-client/mock/data/collection-page-1.json";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
