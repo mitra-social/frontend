@@ -14,7 +14,6 @@ import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
 import { CreateUser } from "@/model/create-user";
 import { Webfinger } from "@/model/webfinger";
-import { ActorExtended } from "@/store/modules/actor-extended";
 
 const urlPrefix = process.env.NODE_ENV === "production" ? "/api" : "";
 
@@ -126,10 +125,10 @@ export default {
       return uri;
     }
 
-    return `${process.env.VUE_APP_BACKEND_URL}/media/${md5(uri)}`;
+    return `${process.env.VUE_APP_BACKEND_URL}/media/${md5(uri)}`;;
   },
   // Fediverse
-  async findActor(query: string): Promise<ActorExtended | undefined> {
+  async fediverseSearchUserId(query: string): Promise<string | undefined> {
     return await axios
       .get<Webfinger>(
         `https://${query.substring(
@@ -140,14 +139,10 @@ export default {
       .then((resp) => {
         const webfinger = resp.data;
         const link = webfinger.links.find(($) => $.rel === "self");
-
-        if (link) {
-          return this.getActorExtended(link.href);
-        }
-        return;
+        return link?.href;
       });
   },
-  async getActor(url: string): Promise<Actor> {
+  async fediverseGetActor(url: string): Promise<Actor> {
     return await axios
       .get(url, {
         headers: {
@@ -157,43 +152,18 @@ export default {
       .then((resp) => {
         return resp.data;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.info("Failed"));
   },
-  async getActorExtended(url: string): Promise<ActorExtended> {
+  async fediverseGetUser(url: string): Promise<User> {
     return await axios
       .get(url, {
         headers: {
           Accept: "application/activity+json",
         },
       })
-      .then((resp) => {
-        const user: User = resp.data;
-        console.log(user);
-        return this.getFediversCollection(`${user.following}?page=1`).then(
-          (collectionFollowing) => {
-            return this.getFediversCollection(`${user.followers}?page=1`).then(
-              (collectionFollowers) => {
-                console.log(collectionFollowers);
-                console.log(collectionFollowers);
-                return {
-                  type: user.type,
-                  id: user.userId,
-                  name: user.name,
-                  summary: user.summary,
-                  preferredUsername: user.preferredUsername,
-                  followingIds: collectionFollowing.orderedItems,
-                  followingCount: collectionFollowing.totalItems,
-                  followersIds: collectionFollowers.orderedItems,
-                  followerCount: collectionFollowers.totalItems,
-                };
-              }
-            );
-          }
-        );
-        return resp.data;
-      });
+      .then((resp) => resp.data);
   },
-  async getFediversCollection(url: string): Promise<OrderedCollectionPage> {
+  async fediversGetCollection(url: string): Promise<OrderedCollectionPage> {
     return await axios
       .get(url, {
         headers: {

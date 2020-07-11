@@ -34,7 +34,7 @@ function normalizedCollection(
         }
 
         return await client
-          .getActor(url.toString())
+          .fediverseGetActor(url.toString())
           .then(($) => {
             if (!$) {
               return item;
@@ -198,8 +198,8 @@ class Collection extends VuexModule {
         this.context.commit("setHasNext", !!collection.next);
         return collection;
       })
-      .then((colleciton: OrderedCollectionPage) =>
-        normalizedCollection(colleciton)
+      .then((collection: OrderedCollectionPage) =>
+        normalizedCollection(collection)
       )
       .then((items) => this.context.commit("setItems", items))
       .catch((error: Error) =>
@@ -221,8 +221,8 @@ class Collection extends VuexModule {
         this.context.commit("setHasNext", !!collection.next);
         return collection;
       })
-      .then((colleciton: OrderedCollectionPage) =>
-        normalizedCollection(colleciton)
+      .then((collection: OrderedCollectionPage) =>
+        normalizedCollection(collection)
       )
       .then((items) => {
         this.context.commit("addItems", items);

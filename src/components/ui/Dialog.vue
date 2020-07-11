@@ -5,7 +5,7 @@
       v-model="getIsOpen"
       @click:outside="toggleDialog({ title: undefined, components: undefined })"
     >
-      <v-card :light="$vuetify.theme.dark" :dark="!$vuetify.theme.dark">
+      <v-card :light="!$vuetify.theme.dark" :dark="$vuetify.theme.dark">
         <v-card-title primary-title v-if="getTitle">
           {{ getTitle }}
         </v-card-title>

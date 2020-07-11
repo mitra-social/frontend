@@ -8,6 +8,7 @@ import User from "@/store/modules/user";
 import Collection from "@/store/modules/collection";
 import Following from "@/store/modules/following";
 import Follower from "@/store/modules/follower";
+import FindUser from "@/store/modules/find-user";
 
 Vue.use(Vuex);
 
@@ -20,5 +21,6 @@ export default new Vuex.Store({
     Collection,
     Following,
     Follower,
+    FindUser
   },
 });

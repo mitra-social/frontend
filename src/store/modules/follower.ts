@@ -56,7 +56,7 @@ class FollowerStore extends VuexModule {
 
               if (url) {
                 return await client
-                  .getActor(url.toString())
+                  .fediverseGetActor(url.toString())
                   .then(($) => {
                     if ($) {
                       item = $;

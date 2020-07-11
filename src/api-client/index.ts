@@ -8,7 +8,6 @@ import {
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
 import { CreateUser } from "@/model/create-user";
-import { ActorExtended } from "@/store/modules/actor-extended";
 
 export interface ApiClient {
   login(credential: Credential): Promise<string>;
@@ -37,8 +36,8 @@ export interface ApiClient {
   ): Promise<void>;
   getMedia(uri: string | undefined): string | undefined;
   // Fediverse
-  getActor(url: string): Promise<Actor>;
-  getActorExtended(url: string): Promise<ActorExtended>;
-  findActor(query: string): Promise<ActorExtended | undefined>;
-  getFediversCollection(id: string): Promise<OrderedCollectionPage>;
+  fediverseGetActor(url: string): Promise<Actor>;
+  fediverseSearchUserId(query: string): Promise<string | undefined>;
+  fediverseGetUser(url: string): Promise<User>;
+  fediversGetCollection(id: string): Promise<OrderedCollectionPage>;
 }
