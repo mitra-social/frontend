@@ -8,23 +8,27 @@
     </div>
 
     <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
-      <v-list-item class="px-2">
-        <v-avatar color="indigo" v-if="getUser.icon">
-          <v-img :src="getUser.icon"></v-img>
-        </v-avatar>
-        <v-avatar color="indigo" size="36" v-else>
-          <v-icon dark>mdi-account-circle</v-icon>
-        </v-avatar>
-        <v-list-item-content>
-          <v-list-item-title>{{ getUser.preferredUsername }}</v-list-item-title>
-          <v-list-item-subtitle v-if="getUser.email">
-            email{{ getUser.email }}</v-list-item-subtitle
-          >
-        </v-list-item-content>
-        <v-btn icon @click.stop="mini = !mini">
-          <v-icon>mdi-chevron-left</v-icon>
-        </v-btn>
-      </v-list-item>
+      <v-list>
+        <v-list-item class="px-2">
+          <v-avatar color="indigo" v-if="getUser.icon">
+            <v-img :src="getUser.icon"></v-img>
+          </v-avatar>
+          <v-avatar color="indigo" size="36" v-else>
+            <v-icon dark>mdi-account-circle</v-icon>
+          </v-avatar>
+          <v-list-item-content>
+            <v-list-item-title>{{
+              getUser.preferredUsername
+            }}</v-list-item-title>
+            <v-list-item-subtitle v-if="getUser.email">
+              email{{ getUser.email }}</v-list-item-subtitle
+            >
+          </v-list-item-content>
+          <v-btn icon @click.stop="mini = !mini">
+            <v-icon>mdi-chevron-left</v-icon>
+          </v-btn>
+        </v-list-item>
+      </v-list>
 
       <v-divider></v-divider>
 
@@ -73,6 +77,17 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <v-divider></v-divider>
+      <v-list>
+        <v-list-item class="px-2" @click="logout()">
+          <v-list-item-icon>
+            <v-icon>mdi-logout-variant</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
   </div>
 </template>
@@ -87,6 +102,7 @@ import Profile from "@/views/settings/Profile.vue";
 import Password from "@/views/settings/Password.vue";
 import { User } from "@/model/user";
 import { DialogSettings } from "@/model/dialog-settings";
+import { AuthenticationUtil } from "@/utils/authentication-util";
 
 const dialogStore = namespace("Dialog");
 const userStore = namespace("User");
@@ -121,6 +137,11 @@ export default class MitraHome extends Vue {
         this.isFollowingLoading = true;
       });
     }
+  }
+
+  public logout(): void {
+    AuthenticationUtil.clear();
+    this.$router.push({ name: "login" });
   }
 }
 </script>
