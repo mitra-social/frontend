@@ -4,7 +4,6 @@
     class="post-container"
     v-if="actors && actors.length > 0"
   >
-    {{ hasNextPage }}
     <v-list>
       <v-list-item-group color="primary">
         <v-list-item
@@ -13,34 +12,38 @@
           v-intersect="onIntersect"
           :data-index="index"
         >
-          <v-list-item-avatar v-if="getIcon(actor)">
-            <v-img :src="getIcon(actor)"></v-img>
-          </v-list-item-avatar>
-          <v-list-item-avatar v-else>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title>{{ getName(actor) }}</v-list-item-title>
+            <SummarizedActor :actor="actor" />
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
     </v-list>
+    <v-progress-linear
+      :light="$vuetify.theme.dark"
+      :dark="!$vuetify.theme.dark"
+      :active="isLoading"
+      indeterminate
+      height="15"
+      absolute
+      bottom
+    >
+      <template v-slot>
+        <strong class="caption">loading more...</strong>
+      </template></v-progress-linear
+    >
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, PropSync, Prop } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-import { Actor, ActivityObject, Link } from "activitypub-objects";
+import { Component, Vue, Prop, Emit } from "vue-property-decorator";
+import { ActivityObject, Link } from "activitypub-objects";
 
 import client from "apiClient";
 
 import FollowingActor from "@/components/following/FollowingActor.vue";
 import SummarizedActor from "@/components/actor/ActorSummarized.vue";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-// import { User } from "../../model/user";
-
-const findUserStore = namespace("FindUser");
+import { User } from "@/model/user";
 
 @Component({
   components: {
@@ -52,21 +55,6 @@ export default class FollowingFollowerList extends Vue {
   @Prop() readonly actors!: (ActivityObject | Link | URL)[];
   @Prop() readonly isLoading!: boolean;
   @Prop() readonly hasNextPage!: boolean;
-
-  // private tab = "";
-
-  // public setfollowersOrFollowing(
-  //   fof: (ActivityObject | Link | URL)[] | undefined,
-  //   isFollowerActive: boolean,
-  //   isFollowingActive: boolean
-  // ): void {
-  //   this.isFollowerActive = isFollowerActive;
-  //   this.isFollowingActive = isFollowingActive;
-
-  //   if (fof) {
-  //     this.followersOrFollowing = fof;
-  //   }
-  // }
 
   public getName(actor: ActivityObject | Link | URL): string | undefined {
     return ActivityObjectHelper.extractActorName(actor);
@@ -80,7 +68,7 @@ export default class FollowingFollowerList extends Vue {
     return client.getMedia(originalIconUri);
   }
 
-  private onIntersect(entries: IntersectionObserverEntry[]): void {
+  public onIntersect(entries: IntersectionObserverEntry[]): void {
     if (this.hasNextPage && entries[0].isIntersecting) {
       const target: Element = entries[0].target as Element;
       const index: number = +(target.getAttribute("data-index") ?? 0);

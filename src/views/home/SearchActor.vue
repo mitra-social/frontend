@@ -1,16 +1,26 @@
 <template>
   <v-container fluid>
-    <v-text-field
-      v-model="query"
-      flat
-      solo-inverted
-      hide-details
-      append-outer-icon="mdi-magnify"
-      label="Search Actor"
-      :loading="isLoading"
-      @click:append-outer="findUser(query)"
-      @keyup.enter="findUser(query)"
-    ></v-text-field>
+    <div class="d-flex flex-row align-stretch">
+      <v-text-field
+        v-model="query"
+        flat
+        solo-inverted
+        hide-details
+        label="Search Actor"
+        :loading="isLoading"
+        @keyup.enter="findUser(query)"
+      ></v-text-field>
+      <v-btn
+        class="ml-1 pa-0"
+        height="auto"
+        @click="findUser(query)"
+        :light="$vuetify.theme.dark"
+        :dark="!$vuetify.theme.dark"
+        :loading="isLoading"
+      >
+        <v-icon left>mdi-magnify</v-icon>
+      </v-btn>
+    </div>
     <v-list v-if="getUser">
       <v-list-item-group color="primary">
         <v-list-item>
@@ -23,6 +33,7 @@
                 @click="setfollowersOrFollowing(true, false)"
                 :light="$vuetify.theme.dark"
                 :dark="!$vuetify.theme.dark"
+                :loading="isFollowersLoading"
               >
                 <v-icon left>mdi-account</v-icon>
                 {{ getFollowersCollectionCount }} Followers
@@ -32,13 +43,12 @@
                 @click="setfollowersOrFollowing(false, true)"
                 :light="$vuetify.theme.dark"
                 :dark="!$vuetify.theme.dark"
+                :loading="isFollowingLoading"
               >
                 <v-icon left>mdi-account</v-icon>
                 {{ getFollowingCollectionCount }} Follows
               </v-btn>
             </div>
-            <span v-if="isFollowerActive">{{ getFollowers.length }}</span>
-
             <FollowingFollowerList
               v-if="isFollowerActive"
               :actors="getFollowers"
@@ -46,7 +56,6 @@
               :hasNextPage="getHasNextFollowerPage"
               @nextPage="nextFollowersPage()"
             />
-            <span v-if="isFollowingActive">Following</span>
             <FollowingFollowerList
               v-if="isFollowingActive"
               :actors="getFollowing"
@@ -69,10 +78,10 @@ import { ActivityObject, Link } from "activitypub-objects";
 import client from "apiClient";
 
 import FollowingActor from "@/components/following/FollowingActor.vue";
+import FollowingFollowerList from "@/components/following/FollowingFollowerList.vue";
 import SummarizedActor from "@/components/actor/ActorSummarized.vue";
-import FollowingFollowerList from "@/components/FollowingFollowerList.vue";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { User } from "../../model/user";
+import { User } from "@/model/user";
 
 const findUserStore = namespace("FindUser");
 

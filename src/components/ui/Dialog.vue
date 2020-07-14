@@ -6,6 +6,14 @@
       @click:outside="toggleDialog({ title: undefined, components: undefined })"
     >
       <v-card :light="!$vuetify.theme.dark" :dark="$vuetify.theme.dark">
+        <v-btn
+          icon
+          absolute
+          right
+          @click="toggleDialog({ title: undefined, components: undefined })"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
         <v-card-title primary-title v-if="getTitle">
           {{ getTitle }}
         </v-card-title>
@@ -24,7 +32,7 @@ import { namespace } from "vuex-class";
 import Profile from "@/views/settings/Profile.vue";
 import Password from "@/views/settings/Password.vue";
 import SearchActor from "@/views/home/SearchActor.vue";
-import { DialogSettings } from "../../model/dialog-settings";
+import { DialogSettings } from "@/model/dialog-settings";
 
 const dialogStore = namespace("Dialog");
 
@@ -36,8 +44,6 @@ const dialogStore = namespace("Dialog");
   },
 })
 export default class MitraDialog extends Vue {
-  private dialog = false;
-
   @dialogStore.Getter
   public getIsOpen!: boolean;
 

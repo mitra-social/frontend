@@ -33,21 +33,21 @@ function normalizedCollection(
 
 @Module({ namespaced: true })
 class FindUserStore extends VuexModule {
-  private query = "";
-  private user: User | undefined = undefined;
-  private loadingState = false;
+  public query = "";
+  public user: User | undefined = undefined;
+  public loadingState = false;
 
-  private followerCollectionPage: (ActivityObject | Link | URL | undefined)[] = [];
-  private followerCollectionItemCount = 0;
-  private followerCollectionPaging = 0;
-  private hasNextFollowerPage = false;
-  private isFollowerLoadingState = false;
+  public followerCollectionPage: (ActivityObject | Link | URL | undefined)[] = [];
+  public followerCollectionItemCount = 0;
+  public followerCollectionPaging = 0;
+  public hasNextFollowerPage = false;
+  public isFollowerLoadingState = false;
 
-  private followingCollectionPage: (ActivityObject | Link | URL | undefined)[] = [];
-  private followingCollectionItemCount = 0;
-  private followingCollectionPaging = 0;
-  private hasNextFollowingPage = false;
-  private isFollowingLoadingState = false;
+  public followingCollectionPage: (ActivityObject | Link | URL | undefined)[] = [];
+  public followingCollectionItemCount = 0;
+  public followingCollectionPaging = 0;
+  public hasNextFollowingPage = false;
+  public isFollowingLoadingState = false;
 
   // finding user
   get getQuery(): string {
@@ -94,6 +94,25 @@ class FindUserStore extends VuexModule {
 
   get getHasNextFollowingPage() {
     return this.hasNextFollowingPage
+  }
+
+  @Mutation
+  public initialState() {
+    this.query = "";
+    this.user = undefined;
+    this.loadingState = false;
+
+    this.followerCollectionPage = [];
+    this.followerCollectionItemCount = 0;
+    this.followerCollectionPaging = 0;
+    this.hasNextFollowerPage = false;
+    this.isFollowerLoadingState = false;
+
+    this.followingCollectionPage = [];
+    this.followingCollectionItemCount = 0;
+    this.followingCollectionPaging = 0;
+    this.hasNextFollowingPage = false;
+    this.isFollowingLoadingState = false;
   }
 
   // finding user
@@ -189,9 +208,15 @@ class FindUserStore extends VuexModule {
     this.isFollowingLoadingState = false;
   }
 
+  @Action
+  public reset(): void {
+    this.context.commit("initialState");
+  }
+
   // finding user
   @Action
   public queryAction(query: string) {
+    this.context.commit("initialState");
     this.context.commit("setQuery", query);
   }
 
