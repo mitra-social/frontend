@@ -11,7 +11,12 @@
         sm="12"
       >
         <v-card flat tile>
-          <component :is="getMediaComponent(attach.type)" :url="attach.url" />
+          <component
+            v-if="getMediaComponent(attach.type)"
+            :is="getMediaComponent(attach.type)"
+            :url="attach.url"
+            :title="attach.title"
+          />
         </v-card>
       </v-col>
     </v-row>
@@ -23,11 +28,13 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import { ActivityObject, Link } from "activitypub-objects";
 
 import AttachmentImage from "./AttachmentImage.vue";
+import AttachmentSimpleLink from "./AttachmentSimpleLink.vue";
 import { Attachment } from "@/model/attachment";
 
 @Component({
   components: {
     AttachmentImage,
+    AttachmentSimpleLink,
   },
 })
 export default class ActivityStreamsAttachments extends Vue {
@@ -44,26 +51,36 @@ export default class ActivityStreamsAttachments extends Vue {
       .map<Attachment | undefined>((param: ActivityObject | URL):
         | Attachment
         | undefined => {
-        const object = param as ActivityObject;
+        let object = param as ActivityObject;
+
+        if (object.preview) {
+          object = object.preview as ActivityObject;
+        }
 
         if (object.type === "Link") {
           const href: string = (object as Link).href.toString();
-          return new Attachment(href, object.mediaType);
+          return { url: href, type: object.mediaType, title: object.name };
         }
 
         if ((param as ActivityObject).type) {
-          const url: Link | URL | undefined = !Array.isArray(object.url)
+          let mediaType = object.mediaType;
+          let url: Link | URL | undefined = !Array.isArray(object.url)
             ? object.url
             : object.url[0];
 
           if (url === undefined) {
             return undefined;
           }
+          if (url.href) {
+            const link = url as Link;
+            url = link.href;
+            mediaType = link.mediaType;
+          }
 
-          return new Attachment(url.toString(), object.mediaType);
+          return { url: url.toString(), type: mediaType, title: object.name };
         }
 
-        return new Attachment(param.toString(), undefined);
+        return { url: param.toString(), title: object.name };
       })
       .filter((item) => item !== undefined)
       .map((item) => item as Attachment);
@@ -73,6 +90,8 @@ export default class ActivityStreamsAttachments extends Vue {
     if (mediaType.startsWith("image/")) {
       return "AttachmentImage";
     }
+
+    return "AttachmentSimpleLink";
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <v-img :src="url" :lazy-src="url" class="mx-sm-auto">
+  <v-img :src="url" :lazy-src="url" class="mx-sm-auto" :alt="title">
     <template v-slot:placeholder>
       <v-row class="ma-0" align="center" justify="center">
         <v-progress-circular
@@ -17,6 +17,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 @Component
 export default class AttachmentImage extends Vue {
   @Prop() readonly url!: string;
+  @Prop() readonly title!: string;
 }
 </script>
 <style lang="scss" scoped></style>

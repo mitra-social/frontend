@@ -310,6 +310,39 @@
         "https://www.w3.org/ns/activitystreams#Public"
       ],
       "type": "Create"
+    },
+    {
+      "type": "Create",
+      "id": "http://activities.example.com/1",
+      "object": {
+        "type": "Article",
+        "name": "Video: Minecraft Signs",
+        "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>",
+        "attachment": {
+          "type": "Video",
+          "name": "Cool New Movie",
+          "duration": "PT2H30M",
+          "preview": {
+            "type": "Video",
+            "name": "Trailer",
+            "duration": "PT1M",
+            "url": {
+              "href": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+              "mediaType": "video/mp4"
+            }
+          }
+        }
+      },
+      "actor": {
+        "id": "http://sally.example.org",
+        "type": "Person",
+        "summary": "Nice persone you know",
+        "name": "Sally",
+        "icon": {
+          "name": "avatar",
+          "url": "https://picsum.photos/200/1014"
+        }
+      }
     }
   ]
 }
