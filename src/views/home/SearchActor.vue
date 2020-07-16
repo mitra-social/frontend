@@ -55,6 +55,7 @@
               :isLoading="isFollowersLoading"
               :hasNextPage="getHasNextFollowerPage"
               @nextPage="nextFollowersPage()"
+              @detail="detail($event)"
             />
             <FollowingFollowerList
               v-if="isFollowingActive"
@@ -62,6 +63,7 @@
               :isLoading="isFollowingLoading"
               :hasNextPage="getHasNextFollowingPage"
               @nextPage="nextFollowingPage()"
+              @detail="detail($event)"
             />
           </v-list-item-content>
         </v-list-item>
@@ -82,6 +84,7 @@ import FollowingFollowerList from "@/components/following/FollowingFollowerList.
 import SummarizedActor from "@/components/actor/ActorSummarized.vue";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 import { User } from "@/model/user";
+import { FetchFollowParam } from "@/model/fetch-follow-param";
 
 const findUserStore = namespace("FindUser");
 
@@ -93,9 +96,9 @@ const findUserStore = namespace("FindUser");
   },
 })
 export default class SearchActor extends Vue {
-  private tab = "";
-  private isFollowerActive = false;
-  private isFollowingActive = false;
+  public tab = "";
+  public isFollowerActive = false;
+  public isFollowingActive = false;
 
   // find user
   @findUserStore.Getter
@@ -138,15 +141,18 @@ export default class SearchActor extends Vue {
   public findUser!: (query: string) => void;
 
   @findUserStore.Action
+  public detailUser!: (actor: User) => void;
+
+  @findUserStore.Action
   public queryAction!: (query: string) => void;
 
   // follower
   @findUserStore.Action
-  public fetchFollowers!: ({ url, add }: any) => void;
+  public fetchFollowers!: ({ url, add }: FetchFollowParam) => void;
 
   // following
   @findUserStore.Action
-  public fetchFollowing!: ({ url, add }: any) => void;
+  public fetchFollowing!: ({ url, add }: FetchFollowParam) => void;
 
   get query() {
     return this.getQuery;
@@ -176,12 +182,17 @@ export default class SearchActor extends Vue {
     return client.getMedia(originalIconUri);
   }
 
-  private nextFollowersPage(): void {
+  public nextFollowersPage(): void {
     this.fetchFollowers({ url: this.getUser.followers, add: true });
   }
 
-  private nextFollowingPage(): void {
+  public nextFollowingPage(): void {
     this.fetchFollowing({ url: this.getUser.following, add: true });
+  }
+
+  public detail(actor: User) {
+    this.queryAction("");
+    this.detailUser(actor);
   }
 }
 </script>

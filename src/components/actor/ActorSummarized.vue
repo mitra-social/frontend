@@ -15,7 +15,7 @@
           }}</v-list-item-subtitle>
           <v-list-item-subtitle
             class="attribute-summary"
-            v-if="actor.summary"
+            v-if="actor.summary && !noSummary"
             v-html="actor.summary"
           ></v-list-item-subtitle>
         </v-list-item-content>
@@ -28,7 +28,7 @@
           >
             <v-icon>mdi-account-remove</v-icon>
           </v-btn>
-          <v-btn class="following-btn" icon v-else @click="onFollow()">
+          <v-btn class="following-btn" icon v-else @click.stop="onFollow()">
             <v-icon>mdi-account-plus</v-icon>
           </v-btn>
         </v-list-item-action>
@@ -56,6 +56,7 @@ export default class ActorSummarized extends Vue {
     | Link
     | URL
     | Array<ActivityObject | URL>;
+  @Prop() readonly noSummary!: boolean;
 
   get name(): string | undefined {
     return ActivityObjectHelper.extractActorName(this.actor as ActivityObject);

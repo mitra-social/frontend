@@ -1,8 +1,14 @@
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
-import { OrderedCollectionPage, Link, ActivityObject, Actor } from 'activitypub-objects';
+import {
+  OrderedCollectionPage,
+  Link,
+  ActivityObject,
+  Actor,
+} from "activitypub-objects";
 
 import client from "apiClient";
-import { User } from '@/model/user';
+import { User } from "@/model/user";
+import { FetchFollowParam } from "@/model/fetch-follow-param";
 
 /*
 
@@ -37,13 +43,23 @@ class FindUserStore extends VuexModule {
   public user: User | undefined = undefined;
   public loadingState = false;
 
-  public followerCollectionPage: (ActivityObject | Link | URL | undefined)[] = [];
+  public followerCollectionPage: (
+    | ActivityObject
+    | Link
+    | URL
+    | undefined
+  )[] = [];
   public followerCollectionItemCount = 0;
   public followerCollectionPaging = 0;
   public hasNextFollowerPage = false;
   public isFollowerLoadingState = false;
 
-  public followingCollectionPage: (ActivityObject | Link | URL | undefined)[] = [];
+  public followingCollectionPage: (
+    | ActivityObject
+    | Link
+    | URL
+    | undefined
+  )[] = [];
   public followingCollectionItemCount = 0;
   public followingCollectionPaging = 0;
   public hasNextFollowingPage = false;
@@ -68,7 +84,7 @@ class FindUserStore extends VuexModule {
   }
 
   get getFollowers(): (ActivityObject | Link | URL | undefined)[] {
-    return this.followerCollectionPage.filter($ => $ !== undefined);
+    return this.followerCollectionPage.filter(($) => $ !== undefined);
   }
 
   get isFollowersLoading() {
@@ -76,7 +92,7 @@ class FindUserStore extends VuexModule {
   }
 
   get getHasNextFollowerPage() {
-    return this.hasNextFollowerPage
+    return this.hasNextFollowerPage;
   }
 
   // Following
@@ -85,7 +101,7 @@ class FindUserStore extends VuexModule {
   }
 
   get getFollowing(): (ActivityObject | Link | URL | undefined)[] {
-    return this.followingCollectionPage.filter($ => $ !== undefined);
+    return this.followingCollectionPage.filter(($) => $ !== undefined);
   }
 
   get isFollowingLoading(): boolean {
@@ -93,7 +109,7 @@ class FindUserStore extends VuexModule {
   }
 
   get getHasNextFollowingPage() {
-    return this.hasNextFollowingPage
+    return this.hasNextFollowingPage;
   }
 
   @Mutation
@@ -138,13 +154,19 @@ class FindUserStore extends VuexModule {
 
   // followers
   @Mutation
-  public setFollowers(followerCollectionPage: (ActivityObject | Link | URL | undefined)[]): void {
+  public setFollowers(
+    followerCollectionPage: (ActivityObject | Link | URL | undefined)[]
+  ): void {
     this.followerCollectionPage = followerCollectionPage;
   }
 
   @Mutation
-  public addFollowers(followerCollectionPage: (ActivityObject | Link | URL | undefined)[]): void {
-    this.followerCollectionPage = this.followerCollectionPage.concat(followerCollectionPage);
+  public addFollowers(
+    followerCollectionPage: (ActivityObject | Link | URL | undefined)[]
+  ): void {
+    this.followerCollectionPage = this.followerCollectionPage.concat(
+      followerCollectionPage
+    );
   }
 
   @Mutation
@@ -174,13 +196,19 @@ class FindUserStore extends VuexModule {
 
   // following
   @Mutation
-  public setFollowing(followingCollectionPage: (ActivityObject | Link | URL | undefined)[]): void {
+  public setFollowing(
+    followingCollectionPage: (ActivityObject | Link | URL | undefined)[]
+  ): void {
     this.followingCollectionPage = followingCollectionPage;
   }
 
   @Mutation
-  public addFollowing(followingCollectionPage: (ActivityObject | Link | URL | undefined)[]): void {
-    this.followingCollectionPage = this.followingCollectionPage.concat(followingCollectionPage);
+  public addFollowing(
+    followingCollectionPage: (ActivityObject | Link | URL | undefined)[]
+  ): void {
+    this.followingCollectionPage = this.followingCollectionPage.concat(
+      followingCollectionPage
+    );
   }
 
   @Mutation
@@ -224,63 +252,98 @@ class FindUserStore extends VuexModule {
   public async findUser(query: string): Promise<void> {
     this.context.commit("loadingStart");
 
-    await client.fediverseSearchUserId(query).then(async (id) => {
-      if (id) {
-        await client.fediverseGetUser(id).then(user => {
-          this.context.dispatch("fetchFollowers", { url: user.followers, add: false });
-          this.context.dispatch("fetchFollowing", { url: user.following, add: false });
-          this.context.commit("setUser", user);
-        });
-      }
-    }).finally(() => this.context.commit("loadingFinish"));
+    await client
+      .fediverseSearchUserId(query)
+      .then(async (id) => {
+        if (id) {
+          await client.fediverseGetUser(id).then((user) => {
+            this.context.dispatch("fetchFollowers", {
+              url: user.followers,
+              add: false,
+            });
+            this.context.dispatch("fetchFollowing", {
+              url: user.following,
+              add: false,
+            });
+            this.context.commit("setUser", user);
+          });
+        }
+      })
+      .finally(() => this.context.commit("loadingFinish"));
+  }
+
+  @Action
+  public detailUser(user: User): void {
+    this.context.commit("loadingStart");
+    this.context.dispatch("fetchFollowers", {
+      url: user.followers,
+      add: false,
+    });
+    this.context.dispatch("fetchFollowing", {
+      url: user.following,
+      add: false,
+    });
+    this.context.commit("setUser", user);
+    this.context.commit("loadingFinish");
   }
 
   // followers
   @Action
-  public fetchFollowers({ url, add }: any): void {
+  public fetchFollowers({ url, add }: FetchFollowParam): void {
     this.context.commit("loadingFollowerStart");
-    add ?
-      this.context.commit("setFollowerCollectionPaging", this.followerCollectionPaging + 1) :
-      this.context.commit("setFollowerCollectionPaging", 1);
+    add
+      ? this.context.commit(
+          "setFollowerCollectionPaging",
+          this.followerCollectionPaging + 1
+        )
+      : this.context.commit("setFollowerCollectionPaging", 1);
 
-    client.fediversGetCollection(`${url}?page=${this.followerCollectionPaging}`)
-      .then(collection => {
-        this.context.commit("setFollowerCollectionCount", collection.totalItems);
+    client
+      .fediversGetCollection(`${url}?page=${this.followerCollectionPaging}`)
+      .then((collection) => {
+        this.context.commit(
+          "setFollowerCollectionCount",
+          collection.totalItems
+        );
         this.context.commit("setHasNextFollowerPage", !!collection.next);
         return collection;
       })
-      .then(collection => normalizedCollection(collection))
-      .then(collection => {
-        add ?
-          this.context.commit("addFollowers", collection) :
-          this.context.commit("setFollowers", collection);
+      .then((collection) => normalizedCollection(collection))
+      .then((collection) => {
+        add
+          ? this.context.commit("addFollowers", collection)
+          : this.context.commit("setFollowers", collection);
       })
-      .finally(() => this.context.commit("loadingFollowerFinish"))
+      .finally(() => this.context.commit("loadingFollowerFinish"));
   }
 
   // following
   @Action
-  public fetchFollowing({ url, add }: any): void {
+  public fetchFollowing({ url, add }: FetchFollowParam): void {
     this.context.commit("loadingFollowingStart");
-    add ?
-      this.context.commit("setFollowingCollectionPage", this.followingCollectionPaging + 1) :
-      this.context.commit("setFollowingCollectionPage", 1);
+    add
+      ? this.context.commit(
+          "setFollowingCollectionPage",
+          this.followingCollectionPaging + 1
+        )
+      : this.context.commit("setFollowingCollectionPage", 1);
 
-    client.fediversGetCollection(`${url}?page=${this.followingCollectionPaging}`)
-      .then(collection => {
+    client
+      .fediversGetCollection(`${url}?page=${this.followingCollectionPaging}`)
+      .then((collection) => {
         this.context.commit("setFollowingCount", collection.totalItems);
         this.context.commit("setHasNextFollowingPage", !!collection.next);
         return collection;
       })
-      .then(collection => normalizedCollection(collection))
-      .then(collection => {
+      .then((collection) => normalizedCollection(collection))
+      .then((collection) => {
         if (add) {
           this.context.commit("addFollowing", collection);
         } else {
           this.context.commit("setFollowing", collection);
         }
       })
-      .finally(() => this.context.commit("loadingFollowingFinish"))
+      .finally(() => this.context.commit("loadingFollowingFinish"));
   }
 }
 export default FindUserStore;

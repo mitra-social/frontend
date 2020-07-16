@@ -21,6 +21,6 @@ export default new Vuex.Store({
     Collection,
     Following,
     Follower,
-    FindUser
+    FindUser,
   },
 });

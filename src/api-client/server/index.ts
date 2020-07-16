@@ -125,7 +125,7 @@ export default {
       return uri;
     }
 
-    return `${process.env.VUE_APP_BACKEND_URL}/media/${md5(uri)}`;;
+    return `${process.env.VUE_APP_BACKEND_URL}/media/${md5(uri)}`;
   },
   // Fediverse
   async fediverseSearchUserId(query: string): Promise<string | undefined> {
@@ -152,7 +152,7 @@ export default {
       .then((resp) => {
         return resp.data;
       })
-      .catch((err) => console.info("Failed"));
+      .catch((err) => console.info(err));
   },
   async fediverseGetUser(url: string): Promise<User> {
     return await axios

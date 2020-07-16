@@ -8,24 +8,25 @@
       <v-list-item-group color="primary">
         <v-list-item
           v-for="(actor, index) in actors"
-          :key="index"
           v-intersect="onIntersect"
+          :key="index"
           :data-index="index"
+          @click="detail(actor)"
         >
           <v-list-item-content>
-            <SummarizedActor :actor="actor" />
+            <SummarizedActor :actor="actor" :noSummary="true" />
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
     </v-list>
     <v-progress-linear
-      :light="$vuetify.theme.dark"
-      :dark="!$vuetify.theme.dark"
-      :active="isLoading"
       indeterminate
       height="15"
       absolute
       bottom
+      :light="$vuetify.theme.dark"
+      :dark="!$vuetify.theme.dark"
+      :active="isLoading"
     >
       <template v-slot>
         <strong class="caption">loading more...</strong>
@@ -77,6 +78,11 @@ export default class FollowingFollowerList extends Vue {
         this.$emit("nextPage");
       }
     }
+  }
+
+  @Emit()
+  public detail(actor: User): User {
+    return actor;
   }
 }
 </script>
