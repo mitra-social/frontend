@@ -127,6 +127,24 @@ export default {
 
     return `${process.env.VUE_APP_BACKEND_URL}/media/${md5(uri)}`;
   },
+  updateUser(token: string, user: User): Promise<void> {
+    console.info(
+      `updateProfile => token: ${token}, preferredUsername: ${user.preferredUsername}, email: ${user.email}`
+    );
+    // TODO: implements
+    return Promise.reject("not implemented yet");
+  },
+  updatePassword(
+    token: string,
+    oldPassword: string,
+    newPassword: string
+  ): Promise<void> {
+    console.info(
+      `updatePassword => token: ${token}, oldPassword: ${oldPassword}, newPassword: ${newPassword}`
+    );
+    // TODO: implements
+    return Promise.reject("not implemented yet");
+  },
   // Fediverse
   async fediverseSearchUserId(query: string): Promise<string | undefined> {
     return await axios

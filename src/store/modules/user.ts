@@ -1,12 +1,13 @@
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 
 import client from "apiClient";
-import { User as UserModel } from "@/model/user";
 import { AuthenticationUtil } from "@/utils/authentication-util";
+import { User } from "@/model/user";
+import { PasswordChangeParam } from "@/model/password-change-param";
 
 @Module({ namespaced: true })
-class User extends VuexModule {
-  public user: UserModel | undefined = undefined;
+class UserStore extends VuexModule {
+  public user: User | undefined = undefined;
 
   get getUser() {
     return this.user;
@@ -17,7 +18,7 @@ class User extends VuexModule {
   }
 
   @Mutation
-  public fetchUserSuccess(user: UserModel): void {
+  public fetchUserSuccess(user: User): void {
     this.user = user;
   }
 
@@ -35,5 +36,30 @@ class User extends VuexModule {
         return Promise.reject({ status: error.response.status });
       });
   }
+
+  @Action
+  public async updateUser(user: User): Promise<void> {
+    const token = AuthenticationUtil.getToken() || "";
+
+    await client.updateUser(token, user).catch(() => {
+      this.context.dispatch("Notify/error", "Update user failed.", {
+        root: true,
+      });
+    });
+  }
+
+  @Action
+  public async updatePassword({
+    oldPassword,
+    newPassword,
+  }: PasswordChangeParam): Promise<void> {
+    const token = AuthenticationUtil.getToken() || "";
+
+    await client.updatePassword(token, oldPassword, newPassword).catch(() => {
+      this.context.dispatch("Notify/error", "Update password failed.", {
+        root: true,
+      });
+    });
+  }
 }
-export default User;
+export default UserStore;

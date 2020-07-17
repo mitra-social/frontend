@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Ref } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 import { User } from "@/model/user";
@@ -45,12 +45,12 @@ const userStore = namespace("User");
 
 @Component
 export default class Profile extends Vue {
-  private valid = false;
-  private alertMsg = "";
-  private user = "";
-  private email = "";
+  public valid = false;
+  public alertMsg = "";
+  public user = "";
+  public email = "";
 
-  private rules = {
+  public rules = {
     required: ($: string) => !!$ || "Required.",
     usernameMin: ($: string) =>
       $.length >= 5 ||
@@ -62,8 +62,15 @@ export default class Profile extends Vue {
   @userStore.Getter
   public getUser!: User;
 
+  @userStore.Action
+  public updateUser!: (user: User) => void;
+
+  @Ref("signUpForm") readonly form!: HTMLFormElement;
+
   public handleSubmit() {
-    console.log("submit");
+    if (this.form.validate()) {
+      this.updateUser(this.getUser);
+    }
   }
 }
 </script>

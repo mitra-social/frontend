@@ -57,21 +57,25 @@
 
 <script lang="ts">
 import { Component, Vue, Ref } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+import { PasswordChangeParam } from "../../model/password-change-param";
+
+const userStore = namespace("User");
 
 @Component
 export default class Password extends Vue {
-  private valid = false;
-  private alertMsg = "";
-  private password = "";
-  private showPassword = false;
-  private newPassword = "";
-  private showNewPassword = false;
-  private confirmPassword = "";
-  private showConfirmPassword = false;
-  private confirmPwdErrorMsgs: string[] = [];
-  private hasConfirmPwdError = false;
+  public valid = false;
+  public alertMsg = "";
+  public password = "";
+  public showPassword = false;
+  public newPassword = "";
+  public showNewPassword = false;
+  public confirmPassword = "";
+  public showConfirmPassword = false;
+  public confirmPwdErrorMsgs: string[] = [];
+  public hasConfirmPwdError = false;
 
-  private rules = {
+  public rules = {
     required: ($: string) => !!$ || "Required.",
     usernameMin: ($: string) =>
       $.length >= 5 ||
@@ -79,6 +83,9 @@ export default class Password extends Vue {
     min: ($: string) => $.length >= 8 || "Min 8 characters.",
     emailRules: ($: string) => /.+@.+\..+/.test($) || "E-mail must be valid.",
   };
+
+  @userStore.Action
+  public updatePassword!: (passwordChangeParam: PasswordChangeParam) => void;
 
   @Ref("passwordForm") readonly form!: HTMLFormElement;
 
@@ -90,8 +97,16 @@ export default class Password extends Vue {
     }
 
     if (this.form.validate()) {
-      console.log("save");
+      this.updatePassword({
+        oldPassword: this.password,
+        newPassword: this.newPassword,
+      });
     }
+  }
+
+  public resetConfirmPassword() {
+    this.hasConfirmPwdError = false;
+    this.confirmPwdErrorMsgs = [];
   }
 }
 </script>

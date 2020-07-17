@@ -35,6 +35,12 @@ export interface ApiClient {
     summary?: string
   ): Promise<void>;
   getMedia(uri: string | undefined): string | undefined;
+  updateUser(token: string, user: User): Promise<void>;
+  updatePassword(
+    token: string,
+    oldPassword: string,
+    newPassword: string
+  ): Promise<void>;
   // Fediverse
   fediverseGetActor(url: string): Promise<Actor>;
   fediverseSearchUserId(query: string): Promise<string | undefined>;

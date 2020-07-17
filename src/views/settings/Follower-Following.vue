@@ -32,7 +32,6 @@
         <v-divider :key="`divider-${idx}`"></v-divider>
       </template>
     </v-list>
-
     <v-list subheader>
       <v-subheader>Recent chat</v-subheader>
       <template v-for="(following, idx) in getFollowers">
