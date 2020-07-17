@@ -129,7 +129,7 @@ export default {
   },
   updateUser(token: string, user: User): Promise<void> {
     // TODO: implements
-    return Promise.reject("not implemented yet");
+    return Promise.reject(`not implemented yet. ${token}/${user}`);
   },
   updatePassword(
     token: string,
@@ -137,7 +137,9 @@ export default {
     newPassword: string
   ): Promise<void> {
     // TODO: implements
-    return Promise.reject("not implemented yet");
+    return Promise.reject(
+      `not implemented yet. ${token}/${oldPassword}/${newPassword}`
+    );
   },
   // Fediverse
   async fediverseSearchUserId(query: string): Promise<string | undefined> {
