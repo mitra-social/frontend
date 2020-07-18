@@ -6,22 +6,21 @@
     <div class="posts" v-if="isFollowingLoading">
       <Posts />
     </div>
-
     <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
       <v-list>
         <v-list-item class="px-2">
-          <v-avatar color="indigo" v-if="getUser.icon">
+          <v-avatar id="user-icon" color="indigo" v-if="getUser.icon">
             <v-img :src="getUser.icon"></v-img>
           </v-avatar>
-          <v-avatar color="indigo" size="36" v-else>
+          <v-avatar id="user-icon-placeholder" color="indigo" size="36" v-else>
             <v-icon dark>mdi-account-circle</v-icon>
           </v-avatar>
           <v-list-item-content>
-            <v-list-item-title>{{
+            <v-list-item-title id="user-name">{{
               getUser.preferredUsername
             }}</v-list-item-title>
-            <v-list-item-subtitle v-if="getUser.email">
-              email{{ getUser.email }}</v-list-item-subtitle
+            <v-list-item-subtitle id="user-email" v-if="getUser.email">
+              {{ getUser.email }}</v-list-item-subtitle
             >
           </v-list-item-content>
           <v-btn icon @click.stop="mini = !mini">
@@ -98,8 +97,6 @@ import { namespace } from "vuex-class";
 
 import FollowingActors from "./FollowingActors.vue";
 import Posts from "./post/Posts.vue";
-import Profile from "@/views/settings/Profile.vue";
-import Password from "@/views/settings/Password.vue";
 import { User } from "@/model/user";
 import { DialogSettings } from "@/model/dialog-settings";
 import { AuthenticationUtil } from "@/utils/authentication-util";
@@ -112,15 +109,12 @@ const followingStore = namespace("Following");
   components: {
     FollowingActors,
     Posts,
-    Profile,
-    Password,
   },
 })
 export default class MitraHome extends Vue {
   private isFollowingLoading = false;
   private drawer = true;
   private mini = true;
-  private dialog = false;
 
   @userStore.Getter
   public getUser!: User;

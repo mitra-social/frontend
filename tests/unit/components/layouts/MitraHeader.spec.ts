@@ -35,24 +35,6 @@ describe("Header.vue", () => {
     );
   });
 
-  it("User is set and has a name", async (done) => {
-    const wrapper = mount(Header, { localVue, vuetify, store });
-    store.dispatch("User/fetchUser", AuthenticationUtil.getUser()).then(() => {
-      expect(wrapper.find(".user-content").text()).toBe("john.doe");
-      done();
-    });
-  });
-
-  it("User is set and has an avater", async (done) => {
-    const wrapper = mount(Header, { localVue, vuetify, store });
-    store.dispatch("User/fetchUser", AuthenticationUtil.getUser()).then(() => {
-      expect(wrapper.find(".user-content").find(".v-avatar").exists()).toBe(
-        true
-      );
-      done();
-    });
-  });
-
   it("User is not set", () => {
     const wrapper = mount(Header, { localVue, vuetify, store });
     expect(wrapper.find(".user-content").exists()).toBe(false);

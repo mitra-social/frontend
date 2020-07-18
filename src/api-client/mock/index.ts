@@ -130,7 +130,6 @@ export default {
     );
 
     if (!following) {
-      console.log("new followers");
       // eslint-disable-next-line
       following = (followingData.default as any) as CollectionPage;
     }
@@ -249,7 +248,6 @@ export default {
   },
   async fediverseGetActor(url: string): Promise<Actor> {
     console.info(`fediverseGetActor => url: ${url}`);
-    // TODO: implements
     // eslint-disable-next-line
     const actors = actorsData.default as any;
     const actor = (actors as User[]).find(($) => $.id?.toString() === url);
@@ -276,7 +274,7 @@ export default {
     if (process.env.NODE_ENV === "test") {
       console.info(
         `getJestReset => fetchPostCount: ${fetchPostCount}, fetchFollowing: ${
-          following ? toJSON(following) : ""
+        following ? toJSON(following) : ""
         }, fetchFollowers: ${followers ? toJSON(followers) : ""}`
       );
       return jest.fn().mockImplementation(() => {
