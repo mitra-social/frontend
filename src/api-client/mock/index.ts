@@ -274,7 +274,7 @@ export default {
     if (process.env.NODE_ENV === "test") {
       console.info(
         `getJestReset => fetchPostCount: ${fetchPostCount}, fetchFollowing: ${
-        following ? toJSON(following) : ""
+          following ? toJSON(following) : ""
         }, fetchFollowers: ${followers ? toJSON(followers) : ""}`
       );
       return jest.fn().mockImplementation(() => {
