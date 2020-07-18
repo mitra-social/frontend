@@ -10,7 +10,7 @@
       "id": "http://activities.example.com/1",
       "object": {
         "type": "Article",
-        "name": "Minecraft Signs",
+        "name": "New Fetch Minecraft Signs",
         "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>"
       },
       "actor": {
@@ -29,7 +29,7 @@
       "id": "http://activities.example.com/2",
       "object": {
         "type": "Article",
-        "name": "Hi/Ho",
+        "name": "New Fetch: Hi/Ho",
         "content": "<p><span style=\"color: purple\">SAVIOR OF SONG</span> (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>"
       },
       "actor": "http://johnny.example.org"
@@ -39,7 +39,7 @@
       "id": "http://activities.example.com/3",
       "object": {
         "type": "Article",
-        "name": "The Clinic",
+        "name": "New Fetch: The Clinic",
         "content": "<p>the misinformation and outright lies on this webbed site about Covid 19 driven by certain anarchists is wild. nice to know we're all Karens at the core waiting for the right activation call</p>"
       },
       "actor": {
@@ -65,7 +65,7 @@
         "summary": "A note",
         "type": "Note",
         "id": "http://notes.example.com/1",
-        "content": "A create note"
+        "content": "New Fetch: A create note"
       }
     },
     {
@@ -79,7 +79,7 @@
         "summary": "A note",
         "type": "Note",
         "id": "http://notes.example.com/1",
-        "content": "A create note with published and updated datetime"
+        "content": "New Fetch: A create note with published and updated datetime"
       }
     },
     {

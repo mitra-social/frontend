@@ -115,7 +115,7 @@
         "name": "Might the force be with you",
         "content": "\"May the Force be with you\" was a phrase used to wish an individual or group good luck or good will, one that expressed the speaker's wish that the Force work in the favor of the addressee. The phrase was often used as individuals parted ways or in the face of an impending challenge."
       },
-      "actor": "https://mastodon.social/users/fraenki"
+      "actor": "https://example.com/users/fraenki"
     },
     {
       "type": "Create",
@@ -125,38 +125,38 @@
         "name": "Memory, time, and technology",
         "content": "Cole has been thrust from another world into ours and he's confronted by the confusion we live in, which most people somehow accept as normal. So he appears abnormal, and what's happening around him seems random and weird. Is he mad or are we?"
       },
-      "actor": "https://mitra-social.herokuapp.com/user/franco.g"
+      "actor": "https://example.com/user/giovanni.g"
     },
     {
-      "actor": "https://mastodon.social/users/fraenki",
+      "actor": "https://example.com/users/fraenki",
       "cc": [
-        "https://mastodon.social/users/fraenki/followers"
+        "https://example.com/users/fraenki/followers"
       ],
-      "id": "https://mastodon.social/users/fraenki/statuses/104030050906488438/activity",
+      "id": "https://example.com/users/fraenki/statuses/104030050906488438/activity",
       "object": {
-        "atomUri": "https://mastodon.social/users/fraenki/statuses/104030050906488438",
+        "atomUri": "https://example.com/users/fraenki/statuses/104030050906488438",
         "attachment": [],
-        "attributedTo": "https://mastodon.social/users/fraenki",
+        "attributedTo": "https://example.com/users/fraenki",
         "cc": [
-          "https://mastodon.social/users/fraenki/followers"
+          "https://example.com/users/fraenki/followers"
         ],
         "content": "<p>With typescript, vuejs is even more fun</p>",
         "contentMap": {
           "en": "<p>With typescript, vuejs is even more fun</p>"
         },
-        "conversation": "tag:mastodon.social,2020-04-20:objectId=167641654:objectType=Conversation",
-        "id": "https://mastodon.social/users/fraenki/statuses/104030050906488438",
+        "conversation": "tag:example.com,2020-04-20:objectId=167641654:objectType=Conversation",
+        "id": "https://example.com/users/fraenki/statuses/104030050906488438",
         "inReplyTo": null,
         "inReplyToAtomUri": null,
         "published": "2020-04-20T08:50:02Z",
         "replies": {
           "first": {
             "items": [],
-            "next": "https://mastodon.social/users/fraenki/statuses/104030050906488438/replies?only_other_accounts=true&page=true",
-            "partOf": "https://mastodon.social/users/fraenki/statuses/104030050906488438/replies",
+            "next": "https://example.com/users/fraenki/statuses/104030050906488438/replies?only_other_accounts=true&page=true",
+            "partOf": "https://example.com/users/fraenki/statuses/104030050906488438/replies",
             "type": "CollectionPage"
           },
-          "id": "https://mastodon.social/users/fraenki/statuses/104030050906488438/replies",
+          "id": "https://example.com/users/fraenki/statuses/104030050906488438/replies",
           "type": "Collection"
         },
         "sensitive": false,
@@ -166,7 +166,7 @@
           "https://www.w3.org/ns/activitystreams#Public"
         ],
         "type": "Note",
-        "url": "https://mastodon.social/@fraenki/104030050906488438"
+        "url": "https://example.com/@fraenki/104030050906488438"
       },
       "published": "2020-04-20T08:50:02Z",
       "to": [
@@ -175,35 +175,35 @@
       "type": "Create"
     },
     {
-      "actor": "https://mastodon.social/users/fraenki",
+      "actor": "https://example.com/users/fraenki",
       "cc": [
-        "https://mastodon.social/users/fraenki/followers"
+        "https://example.com/users/fraenki/followers"
       ],
-      "id": "https://mastodon.social/users/fraenki/statuses/104030048336906060/activity",
+      "id": "https://example.com/users/fraenki/statuses/104030048336906060/activity",
       "object": {
-        "atomUri": "https://mastodon.social/users/fraenki/statuses/104030048336906060",
+        "atomUri": "https://example.com/users/fraenki/statuses/104030048336906060",
         "attachment": [],
-        "attributedTo": "https://mastodon.social/users/fraenki",
+        "attributedTo": "https://example.com/users/fraenki",
         "cc": [
-          "https://mastodon.social/users/fraenki/followers"
+          "https://example.com/users/fraenki/followers"
         ],
         "content": "<p>Vuesj rocks</p>",
         "contentMap": {
           "en": "<p>Vuesj rocks</p>"
         },
-        "conversation": "tag:mastodon.social,2020-04-20:objectId=167641597:objectType=Conversation",
-        "id": "https://mastodon.social/users/fraenki/statuses/104030048336906060",
+        "conversation": "tag:example.com,2020-04-20:objectId=167641597:objectType=Conversation",
+        "id": "https://example.com/users/fraenki/statuses/104030048336906060",
         "inReplyTo": null,
         "inReplyToAtomUri": null,
         "published": "2020-04-20T08:49:23Z",
         "replies": {
           "first": {
             "items": [],
-            "next": "https://mastodon.social/users/fraenki/statuses/104030048336906060/replies?only_other_accounts=true&page=true",
-            "partOf": "https://mastodon.social/users/fraenki/statuses/104030048336906060/replies",
+            "next": "https://example.com/users/fraenki/statuses/104030048336906060/replies?only_other_accounts=true&page=true",
+            "partOf": "https://example.com/users/fraenki/statuses/104030048336906060/replies",
             "type": "CollectionPage"
           },
-          "id": "https://mastodon.social/users/fraenki/statuses/104030048336906060/replies",
+          "id": "https://example.com/users/fraenki/statuses/104030048336906060/replies",
           "type": "Collection"
         },
         "sensitive": false,
@@ -213,7 +213,7 @@
           "https://www.w3.org/ns/activitystreams#Public"
         ],
         "type": "Note",
-        "url": "https://mastodon.social/@fraenki/104030048336906060"
+        "url": "https://example.com/@fraenki/104030048336906060"
       },
       "published": "2020-04-20T08:49:23Z",
       "to": [

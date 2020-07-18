@@ -19,14 +19,29 @@ import * as followerData from "./data/followers.json";
 import * as collectionPageOneData from "./data/collection-page-1.json";
 import * as collectionPageTwoData from "./data/collection-page-2.json";
 import * as collectionSecondFetchData from "./data/collection-second-fetch.json";
+import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
+/*
+ constant variables
+ */
 const USER_NAME = "john.doe";
 const USER_EMAIL = "john.doe@mail.com";
 const USER_PWD = "123";
 const USER_TOKEN = "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi";
+const NEXT_PAGE_DELAY = 5000;
 
+/*
+ variables
+ */
+let fetchPostCount = 0;
+let following: CollectionPage | undefined;
+let followers: CollectionPage | undefined;
+
+/*
+    helper function
+ */
 // eslint-disable-next-line
-const fetch = (mockData: any): Promise<any> => {
+const fetch = (mockData: any | any[]): Promise<any> => {
   return new Promise((resolve) => {
     resolve(mockData);
   });
@@ -63,9 +78,6 @@ const delay = async (ms: number) => {
     }
   });
 };
-
-let fetchPostCount = 0;
-const NEXT_PAGE_DELAY = 5000;
 
 export default {
   async login(credential: Credential): Promise<string> {
@@ -116,7 +128,14 @@ export default {
     console.info(
       `fetchFollowing => token: ${token}, user: ${user}, page: ${page}`
     );
-    return returnResult(token, user, fetch(followingData.default)) as Promise<
+
+    if (!following) {
+      console.log("new followers");
+      // eslint-disable-next-line
+      following = (followingData.default as any) as CollectionPage;
+    }
+
+    return returnResult(token, user, fetch(following)) as Promise<
       CollectionPage
     >;
   },
@@ -128,7 +147,12 @@ export default {
     console.info(
       `fetchFollowers => token: ${token}, user: ${user}, page: ${page}`
     );
-    return returnResult(token, user, fetch(followerData.default)) as Promise<
+
+    if (!followers) {
+      // eslint-disable-next-line
+      followers = (followerData.default as any) as CollectionPage;
+    }
+    return returnResult(token, user, fetch(followers)) as Promise<
       CollectionPage
     >;
   },
@@ -169,9 +193,30 @@ export default {
     }
     console.info(
       `writeToOutbox => token: ${token}, user: ${user}, activity: ${toJSON(
-        activity as ActivityObject
+        activity
       )}`
     );
+
+    if (following && activity.type == "Follow") {
+      // eslint-disable-next-line
+      const actors = actorsData.default as any;
+      const actor = (actors as User[]).find(
+        ($) => $.id?.toString() === activity.to
+      );
+
+      following.items.push(actor as ActivityObject);
+    }
+
+    if (
+      following &&
+      activity.type === "Undo" &&
+      (activity.object as ActivityObject).type === "Follow"
+    ) {
+      following.items = following.items.filter(
+        ($) => ActivityObjectHelper.extractId($) !== activity.to
+      );
+    }
+
     return returnResult(token, user, {} as Promise<void>);
   },
   getMedia(uri: string | undefined): string | undefined {
@@ -205,7 +250,15 @@ export default {
   async fediverseGetActor(url: string): Promise<Actor> {
     console.info(`fediverseGetActor => url: ${url}`);
     // TODO: implements
-    return Promise.reject("not implemented yet");
+    // eslint-disable-next-line
+    const actors = actorsData.default as any;
+    const actor = (actors as User[]).find(($) => $.id?.toString() === url);
+
+    if (!actor) {
+      return Promise.reject("No actor found.");
+    }
+
+    return fetch(actor);
   },
   async fediverseGetUser(url: string): Promise<User> {
     console.info(`updatePassword => url: ${url}`);
@@ -215,14 +268,21 @@ export default {
   async fediversGetCollection(url: string): Promise<OrderedCollectionPage> {
     console.info(`fediversGetCollection => url: ${url}`);
     // TODO: implements
+
     return Promise.reject("not implemented yet");
   },
   // jest function
   getJestReset: () => {
     if (process.env.NODE_ENV === "test") {
-      console.info(`getJestReset => fetchPostCount: ${fetchPostCount}`);
+      console.info(
+        `getJestReset => fetchPostCount: ${fetchPostCount}, fetchFollowing: ${
+          following ? toJSON(following) : ""
+        }, fetchFollowers: ${followers ? toJSON(followers) : ""}`
+      );
       return jest.fn().mockImplementation(() => {
         fetchPostCount = 0;
+        following = undefined;
+        followers = undefined;
       });
     }
   },

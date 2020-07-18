@@ -20,6 +20,10 @@ export class ActivityObjectHelper {
   ): string | undefined {
     const activityObject = object as ActivityObject;
 
+    if (!activityObject) {
+      return;
+    }
+
     if (activityObject.nameMap) {
       const lang = navigator.language.substr(0, 2);
 
@@ -37,8 +41,6 @@ export class ActivityObjectHelper {
     } else if (typeof object === "string") {
       return object;
     }
-
-    return undefined;
   }
 
   public static normalizedToFollow(
@@ -77,6 +79,10 @@ export class ActivityObjectHelper {
   ): string | undefined {
     const activityObject = object as ActivityObject;
 
+    if (!activityObject) {
+      return;
+    }
+
     if (typeof object === "string") {
       return object;
     } else if (activityObject.id) {
@@ -91,7 +97,7 @@ export class ActivityObjectHelper {
   public static extractIcon(object: ActivityObject): string | undefined {
     const activityObject = object as ActivityObject;
 
-    if (!activityObject.icon) {
+    if (!activityObject || !activityObject.icon) {
       return undefined;
     }
 

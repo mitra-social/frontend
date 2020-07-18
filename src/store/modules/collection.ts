@@ -48,7 +48,9 @@ function normalizedCollection(
 
             return item;
           })
-          .catch(() => Promise.resolve(undefined));
+          .catch(() => {
+            return Promise.resolve(undefined);
+          });
       } else {
         return item;
       }

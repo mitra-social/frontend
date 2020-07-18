@@ -7,6 +7,7 @@ import flushPromises from "flush-promises";
 
 import store from "@/store";
 import ActorSummarized from "@/components/actor/ActorSummarized.vue";
+import apiService from "@/api-client/mock/index";
 import collection from "@/api-client/mock/data/collection-page-1.json";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 
@@ -32,8 +33,12 @@ describe("ActorSummarized.vue", () => {
     await flushPromises();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     AuthenticationUtil.clear();
+    // eslint-disable-next-line
+    const jestReset = (apiService as any).getJestReset();
+    jestReset();
+    await flushPromises();
   });
 
   it("Actor is a object with name property", () => {
@@ -190,8 +195,6 @@ describe("ActorSummarized.vue", () => {
       const followingButton = wrapper.find(".following-btn");
       expect(followingButton.exists()).toBe(true);
       followingButton.trigger("click");
-      // Check actor is not follwoing
-      followingAddIcon = wrapper.find(".mdi-account-plus");
 
       await flushPromises();
 

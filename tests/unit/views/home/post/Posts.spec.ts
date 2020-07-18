@@ -57,7 +57,6 @@ describe("Posts.vue", () => {
   });
 
   it("Count posts", async () => {
-    AuthenticationUtil.setUser("john.doe");
     const wrapper = shallowMount(Posts, {
       localVue,
       vuetify,
@@ -65,6 +64,7 @@ describe("Posts.vue", () => {
       directives: { Intersect: mockIntersectDirective },
     });
     await flushPromises();
+    console.info("afafafadafasfasfasfasdfdsafdasfasfas");
     expect(wrapper.findAll(".post").length).toBe(9);
   });
 
@@ -98,7 +98,6 @@ describe("Posts.vue", () => {
   });
 
   it("First post is article type", async () => {
-    AuthenticationUtil.setUser("john.doe");
     const wrapper = shallowMount(Posts, {
       localVue,
       vuetify,
@@ -119,7 +118,6 @@ describe("Posts.vue", () => {
   });
 
   it("First post is note type", async () => {
-    AuthenticationUtil.setUser("john.doe");
     const wrapper = shallowMount(Posts, {
       localVue,
       vuetify,
@@ -140,7 +138,6 @@ describe("Posts.vue", () => {
   });
 
   it("Has published date", async () => {
-    AuthenticationUtil.setUser("john.doe");
     const wrapper = shallowMount(Posts, {
       localVue,
       vuetify,
@@ -159,7 +156,6 @@ describe("Posts.vue", () => {
   });
 
   it("Has updated date", async () => {
-    AuthenticationUtil.setUser("john.doe");
     const wrapper = shallowMount(Posts, {
       localVue,
       vuetify,
@@ -196,7 +192,6 @@ describe("Posts.vue", () => {
   });
 
   it("Has no post", async () => {
-    AuthenticationUtil.setUser("john.doe");
     const wrapper = shallowMount(Posts, {
       localVue,
       vuetify,
