@@ -1,5 +1,7 @@
 <template>
-  <a :href="url" target="_blank">{{ title }}</a>
+  <a :href="url" target="_blank"
+    >{{ title && title !== "" ? title : url }}{{ url }}</a
+  >
 </template>
 
 <script lang="ts">

@@ -60,44 +60,34 @@
       "id": "http://activities.example.com/3",
       "object": {
         "type": "Article",
-        "name": "The Clinic",
+        "name": "Not full attachments",
         "content": "<p>the misinformation and outright lies on this webbed site about Covid 19 driven by certain anarchists is wild. nice to know we're all Karens at the core waiting for the right activation call</p>",
         "attachment": [
           {
-            "mediaType": "image/jpeg",
-            "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
+            "name": "Image without mediaType",
             "type": "Image",
             "url": "https://picsum.photos/100"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
             "type": "Image",
             "url": "https://picsum.photos/200"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
-            "type": "Image",
+            "name": "Image without type",
             "url": "https://picsum.photos/300"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
-            "type": "Image",
-            "url": "https://picsum.photos/400"
+            "name": "Image without url",
+            "type": "Image"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
+            "name": "Picture has the necessary properties",
             "type": "Image",
             "url": "https://picsum.photos/500"
-          },
-          {
-            "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
-            "type": "Image",
-            "url": "https://picsum.photos/600"
           }
         ]
       },

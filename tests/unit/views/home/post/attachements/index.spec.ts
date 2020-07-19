@@ -125,4 +125,89 @@ describe("@/views/home/post/attachments/index.vue", () => {
       "http://example.com"
     );
   });
+
+  it("Attachment is empty", () => {
+    const wrapper = shallowMount(ActivityStreamsAttachments, {
+      localVue,
+      vuetify,
+      propsData: {
+        attachments: [],
+      },
+    });
+
+    expect(wrapper.findAll("v-col-stub").length).toBe(0);
+  });
+
+  it("Attachment is undefined", () => {
+    const wrapper = shallowMount(ActivityStreamsAttachments, {
+      localVue,
+      vuetify,
+      propsData: {
+        attachments: undefined,
+      },
+    });
+
+    expect(wrapper.findAll("v-col-stub").length).toBe(0);
+  });
+
+  it("Attachment without mediaType", async () => {
+    const object = (articles[2] as Activity).object as ActivityObject;
+    const attachments = object.attachment as ActivityObject[];
+    const wrapper = shallowMount(ActivityStreamsAttachments, {
+      localVue,
+      vuetify,
+      propsData: {
+        attachments: attachments,
+      },
+    });
+
+    const attachFilterLink = wrapper
+      .findAll("attachmentsimplelink-stub")
+      .filter(($) => $.props("title") === attachments[0].name);
+    const attachFilterImage = wrapper
+      .findAll("attachmentimage-stub")
+      .filter(($) => $.props("title") === attachments[0].name);
+
+    expect(attachFilterLink.length).toBe(1);
+    expect(attachFilterImage.length).toBe(0);
+  });
+
+  it("Attachment without name", async () => {
+    const object = (articles[2] as Activity).object as ActivityObject;
+    const attachments = object.attachment as ActivityObject[];
+    const wrapper = shallowMount(ActivityStreamsAttachments, {
+      localVue,
+      vuetify,
+      propsData: {
+        attachments: attachments,
+      },
+    });
+
+    expect(wrapper.findAll("attachmentimage-stub").at(0).props("title")).toBe(
+      undefined
+    );
+  });
+
+  it("Attachment without url", async () => {
+    const object = (articles[2] as Activity).object as ActivityObject;
+    const attachments = object.attachment as ActivityObject[];
+    const wrapper = shallowMount(ActivityStreamsAttachments, {
+      localVue,
+      vuetify,
+      propsData: {
+        attachments: attachments,
+      },
+    });
+
+    const attachFilterLink = wrapper
+      .findAll("attachmentsimplelink-stub")
+      .filter(($) => $.props("title") === attachments[3].name);
+    const attachFilterImage = wrapper
+      .findAll("attachmentimage-stub")
+      .filter(($) => $.props("title") === attachments[3].name);
+
+    expect(wrapper.findAll("v-col-stub").length).toBe(4);
+    expect(attachFilterLink.length).toBe(0);
+    expect(attachFilterImage.length).toBe(0);
+  });
 });

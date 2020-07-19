@@ -1,10 +1,10 @@
 <template>
-  <v-img :src="url" :lazy-src="url" class="mx-sm-auto" :alt="title">
+  <v-img class="mx-sm-auto" :src="url" :lazy-src="url" :alt="title">
     <template v-slot:placeholder>
       <v-row class="ma-0" align="center" justify="center">
         <v-progress-circular
-          indeterminate
           color="grey lighten-5"
+          indeterminate
         ></v-progress-circular>
       </v-row>
     </template>

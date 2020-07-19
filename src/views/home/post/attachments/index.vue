@@ -12,7 +12,6 @@
       >
         <v-card flat tile>
           <component
-            v-if="getMediaComponent(attach.type)"
             :is="getMediaComponent(attach.type)"
             :url="attach.url"
             :title="attach.title"
@@ -41,6 +40,9 @@ export default class ActivityStreamsAttachments extends Vue {
   @Prop() readonly attachments!: Array<ActivityObject | URL>;
 
   get getAttachments(): Attachment[] {
+    if (!this.attachments) {
+      return [];
+    }
     const normalizedAttachments: Array<ActivityObject | URL> = Array.isArray(
       this.attachments
     )
@@ -87,7 +89,7 @@ export default class ActivityStreamsAttachments extends Vue {
   }
 
   public getMediaComponent(mediaType: string): string | undefined {
-    if (mediaType.startsWith("image/")) {
+    if (mediaType && mediaType.startsWith("image/")) {
       return "AttachmentImage";
     }
 
