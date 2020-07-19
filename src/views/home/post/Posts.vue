@@ -29,7 +29,12 @@
             <v-card-text>
               <component :is="getComponent(post.type)" :data="post" />
               <Attachments
-                v-if="post.attachment"
+                v-if="
+                  post.attachment &&
+                  ((Array.isArray(post.attachment) &&
+                    post.attachment.length > 0) ||
+                    !Array.isArray(post.attachment))
+                "
                 :attachments="post.attachment"
               />
             </v-card-text>
