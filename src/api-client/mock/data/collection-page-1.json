@@ -343,6 +343,33 @@
           "url": "https://picsum.photos/200/1014"
         }
       }
+    },
+    {
+      "type": "Create",
+      "id": "http://activities.example.com/1",
+      "object": {
+        "type": "Article",
+        "name": "Default Attachment",
+        "content": "Default attachment test",
+        "attachment": {
+          "type": "Default",
+          "name": "Default link test",
+          "url": {
+            "href": "http://example.com",
+            "mediaType": "default"
+          }
+        }
+      },
+      "actor": {
+        "id": "http://sally.example.org",
+        "type": "Person",
+        "summary": "Nice persone you know",
+        "name": "Sally",
+        "icon": {
+          "name": "avatar",
+          "url": "https://picsum.photos/200/1014"
+        }
+      }
     }
   ]
 }

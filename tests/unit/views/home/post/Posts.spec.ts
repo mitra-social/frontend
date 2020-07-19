@@ -65,7 +65,7 @@ describe("Posts.vue", () => {
       directives: { Intersect: mockIntersectDirective },
     });
     await flushPromises();
-    expect(wrapper.findAll(".post").length).toBe(10);
+    expect(wrapper.findAll(".post").length).toBe(11);
   });
 
   it("Test scroll paging", async (done) => {
@@ -77,7 +77,7 @@ describe("Posts.vue", () => {
     });
     await flushPromises();
 
-    expect(wrapper.findAll(".post").length).toBe(10);
+    expect(wrapper.findAll(".post").length).toBe(11);
 
     const intersectArray = [
       {
@@ -92,7 +92,7 @@ describe("Posts.vue", () => {
     // eslint-disable-next-line
     (wrapper.vm as any).onIntersect(intersectArray);
     flushPromises().then(async () => {
-      expect(wrapper.findAll(".post").length).toBe(15);
+      expect(wrapper.findAll(".post").length).toBe(16);
       done();
     });
   });
