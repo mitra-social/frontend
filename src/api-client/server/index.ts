@@ -165,8 +165,7 @@ export default {
       })
       .then((resp) => {
         return resp.data;
-      })
-      .catch((err) => console.info(err));
+      });
   },
   async fediverseGetUser(url: string): Promise<User> {
     return await axios
