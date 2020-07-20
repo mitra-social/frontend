@@ -80,27 +80,6 @@
         "https://www.w3.org/ns/activitystreams",
         "https://w3id.org/security/v1"
       ],
-      "id": "http://johnny.example.org",
-      "type": "Person",
-      "following": "http://johnny.example.org/following",
-      "followers": "http://johnny.example.org/followers",
-      "inbox": "http://johnny.example.org/inbox",
-      "outbox": "http://johnny.example.org/outbox",
-      "featured": "http://johnny.example.org/collections/featured",
-      "preferredUsername": "johnny.ti",
-      "name": "johnny",
-      "summary": "<p>My name is johnny</p>",
-      "url": "https://example.com/@johnny",
-      "manuallyApprovesFollowers": false,
-      "discoverable": false,
-      "tag": [],
-      "attachment": []
-    },
-    {
-      "@context": [
-        "https://www.w3.org/ns/activitystreams",
-        "https://w3id.org/security/v1"
-      ],
       "id": "http://john.example.org",
       "type": "Person",
       "following": "http://john.example.org/following",

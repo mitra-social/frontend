@@ -42,7 +42,7 @@ describe("FollowingActors.vue", () => {
 
     await flushPromises();
     const listItems = wrapper.findAll(".follower-container .v-list-item");
-    expect(listItems.length).toBe(3);
+    expect(listItems.length).toBe(6);
   });
 
   it("Toggle exclude all actors from posts", async () => {
@@ -53,7 +53,7 @@ describe("FollowingActors.vue", () => {
     });
 
     // created() state of excluded actors
-    expect(wrapper.findAll(".mdi-eye").length).toBe(3);
+    expect(wrapper.findAll(".mdi-eye").length).toBe(6);
     expect(wrapper.findAll(".mdi-eye-off").length).toBe(1);
 
     // exclude all actors
@@ -61,9 +61,9 @@ describe("FollowingActors.vue", () => {
     button.trigger("click");
     await flushPromises();
 
-    expect(wrapper.vm.$store.state.Collection.excludedActors.length).toBe(2);
+    expect(wrapper.vm.$store.state.Collection.excludedActors.length).toBe(5);
     expect(wrapper.findAll(".mdi-eye").length).toBe(1);
-    expect(wrapper.findAll(".mdi-eye-off").length).toBe(3);
+    expect(wrapper.findAll(".mdi-eye-off").length).toBe(6);
 
     // Remove exclude all actors
     button = wrapper.find("#remove-exclude-actor-btn");
@@ -71,7 +71,7 @@ describe("FollowingActors.vue", () => {
     await flushPromises();
 
     expect(wrapper.vm.$store.state.Collection.excludedActors.length).toBe(0);
-    expect(wrapper.findAll(".mdi-eye").length).toBe(3);
+    expect(wrapper.findAll(".mdi-eye").length).toBe(6);
     expect(wrapper.findAll(".mdi-eye-off").length).toBe(1);
   });
 });
