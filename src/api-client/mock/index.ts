@@ -14,12 +14,18 @@ import { CreateUser } from "@/model/create-user";
 import * as userData from "./data/user.json";
 import * as createUserData from "./data/create-user.json";
 import * as actorsData from "./data/actors.json";
-import * as followingData from "./data/following.json";
-import * as followerData from "./data/followers.json";
+import * as webfingerData from "./data/webfinger.json";
+import * as followingPage1Data from "./data/following-page-1.json";
+import * as followingPage2Data from "./data/following-page-2.json";
+import * as followingUserData from "./data/following-user.json";
+import * as followerPage1Data from "./data/followers-page-1.json";
+import * as followerPage2Data from "./data/followers-page-2.json";
 import * as collectionPageOneData from "./data/collection-page-1.json";
 import * as collectionPageTwoData from "./data/collection-page-2.json";
 import * as collectionSecondFetchData from "./data/collection-second-fetch.json";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
+import { ApiClientMocke } from "./api-client-mock";
+import { Webfinger } from "@/model/webfinger";
 
 /*
  constant variables
@@ -105,12 +111,6 @@ export default {
 
     return returnResult(token, user, fetch(userData.default)) as Promise<User>;
   },
-  async findActor(query: string): Promise<Actor | undefined> {
-    // TODO:
-    // const actors = [this.getActor("https://mastodon.social/users/fraenki")]
-    console.info(`findActor => query: ${query}`);
-    return fetch(this.getActor("https://mastodon.social/users/fraenki"));
-  },
   async getActor(url: string): Promise<Actor> {
     console.info(`getActor => url: ${url}`);
     // eslint-disable-next-line
@@ -131,7 +131,7 @@ export default {
 
     if (!following) {
       // eslint-disable-next-line
-      following = (followingData.default as any) as CollectionPage;
+      following = (followingUserData.default as any) as CollectionPage;
     }
 
     return returnResult(token, user, fetch(following)) as Promise<
@@ -149,7 +149,7 @@ export default {
 
     if (!followers) {
       // eslint-disable-next-line
-      followers = (followerData.default as any) as CollectionPage;
+      followers = (followerPage1Data.default as any) as CollectionPage;
     }
     return returnResult(token, user, fetch(followers)) as Promise<
       CollectionPage
@@ -243,8 +243,17 @@ export default {
   // Fediverse
   async fediverseSearchUserId(query: string): Promise<string | undefined> {
     console.info(`fediverseSearchUserId => query: ${query}`);
-    // TODO: implements
-    return Promise.reject("not implemented yet");
+    // eslint-disable-next-line
+    const webfingers = (webfingerData.default as any) as Webfinger[];
+    const webfinger = webfingers.find(($) =>
+      $.subject.endsWith(`acct:${query}`)
+    );
+
+    if (!webfinger) {
+      return error("No actor found!");
+    }
+    const link = webfinger.links.find(($) => $.rel === "self");
+    return fetch(link?.href);
   },
   async fediverseGetActor(url: string): Promise<Actor> {
     console.info(`fediverseGetActor => url: ${url}`);
@@ -259,13 +268,50 @@ export default {
     return fetch(actor);
   },
   async fediverseGetUser(url: string): Promise<User> {
-    console.info(`updatePassword => url: ${url}`);
-    // TODO: implements
-    return Promise.reject("not implemented yet");
+    console.info(`fediverseGetUser => url: ${url}`);
+    // eslint-disable-next-line
+    const actors = actorsData.default as any;
+    const actor = (actors as User[]).find(($) => $.id?.toString() === url);
+
+    if (!actor) {
+      return Promise.reject("No actor found.");
+    }
+
+    return fetch(actor);
   },
   async fediversGetCollection(url: string): Promise<OrderedCollectionPage> {
     console.info(`fediversGetCollection => url: ${url}`);
-    // TODO: implements
+    const followerRegex = /followers\?page=(?<page>\d+)$/gm;
+    const followerMatch = followerRegex.exec(url);
+
+    const followingRegex = /following\?page=(?<page>\d+)$/gm;
+    const followingMatch = followingRegex.exec(url);
+
+    if (followerMatch) {
+      const page =
+        followerMatch.groups !== undefined
+          ? parseInt(followerMatch.groups.page)
+          : 1;
+
+      if (page === 2) {
+        await delay(NEXT_PAGE_DELAY);
+        return fetch(followerPage2Data.default);
+      }
+      return fetch(followerPage1Data.default);
+    }
+
+    if (followingMatch) {
+      const page =
+        followingMatch.groups !== undefined
+          ? parseInt(followingMatch.groups.page)
+          : 1;
+
+      if (page === 2) {
+        await delay(NEXT_PAGE_DELAY);
+        return fetch(followingPage2Data.default);
+      }
+      return fetch(followingPage1Data.default);
+    }
 
     return Promise.reject("not implemented yet");
   },
@@ -284,4 +330,4 @@ export default {
       });
     }
   },
-};
+} as ApiClientMocke;

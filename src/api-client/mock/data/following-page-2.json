@@ -1,0 +1,48 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "type": "OrderedCollectionPage",
+  "id": "https://example.org/following?page=2",
+  "totalItems": 15,
+  "orderedItems": [
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+      ],
+      "type": "Person",
+      "id": "http://ben.example.org",
+      "url": "http://ben.example.org",
+      "preferredUsername": "Jenny",
+      "inbox": "http://ben.example.org/inbox",
+      "outbox": "http://ben.example.org/outbox",
+      "following": "http://ben.example.org/following",
+      "icon": {
+        "name": "avatar",
+        "url": "https://picsum.photos/200/1015"
+      },
+      "publicKey": {
+        "id": "http://ben.example.org#main-key",
+        "owner": "http://ben.example.org",
+        "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz4xtXZjGcc+qvZdsdA4x\naW1iUieVGzI9eMsKejRugM2WEMcY6tP9U6ZRUtlofKgI+IIipVF8PM7bxb737IcS\neWfsJioykmD3eiF2jeYb74ehTQhxnr+HoJUdQRTXbRsBxyQaSoef7+KKY3JEZSsv\nH+xT1TpLMoEFkQMhKJBIqhAd6sR8bXe9ydzX+f72ystL/n2DxOa+bfKv/qTf6bFy\nR/wBEecEPB4xENyfH3JjktDzyUT9ZehncE3mj3xpU0NI+83mqrfvu2DO79g81nTS\nOqU9xTBfAodTVs2CP8Lg1wumLteI+3mwh0trHcPTZTGhmty0Pb5XmoosalseVwul\nFwIDAQAB\n-----END PUBLIC KEY-----\n"
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+      ],
+      "type": "Person",
+      "id": "https://example.com/user/grundy",
+      "url": "https://example.com/user/grundy",
+      "preferredUsername": "grundy",
+      "inbox": "https://example.com/user/grundy/inbox",
+      "outbox": "https://example.com/user/grundy/outbox",
+      "followers": "https://example.com/user/grundy/following",
+      "publicKey": {
+        "id": "https://example.com/user/grundy.g#main-key",
+        "owner": "https://example.com/user/giovanni.g",
+        "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz4xtXZjGcc+qvZdsdA4x\naW1iUieVGzI9eMsKejRugM2WEMcY6tP9U6ZRUtlofKgI+IIipVF8PM7bxb737IcS\neWfsJioykmD3eiF2jeYb74ehTQhxnr+HoJUdQRTXbRsBxyQaSoef7+KKY3JEZSsv\nH+xT1TpLMoEFkQMhKJBIqhAd6sR8bXe9ydzX+f72ystL/n2DxOa+bfKv/qTf6bFy\nR/wBEecEPB4xENyfH3JjktDzyUT9ZehncE3mj3xpU0NI+83mqrfvu2DO79g81nTS\nOqU9xTBfAodTVs2CP8Lg1wumLteI+3mwh0trHcPTZTGhmty0Pb5XmoosalseVwul\nFwIDAQAB\n-----END PUBLIC KEY-----\n"
+      }
+    }
+  ]
+}
