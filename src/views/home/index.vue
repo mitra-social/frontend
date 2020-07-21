@@ -7,6 +7,7 @@
       <Posts />
     </div>
     <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
+      <!-- user info -->
       <v-list>
         <v-list-item class="px-2">
           <v-avatar id="user-icon" color="indigo" v-if="getUser.icon">
@@ -28,18 +29,17 @@
           </v-btn>
         </v-list-item>
       </v-list>
-
       <v-divider></v-divider>
-
+      <!-- dark mode switcher -->
       <v-list dense>
         <v-list-item link>
-          <v-list-item-icon>
+          <v-list-item-icon id="dark-mode-icon">
             <v-icon v-if="$vuetify.theme.dark">mdi-moon-waning-crescent</v-icon>
             <v-icon v-else>mdi-white-balance-sunny</v-icon>
           </v-list-item-icon>
-
           <v-list-item-action>
             <v-switch
+              id="dark-mode-switcher"
               v-model="$vuetify.theme.dark"
               hide-details
               inset
@@ -47,38 +47,30 @@
           </v-list-item-action>
         </v-list-item>
       </v-list>
-
       <v-divider></v-divider>
-
+      <!-- settings -->
       <v-list dense>
         <v-list-item
+          class="setting-item"
           link
-          @click="toggleDialog({ title: 'Profile', component: 'Profile' })"
+          @click.stop="
+            toggleDialog({ title: setting.title, component: setting.component })
+          "
+          v-for="(setting, index) in settingsDrawer"
+          :key="index"
         >
           <v-list-item-icon>
-            <v-icon>mdi-account</v-icon>
+            <v-icon>{{ setting.icon }}</v-icon>
           </v-list-item-icon>
-
           <v-list-item-content>
-            <v-list-item-title>Profile</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          @click="toggleDialog({ title: 'Password', component: 'Password' })"
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-key-variant</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>Password</v-list-item-title>
+            <v-list-item-title>{{ setting.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
+      <!-- logout -->
       <v-list>
-        <v-list-item class="px-2" @click="logout()">
+        <v-list-item id="logout-item" class="px-2" @click.stop="logout()">
           <v-list-item-icon>
             <v-icon>mdi-logout-variant</v-icon>
           </v-list-item-icon>
@@ -112,9 +104,13 @@ const followingStore = namespace("Following");
   },
 })
 export default class MitraHome extends Vue {
-  private isFollowingLoading = false;
-  private drawer = true;
-  private mini = true;
+  public isFollowingLoading = false;
+  public drawer = true;
+  public mini = true;
+  public settingsDrawer = [
+    { title: "Profile", component: "Profile", icon: "mdi-account" },
+    { title: "Password", component: "Password", icon: "mdi-key-variant" },
+  ];
 
   @userStore.Getter
   public getUser!: User;
@@ -134,8 +130,10 @@ export default class MitraHome extends Vue {
   }
 
   public logout(): void {
+    this.$router.push({ name: "login" }).catch(() => {
+      // nothing to do
+    });
     AuthenticationUtil.clear();
-    this.$router.push({ name: "login" });
   }
 }
 </script>

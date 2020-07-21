@@ -6,11 +6,6 @@ import Home from "@/views/home/index.vue";
 import Login from "@/views/Login.vue";
 import SignUp from "@/views/SignUp.vue";
 
-import Settings from "@/views/settings/index.vue";
-import Profile from "@/views/settings/Profile.vue";
-import Password from "@/views/settings/Password.vue";
-import Preferences from "@/views/settings/Preferences.vue";
-import FollowerFollowing from "@/views/settings/Follower-Following.vue";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 
 Vue.use(VueRouter);
@@ -33,37 +28,6 @@ const routes = [
     name: "signup",
     component: SignUp,
     meta: { title: "SignUp" },
-  },
-  {
-    path: "/settings",
-    name: "settings",
-    component: Settings,
-    children: [
-      {
-        path: "profile",
-        name: "settings.profile",
-        component: Profile,
-        meta: { title: "Profile" },
-      },
-      {
-        path: "password",
-        name: "settings.password",
-        component: Password,
-        meta: { title: "Password" },
-      },
-      {
-        path: "preferences",
-        name: "settings.preferences",
-        component: Preferences,
-        meta: { title: "Preferences" },
-      },
-      {
-        path: "follower-and-following",
-        name: "settings.followerFollowing",
-        component: FollowerFollowing,
-        meta: { title: "Follower And Following" },
-      },
-    ],
   },
 ];
 

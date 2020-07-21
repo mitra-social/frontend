@@ -64,7 +64,6 @@ describe("Posts.vue", () => {
       directives: { Intersect: mockIntersectDirective },
     });
     await flushPromises();
-    console.info("afafafadafasfasfasfasdfdsafdasfasfas");
     expect(wrapper.findAll(".post").length).toBe(9);
   });
 
