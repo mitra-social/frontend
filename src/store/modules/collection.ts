@@ -83,7 +83,7 @@ class Collection extends VuexModule {
           ($.object as ActivityObject).type in PostTypes
       )
       .map(ActivityObjectHelper.extractObjectFromActivity);
-    return postTypeItems
+    const posts = postTypeItems
       .concat(activityItems)
       .filter(
         (item) =>
@@ -94,6 +94,7 @@ class Collection extends VuexModule {
               ) === actor
           )
       );
+    return posts;
   }
 
   get getHasPrev(): boolean {

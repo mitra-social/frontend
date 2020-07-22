@@ -62,9 +62,10 @@ body {
 }
 
 .posts {
+  flex: 0 0 30%;
   flex-basis: 0;
   flex-grow: 1;
-  width: 100%;
+  max-width: 70%;
   min-height: 100%;
 }
 </style>

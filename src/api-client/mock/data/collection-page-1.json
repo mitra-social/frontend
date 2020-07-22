@@ -12,7 +12,13 @@
       "object": {
         "type": "Article",
         "name": "Minecraft Signs",
-        "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>"
+        "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>",
+        "attachment": {
+          "mediaType": "image/jpeg",
+          "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
+          "type": "Image",
+          "url": "https://picsum.photos/200"
+        }
       },
       "actor": {
         "id": "http://sally.example.org",
@@ -31,7 +37,21 @@
       "object": {
         "type": "Article",
         "name": "Hi/Ho",
-        "content": "<p><span style=\"color: red\">SAVIOR OF SONG</span> (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>"
+        "content": "<p><span style=\"color: red\">SAVIOR OF SONG</span> (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>",
+        "attachment": [
+          {
+            "mediaType": "image/jpeg",
+            "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
+            "type": "Image",
+            "url": "https://picsum.photos/400"
+          },
+          {
+            "mediaType": "image/jpeg",
+            "name": "Legend of the 5 rings lion clan shogun",
+            "type": "Image",
+            "url": "https://picsum.photos/300"
+          }
+        ]
       },
       "actor": "http://johnny.example.org"
     },
@@ -40,8 +60,36 @@
       "id": "http://activities.example.com/3",
       "object": {
         "type": "Article",
-        "name": "The Clinic",
-        "content": "<p>the misinformation and outright lies on this webbed site about Covid 19 driven by certain anarchists is wild. nice to know we're all Karens at the core waiting for the right activation call</p>"
+        "name": "Not full attachments",
+        "content": "<p>the misinformation and outright lies on this webbed site about Covid 19 driven by certain anarchists is wild. nice to know we're all Karens at the core waiting for the right activation call</p>",
+        "attachment": [
+          {
+            "name": "Image without mediaType",
+            "type": "Image",
+            "url": "https://picsum.photos/100"
+          },
+          {
+            "mediaType": "image/jpeg",
+            "type": "Image",
+            "url": "https://picsum.photos/200"
+          },
+          {
+            "mediaType": "image/jpeg",
+            "name": "Image without type",
+            "url": "https://picsum.photos/300"
+          },
+          {
+            "mediaType": "image/jpeg",
+            "name": "Image without url",
+            "type": "Image"
+          },
+          {
+            "mediaType": "image/jpeg",
+            "name": "Picture has the necessary properties",
+            "type": "Image",
+            "url": "https://picsum.photos/500"
+          }
+        ]
       },
       "actor": {
         "id": "http://john.example.org",
@@ -66,7 +114,39 @@
         "summary": "A note",
         "type": "Note",
         "id": "http://notes.example.com/1",
-        "content": "A create note"
+        "content": "A create note",
+        "attachment": [
+          {
+            "mediaType": "image/jpeg",
+            "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
+            "type": "Image",
+            "url": "https://picsum.photos/100"
+          },
+          {
+            "mediaType": "image/jpeg",
+            "name": "Legend of the 5 rings lion clan shogun",
+            "type": "Image",
+            "url": "https://picsum.photos/200"
+          },
+          {
+            "mediaType": "image/jpeg",
+            "name": "Legend of the 5 rings lion clan shogun",
+            "type": "Image",
+            "url": "https://picsum.photos/300"
+          },
+          {
+            "mediaType": "image/jpeg",
+            "name": "Legend of the 5 rings lion clan shogun",
+            "type": "Image",
+            "url": "https://picsum.photos/400"
+          },
+          {
+            "mediaType": "image/jpeg",
+            "name": "Legend of the 5 rings lion clan shogun",
+            "type": "Image",
+            "url": "https://picsum.photos/500"
+          }
+        ]
       }
     },
     {
@@ -220,6 +300,92 @@
         "https://www.w3.org/ns/activitystreams#Public"
       ],
       "type": "Create"
+    },
+    {
+      "type": "Create",
+      "id": "http://activities.example.com/1",
+      "object": {
+        "type": "Article",
+        "name": "Video: Minecraft Signs",
+        "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>",
+        "attachment": {
+          "type": "Video",
+          "name": "Cool New Movie",
+          "duration": "PT2H30M",
+          "preview": {
+            "type": "Video",
+            "name": "Trailer",
+            "duration": "PT1M",
+            "url": {
+              "href": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+              "mediaType": "video/mp4"
+            }
+          }
+        }
+      },
+      "actor": {
+        "id": "http://sally.example.org",
+        "type": "Person",
+        "summary": "Nice persone you know",
+        "name": "Sally",
+        "icon": {
+          "name": "avatar",
+          "url": "https://picsum.photos/200/1014"
+        }
+      }
+    },
+    {
+      "type": "Create",
+      "id": "http://activities.example.com/1",
+      "object": {
+        "type": "Article",
+        "name": "Default Attachment",
+        "content": "Default attachment test",
+        "attachment": {
+          "type": "Default",
+          "name": "Default link test",
+          "url": {
+            "href": "http://example.com",
+            "mediaType": "default"
+          }
+        }
+      },
+      "actor": {
+        "id": "http://sally.example.org",
+        "type": "Person",
+        "summary": "Nice persone you know",
+        "name": "Sally",
+        "icon": {
+          "name": "avatar",
+          "url": "https://picsum.photos/200/1014"
+        }
+      }
+    },
+    {
+      "type": "Create",
+      "id": "http://activities.example.com/1",
+      "object": {
+        "type": "Article",
+        "name": "Default Attachment without name",
+        "content": "Default attachment test without name",
+        "attachment": {
+          "type": "Default",
+          "url": {
+            "href": "http://example.com",
+            "mediaType": "default"
+          }
+        }
+      },
+      "actor": {
+        "id": "http://sally.example.org",
+        "type": "Person",
+        "summary": "Nice persone you know",
+        "name": "Sally",
+        "icon": {
+          "name": "avatar",
+          "url": "https://picsum.photos/200/1014"
+        }
+      }
     }
   ]
 }

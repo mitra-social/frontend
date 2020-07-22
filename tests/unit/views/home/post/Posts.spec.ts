@@ -65,7 +65,7 @@ describe("Posts.vue", () => {
       directives: { Intersect: mockIntersectDirective },
     });
     await flushPromises();
-    expect(wrapper.findAll(".post").length).toBe(9);
+    expect(wrapper.findAll(".post").length).toBe(12);
   });
 
   it("Test scroll paging", async (done) => {
@@ -77,7 +77,7 @@ describe("Posts.vue", () => {
     });
     await flushPromises();
 
-    expect(wrapper.findAll(".post").length).toBe(9);
+    expect(wrapper.findAll(".post").length).toBe(12);
 
     const intersectArray = [
       {
@@ -92,7 +92,7 @@ describe("Posts.vue", () => {
     // eslint-disable-next-line
     (wrapper.vm as any).onIntersect(intersectArray);
     flushPromises().then(async () => {
-      expect(wrapper.findAll(".post").length).toBe(14);
+      expect(wrapper.findAll(".post").length).toBe(17);
       done();
     });
   });
@@ -175,6 +175,95 @@ describe("Posts.vue", () => {
       .at(1);
     expect(updateDate.attributes().icon).toBe("mdi-update");
     expect(updateDate.attributes().date).toBe("2020-04-28T17:49:12Z");
+  });
+
+  it("8 posts has attachments", async () => {
+    AuthenticationUtil.setUser("john.doe");
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
+    await flushPromises();
+    expect(wrapper.findAll("attachments-stub").length).toBe(7);
+  });
+
+  it("Post with 1 attachment", async () => {
+    AuthenticationUtil.setUser("john.doe");
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
+    await flushPromises();
+
+    expect(
+      wrapper.findAll("attachments-stub").at(0).attributes("attachments")
+    ).toBe("[object Object]");
+  });
+
+  it("Post with 1 attachment", async () => {
+    AuthenticationUtil.setUser("john.doe");
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
+    await flushPromises();
+
+    expect(
+      wrapper.findAll("attachments-stub").at(0).attributes("attachments")
+    ).toBe("[object Object]");
+  });
+
+  it("Post with 5 attachments", async () => {
+    AuthenticationUtil.setUser("john.doe");
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
+    await flushPromises();
+
+    expect(
+      wrapper.findAll("attachments-stub").at(2).attributes("attachments")
+    ).toBe(
+      "[object Object],[object Object],[object Object],[object Object],[object Object]"
+    );
+  });
+
+  it("Post with an empty attachment will not render an attachment in the post", async () => {
+    AuthenticationUtil.setUser("john.doe");
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
+    await flushPromises();
+
+    expect(
+      wrapper.findAll(".post").at(7).find("attachments-stub").exists()
+    ).toBe(false);
+  });
+
+  it("post without attachment will not render an attachment in the post", async () => {
+    AuthenticationUtil.setUser("john.doe");
+    const wrapper = shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
+    await flushPromises();
+
+    expect(
+      wrapper.findAll(".post").at(4).find("attachments-stub").exists()
+    ).toBe(false);
   });
 
   it("Wrong user", async (done) => {
