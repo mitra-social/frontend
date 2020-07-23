@@ -2,18 +2,20 @@
   <v-container fluid>
     <div class="d-flex flex-row align-stretch">
       <v-text-field
-        v-model="query"
+        id="search-field"
         flat
         solo-inverted
         hide-details
         label="Search Actor"
+        v-model="query"
         :loading="isLoading"
-        @keyup.enter="findUser(query)"
+        @keyup.enter="searchUser(query)"
       ></v-text-field>
       <v-btn
+        id="search-btn"
         class="ml-1 pa-0"
         height="auto"
-        @click="findUser(query)"
+        @click="searchUser(query)"
         :light="$vuetify.theme.dark"
         :dark="!$vuetify.theme.dark"
         :loading="isLoading"
@@ -21,6 +23,17 @@
         <v-icon left>mdi-magnify</v-icon>
       </v-btn>
     </div>
+    <v-alert
+      class="mt-1"
+      border="bottom"
+      colored-border
+      type="info"
+      elevation="2"
+      icon="mdi-account-search-outline"
+      v-if="noContent"
+    >
+      No actor found.
+    </v-alert>
     <v-list v-if="getUser">
       <v-list-item-group color="primary">
         <v-list-item>
@@ -29,6 +42,7 @@
             <v-divider></v-divider>
             <div class="d-flex flex-row">
               <v-btn
+                id="search-actor-followers-btn"
                 class="ma-2"
                 @click="setfollowersOrFollowing(true, false)"
                 :light="$vuetify.theme.dark"
@@ -39,6 +53,7 @@
                 {{ getFollowersCollectionCount }} Followers
               </v-btn>
               <v-btn
+                id="search-actor-following-btn"
                 class="ma-2"
                 @click="setfollowersOrFollowing(false, true)"
                 :light="$vuetify.theme.dark"
@@ -77,12 +92,9 @@ import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { ActivityObject, Link } from "activitypub-objects";
 
-import client from "apiClient";
-
 import FollowingActor from "@/components/following/FollowingActor.vue";
 import FollowingFollowerList from "@/components/following/FollowingFollowerList.vue";
 import SummarizedActor from "@/components/actor/ActorSummarized.vue";
-import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 import { User } from "@/model/user";
 import { FetchFollowParam } from "@/model/fetch-follow-param";
 
@@ -99,6 +111,7 @@ export default class SearchActor extends Vue {
   public tab = "";
   public isFollowerActive = false;
   public isFollowingActive = false;
+  public noContent = true;
 
   // find user
   @findUserStore.Getter
@@ -138,7 +151,7 @@ export default class SearchActor extends Vue {
 
   // find user
   @findUserStore.Action
-  public findUser!: (query: string) => void;
+  public findUser!: (query: string) => Promise<void>;
 
   @findUserStore.Action
   public detailUser!: (actor: User) => void;
@@ -159,6 +172,7 @@ export default class SearchActor extends Vue {
   }
 
   set query(value: string) {
+    this.noContent = false;
     this.queryAction(value);
   }
 
@@ -170,24 +184,16 @@ export default class SearchActor extends Vue {
     this.isFollowingActive = isFollowingActive;
   }
 
-  public getName(actor: ActivityObject | Link | URL): string | undefined {
-    return ActivityObjectHelper.extractActorName(actor);
-  }
-
-  public getIcon(actor: ActivityObject | Link | URL): string | undefined {
-    const originalIconUri = ActivityObjectHelper.extractIcon(
-      actor as ActivityObject
-    );
-
-    return client.getMedia(originalIconUri);
-  }
-
   public nextFollowersPage(): void {
     this.fetchFollowers({ url: this.getUser.followers, add: true });
   }
 
   public nextFollowingPage(): void {
     this.fetchFollowing({ url: this.getUser.following, add: true });
+  }
+
+  public searchUser(query: string): void {
+    this.findUser(query).catch(() => (this.noContent = true));
   }
 
   public detail(actor: User) {

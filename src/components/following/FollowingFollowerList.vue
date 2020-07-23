@@ -7,6 +7,7 @@
     <v-list>
       <v-list-item-group color="primary">
         <v-list-item
+          class="actor-short-list"
           v-for="(actor, index) in actors"
           v-intersect="onIntersect"
           :key="index"

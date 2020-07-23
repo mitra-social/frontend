@@ -248,7 +248,7 @@ class FindUserStore extends VuexModule {
     this.context.commit("setQuery", query);
   }
 
-  @Action
+  @Action({ rawError: true })
   public async findUser(query: string): Promise<void> {
     this.context.commit("loadingStart");
 

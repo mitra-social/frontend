@@ -9,17 +9,21 @@
           <v-icon>mdi-account-circle</v-icon>
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title>{{ name }}</v-list-item-title>
-          <v-list-item-subtitle class="attribute-type" v-if="actor.type">{{
-            actor.type
-          }}</v-list-item-subtitle>
+          <v-list-item-title id="summarized-name">{{ name }}</v-list-item-title>
           <v-list-item-subtitle
+            id="summarized-type"
+            class="attribute-type"
+            v-if="actor.type"
+            >{{ actor.type }}</v-list-item-subtitle
+          >
+          <v-list-item-subtitle
+            id="summarized-summary"
             class="attribute-summary"
             v-if="actor.summary && !noSummary"
             v-html="actor.summary"
           ></v-list-item-subtitle>
         </v-list-item-content>
-        <v-list-item-action>
+        <v-list-item-action id="summarized-follow-action">
           <v-btn
             class="following-btn"
             icon

@@ -24,7 +24,7 @@ describe("FollowingActors.vue", () => {
       .spyOn(AuthenticationUtil, "getToken")
       .mockReturnValue("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi");
 
-    store.dispatch("Following/fetchFollowing", "john.doe");
+    store.dispatch("Following/fetchFollowing", user);
     await flushPromises();
   });
 
