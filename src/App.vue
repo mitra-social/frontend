@@ -25,9 +25,7 @@ import Dialog from "@/components/ui/Dialog.vue";
     Dialog,
   },
 })
-export default class App extends Vue {
-  public dialog = false;
-}
+export default class App extends Vue {}
 </script>
 
 <style lang="scss">
