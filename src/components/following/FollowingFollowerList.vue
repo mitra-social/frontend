@@ -40,11 +40,8 @@
 import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 import { ActivityObject, Link } from "activitypub-objects";
 
-import client from "apiClient";
-
 import FollowingActor from "@/components/following/FollowingActor.vue";
 import SummarizedActor from "@/components/actor/ActorSummarized.vue";
-import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 import { User } from "@/model/user";
 
 @Component({
@@ -57,18 +54,6 @@ export default class FollowingFollowerList extends Vue {
   @Prop() readonly actors!: (ActivityObject | Link | URL)[];
   @Prop() readonly isLoading!: boolean;
   @Prop() readonly hasNextPage!: boolean;
-
-  public getName(actor: ActivityObject | Link | URL): string | undefined {
-    return ActivityObjectHelper.extractActorName(actor);
-  }
-
-  public getIcon(actor: ActivityObject | Link | URL): string | undefined {
-    const originalIconUri = ActivityObjectHelper.extractIcon(
-      actor as ActivityObject
-    );
-
-    return client.getMedia(originalIconUri);
-  }
 
   public onIntersect(entries: IntersectionObserverEntry[]): void {
     if (this.hasNextPage && entries[0].isIntersecting) {

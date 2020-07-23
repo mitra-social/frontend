@@ -90,6 +90,7 @@ describe("Posts.vue", () => {
     ];
     // eslint-disable-next-line
     (wrapper.vm as any).onIntersect(intersectArray);
+
     flushPromises().then(async () => {
       expect(wrapper.findAll(".post").length).toBe(17);
       done();
