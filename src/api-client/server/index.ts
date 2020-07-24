@@ -127,18 +127,21 @@ export default {
 
     return `${process.env.VUE_APP_BACKEND_URL}/media/${md5(uri)}`;
   },
-  updateUser(token: string, user: User): Promise<void> {
+  updateUser(token: string, user: string, updatedUser: User): Promise<void> {
     // TODO: implements
-    return Promise.reject(`not implemented yet. ${token}/${user}`);
+    return Promise.reject(
+      `not implemented yet. ${token}/${user}/${updatedUser}`
+    );
   },
   updatePassword(
     token: string,
+    user: string,
     oldPassword: string,
     newPassword: string
   ): Promise<void> {
     // TODO: implements
     return Promise.reject(
-      `not implemented yet. ${token}/${oldPassword}/${newPassword}`
+      `not implemented yet. ${token}/${user}/${oldPassword}/${newPassword}`
     );
   },
   // Fediverse

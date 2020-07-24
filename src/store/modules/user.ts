@@ -40,8 +40,9 @@ class UserStore extends VuexModule {
   @Action
   public async updateUser(user: User): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
+    const userName = AuthenticationUtil.getUser() || "";
 
-    await client.updateUser(token, user).catch(() => {
+    await client.updateUser(token, userName, user).catch(() => {
       this.context.dispatch("Notify/error", "Update user failed.", {
         root: true,
       });
@@ -54,12 +55,20 @@ class UserStore extends VuexModule {
     newPassword,
   }: PasswordChangeParam): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
+    const userName = AuthenticationUtil.getUser() || "";
 
-    await client.updatePassword(token, oldPassword, newPassword).catch(() => {
-      this.context.dispatch("Notify/error", "Update password failed.", {
-        root: true,
-      });
-    });
+    await client
+      .updatePassword(token, userName, oldPassword, newPassword)
+      .then(() =>
+        this.context.dispatch("Notify/success", "Update password success.", {
+          root: true,
+        })
+      )
+      .catch(() =>
+        this.context.dispatch("Notify/error", "Update password failed.", {
+          root: true,
+        })
+      );
   }
 }
 export default UserStore;

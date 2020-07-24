@@ -5,22 +5,17 @@
     ref="passwordForm"
     @submit.prevent="handleSubmit"
   >
-    <v-alert v-if="alertMsg" dense outlined type="error">
-      {{ alertMsg }}
-    </v-alert>
     <v-text-field
-      id="password"
       label="Password"
       name="password"
       prepend-icon="mdi-lock"
       v-model="password"
       :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
       :type="showPassword ? 'text' : 'password'"
-      :rules="[rules.required, rules.min]"
+      :rules="[rules.required]"
       @click:append="showPassword = !showPassword"
     />
     <v-text-field
-      id="new-password"
       label="New Password"
       name="newPassword"
       prepend-icon="mdi-lock"
@@ -31,7 +26,6 @@
       @click:append="showNewPassword = !showNewPassword"
     />
     <v-text-field
-      id="confirm-password"
       label="Confirm password"
       name="confirmPassword"
       prepend-icon="mdi-lock-check"
@@ -45,12 +39,21 @@
       @click:append="showConfirmPassword = !showConfirmPassword"
     />
     <v-btn
-      id="submit"
+      id="save-btn"
       type="submit"
+      class="ma-1"
       :light="$vuetify.theme.dark && valid"
       :dark="!$vuetify.theme.dark && valid"
       :disabled="!valid"
       >Save</v-btn
+    >
+    <v-btn
+      id="close-btn"
+      class="ma-1"
+      :light="$vuetify.theme.dark"
+      :dark="!$vuetify.theme.dark"
+      @click="toggleDialog({ title: undefined, components: undefined })"
+      >Close</v-btn
     >
   </v-form>
 </template>
@@ -59,13 +62,14 @@
 import { Component, Vue, Ref } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { PasswordChangeParam } from "../../model/password-change-param";
+import { DialogSettings } from "../../model/dialog-settings";
 
 const userStore = namespace("User");
+const dialogStore = namespace("Dialog");
 
 @Component
 export default class Password extends Vue {
   public valid = false;
-  public alertMsg = "";
   public password = "";
   public showPassword = false;
   public newPassword = "";
@@ -81,11 +85,13 @@ export default class Password extends Vue {
       $.length >= 5 ||
       "This value is too short. It should have 5 characters or more.",
     min: ($: string) => $.length >= 8 || "Min 8 characters.",
-    emailRules: ($: string) => /.+@.+\..+/.test($) || "E-mail must be valid.",
   };
 
   @userStore.Action
   public updatePassword!: (passwordChangeParam: PasswordChangeParam) => void;
+
+  @dialogStore.Action
+  public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
 
   @Ref("passwordForm") readonly form!: HTMLFormElement;
 

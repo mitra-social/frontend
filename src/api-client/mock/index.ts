@@ -32,13 +32,14 @@ import { Webfinger } from "@/model/webfinger";
  */
 const USER_NAME = "john.doe";
 const USER_EMAIL = "john.doe@mail.com";
-const USER_PWD = "123";
 const USER_TOKEN = "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi";
 const NEXT_PAGE_DELAY = 5000;
 
 /*
- variables
- */
+variables
+*/
+let userPassword = "123";
+let user: User;
 let fetchPostCount = 0;
 let following: CollectionPage | undefined;
 let followers: CollectionPage | undefined;
@@ -87,7 +88,10 @@ const delay = async (ms: number) => {
 
 export default {
   async login(credential: Credential): Promise<string> {
-    if (credential.username !== USER_NAME || credential.password !== USER_PWD) {
+    if (
+      credential.username !== USER_NAME ||
+      credential.password !== userPassword
+    ) {
       return await error("Login failed");
     }
     return await fetch(USER_TOKEN);
@@ -106,10 +110,15 @@ export default {
 
     return await fetch(createUserData.default);
   },
-  async getUser(token: string, user: string): Promise<User> {
-    console.info(`getUser => token: ${token}, user: ${user}`);
+  async getUser(token: string, userName: string): Promise<User> {
+    console.info(`getUser => token: ${token}, userName: ${userName}`);
 
-    return returnResult(token, user, fetch(userData.default)) as Promise<User>;
+    if (!user) {
+      // eslint-disable-next-line
+      user = (userData.default as any) as User;
+    }
+
+    return returnResult(token, userName, fetch(user)) as Promise<User>;
   },
   async getActor(url: string): Promise<Actor> {
     console.info(`getActor => url: ${url}`);
@@ -122,11 +131,11 @@ export default {
   },
   async fetchFollowing(
     token: string,
-    user: string,
+    userName: string,
     page: number
   ): Promise<CollectionPage> {
     console.info(
-      `fetchFollowing => token: ${token}, user: ${user}, page: ${page}`
+      `fetchFollowing => token: ${token}, userName: ${userName}, page: ${page}`
     );
 
     if (!following) {
@@ -134,36 +143,36 @@ export default {
       following = (followingUserData.default as any) as CollectionPage;
     }
 
-    return returnResult(token, user, fetch(following)) as Promise<
+    return returnResult(token, userName, fetch(following)) as Promise<
       CollectionPage
     >;
   },
   async fetchFollowers(
     token: string,
-    user: string,
+    userName: string,
     page: number
   ): Promise<CollectionPage> {
     console.info(
-      `fetchFollowers => token: ${token}, user: ${user}, page: ${page}`
+      `fetchFollowers => token: ${token}, userName: ${userName}, page: ${page}`
     );
 
     if (!followers) {
       // eslint-disable-next-line
       followers = (followerPage1Data.default as any) as CollectionPage;
     }
-    return returnResult(token, user, fetch(followers)) as Promise<
+    return returnResult(token, userName, fetch(followers)) as Promise<
       CollectionPage
     >;
   },
   async fetchPosts(
     token: string,
-    user: string,
+    userName: string,
     page: number
   ): Promise<OrderedCollectionPage> {
     let data = fetch(collectionPageOneData.default);
     fetchPostCount++;
     console.info(
-      `fetchPosts => fetch count: ${fetchPostCount}, token: ${token}, user: ${user}, page: ${page}`
+      `fetchPosts => fetch count: ${fetchPostCount}, token: ${token}, userName: ${userName}, page: ${page}`
     );
 
     if (fetchPostCount > 1) {
@@ -179,11 +188,13 @@ export default {
     if (page === 2) {
       return await error("Not found");
     }
-    return returnResult(token, user, data) as Promise<OrderedCollectionPage>;
+    return returnResult(token, userName, data) as Promise<
+      OrderedCollectionPage
+    >;
   },
   async writeToOutbox(
     token: string,
-    user: string,
+    userName: string,
     activity: Activity,
     summary?: string
   ): Promise<void> {
@@ -191,7 +202,7 @@ export default {
       activity.summary = summary;
     }
     console.info(
-      `writeToOutbox => token: ${token}, user: ${user}, activity: ${toJSON(
+      `writeToOutbox => token: ${token}, userName: ${userName}, activity: ${toJSON(
         activity
       )}`
     );
@@ -216,29 +227,49 @@ export default {
       );
     }
 
-    return returnResult(token, user, {} as Promise<void>);
+    return returnResult(token, userName, {} as Promise<void>);
   },
   getMedia(uri: string | undefined): string | undefined {
     console.info(`getMedia => uri: ${uri}`);
     return uri;
   },
-  updateUser(token: string, user: User): Promise<void> {
-    console.info(
-      `updateProfile => token: ${token}, preferredUsername: ${user.preferredUsername}, email: ${user.email}`
-    );
-    // TODO: implements
-    return Promise.reject("not implemented yet");
-  },
-  updatePassword(
+  async updateUser(
     token: string,
+    userName: string,
+    updatedUser: User
+  ): Promise<void> {
+    console.info(
+      `updateProfile => token: ${token}, userName: ${userName}, preferredUsername: ${updatedUser.preferredUsername}, email: ${updatedUser.email}`
+    );
+
+    // TODO: implements
+    if (token !== USER_TOKEN || userName !== USER_NAME) {
+      return await error("Authentication is incorrect");
+    }
+
+    user = updatedUser;
+
+    return returnResult(token, userName, {} as Promise<void>);
+  },
+  async updatePassword(
+    token: string,
+    userName: string,
     oldPassword: string,
     newPassword: string
   ): Promise<void> {
     console.info(
-      `updatePassword => token: ${token}, oldPassword: ${oldPassword}, newPassword: ${newPassword}`
+      `updatePassword => token: ${token}, userName: ${userName}, oldPassword: ${oldPassword}, newPassword: ${newPassword}`
     );
-    // TODO: implements
-    return Promise.reject("not implemented yet");
+    if (token !== USER_TOKEN || userName !== USER_NAME) {
+      return await error("Authentication is incorrect");
+    }
+
+    if (userPassword !== oldPassword) {
+      return await error("Old password in incorrect");
+    }
+
+    userPassword = newPassword;
+    return returnResult(token, userName, {} as Promise<void>);
   },
   // Fediverse
   async fediverseSearchUserId(query: string): Promise<string | undefined> {
@@ -327,7 +358,11 @@ export default {
         fetchPostCount = 0;
         following = undefined;
         followers = undefined;
+        userPassword = "123";
       });
     }
+  },
+  getPassword(): string {
+    return userPassword;
   },
 } as ApiClientMocke;

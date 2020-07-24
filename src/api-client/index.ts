@@ -35,9 +35,10 @@ export interface ApiClient {
     summary?: string
   ): Promise<void>;
   getMedia(uri: string | undefined): string | undefined;
-  updateUser(token: string, user: User): Promise<void>;
+  updateUser(token: string, user: string, updatedUser: User): Promise<void>;
   updatePassword(
     token: string,
+    user: string,
     oldPassword: string,
     newPassword: string
   ): Promise<void>;
