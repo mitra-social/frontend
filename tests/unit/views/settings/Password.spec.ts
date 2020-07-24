@@ -7,9 +7,9 @@ import flushPromises from "flush-promises";
 import store from "@/store";
 import router from "@/router";
 import apiService from "@/api-client/mock/index";
+import { ApiClientMocke } from "@/api-client/mock/api-client-mock";
 import Password from "@/views/settings/Password.vue";
 import { AuthenticationUtil } from "@/utils/authentication-util";
-import { ApiClientMocke } from "@/api-client/mock/api-client-mock";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -42,7 +42,6 @@ describe("@/views/settings/Password.vue", () => {
 
   it("Change password success", async () => {
     const wrapper = mount(Password, { localVue, vuetify, router, store });
-    const newPassword = "newPassword";
     wrapper.setData(data);
 
     await flushPromises();

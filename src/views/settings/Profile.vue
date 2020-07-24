@@ -1,29 +1,40 @@
 <template>
   <v-form
+    v-if="user"
     lazy-validation
     v-model="valid"
     ref="signUpForm"
     @submit.prevent="handleSubmit"
   >
-    <v-alert v-if="alertMsg" dense outlined type="error">
-      {{ alertMsg }}
-    </v-alert>
     <v-text-field
-      label="Username"
+      label="Preferred username"
       name="user"
       prepend-icon="mdi-account"
       type="text"
-      v-model="getUser.preferredUsername"
-      :rules="[rules.required, rules.usernameMin]"
+      v-model="user.preferredUsername"
     />
     <v-text-field
       label="E-mail address"
       name="email"
       prepend-icon="mdi-email"
       type="email"
-      v-model="getUser.email"
+      v-model="user.email"
       :rules="[rules.required, rules.emailRules]"
     />
+    <v-text-field
+      label="Registered At"
+      prepend-icon="mdi-clock-time-eight-outline"
+      :value="user.registeredAt | dateTime"
+      disabled
+    />
+    <v-textarea
+      clearable
+      label="Summary"
+      name="summary"
+      rows="2"
+      prepend-icon="mdi-card-account-details-outline"
+      v-model="user.summary"
+    ></v-textarea>
     <v-btn
       id="submit"
       type="submit"
@@ -31,6 +42,14 @@
       :dark="!$vuetify.theme.dark && valid"
       :disabled="!valid"
       >Save</v-btn
+    >
+    <v-btn
+      id="close-btn"
+      class="ma-1"
+      :light="$vuetify.theme.dark"
+      :dark="!$vuetify.theme.dark"
+      @click="toggleDialog({ title: undefined, components: undefined })"
+      >Close</v-btn
     >
   </v-form>
 </template>
@@ -40,15 +59,15 @@ import { Component, Vue, Ref } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 import { User } from "@/model/user";
+import { DialogSettings } from "@/model/dialog-settings";
 
 const userStore = namespace("User");
+const dialogStore = namespace("Dialog");
 
 @Component
 export default class Profile extends Vue {
   public valid = false;
-  public alertMsg = "";
-  public user = "";
-  public email = "";
+  public user!: User;
 
   public rules = {
     required: ($: string) => !!$ || "Required.",
@@ -59,17 +78,24 @@ export default class Profile extends Vue {
     emailRules: ($: string) => /.+@.+\..+/.test($) || "E-mail must be valid.",
   };
 
+  @dialogStore.Action
+  public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
+
   @userStore.Getter
   public getUser!: User;
 
   @userStore.Action
-  public updateUser!: (user: User) => void;
+  public updateUser!: (user: User) => Promise<void>;
 
   @Ref("signUpForm") readonly form!: HTMLFormElement;
 
+  private created() {
+    this.user = Object.assign({}, this.getUser);
+  }
+
   public handleSubmit() {
     if (this.form.validate()) {
-      this.updateUser(this.getUser);
+      this.updateUser(this.user);
     }
   }
 }

@@ -5,7 +5,6 @@ export interface User extends Actor {
   userId: string;
   email: string;
   registeredAt: Date;
-  preferredUsername: string;
   inbox: string;
   following: string;
   followers: string;

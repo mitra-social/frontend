@@ -18,7 +18,7 @@ class UserStore extends VuexModule {
   }
 
   @Mutation
-  public fetchUserSuccess(user: User): void {
+  public setUser(user: User): void {
     this.user = user;
   }
 
@@ -29,7 +29,7 @@ class UserStore extends VuexModule {
     await client
       .getUser(token, user)
       .then((user) => {
-        this.context.commit("fetchUserSuccess", user);
+        this.context.commit("setUser", user);
       })
       .catch((error) => {
         this.context.commit("Auth/loginError", 401, { root: true });
@@ -42,11 +42,19 @@ class UserStore extends VuexModule {
     const token = AuthenticationUtil.getToken() || "";
     const userName = AuthenticationUtil.getUser() || "";
 
-    await client.updateUser(token, userName, user).catch(() => {
-      this.context.dispatch("Notify/error", "Update user failed.", {
-        root: true,
+    await client
+      .updateUser(token, userName, user)
+      .then(() => {
+        this.context.commit("setUser", user);
+        this.context.dispatch("Notify/success", "Update profile success.", {
+          root: true,
+        });
+      })
+      .catch(() => {
+        this.context.dispatch("Notify/error", "Update user failed.", {
+          root: true,
+        });
       });
-    });
   }
 
   @Action

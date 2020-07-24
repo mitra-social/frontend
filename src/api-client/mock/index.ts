@@ -242,7 +242,6 @@ export default {
       `updateProfile => token: ${token}, userName: ${userName}, preferredUsername: ${updatedUser.preferredUsername}, email: ${updatedUser.email}`
     );
 
-    // TODO: implements
     if (token !== USER_TOKEN || userName !== USER_NAME) {
       return await error("Authentication is incorrect");
     }
