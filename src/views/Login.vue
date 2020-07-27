@@ -9,7 +9,7 @@
         >
           <v-toolbar-title>Login</v-toolbar-title>
         </v-toolbar>
-        <v-form @submit.prevent="handleSubmit">
+        <v-form v-model="valid" @submit.prevent="handleSubmit" ref="loginForm">
           <v-card-text>
             <v-alert v-if="authStatus === 401" dense outlined type="error">
               The user name or password you entered isn't correct. Try entering
@@ -21,6 +21,7 @@
               prepend-icon="mdi-account"
               type="text"
               v-model="user"
+              :rules="[rules.required, rules.min]"
             />
             <v-text-field
               id="password"
@@ -29,6 +30,7 @@
               prepend-icon="mdi-lock"
               type="password"
               v-model="password"
+              :rules="[rules.required, rules.min]"
             />
           </v-card-text>
           <v-card-actions>
@@ -39,8 +41,9 @@
             <v-btn
               id="login-btn"
               type="submit"
-              :light="$vuetify.theme.dark"
-              :dark="!$vuetify.theme.dark"
+              :light="$vuetify.theme.dark && valid"
+              :dark="!$vuetify.theme.dark && valid"
+              :disabled="!valid"
               >Login</v-btn
             >
           </v-card-actions>
@@ -51,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Ref } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 import { Credential } from "@/model/credential";
@@ -61,8 +64,13 @@ const notifyStore = namespace("Notify");
 
 @Component
 export default class Login extends Vue {
+  private valid = false;
   private user = "";
   private password = "";
+
+  private rules = {
+    required: ($: string) => !!$ || "Required.",
+  };
 
   @authStore.Getter
   public authStatus!: number;
@@ -73,8 +81,12 @@ export default class Login extends Vue {
   @notifyStore.Action
   public error!: (message: string) => void;
 
-  public handleSubmit() {
-    this.login({ username: this.user, password: this.password });
+  @Ref("loginForm") readonly form!: HTMLFormElement;
+
+  public handleSubmit(): void {
+    if (this.form.validate()) {
+      this.login({ username: this.user, password: this.password });
+    }
   }
 
   private created(): void {
