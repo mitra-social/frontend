@@ -12,9 +12,11 @@
       >
         <v-card flat tile>
           <component
-            :is="getMediaComponent(attach.type)"
-            :url="attach.url"
-            :title="attach.title"
+            :is="getMediaComponent(attach)"
+            :attach="attach"
+            :postIndex="postIndex"
+            :attachIndex="index"
+            :isSingle="getAttachments.length === 1"
           />
         </v-card>
       </v-col>
@@ -29,6 +31,9 @@ import { ActivityObject, Link } from "activitypub-objects";
 import AttachmentImage from "./AttachmentImage.vue";
 import AttachmentSimpleLink from "./AttachmentSimpleLink.vue";
 import { Attachment } from "@/model/attachment";
+import { namespace } from "vuex-class";
+
+const dialogAttachmentsStore = namespace("DialogAttachments");
 
 @Component({
   components: {
@@ -38,6 +43,10 @@ import { Attachment } from "@/model/attachment";
 })
 export default class ActivityStreamsAttachments extends Vue {
   @Prop() readonly attachments!: Array<ActivityObject | URL>;
+  @Prop() readonly postIndex!: number;
+
+  @dialogAttachmentsStore.Action
+  public addAttachmentsAction!: (attachments: any) => void;
 
   get getAttachments(): Attachment[] {
     if (!this.attachments) {
@@ -49,7 +58,7 @@ export default class ActivityStreamsAttachments extends Vue {
       ? this.attachments
       : [this.attachments];
 
-    return normalizedAttachments
+    const attachments = normalizedAttachments
       .map<Attachment | undefined>((param: ActivityObject | URL):
         | Attachment
         | undefined => {
@@ -60,13 +69,19 @@ export default class ActivityStreamsAttachments extends Vue {
         }
 
         if (object.type === "Link") {
-          const href: string = (object as Link).href.toString();
-          return { url: href, type: object.mediaType, title: object.name };
+          const link = object as Link;
+          const href: string = link.href.toString();
+          return {
+            url: href,
+            type: link.mediaType,
+            title: link.name,
+            width: link.width,
+            height: link.height,
+          };
         }
 
         if ((param as ActivityObject).type) {
-          let mediaType = object.mediaType;
-          let url: Link | URL | undefined = !Array.isArray(object.url)
+          const url: Link | URL | undefined = !Array.isArray(object.url)
             ? object.url
             : object.url[0];
 
@@ -75,21 +90,33 @@ export default class ActivityStreamsAttachments extends Vue {
           }
           if (url.href) {
             const link = url as Link;
-            url = link.href;
-            mediaType = link.mediaType;
+            const href: string = link.href.toString();
+            return {
+              url: href,
+              type: link.mediaType,
+              title: link.name,
+              width: link.width,
+              height: link.height,
+            };
           }
 
-          return { url: url.toString(), type: mediaType, title: object.name };
+          return {
+            url: url.toString(),
+            type: object.mediaType,
+            title: object.name,
+          };
         }
 
         return { url: param.toString(), title: object.name };
       })
       .filter((item) => item !== undefined)
       .map((item) => item as Attachment);
+    this.addAttachmentsAction({ index: this.postIndex, attachments });
+    return attachments;
   }
 
-  public getMediaComponent(mediaType: string): string | undefined {
-    if (mediaType && mediaType.startsWith("image/")) {
+  public getMediaComponent(attach: Attachment): string | undefined {
+    if (attach.type && attach.type.startsWith("image/")) {
       return "AttachmentImage";
     }
 

@@ -16,8 +16,9 @@
         "attachment": {
           "mediaType": "image/jpeg",
           "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
-          "type": "Image",
-          "url": "https://picsum.photos/200"
+          "type": "Link",
+          "href": "https://picsum.photos/200",
+          "width": 200
         }
       },
       "actor": {
@@ -42,14 +43,17 @@
           {
             "mediaType": "image/jpeg",
             "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
-            "type": "Image",
-            "url": "https://picsum.photos/400"
+            "type": "Link",
+            "href": "https://picsum.photos/400",
+            "height": 400
           },
           {
             "mediaType": "image/jpeg",
             "name": "Legend of the 5 rings lion clan shogun",
-            "type": "Image",
-            "url": "https://picsum.photos/300"
+            "type": "Link",
+            "href": "https://picsum.photos/300",
+            "width": 300,
+            "height": 300
           }
         ]
       },

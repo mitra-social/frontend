@@ -32,6 +32,7 @@ import { namespace } from "vuex-class";
 import Profile from "@/views/settings/Profile.vue";
 import Password from "@/views/settings/Password.vue";
 import SearchActor from "@/views/home/SearchActor.vue";
+import AttachmentDialog from "@/components/attachment/AttachmentDialog.vue";
 import { DialogSettings } from "@/model/dialog-settings";
 
 const dialogStore = namespace("Dialog");
@@ -41,6 +42,7 @@ const dialogStore = namespace("Dialog");
     Profile,
     Password,
     SearchActor,
+    AttachmentDialog,
   },
 })
 export default class MitraDialog extends Vue {

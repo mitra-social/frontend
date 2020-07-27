@@ -36,6 +36,7 @@
                     !Array.isArray(post.attachment))
                 "
                 :attachments="post.attachment"
+                :postIndex="index"
               />
             </v-card-text>
             <v-divider class="mx-4"></v-divider>
