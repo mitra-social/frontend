@@ -49,10 +49,11 @@ class Authentication extends VuexModule {
 
   @Action({ rawError: true })
   public async createUser(user: CreateUser): Promise<void> {
-    return await client.createUser(user)
-      .then(() => this.context.dispatch("Notify/success", "Signup new user success.", {
+    return await client.createUser(user).then(() =>
+      this.context.dispatch("Notify/success", "Signup new user success.", {
         root: true,
-      }));
+      })
+    );
   }
 }
 export default Authentication;
