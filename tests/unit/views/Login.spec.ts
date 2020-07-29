@@ -7,7 +7,7 @@ import flushPromises from "flush-promises";
 import store from "@/store";
 import router from "@/router";
 import Login from "@/views/Login.vue";
-import { User } from '@/model/user';
+import { User } from "@/model/user";
 import * as userData from "@/api-client/mock/data/user.json";
 
 const localVue = createLocalVue();
