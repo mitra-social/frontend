@@ -163,7 +163,7 @@ export default class MitraPosts extends Vue {
     } else {
       AuthenticationUtil.clear();
       this.error("Authentication is incorrect");
-      router.push("/login");
+      router.push({ name: "Login" });
     }
   }
 

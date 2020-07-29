@@ -19,7 +19,7 @@ describe("Login.vue", () => {
     vuetify = new Vuetify();
 
     if (router.currentRoute.path !== "/login") {
-      router.push({ name: "login" });
+      router.push({ name: "Login" });
     }
   });
 

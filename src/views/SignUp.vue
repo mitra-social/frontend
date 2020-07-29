@@ -131,7 +131,7 @@ export default class SignUp extends Vue {
         email: this.email,
         password: this.password,
       })
-        .then(() => this.$router.push({ name: "login" }))
+        .then(() => this.$router.push({ name: "Login" }))
         .catch((error: Error) => {
           this.alertMsg = error.message;
         });
