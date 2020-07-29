@@ -62,7 +62,7 @@
             />
           </v-card-text>
           <v-card-actions>
-            <v-btn id="login" text x-small link :to="{ name: 'login' }">
+            <v-btn id="login" text x-small link :to="{ name: 'Login' }">
               You already have an account? Sign in now!
             </v-btn>
             <v-spacer />
