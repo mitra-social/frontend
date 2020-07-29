@@ -8,10 +8,11 @@
   >
     <v-text-field
       label="Preferred username"
-      name="user"
+      name="preferredUsername"
       prepend-icon="mdi-account"
       type="text"
       v-model="user.preferredUsername"
+      :rules="[rules.usernameMin]"
     />
     <v-text-field
       label="E-mail address"
@@ -74,7 +75,6 @@ export default class Profile extends Vue {
     usernameMin: ($: string) =>
       $.length >= 5 ||
       "This value is too short. It should have 5 characters or more.",
-    min: ($: string) => $.length >= 8 || "Min 8 characters.",
     emailRules: ($: string) => /.+@.+\..+/.test($) || "E-mail must be valid.",
   };
 
