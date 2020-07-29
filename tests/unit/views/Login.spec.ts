@@ -7,6 +7,8 @@ import flushPromises from "flush-promises";
 import store from "@/store";
 import router from "@/router";
 import Login from "@/views/Login.vue";
+import { User } from '@/model/user';
+import * as userData from "@/api-client/mock/data/user.json";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -16,6 +18,8 @@ describe("Login.vue", () => {
   let vuetify: any;
   const username = "john.doe";
   const password = "123";
+  // eslint-disable-next-line
+  const user = (userData as any) as User
 
   beforeEach(async () => {
     vuetify = new Vuetify();
@@ -23,6 +27,8 @@ describe("Login.vue", () => {
     if (router.currentRoute.path !== "/login") {
       router.push({ name: "Login" });
     }
+
+    store.state.User.user = user;
     await flushPromises();
   });
 
