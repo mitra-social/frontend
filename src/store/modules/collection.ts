@@ -58,6 +58,48 @@ function normalizedCollection(
   );
 }
 
+function normalizedAttachment(
+  items: (ActivityObject | Link | URL | undefined)[]
+): Promise<(ActivityObject | Link | URL | undefined)[]> {
+  return Promise.all(
+    items
+      .filter($ => !!$)
+      .map(async (item: ActivityObject | Link | URL | undefined) => {
+        const attachments: (ActivityObject | Link | URL)[] = [];
+
+        const activity = item as Activity;
+        if (activity.object) {
+          const object = (activity.object as ActivityObject);
+          if (object.attachment) {
+            if (Array.isArray(object.attachment)) {
+              attachments.concat(object);
+            } else {
+              attachments.push(object.attachment)
+            }
+            (item as ActivityObject).attachment = attachments
+              .filter(($: ActivityObject | Link | URL) => !!$)
+              .map(($: ActivityObject | Link | URL) => ActivityObjectHelper.extractAttachmentLink($))
+              .map(($: ActivityObject | Link | URL) => {
+                const l = $ as Link;
+                new Promise(resolve => {
+                  const img = new Image();
+                  img.onload = () => {
+                    l.width = img.naturalWidth;
+                    l.height = img.naturalHeight;
+                    console.log("resolve")
+                    resolve(l);
+                  };
+                  img.src = l.href.toString();
+                });
+                return l;
+              })
+          }
+        }
+        return item;
+      })
+  );
+}
+
 @Module({ namespaced: true })
 class Collection extends VuexModule {
   public items: Array<ActivityObject | Link> = [];
@@ -205,6 +247,9 @@ class Collection extends VuexModule {
       .then((collection: OrderedCollectionPage) =>
         normalizedCollection(collection)
       )
+      .then((items: (ActivityObject | Link | URL | undefined)[]) =>
+        normalizedAttachment(items)
+      )
       .then((items) => this.context.commit("setItems", items))
       .catch((error: Error) =>
         this.context.dispatch("Notify/error", error.message, { root: true })
@@ -229,7 +274,10 @@ class Collection extends VuexModule {
       .then((collection: OrderedCollectionPage) =>
         normalizedCollection(collection)
       )
-      .then((items) => {
+      .then((items: (ActivityObject | Link | URL | undefined)[]) =>
+        normalizedAttachment(items)
+      )
+      .then((items: (ActivityObject | Link | URL | undefined)[]) => {
         this.context.commit("addItems", items);
       })
       .catch((error: Error) => {

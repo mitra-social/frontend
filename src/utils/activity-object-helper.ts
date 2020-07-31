@@ -1,7 +1,7 @@
 import {
   ActivityObject,
   Link,
-  Image,
+  Image as AcitvityPubImage,
   Actor,
   Activity,
 } from "activitypub-objects";
@@ -117,8 +117,8 @@ export class ActivityObjectHelper {
 
     if ((icon as Link).href) {
       return (icon as Link).href.toString();
-    } else if ((icon as Image).url) {
-      return (icon as Image).url.toString();
+    } else if ((icon as AcitvityPubImage).url) {
+      return (icon as AcitvityPubImage).url.toString();
     }
 
     return undefined;
@@ -141,4 +141,56 @@ export class ActivityObjectHelper {
 
     return object;
   }
+
+  public static extractAttachmentLink(object: ActivityObject | Link | URL | (Link | URL)[]): Link {
+    const link = object as Link;
+    console.log("extract")
+    console.log(link)
+
+    if (link.mediaType && link.mediaType.startsWith("image/")) {
+      let imgLink = ""
+      const activityObject = object as ActivityObject;
+
+      if (activityObject.url) {
+        const urlLink = (activityObject.url as Link);
+
+        if (urlLink.href) {
+          imgLink = urlLink.href.toString();
+        } else {
+          imgLink = activityObject.url.toString();
+        }
+      } else if (link.href) {
+        imgLink = link.href.toString();
+      }
+
+      link.href = new URL(imgLink);
+      // const img = new Image();
+
+      console.log("--------------->")
+
+      // ActivityObjectHelper.getImageSize(link).then($ => link = $)
+
+      // img.onload = () => {
+      //   console.log("image onload")
+      //   link.width = img.naturalWidth;
+      //   link.height = img.naturalHeight;
+      // };
+      console.log("call img src")
+      // img.src = link.href.toString();
+    }
+    return link;
+  }
+
+  public static async getImageSize(link: Link): Promise<Link> {
+    return await new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => {
+        link.width = img.naturalWidth;
+        link.height = img.naturalHeight;
+        console.log("resolve")
+        resolve(link);
+      };
+      img.src = link.href.toString();
+    });
+  };
 }
