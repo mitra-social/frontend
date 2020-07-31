@@ -26,6 +26,11 @@ class DialogAttachmentsStore extends VuexModule {
   }
 
   @Mutation
+  public setAttachments(map: Map<number, Attachment[]>): void {
+    this.attachments = map;
+  }
+
+  @Mutation
   public addAttachments({ index, attachments }: any): void {
     this.attachments.set(index, attachments);
   }
@@ -44,6 +49,13 @@ class DialogAttachmentsStore extends VuexModule {
   @Action
   public addAttachmentsAction(image: any): void {
     this.context.commit("addAttachments", image);
+  }
+
+  @Action
+  public reset(): void {
+    this.context.commit("setSelectedAttachment", 0);
+    this.context.commit("setSelectedAttachments", 0);
+    this.context.commit("setAttachments", new Map());
   }
 }
 export default DialogAttachmentsStore;

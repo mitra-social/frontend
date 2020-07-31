@@ -49,10 +49,17 @@ export default class AttachmentDialog extends Vue {
   @dialogAttachmentsStore.Getter
   public getSelectedAttachments!: Attachment[];
 
+  @dialogAttachmentsStore.Action
+  public reset!: () => void;
+
   get images(): Attachment[] {
-    return this.getSelectedAttachments.filter(
-      ($) => $.type && $.type.startsWith("image/")
-    );
+    return this.getSelectedAttachments.filter(($) => {
+      return $.type && $.type.startsWith("image/");
+    });
+  }
+
+  private destroyed() {
+    this.reset();
   }
 }
 </script>
