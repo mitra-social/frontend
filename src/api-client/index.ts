@@ -26,7 +26,8 @@ export interface ApiClient {
   fetchPosts(
     token: string,
     user: string,
-    page: number
+    page: number,
+    filter?: string
   ): Promise<OrderedCollectionPage>;
   writeToOutbox(
     token: string,

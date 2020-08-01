@@ -1,84 +1,83 @@
 <template>
-  <v-list-item inactive v-if="following">
-    <v-list-item-avatar>
-      <v-img :src="icon" v-if="icon"></v-img>
-      <v-icon v-else>mdi-account-circle</v-icon>
-    </v-list-item-avatar>
-    <v-list-item-content>
-      <v-list-item-title v-html="name"></v-list-item-title>
-    </v-list-item-content>
-    <v-list-item-action>
-      <v-btn
-        id="remove-exclude-actor-btn"
-        class="following-btn"
-        icon
-        v-if="!following.show"
-        @click="toggleExcludeActor(following, false)"
-      >
-        <v-icon>mdi-eye-off</v-icon>
-      </v-btn>
-      <v-btn
-        id="add-exclude-actor-btn"
-        class="following-btn"
-        icon
-        v-else
-        @click="toggleExcludeActor(following, true)"
-      >
-        <v-icon>mdi-eye</v-icon>
-      </v-btn>
-    </v-list-item-action>
+  <v-list-item
+    v-if="actor"
+    link
+    @click="filter(actor, disabledFilter)"
+    @mouseover="isHover = true"
+    @mouseleave="isHover = false"
+    v-model="disabledFilter"
+  >
+    <template v-slot:default="{ active }">
+      <v-list-item-avatar>
+        <v-img :src="icon" v-if="icon"></v-img>
+        <v-icon v-else>mdi-account-circle</v-icon>
+      </v-list-item-avatar>
+      <v-list-item-content>
+        <v-list-item-title
+          class="d-flex flex-row justify-space-between align-center"
+        >
+          <div>
+            {{ name }}
+          </div>
+          <div class="item-action d-flex flex-row justify-end align-center">
+            <v-icon v-if="active && !isHover">mdi-filter-outline</v-icon
+            ><v-icon v-if="active && isHover">mdi-filter-remove-outline</v-icon
+            ><v-icon v-if="!active && isHover">mdi-filter-plus-outline</v-icon>
+            <v-btn class="following-btn" icon @click.stop="unfollow(actor)">
+              <v-icon>mdi-account-remove</v-icon>
+            </v-btn>
+          </div>
+        </v-list-item-title>
+      </v-list-item-content>
+    </template>
   </v-list-item>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { ActivityObject } from "activitypub-objects";
-import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-
-import client from "apiClient";
-import { Following } from "@/model/following";
 import { namespace } from "vuex-class";
 
+import client from "apiClient";
+import { User } from "@/model/user";
+import { ActivityObjectHelper } from "@/utils/activity-object-helper";
+import { Actor } from "activitypub-objects";
+
 const collectionStore = namespace("Collection");
+const followingStore = namespace("Following");
 
 @Component
 export default class FollowingActor extends Vue {
-  @Prop() readonly following!: Following;
+  @Prop() readonly actor!: User;
+  public value = undefined;
+  public disabledFilter = false;
+  public isHover = false;
 
   get name(): string | undefined {
-    return ActivityObjectHelper.extractActorName(
-      this.following.actor as ActivityObject
-    );
+    return ActivityObjectHelper.extractActorName(this.actor);
   }
 
   get icon(): string | undefined {
     const originalIconUri = ActivityObjectHelper.extractIcon(
-      this.following.actor as ActivityObject
+      this.actor as User
     );
     return client.getMedia(originalIconUri);
   }
 
   @collectionStore.Action
-  public addExcludeActor!: (actorId: string) => void;
+  public filterAction!: (filter: string) => void;
 
   @collectionStore.Action
-  public removeActorFromExclude!: (actorId: string) => void;
+  public clearfilterAction!: () => void;
 
-  private toggleExcludeActor(following: Following, isAdd: boolean) {
-    const id = ActivityObjectHelper.extractId(following.actor);
+  @followingStore.Action
+  public unfollow!: (actor: Actor) => Promise<void>;
 
-    if (!id) {
-      return;
+  public filter(actor: User, disabledFilter: boolean) {
+    if (disabledFilter) {
+      this.clearfilterAction();
+    } else {
+      this.filterAction(actor.internalUserId);
     }
-
-    if (isAdd) {
-      this.addExcludeActor(id);
-      following.show = false;
-      return;
-    }
-
-    this.removeActorFromExclude(id);
-    following.show = true;
   }
 }
 </script>
@@ -100,6 +99,14 @@ export default class FollowingActor extends Vue {
 
 .v-list-item__avatar {
   margin: 0;
+}
+
+.item-action {
+  width: 55px;
+
+  .v-icon.v-icon {
+    font-size: 20px;
+  }
 }
 
 .v-icon.v-icon {

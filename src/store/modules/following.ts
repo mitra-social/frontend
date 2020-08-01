@@ -3,20 +3,19 @@ import {
   ActivityObject,
   Link,
   CollectionPage,
-  Actor,
   ActivityType,
 } from "activitypub-objects";
 
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Following } from "@/model/following";
+import { User } from "@/model/user";
 
 @Module({ namespaced: true })
 class FollowingStore extends VuexModule {
-  private following: Following[] = [];
+  private following: User[] = [];
 
-  get getFollowing(): Following[] {
+  get getFollowing(): User[] {
     return this.following;
   }
 
@@ -25,28 +24,23 @@ class FollowingStore extends VuexModule {
     return (actor: ActivityObject): boolean => {
       return following.some(
         ($) =>
-          ActivityObjectHelper.extractId($.actor) ===
+          ActivityObjectHelper.extractId($) ===
           ActivityObjectHelper.extractId(actor)
       );
     };
   }
 
   @Mutation
-  public setFollowing(actors: Actor[]): void {
+  public setFollowing(actors: User[]): void {
     if (actors) {
-      this.following = [];
-
-      actors.forEach(($) => {
-        const f = { actor: $, show: true };
-        this.following.push(f);
-      });
+      this.following = actors;
     }
   }
 
   @Mutation
-  public addFollowing(actor: ActivityObject | Link): void {
+  public addFollowing(actor: User): void {
     if (this.following) {
-      this.following.push({ actor, show: true });
+      this.following.push(actor);
     }
   }
 
@@ -55,7 +49,7 @@ class FollowingStore extends VuexModule {
     if (this.following) {
       this.following = this.following.filter(($) => {
         return (
-          ActivityObjectHelper.extractId($.actor) !==
+          ActivityObjectHelper.extractId($) !==
           ActivityObjectHelper.extractId(actor)
         );
       });
@@ -76,7 +70,7 @@ class FollowingStore extends VuexModule {
               !ActivityObjectHelper.hasProperty(item, "name") &&
               !ActivityObjectHelper.hasProperty(item, "nameMap")
             ) {
-              const url = (item as Actor).id;
+              const url = (item as User).id;
 
               if (url) {
                 return await client
@@ -102,7 +96,7 @@ class FollowingStore extends VuexModule {
   }
 
   @Action
-  public async follow(actor: Actor): Promise<void> {
+  public async follow(actor: User): Promise<void> {
     const objectFollow = ActivityObjectHelper.normalizedObjectFollow(actor);
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
@@ -129,7 +123,7 @@ class FollowingStore extends VuexModule {
   }
 
   @Action
-  public async unfollow(actor: Actor): Promise<void> {
+  public async unfollow(actor: User): Promise<void> {
     const objectFollow = ActivityObjectHelper.normalizedObjectFollow(actor);
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";

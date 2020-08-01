@@ -3,8 +3,8 @@ import {
   CollectionPage,
   toJSON,
   ActivityObject,
-  Actor,
   Activity,
+  Actor,
 } from "activitypub-objects";
 
 import { User } from "@/model/user";
@@ -41,6 +41,8 @@ variables
 let userPassword = "123";
 let user: User;
 let fetchPostCount = 0;
+let postPage = 0;
+let postFilter: string | undefined = undefined;
 let following: CollectionPage | undefined;
 let followers: CollectionPage | undefined;
 
@@ -120,14 +122,12 @@ export default {
 
     return returnResult(token, userName, fetch(user)) as Promise<User>;
   },
-  async getActor(url: string): Promise<Actor> {
+  async getActor(url: string): Promise<User> {
     console.info(`getActor => url: ${url}`);
     // eslint-disable-next-line
     const actors = actorsData.default as any;
-    const actor = (actors as Actor[]).find(
-      ($) => $ && $.id?.toString() === url
-    );
-    return (await fetch(actor)) as Promise<Actor>;
+    const actor = (actors as User[]).find(($) => $ && $.id?.toString() === url);
+    return (await fetch(actor)) as Promise<User>;
   },
   async fetchFollowing(
     token: string,
@@ -142,7 +142,6 @@ export default {
       // eslint-disable-next-line
       following = (followingUserData.default as any) as CollectionPage;
     }
-
     return returnResult(token, userName, fetch(following)) as Promise<
       CollectionPage
     >;
@@ -167,28 +166,63 @@ export default {
   async fetchPosts(
     token: string,
     userName: string,
-    page: number
+    page: number,
+    filter?: string
   ): Promise<OrderedCollectionPage> {
-    let data = fetch(collectionPageOneData.default);
-    fetchPostCount++;
-    console.info(
-      `fetchPosts => fetch count: ${fetchPostCount}, token: ${token}, userName: ${userName}, page: ${page}`
+    let data: OrderedCollectionPage = Object.assign(
+      {},
+      // eslint-disable-next-line
+      (collectionPageOneData.default as any) as OrderedCollectionPage
     );
 
     if (fetchPostCount > 1) {
-      data = fetch(collectionSecondFetchData.default);
       fetchPostCount = 0;
+    }
+    if (postPage === page && postFilter === filter) {
+      fetchPostCount++;
+    }
+
+    console.info(
+      `fetchPosts => fetch count: ${fetchPostCount}, token: ${token}, userName: ${userName}, page: ${page}, filter: ${filter}`
+    );
+
+    if (fetchPostCount > 1) {
+      // eslint-disable-next-line
+      data = Object.assign({}, collectionSecondFetchData.default as any as OrderedCollectionPage);
     }
 
     if (page === 1) {
-      data = fetch(collectionPageTwoData.default);
+      // eslint-disable-next-line
+      data = Object.assign({}, collectionPageTwoData.default as any as OrderedCollectionPage);
       await delay(NEXT_PAGE_DELAY);
     }
 
     if (page === 2) {
       return await error("Not found");
     }
-    return returnResult(token, userName, data) as Promise<
+
+    if (filter) {
+      const items = data.orderedItems.filter(($) => {
+        const page2Actors = [
+          "http://sally.example.org",
+          "http://johnny.example.org",
+          "http://john.example.org",
+        ];
+        const object = $ as Activity;
+        const actor = object.actor as User;
+
+        if (!page2Actors.some(($) => $ === actor.id?.toString())) {
+          delete data.next;
+        }
+        return actor.internalUserId === filter;
+      });
+      console.log(items);
+      postPage = page;
+      postFilter = filter;
+      data.orderedItems = items;
+    }
+
+    return returnResult(token, userName, fetch(data)) as Promise<
       OrderedCollectionPage
     >;
   },
