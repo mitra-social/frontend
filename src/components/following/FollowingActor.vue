@@ -7,29 +7,28 @@
     @mouseleave="isHover = false"
     v-model="disabledFilter"
   >
-    <template v-slot:default="{ active }">
-      <v-list-item-avatar>
-        <v-img :src="icon" v-if="icon"></v-img>
-        <v-icon v-else>mdi-account-circle</v-icon>
-      </v-list-item-avatar>
-      <v-list-item-content>
-        <v-list-item-title
-          class="d-flex flex-row justify-space-between align-center"
-        >
-          <div>
-            {{ name }}
-          </div>
-          <div class="item-action d-flex flex-row justify-end align-center">
-            <v-icon v-if="active && !isHover">mdi-filter-outline</v-icon
-            ><v-icon v-if="active && isHover">mdi-filter-remove-outline</v-icon
-            ><v-icon v-if="!active && isHover">mdi-filter-plus-outline</v-icon>
-            <v-btn class="following-btn" icon @click.stop="unfollow(actor)">
-              <v-icon>mdi-account-remove</v-icon>
-            </v-btn>
-          </div>
-        </v-list-item-title>
-      </v-list-item-content>
-    </template>
+    <v-list-item-avatar>
+      <v-img :src="icon" v-if="icon"></v-img>
+      <v-icon v-else>mdi-account-circle</v-icon>
+    </v-list-item-avatar>
+    <v-list-item-content>
+      <v-list-item-title
+        class="d-flex flex-row justify-space-between align-center"
+      >
+        <div>{{ name }}</div>
+        <div class="item-action d-flex flex-row justify-end align-center">
+          <v-icon v-if="disabledFilter && !isHover">mdi-filter-outline</v-icon
+          ><v-icon v-if="disabledFilter && isHover"
+            >mdi-filter-remove-outline</v-icon
+          ><v-icon v-if="!disabledFilter && isHover"
+            >mdi-filter-plus-outline</v-icon
+          >
+          <v-btn class="following-btn" icon @click.stop="unfollow(actor)">
+            <v-icon>mdi-account-remove</v-icon>
+          </v-btn>
+        </div>
+      </v-list-item-title>
+    </v-list-item-content>
   </v-list-item>
 </template>
 

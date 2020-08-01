@@ -65,16 +65,29 @@ class FollowingStore extends VuexModule {
       .fetchFollowing(token, user, 0)
       .then((collection: CollectionPage) => {
         return Promise.all(
-          collection.items.map(async (item: ActivityObject | Link | URL) => {
-            if (
-              !ActivityObjectHelper.hasProperty(item, "name") &&
-              !ActivityObjectHelper.hasProperty(item, "nameMap")
-            ) {
-              const url = (item as User).id;
+          collection.items
+            .filter(($) => !!$)
+            .map(async (item: ActivityObject | Link | URL) => {
+              let id;
 
-              if (url) {
+              const activityObject = item as ActivityObject;
+              if (activityObject.id) {
+                id = activityObject.id;
+              }
+
+              const link = item as Link;
+
+              if (link.href) {
+                id = link.href;
+              }
+
+              if (typeof item === "string") {
+                id = item;
+              }
+
+              if (id) {
                 return await client
-                  .fediverseGetActor(url.toString())
+                  .fediverseGetActor(id.toString())
                   .then(($) => {
                     if ($) {
                       item = $;
@@ -84,10 +97,7 @@ class FollowingStore extends VuexModule {
                   .catch(() => Promise.resolve(undefined));
               }
               return item;
-            } else {
-              return item;
-            }
-          })
+            })
         );
       })
       .then((actors) => {

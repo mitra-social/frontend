@@ -10,6 +10,7 @@ import ActorSummarized from "@/components/actor/ActorSummarized.vue";
 import apiService from "@/api-client/mock/index";
 import collection from "@/api-client/mock/data/collection-page-1.json";
 import { AuthenticationUtil } from "@/utils/authentication-util";
+import { User } from "@/model/user";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -148,7 +149,6 @@ describe("ActorSummarized.vue", () => {
       },
     });
 
-    await flushPromises();
     const followingRemoveIcon = wrapper.find(".mdi-account-remove");
     const followingAddIcon = wrapper.find(".mdi-account-plus");
     expect(followingAddIcon.exists()).toBe(false);
@@ -165,48 +165,43 @@ describe("ActorSummarized.vue", () => {
       },
     });
 
-    await flushPromises();
     const followingRemoveIcon = wrapper.find(".mdi-account-remove");
     const followingAddIcon = wrapper.find(".mdi-account-plus");
     expect(followingAddIcon.exists()).toBe(true);
     expect(followingRemoveIcon.exists()).toBe(false);
   });
 
-  it("User follows an unfollowed actor", async (done) => {
-    const actor = (articles[1] as Activity).actor as URL;
+  it("User follows an unfollowed actor", async () => {
+    const actor = (articles[1] as Activity).actor;
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
       store,
       propsData: {
         actor: {
-          id: actor,
-          to: actor,
+          id: (actor as User).id,
+          to: (actor as User).id,
         },
       },
     });
 
-    await flushPromises().then(async () => {
-      // Check actor is not follwoing
-      let followingAddIcon = wrapper.find(".mdi-account-plus");
-      expect(followingAddIcon.exists()).toBe(true);
+    // Check actor is not follwoing
+    let followingAddIcon = wrapper.find(".mdi-account-plus");
+    expect(followingAddIcon.exists()).toBe(true);
 
-      // // Click following actor
-      const followingButton = wrapper.find(".following-btn");
-      expect(followingButton.exists()).toBe(true);
-      followingButton.trigger("click");
+    // // Click following actor
+    const followingButton = wrapper.find(".following-btn");
+    expect(followingButton.exists()).toBe(true);
+    followingButton.trigger("click");
+    await flushPromises();
 
-      await flushPromises();
-
-      const followingRemoveIcon = wrapper.find(".mdi-account-remove");
-      followingAddIcon = wrapper.find(".mdi-account-plus");
-      expect(followingAddIcon.exists()).toBe(false);
-      expect(followingRemoveIcon.exists()).toBe(true);
-      done();
-    });
+    const followingRemoveIcon = wrapper.find(".mdi-account-remove");
+    followingAddIcon = wrapper.find(".mdi-account-plus");
+    expect(followingAddIcon.exists()).toBe(false);
+    expect(followingRemoveIcon.exists()).toBe(true);
   });
 
-  it("User unfollows a followed actor", () => {
+  it("User unfollows a followed actor", async () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
@@ -216,20 +211,16 @@ describe("ActorSummarized.vue", () => {
       },
     });
 
-    flushPromises().then(async () => {
-      // Check actor is not follwoing
-      const followingRemoveIcon = wrapper.find(".mdi-account-remove");
-      expect(followingRemoveIcon.exists()).toBe(true);
+    // Check actor is not follwoing
+    expect(wrapper.find(".mdi-account-remove").exists()).toBe(true);
 
-      // Click following actor
-      const followingButton = wrapper.find(".following-btn");
-      followingButton.trigger("click");
+    // Click following actor
+    wrapper.find(".following-btn").trigger("click");
 
-      await flushPromises();
-      // Check actor is not follwoing
-      const followingAddIcon = wrapper.find(".mdi-account-plus");
-      expect(followingAddIcon.exists()).toBe(true);
-      expect(followingRemoveIcon.exists()).toBe(false);
-    });
+    await flushPromises();
+    // Check actor is not follwoing
+    const followingAddIcon = wrapper.find(".mdi-account-plus");
+    expect(followingAddIcon.exists()).toBe(true);
+    expect(wrapper.find(".mdi-account-remove").exists()).toBe(false);
   });
 });

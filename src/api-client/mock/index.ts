@@ -216,7 +216,6 @@ export default {
         }
         return actor.internalUserId === filter;
       });
-      console.log(items);
       postPage = page;
       postFilter = filter;
       data.orderedItems = items;
