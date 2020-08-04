@@ -1,5 +1,8 @@
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
-import { Attachment } from '@/model/attachment';
+
+import { Attachment } from "@/model/attachment";
+import { SelectedAttachmentParam } from "@/model/selected-attachment-param";
+import { AddAttachmentsParam } from "@/model/add-attachments-param";
 
 @Module({ namespaced: true })
 class DialogAttachmentsStore extends VuexModule {
@@ -31,12 +34,15 @@ class DialogAttachmentsStore extends VuexModule {
   }
 
   @Mutation
-  public addAttachments({ index, attachments }: any): void {
+  public addAttachments({ index, attachments }: AddAttachmentsParam): void {
     this.attachments.set(index, attachments);
   }
 
   @Action
-  public async setSelectedAttachmentAction({ postIndex, attachIndex }: any): Promise<void> {
+  public async setSelectedAttachmentAction({
+    postIndex,
+    attachIndex,
+  }: SelectedAttachmentParam): Promise<void> {
     this.context.commit("setSelectedAttachments", postIndex);
     this.context.commit("setSelectedAttachment", attachIndex);
   }
@@ -47,8 +53,8 @@ class DialogAttachmentsStore extends VuexModule {
   }
 
   @Action
-  public addAttachmentsAction(image: any): void {
-    this.context.commit("addAttachments", image);
+  public addAttachmentsAction(attachments: AddAttachmentsParam): void {
+    this.context.commit("addAttachments", attachments);
   }
 
   @Action

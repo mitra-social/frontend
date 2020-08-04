@@ -15,7 +15,7 @@ export default class AttachmentSimpleLink extends Vue {
   }
 
   get title(): string {
-    return this.attach.title ?? "Attachment";
+    return this.attach.title ?? this.attach.url;
   }
 }
 </script>

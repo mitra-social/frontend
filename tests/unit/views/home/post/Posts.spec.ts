@@ -18,7 +18,7 @@ Vue.use(Vuetify);
 describe("Posts.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
-  const userName = "john.doe"
+  const userName = "john.doe";
   const mockIntersectDirective = () => {
     return {
       observe: jest.fn(),

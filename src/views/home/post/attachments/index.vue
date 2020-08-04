@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row align="center" justify="center">
+    <v-row align="center" justify="center" v-if="getAttachments">
       <v-col
         v-for="(attach, index) in getAttachments"
         :key="index"
@@ -27,11 +27,12 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { ActivityObject, Link } from "activitypub-objects";
+import { namespace } from "vuex-class";
 
 import AttachmentImage from "./AttachmentImage.vue";
 import AttachmentSimpleLink from "./AttachmentSimpleLink.vue";
 import { Attachment } from "@/model/attachment";
-import { namespace } from "vuex-class";
+import { AddAttachmentsParam } from "@/model/add-attachments-param";
 
 const dialogAttachmentsStore = namespace("DialogAttachments");
 
@@ -42,23 +43,18 @@ const dialogAttachmentsStore = namespace("DialogAttachments");
   },
 })
 export default class ActivityStreamsAttachments extends Vue {
-  @Prop() readonly attachments!: Array<ActivityObject | URL>;
+  @Prop() readonly attachments!: (ActivityObject | Link | URL)[];
   @Prop() readonly postIndex!: number;
 
   @dialogAttachmentsStore.Action
-  public addAttachmentsAction!: (attachments: any) => void;
+  public addAttachmentsAction!: (attachments: AddAttachmentsParam) => void;
 
   get getAttachments(): Attachment[] {
     if (!this.attachments) {
       return [];
     }
-    const normalizedAttachments: Array<ActivityObject | URL> = Array.isArray(
-      this.attachments
-    )
-      ? this.attachments
-      : [this.attachments];
 
-    const attachments = normalizedAttachments
+    const attachments = this.attachments
       .map<Attachment | undefined>((param: ActivityObject | URL):
         | Attachment
         | undefined => {

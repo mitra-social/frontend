@@ -63,36 +63,26 @@ function normalizedAttachment(
 ): Promise<(ActivityObject | Link | URL | undefined)[]> {
   return Promise.all(
     items
-      .filter($ => !!$)
+      .filter(($) => !!$)
       .map(async (item: ActivityObject | Link | URL | undefined) => {
-        const attachments: (ActivityObject | Link | URL)[] = [];
+        let attachments: (ActivityObject | Link | URL)[] = [];
 
         const activity = item as Activity;
         if (activity.object) {
-          const object = (activity.object as ActivityObject);
+          const object = activity.object as ActivityObject;
+
           if (object.attachment) {
             if (Array.isArray(object.attachment)) {
-              attachments.concat(object);
+              attachments = object.attachment;
             } else {
-              attachments.push(object.attachment)
+              attachments.push(object.attachment);
             }
-            (item as ActivityObject).attachment = attachments
+
+            (item as Activity).attachment = attachments
               .filter(($: ActivityObject | Link | URL) => !!$)
-              .map(($: ActivityObject | Link | URL) => ActivityObjectHelper.extractAttachmentLink($))
-              .map(($: ActivityObject | Link | URL) => {
-                const l = $ as Link;
-                new Promise(resolve => {
-                  const img = new Image();
-                  img.onload = () => {
-                    l.width = img.naturalWidth;
-                    l.height = img.naturalHeight;
-                    console.log("resolve")
-                    resolve(l);
-                  };
-                  img.src = l.href.toString();
-                });
-                return l;
-              })
+              .map(($: ActivityObject | Link | URL) =>
+                ActivityObjectHelper.extractAttachmentLink($)
+              );
           }
         }
         return item;
