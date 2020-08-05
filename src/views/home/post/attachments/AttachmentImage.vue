@@ -2,6 +2,7 @@
   <div>
     <v-img
       class="mx-auto"
+      v-if="url"
       :class="isSingle ? 'single-attach' : 'mx-sm-auto'"
       :src="url"
       :lazy-src="url"
