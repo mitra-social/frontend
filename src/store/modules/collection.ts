@@ -78,7 +78,8 @@ function normalizedAttachment(
               attachments.push(object.attachment);
             }
 
-            (item as Activity).attachment = attachments
+            ((item as Activity)
+              .object as ActivityObject).attachment = attachments
               .filter(($: ActivityObject | Link | URL) => !!$)
               .map(($: ActivityObject | Link | URL) =>
                 ActivityObjectHelper.extractAttachmentLink($)

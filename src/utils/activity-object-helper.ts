@@ -147,7 +147,7 @@ export class ActivityObjectHelper {
   ): Link {
     const link = object as Link;
 
-    if (link.mediaType && link.mediaType.startsWith("image/")) {
+    if (link.mediaType) {
       let imgLink = "";
       const activityObject = object as ActivityObject;
 

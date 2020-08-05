@@ -39,7 +39,6 @@ describe("@/views/home/post/attachments/index.vue", () => {
 
   it("Check title of image", async () => {
     const object = articles[0].object as ActivityObject;
-    console.log([object.attachment]);
     await flushPromises();
     const wrapper = mount(ActivityStreamsAttachments, {
       localVue,

@@ -17,8 +17,8 @@ describe("@/views/home/post/attachments/AttachmentImage.vue", () => {
   let articles: Activity[];
 
   beforeEach(() => {
-    articles = collection.orderedItems as Activity[];
     vuetify = new Vuetify();
+    articles = collection.orderedItems as Activity[];
   });
 
   it("Image is rendering", async () => {
