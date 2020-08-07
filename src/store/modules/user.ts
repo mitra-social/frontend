@@ -51,7 +51,7 @@ class UserStore extends VuexModule {
         });
       })
       .catch(() => {
-        this.context.dispatch("Notify/error", "Update user failed.", {
+        this.context.dispatch("Notify/error", "Updating user failed.", {
           root: true,
         });
       });
