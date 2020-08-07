@@ -192,7 +192,7 @@ describe("@/views/settings/Password.vue", () => {
     ).toBe("Required.");
   });
 
-  it("New password not match with confirm password", async () => {
+  it("New password doesn't match with confirmed password", async () => {
     const wrapper = mount(Password, { localVue, vuetify, router, store });
     wrapper.setData(data);
 
