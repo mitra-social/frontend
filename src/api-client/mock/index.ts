@@ -108,25 +108,21 @@ export default {
       return await error("This e-mail is already linked to an user.");
     }
 
-    return await fetch(createUserData.default);
+    return await fetch(createUserData);
   },
   async getUser(token: string, userName: string): Promise<User> {
     console.info(`getUser => token: ${token}, userName: ${userName}`);
 
     if (!user) {
-      // eslint-disable-next-line
-      user = (userData.default as any) as User;
+      user = userData.default as User;
     }
 
     return returnResult(token, userName, fetch(user)) as Promise<User>;
   },
   async getActor(url: string): Promise<Actor> {
     console.info(`getActor => url: ${url}`);
-    // eslint-disable-next-line
-    const actors = actorsData.default as any;
-    const actor = (actors as Actor[]).find(
-      ($) => $ && $.id?.toString() === url
-    );
+    const actors = actorsData.default as Actor[];
+    const actor = actors.find(($) => $ && $.id?.toString() === url);
     return (await fetch(actor)) as Promise<Actor>;
   },
   async fetchFollowing(
@@ -139,8 +135,7 @@ export default {
     );
 
     if (!following) {
-      // eslint-disable-next-line
-      following = (followingUserData.default as any) as CollectionPage;
+      following = followingUserData.default as CollectionPage;
     }
 
     return returnResult(token, userName, fetch(following)) as Promise<
@@ -157,8 +152,7 @@ export default {
     );
 
     if (!followers) {
-      // eslint-disable-next-line
-      followers = (followerPage1Data.default as any) as CollectionPage;
+      followers = followerPage1Data.default as CollectionPage;
     }
     return returnResult(token, userName, fetch(followers)) as Promise<
       CollectionPage
@@ -208,11 +202,8 @@ export default {
     );
 
     if (following && activity.type == "Follow") {
-      // eslint-disable-next-line
-      const actors = actorsData.default as any;
-      const actor = (actors as User[]).find(
-        ($) => $.id?.toString() === activity.to
-      );
+      const actors = actorsData.default as User[];
+      const actor = actors.find(($) => $.id?.toString() === activity.to);
 
       following.items.push(actor as ActivityObject);
     }
@@ -273,8 +264,7 @@ export default {
   // Fediverse
   async fediverseSearchUserId(query: string): Promise<string | undefined> {
     console.info(`fediverseSearchUserId => query: ${query}`);
-    // eslint-disable-next-line
-    const webfingers = (webfingerData.default as any) as Webfinger[];
+    const webfingers = webfingerData.default as Webfinger[];
     const webfinger = webfingers.find(($) =>
       $.subject.endsWith(`acct:${query}`)
     );
@@ -287,9 +277,8 @@ export default {
   },
   async fediverseGetActor(url: string): Promise<Actor> {
     console.info(`fediverseGetActor => url: ${url}`);
-    // eslint-disable-next-line
-    const actors = actorsData.default as any;
-    const actor = (actors as User[]).find(($) => $.id?.toString() === url);
+    const actors = actorsData.default as User[];
+    const actor = actors.find(($) => $.id?.toString() === url);
 
     if (!actor) {
       return Promise.reject("No actor found.");
@@ -299,9 +288,8 @@ export default {
   },
   async fediverseGetUser(url: string): Promise<User> {
     console.info(`fediverseGetUser => url: ${url}`);
-    // eslint-disable-next-line
-    const actors = actorsData.default as any;
-    const actor = (actors as User[]).find(($) => $.id?.toString() === url);
+    const actors = actorsData.default as User[];
+    const actor = actors.find(($) => $.id?.toString() === url);
 
     if (!actor) {
       return Promise.reject("No actor found.");
@@ -346,7 +334,8 @@ export default {
     return Promise.reject("not implemented yet");
   },
   // jest function
-  getJestReset: () => {
+  // eslint-disable-next-line
+  getJestReset(): any {
     if (process.env.NODE_ENV === "test") {
       console.info(
         `getJestReset => fetchPostCount: ${fetchPostCount}, fetchFollowing: ${

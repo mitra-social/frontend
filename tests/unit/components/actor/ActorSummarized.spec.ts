@@ -2,7 +2,13 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { ActivityObject, Link, ActorType, Activity } from "activitypub-objects";
+import {
+  ActivityObject,
+  Link,
+  ActorType,
+  Activity,
+  OrderedCollectionPage,
+} from "activitypub-objects";
 import flushPromises from "flush-promises";
 
 import store from "@/store";
@@ -22,7 +28,9 @@ describe("ActorSummarized.vue", () => {
   beforeEach(async () => {
     const user = "john.doe";
     vuetify = new Vuetify();
-    articles = collection.orderedItems as Array<ActivityObject | Link>;
+    articles = (collection as OrderedCollectionPage).orderedItems as Array<
+      ActivityObject | Link
+    >;
 
     jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue(user);
     jest
