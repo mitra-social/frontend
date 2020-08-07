@@ -68,7 +68,7 @@ class UserStore extends VuexModule {
     await client
       .updatePassword(token, userName, oldPassword, newPassword)
       .then(() =>
-        this.context.dispatch("Notify/success", "Update password success.", {
+        this.context.dispatch("Notify/success", "Password was updated successfully.", {
           root: true,
         })
       )
