@@ -103,7 +103,6 @@ import { PostTypes } from "@/utils/post-types";
   },
 })
 export default class Post extends Vue {
-  private isCommentOpen = false;
   @Prop() post!: ActivityObject | Link;
 
   private getComponent(type: string): PostTypes {

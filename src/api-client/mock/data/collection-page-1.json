@@ -154,13 +154,13 @@
       "type": "Create",
       "id": "http://activities.example.com/5",
       "actor": "http://sally.example.org",
-      "updated": "2020-04-28T17:49:12Z",
-      "published": "2020-04-28T16:12:12Z",
       "object": {
         "summary": "A note",
         "type": "Note",
         "id": "http://notes.example.com/1",
-        "content": "A create note with published and updated datetime"
+        "content": "A create note with published and updated datetime",
+        "updated": "2020-04-28T17:49:12Z",
+        "published": "2020-04-28T16:12:12Z"
       }
     },
     {
