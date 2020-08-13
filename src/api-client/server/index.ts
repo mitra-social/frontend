@@ -144,7 +144,9 @@ export default {
       return uri;
     }
 
-    return `${process.env.VUE_APP_BACKEND_URL}/media/${md5(uri)}`;
+    return `${process.env.VUE_APP_BACKEND_URL}${
+      process.env.VUE_APP_BACKEND_URL?.endsWith("/") ? "" : "/"
+    }media/${md5(uri)}`;
   },
   updateUser(token: string, user: string, updatedUser: User): Promise<void> {
     // TODO: implements
