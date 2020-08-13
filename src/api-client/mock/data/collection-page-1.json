@@ -18,6 +18,37 @@
           "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
           "type": "Image",
           "url": "https://picsum.photos/200"
+        },
+        "inReplyTo": {
+          "type": "Note",
+          "id": "https://godforsaken.website/users/kiki/statuses/104681560039895680",
+          "attachment": [
+            {
+              "mediaType": "image/jpeg",
+              "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
+              "type": "Image",
+              "url": "https://picsum.photos/200"
+            }
+          ],
+          "attributedTo": "https://godforsaken.website/users/kiki",
+          "content": "<p>took the day off yesterday and went to explore Árainn Mhór, an inhabited island off the coast of Donegal, got to see this</p>",
+          "contentMap": [
+            "<p>took the day off yesterday and went to explore Árainn Mhór, an inhabited island off the coast of Donegal, got to see this</p>"
+          ],
+          "published": "2020-08-13T10:17:23Z",
+          "replies": {
+            "type": "Collection",
+            "first": {
+              "type": "CollectionPage",
+              "totalItems": 0,
+              "items": [],
+              "partOf": "https://godforsaken.website/users/kiki/statuses/104681560039895680/replies",
+              "next": "https://godforsaken.website/users/kiki/statuses/104681560039895680/replies?only_other_accounts=true&page=true"
+            },
+            "totalItems": 0,
+            "id": "https://godforsaken.website/users/kiki/statuses/104681560039895680/replies"
+          },
+          "summary": "more irish coastal scenery, sorry..."
         }
       },
       "actor": {

@@ -22,7 +22,7 @@ describe("@/views/home/post/Post.vue", () => {
       .orderedItems as Activity[];
   });
 
-  it("First post is article type", async () => {
+  it("Post is article type", async () => {
     const post = activities[0].object;
     const wrapper = shallowMount(Post, {
       localVue,
@@ -40,7 +40,7 @@ describe("@/views/home/post/Post.vue", () => {
     ).toBe(true);
   });
 
-  it("First post is note type", async () => {
+  it("Post is note type", async () => {
     const post = activities[3].object;
     const wrapper = shallowMount(Post, {
       localVue,
@@ -131,7 +131,7 @@ describe("@/views/home/post/Post.vue", () => {
     expect(wrapper.find("attachments-stub").exists()).toBe(false);
   });
 
-  it("post without attachment will not render an attachment in the post", async () => {
+  it("Post without attachment will not render an attachment in the post", async () => {
     const post = activities[5].object;
     const wrapper = shallowMount(Post, {
       localVue,
@@ -142,5 +142,19 @@ describe("@/views/home/post/Post.vue", () => {
     });
 
     expect(wrapper.find("attachments-stub").exists()).toBe(false);
+  });
+
+  it("Post is repley to", async () => {
+    const post = activities[0].object;
+    const wrapper = shallowMount(Post, {
+      localVue,
+      vuetify,
+      propsData: {
+        post,
+      },
+    });
+
+    expect(wrapper.find("v-expansion-panel-stub").exists()).toBe(true);
+    expect(wrapper.find("post-stub").exists()).toBe(true);
   });
 });
