@@ -9,8 +9,12 @@
         <v-expansion-panel>
           <v-expansion-panel-header
             color="grey lighten-4 grey--text text--darken-1"
-            >View post that would be replied to</v-expansion-panel-header
           >
+            <div class="d-flex flex-row align-baseline">
+              <v-icon color="grey">mdi-reply</v-icon>
+              <span>View post that has been replied to</span>
+            </div>
+          </v-expansion-panel-header>
           <v-expansion-panel-content
             class="in-reply-to-expansion-content"
             color="grey lighten-4"
