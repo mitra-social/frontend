@@ -64,7 +64,7 @@
                 {{ getFollowingCollectionCount }} Follows
               </v-btn>
             </div>
-            <FollowingFollowerList
+            <ActorList
               v-if="isFollowerActive"
               :actors="getFollowers"
               :isLoading="isFollowersLoading"
@@ -72,7 +72,7 @@
               @nextPage="nextFollowersPage()"
               @detail="detail($event)"
             />
-            <FollowingFollowerList
+            <ActorList
               v-if="isFollowingActive"
               :actors="getFollowing"
               :isLoading="isFollowingLoading"
@@ -93,7 +93,7 @@ import { namespace } from "vuex-class";
 import { ActivityObject, Link } from "activitypub-objects";
 
 import FollowingActor from "@/components/following/FollowingActor.vue";
-import FollowingFollowerList from "@/components/following/FollowingFollowerList.vue";
+import ActorList from "@/components/actor/ActorList.vue";
 import SummarizedActor from "@/components/actor/ActorSummarized.vue";
 import { User } from "@/model/user";
 import { FetchFollowParam } from "@/model/fetch-follow-param";
@@ -104,10 +104,10 @@ const findUserStore = namespace("FindUser");
   components: {
     FollowingActor,
     SummarizedActor,
-    FollowingFollowerList,
+    ActorList,
   },
 })
-export default class SearchActor extends Vue {
+export default class SearchRemoteActor extends Vue {
   public tab = "";
   public isFollowerActive = false;
   public isFollowingActive = false;

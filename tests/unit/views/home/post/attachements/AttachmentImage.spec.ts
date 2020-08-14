@@ -1,6 +1,10 @@
 import Vue from "vue";
 import Vuetify from "vuetify";
-import { ActivityObject, Activity, Link } from "activitypub-objects";
+import {
+  ActivityObject,
+  Activity,
+  OrderedCollectionPage,
+} from "activitypub-objects";
 
 import { mount, createLocalVue } from "@vue/test-utils";
 
@@ -17,6 +21,8 @@ describe("@/views/home/post/attachments/AttachmentImage.vue", () => {
   let articles: Activity[];
 
   beforeEach(() => {
+    articles = (collection as OrderedCollectionPage)
+      .orderedItems as ActivityObject[];
     vuetify = new Vuetify();
     articles = collection.orderedItems as Activity[];
   });

@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { Activity } from "activitypub-objects";
+import { Activity, OrderedCollectionPage } from "activitypub-objects";
 
 import collection from "@/api-client/mock/data/collection-page-1.json";
 import ActivityStreamsTextType from "@/views/home/post/text-type/ActivityStreamsTextType.vue";
@@ -17,7 +17,8 @@ describe("ActivityStreamsTextType.vue", () => {
 
   beforeEach(() => {
     vuetify = new Vuetify();
-    const articles = collection.orderedItems as Activity[];
+    const articles = (collection as OrderedCollectionPage)
+      .orderedItems as Activity[];
     article = articles[1];
   });
 

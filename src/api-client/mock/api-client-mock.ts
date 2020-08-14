@@ -2,6 +2,6 @@ import { ApiClient } from "..";
 
 export interface ApiClientMocke extends ApiClient {
   // eslint-disable-next-line
-  getJestReset: any;
+  getJestReset(): any;
   getPassword(): string;
 }

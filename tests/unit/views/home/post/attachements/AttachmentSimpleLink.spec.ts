@@ -1,6 +1,11 @@
 import Vue from "vue";
 import Vuetify from "vuetify";
-import { ActivityObject, Activity, Link } from "activitypub-objects";
+import {
+  ActivityObject,
+  Activity,
+  Link,
+  OrderedCollectionPage,
+} from "activitypub-objects";
 
 import { createLocalVue, shallowMount } from "@vue/test-utils";
 
@@ -16,7 +21,8 @@ describe("@/views/home/post/attachments/AttachmentSimpleLink.vue", () => {
   let articles: Activity[];
 
   beforeEach(() => {
-    articles = collection.orderedItems as Activity[];
+    articles = (collection as OrderedCollectionPage)
+      .orderedItems as ActivityObject[];
     vuetify = new Vuetify();
   });
 
