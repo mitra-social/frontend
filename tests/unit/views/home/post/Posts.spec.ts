@@ -130,4 +130,16 @@ describe("@/views/home/post/Posts.vue", () => {
       "You haven't got any posts yet because"
     );
   });
+
+  it("No user was found and therefore no posts can be displayed", async () => {
+    store.state.User.user = undefined;
+    shallowMount(Posts, {
+      localVue,
+      vuetify,
+      store,
+      directives: { Intersect: mockIntersectDirective },
+    });
+
+    expect(router.currentRoute.path).toBe("/login");
+  });
 });
