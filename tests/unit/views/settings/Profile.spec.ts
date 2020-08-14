@@ -40,7 +40,7 @@ describe("@/views/settings/Password.vue", () => {
     );
     await flushPromises();
 
-    const input = wrapper.find('input[name="user"]');
+    const input = wrapper.find('input[name="preferredUsername"]');
     input.setValue(newName);
     await flushPromises();
 
@@ -48,6 +48,21 @@ describe("@/views/settings/Password.vue", () => {
     await flushPromises();
 
     expect(store.state.User.user.preferredUsername).toBe(newName);
+  });
+
+  it("User name is too short", async () => {
+    const wrapper = mount(Profile, { localVue, vuetify, store });
+    const input = wrapper.find('input[name="preferredUsername"]');
+    input.setValue("foo");
+
+    await flushPromises();
+    expect(
+      wrapper
+        .findAll(".v-input__control")
+        .at(0)
+        .find(".v-messages__message")
+        .text()
+    ).toBe("This value is too short. It should have 5 characters or more.");
   });
 
   it("Update email address", async () => {
