@@ -25,7 +25,7 @@ describe("SignUp.vue", () => {
   beforeEach(() => {
     vuetify = new Vuetify();
     if (router.currentRoute.path !== "/signup") {
-      router.push({ name: "signup" });
+      router.push({ name: "Signup" });
     }
   });
 

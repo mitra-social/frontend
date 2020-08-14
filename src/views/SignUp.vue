@@ -62,7 +62,7 @@
             />
           </v-card-text>
           <v-card-actions>
-            <v-btn id="login" text x-small link :to="{ name: 'login' }">
+            <v-btn id="login" text x-small link :to="{ name: 'Login' }">
               You already have an account? Sign in now!
             </v-btn>
             <v-spacer />
@@ -131,7 +131,7 @@ export default class SignUp extends Vue {
         email: this.email,
         password: this.password,
       })
-        .then(() => this.$router.push({ name: "login" }))
+        .then(() => this.$router.push({ name: "Login" }))
         .catch((error: Error) => {
           this.alertMsg = error.message;
         });

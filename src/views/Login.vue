@@ -21,7 +21,7 @@
               prepend-icon="mdi-account"
               type="text"
               v-model="user"
-              :rules="[rules.required, rules.min]"
+              :rules="[rules.required]"
             />
             <v-text-field
               id="password"
@@ -30,11 +30,11 @@
               prepend-icon="mdi-lock"
               type="password"
               v-model="password"
-              :rules="[rules.required, rules.min]"
+              :rules="[rules.required]"
             />
           </v-card-text>
           <v-card-actions>
-            <v-btn id="signup-link" text x-small link :to="{ name: 'signup' }">
+            <v-btn id="signup-link" text x-small link :to="{ name: 'Signup' }">
               You don't have an account? Create one now!
             </v-btn>
             <v-spacer />
