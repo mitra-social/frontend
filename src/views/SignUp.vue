@@ -25,7 +25,7 @@
               prepend-icon="mdi-account"
               type="text"
               v-model="user"
-              :rules="[rules.required, rules.usernameMin]"
+              :rules="[rules.required, rules.usernameMin, rules.username]"
             />
             <v-text-field
               label="E-mail address"
@@ -62,7 +62,7 @@
             />
           </v-card-text>
           <v-card-actions>
-            <v-btn id="login" text x-small link :to="{ name: 'login' }">
+            <v-btn id="login" text x-small link :to="{ name: 'Login' }">
               You already have an account? Sign in now!
             </v-btn>
             <v-spacer />
@@ -104,6 +104,9 @@ export default class SignUp extends Vue {
 
   private rules = {
     required: ($: string) => !!$ || "Required.",
+    username: ($: string) =>
+      /^[a-z0-9-_.]+$/.test($) ||
+      "It has characters that are not allowed. Allowed characters are: a-z0-9-_.",
     usernameMin: ($: string) =>
       $.length >= 5 ||
       "This value is too short. It should have 5 characters or more.",
@@ -128,7 +131,7 @@ export default class SignUp extends Vue {
         email: this.email,
         password: this.password,
       })
-        .then(() => this.$router.push({ name: "login" }))
+        .then(() => this.$router.push({ name: "Login" }))
         .catch((error: Error) => {
           this.alertMsg = error.message;
         });

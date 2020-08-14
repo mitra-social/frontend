@@ -28,6 +28,7 @@ describe("Notify.vue", () => {
     const wrapper = mount(Notify, { localVue, vuetify, router, store });
     wrapper.vm.$store.dispatch("Notify/error", msg, { root: true });
     await flushPromises();
+
     flushPromises().then(() => {
       expect(wrapper.find(".v-snack__content").text()).toBe(msg);
       expect(wrapper.find(".v-snack__wrapper").element.classList).toContain(

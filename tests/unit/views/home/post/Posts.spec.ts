@@ -4,6 +4,7 @@ import Vuetify from "vuetify";
 import { createLocalVue, shallowMount } from "@vue/test-utils";
 import flushPromises from "flush-promises";
 
+import "@/plugins/date-fns";
 import store from "@/store";
 import router from "@/router";
 import Posts from "@/views/home/post/Posts.vue";
@@ -17,6 +18,7 @@ Vue.use(Vuetify);
 describe("Posts.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
+  const userName = "john.doe";
   const mockIntersectDirective = () => {
     return {
       observe: jest.fn(),
@@ -35,11 +37,11 @@ describe("Posts.vue", () => {
       userId: "id",
       email: "test@mail.ch",
       registeredAt: new Date(),
-      preferredUsername: "john.doe",
+      preferredUsername: userName,
       inbox: "https://social.example/john.doe/inbox/",
     };
 
-    jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue("john.doe");
+    jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue(userName);
     jest
       .spyOn(AuthenticationUtil, "getToken")
       .mockReturnValue("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi");
@@ -290,6 +292,7 @@ describe("Posts.vue", () => {
     await flushPromises();
     store.state.Collection.items = [];
     await flushPromises();
+    // The information about no existing post is in a class post
     expect(wrapper.findAll(".post").length).toBe(1);
     expect(wrapper.find("v-card-text-stub").text()).toContain(
       "You haven't got any posts yet because"

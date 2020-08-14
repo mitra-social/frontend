@@ -4,7 +4,7 @@ import Vuetify from "vuetify";
 import { mount, createLocalVue } from "@vue/test-utils";
 import flushPromises from "flush-promises";
 
-import FollowingFollowerList from "@/components/following/FollowingFollowerList.vue";
+import ActorList from "@/components/actor/ActorList.vue";
 import store from "@/store";
 import * as followingPage1Data from "@/api-client/mock/data/following-page-1.json";
 import * as followerPage1Data from "@/api-client/mock/data/followers-page-1.json";
@@ -14,7 +14,7 @@ import { OrderedCollectionPage } from "activitypub-objects";
 const localVue = createLocalVue();
 Vue.use(Vuetify);
 
-describe("FollowingActor.vue", () => {
+describe("@/components/actor/ActorList.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
   let followingPage1: OrderedCollectionPage;
@@ -46,7 +46,7 @@ describe("FollowingActor.vue", () => {
   });
 
   it("Count list with following actors", () => {
-    const wrapper = mount(FollowingFollowerList, {
+    const wrapper = mount(ActorList, {
       localVue,
       vuetify,
       store,
@@ -59,7 +59,7 @@ describe("FollowingActor.vue", () => {
   });
 
   it("Following actors has next page", (done) => {
-    const wrapper = mount(FollowingFollowerList, {
+    const wrapper = mount(ActorList, {
       localVue,
       vuetify,
       store,
@@ -89,7 +89,7 @@ describe("FollowingActor.vue", () => {
   });
 
   it("Following actors has not next page", (done) => {
-    const wrapper = mount(FollowingFollowerList, {
+    const wrapper = mount(ActorList, {
       localVue,
       vuetify,
       store,
@@ -119,7 +119,7 @@ describe("FollowingActor.vue", () => {
   });
 
   it("Count list with following actors", () => {
-    const wrapper = mount(FollowingFollowerList, {
+    const wrapper = mount(ActorList, {
       localVue,
       vuetify,
       store,
@@ -132,7 +132,7 @@ describe("FollowingActor.vue", () => {
   });
 
   it("Check first actor", async () => {
-    const wrapper = mount(FollowingFollowerList, {
+    const wrapper = mount(ActorList, {
       localVue,
       vuetify,
       store,
@@ -150,7 +150,7 @@ describe("FollowingActor.vue", () => {
   });
 
   it("List is empty", () => {
-    const wrapper = mount(FollowingFollowerList, {
+    const wrapper = mount(ActorList, {
       localVue,
       vuetify,
       store,
@@ -161,7 +161,7 @@ describe("FollowingActor.vue", () => {
   });
 
   it("Loading is false and the progress bar is inactive", () => {
-    const wrapper = mount(FollowingFollowerList, {
+    const wrapper = mount(ActorList, {
       localVue,
       vuetify,
       store,
@@ -177,7 +177,7 @@ describe("FollowingActor.vue", () => {
   });
 
   it("Loading is true and the progress bar is active", () => {
-    const wrapper = mount(FollowingFollowerList, {
+    const wrapper = mount(ActorList, {
       localVue,
       vuetify,
       store,

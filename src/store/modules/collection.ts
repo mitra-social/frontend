@@ -167,6 +167,7 @@ class Collection extends VuexModule {
   @Action({ rawError: true })
   public async fetchCollection(user: string): Promise<void> {
     this.context.commit("reset");
+    this.context.commit("setLoadMorePostState", true);
 
     const token = AuthenticationUtil.getToken() || "";
     return await client
@@ -182,7 +183,8 @@ class Collection extends VuexModule {
       .then((items) => this.context.commit("setItems", items))
       .catch((error: Error) =>
         this.context.dispatch("Notify/error", error.message, { root: true })
-      );
+      )
+      .finally(() => this.context.commit("setLoadMorePostState", false));
   }
 
   @Action({ rawError: true })

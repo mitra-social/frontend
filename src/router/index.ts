@@ -19,13 +19,13 @@ const routes = [
   },
   {
     path: "/login",
-    name: "login",
+    name: "Login",
     component: Login,
     meta: { title: "Login" },
   },
   {
     path: "/signup",
-    name: "signup",
+    name: "Signup",
     component: SignUp,
     meta: { title: "SignUp" },
   },
@@ -42,7 +42,7 @@ router.beforeEach((to, from, next) => {
   const authRequired = !publicPages.includes(to.path);
 
   if (authRequired && !store.getters["Auth/isAuthenticated"]) {
-    next({ name: "login" });
+    next({ name: "Login" });
   } else if (authRequired && !store.getters["User/isUserFetch"]) {
     store
       .dispatch("User/fetchUser", AuthenticationUtil.getUser())
@@ -50,7 +50,7 @@ router.beforeEach((to, from, next) => {
         next();
       })
       .catch(() => {
-        next({ name: "login", params: { redirectFrom: to.fullPath } });
+        next({ name: "Login", params: { redirectFrom: to.fullPath } });
       });
   } else {
     next();

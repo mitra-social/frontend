@@ -16,7 +16,7 @@ describe("SignUp.vue", () => {
   let vuetify: any;
   const pwd = "test1234";
   const data = {
-    user: "johnny.test",
+    user: "johnny.test_1-2",
     email: "johnny.test@mail.at",
     password: pwd,
     confirmPassword: pwd,
@@ -25,7 +25,7 @@ describe("SignUp.vue", () => {
   beforeEach(() => {
     vuetify = new Vuetify();
     if (router.currentRoute.path !== "/signup") {
-      router.push({ name: "signup" });
+      router.push({ name: "Signup" });
     }
   });
 
@@ -63,6 +63,34 @@ describe("SignUp.vue", () => {
     await flushPromises();
     expect(wrapper.find(".v-messages__message").text()).toBe(
       "This value is too short. It should have 5 characters or more."
+    );
+  });
+
+  it("Value for field `username` has no allowed uppercase alphabetic character", async () => {
+    const wrapper = mount(SignUp, { localVue, vuetify, router, store });
+
+    wrapper.setData(data);
+
+    await flushPromises();
+    wrapper.find('input[name="user"]').setValue("John.doe");
+
+    await flushPromises();
+    expect(wrapper.find(".v-messages__message").text()).toBe(
+      "It has characters that are not allowed. Allowed characters are: a-z0-9-_."
+    );
+  });
+
+  it("Value for field `username` has no allowed character", async () => {
+    const wrapper = mount(SignUp, { localVue, vuetify, router, store });
+
+    wrapper.setData(data);
+
+    await flushPromises();
+    wrapper.find('input[name="user"]').setValue("john@doe");
+
+    await flushPromises();
+    expect(wrapper.find(".v-messages__message").text()).toBe(
+      "It has characters that are not allowed. Allowed characters are: a-z0-9-_."
     );
   });
 
