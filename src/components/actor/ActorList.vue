@@ -50,7 +50,7 @@ import { User } from "@/model/user";
     SummarizedActor,
   },
 })
-export default class FollowingFollowerList extends Vue {
+export default class ActorList extends Vue {
   @Prop() readonly actors!: (ActivityObject | Link | URL)[];
   @Prop() readonly isLoading!: boolean;
   @Prop() readonly hasNextPage!: boolean;
