@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="image-container">
     <v-img
       class="mx-auto"
       v-if="url"
@@ -72,6 +72,10 @@ export default class AttachmentImage extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+.image-container {
+  cursor: pointer;
+}
+
 .single-attach {
   max-width: 400px;
   margin: auto;
