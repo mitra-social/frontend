@@ -88,7 +88,9 @@ export default {
     page: number,
     filter?: string
   ): Promise<OrderedCollectionPage> {
-    const filterQuery = filter ? `?attributedTo=${filter}` : "";
+    const filterQuery = filter
+      ? `&filter=${encodeURIComponent("attributedTo=" + filter)}`
+      : "";
 
     return await axios
       .get(`${urlPrefix}/user/${user}/inbox?page=${page}${filterQuery}`, {
