@@ -90,7 +90,7 @@ class FollowingStore extends VuexModule {
                   .fediverseGetActor(id.toString())
                   .then(($) => {
                     if ($) {
-                      item = $;
+                      item = Object.assign(item, $);
                     }
                     return item;
                   })

@@ -222,6 +222,7 @@ class Collection extends VuexModule {
       return;
     }
     const user = AuthenticationUtil.getUser() || "";
+    this.context.commit("setPage", 0);
     this.context.commit("setFilter", filter);
     this.context.dispatch("fetchCollection", user);
   }
