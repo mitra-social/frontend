@@ -51,7 +51,7 @@ class UserStore extends VuexModule {
         });
       })
       .catch(() => {
-        this.context.dispatch("Notify/error", "Update user failed.", {
+        this.context.dispatch("Notify/error", "Updating user failed.", {
           root: true,
         });
       });
@@ -68,12 +68,16 @@ class UserStore extends VuexModule {
     await client
       .updatePassword(token, userName, oldPassword, newPassword)
       .then(() =>
-        this.context.dispatch("Notify/success", "Update password success.", {
-          root: true,
-        })
+        this.context.dispatch(
+          "Notify/success",
+          "Password was updated successfully.",
+          {
+            root: true,
+          }
+        )
       )
       .catch(() =>
-        this.context.dispatch("Notify/error", "Update password failed.", {
+        this.context.dispatch("Notify/error", "Updating password failed.", {
           root: true,
         })
       );
