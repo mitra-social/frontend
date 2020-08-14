@@ -130,7 +130,7 @@ export default class MitraHome extends Vue {
   }
 
   public logout(): void {
-    this.$router.push({ name: "login" }).catch(() => {
+    this.$router.push({ name: "Login" }).catch(() => {
       // nothing to do
     });
     AuthenticationUtil.clear();

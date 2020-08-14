@@ -20,21 +20,9 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-
-import { User } from "@/model/user";
-
-const userStore = namespace("User");
 
 @Component
-export default class MitraHeader extends Vue {
-  @userStore.Getter
-  public getUser!: User;
-
-  get icon(): string | undefined {
-    return undefined;
-  }
-}
+export default class MitraHeader extends Vue {}
 </script>
 
 <style lang="scss" scoped>

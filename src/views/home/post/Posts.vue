@@ -6,14 +6,23 @@
           <Post :post="post" v-intersect="onIntersect" :data-index="index" />
         </div>
       </div>
-      <div v-else>
+      <div v-if="getPosts.length < 1 && !getLoadMorePostState">
         <v-card class="post">
           <v-card-title>
             <v-icon class="search-user-icon">mdi-account-search-outline</v-icon>
           </v-card-title>
           <v-card-text>
-            You haven't got any posts yet because you're not following anyone.
-            Look for someone you can follow and enjoy reading.
+            <v-alert
+              class="mt-1"
+              border="bottom"
+              colored-border
+              type="info"
+              elevation="2"
+              icon="mdi-post-outline"
+            >
+              You haven't got any posts yet because you're not following anyone.
+              Look for someone you can follow and enjoy reading.
+            </v-alert>
           </v-card-text>
         </v-card>
       </div>
@@ -36,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import router from "@/router";
 import { namespace } from "vuex-class";
 import { ActivityObject, Link } from "activitypub-objects";
@@ -55,6 +64,13 @@ const notifyStore = namespace("Notify");
   },
 })
 export default class MitraPosts extends Vue {
+  @Watch("getPosts")
+  private watchGetPosts(): void {
+    if (document.getElementById("scroll-target")) {
+      this.$vuetify.goTo("#scroll-target");
+    }
+  }
+
   @userStore.Getter
   public getUser!: User;
 
@@ -86,11 +102,11 @@ export default class MitraPosts extends Vue {
     } else {
       AuthenticationUtil.clear();
       this.error("Authentication is incorrect");
-      router.push("/login");
+      router.push({ name: "Login" });
     }
   }
 
-  private onIntersect(entries: IntersectionObserverEntry[]): void {
+  public onIntersect(entries: IntersectionObserverEntry[]): void {
     if (this.hasNextPage && entries[0].isIntersecting) {
       const target: Element = entries[0].target as Element;
       const index: number = +(target.getAttribute("data-index") ?? 0);

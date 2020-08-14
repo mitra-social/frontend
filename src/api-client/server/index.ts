@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import md5 from "md5";
 import {
   OrderedCollectionPage,
@@ -10,6 +10,7 @@ import {
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
+import router from "@/router";
 import { Credential } from "@/model/credential";
 import { User } from "@/model/user";
 import { CreateUser } from "@/model/create-user";
@@ -24,6 +25,18 @@ const config = {
   },
 };
 
+const catchError = (error: AxiosError): Promise<void> => {
+  if (error.response) {
+    if (error.response.status === 401) {
+      router.push({ name: "Login" });
+      return Promise.reject(
+        new Error("Authentication failed. Please log in again")
+      ) as Promise<void>;
+    }
+  }
+  return Promise.reject(new Error(error.message)) as Promise<void>;
+};
+
 export default {
   async login(credential: Credential): Promise<string> {
     return await axios
@@ -33,7 +46,9 @@ export default {
       });
   },
   async createUser(user: CreateUser) {
-    return await axios.post(`${urlPrefix}/user`, user, config);
+    return await axios
+      .post(`${urlPrefix}/user`, user, config)
+      .catch(catchError);
   },
   async getUser(token: string, user: string): Promise<User> {
     return await axios
@@ -46,7 +61,8 @@ export default {
       })
       .then((resp) => {
         return resp.data;
-      });
+      })
+      .catch(catchError);
   },
   async fetchFollowing(
     token: string,
@@ -63,7 +79,8 @@ export default {
       })
       .then((resp) => {
         return resp.data;
-      });
+      })
+      .catch(catchError);
   },
   async fetchFollowers(
     token: string,
@@ -80,7 +97,8 @@ export default {
       })
       .then((resp) => {
         return resp.data;
-      });
+      })
+      .catch(catchError);
   },
   async fetchPosts(
     token: string,
@@ -98,7 +116,8 @@ export default {
       })
       .then((resp) => {
         return resp.data;
-      });
+      })
+      .catch(catchError);
   },
   async writeToOutbox(
     token: string,
@@ -125,7 +144,7 @@ export default {
       return uri;
     }
 
-    return `${process.env.VUE_APP_BACKEND_URL}/media/${md5(uri)}`;
+    return `${process.env.VUE_APP_BACKEND_HOST}/media/${md5(uri)}`;
   },
   updateUser(token: string, user: string, updatedUser: User): Promise<void> {
     // TODO: implements
