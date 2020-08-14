@@ -125,7 +125,7 @@ export default {
     console.info(`getActor => url: ${url}`);
     const actors = actorsData.default as Actor[];
     const actor = actors.find(($) => $ && $.id?.toString() === url);
-    return (await fetch(actor)) as Promise<Actor>;
+    return await fetch(actor);
   },
   async fetchFollowing(
     token: string,
