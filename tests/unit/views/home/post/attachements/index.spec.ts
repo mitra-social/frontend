@@ -4,6 +4,7 @@ import {
   ActivityObject,
   Activity,
   OrderedCollectionPage,
+  Link,
 } from "activitypub-objects";
 
 import { createLocalVue, shallowMount, mount } from "@vue/test-utils";

@@ -8,7 +8,12 @@ import "@/plugins/global-directives";
 import store from "@/store";
 import collection from "@/api-client/mock/data/collection-page-1.json";
 import flushPromises from "flush-promises";
-import { Activity, ActivityObject, Link } from "activitypub-objects";
+import {
+  Activity,
+  ActivityObject,
+  Link,
+  OrderedCollectionPage,
+} from "activitypub-objects";
 import { Attachment } from "@/model/attachment";
 
 const localVue = createLocalVue();
@@ -22,7 +27,8 @@ describe("@/components/attachment/AttachmentDialog.vue", () => {
 
   beforeEach(async () => {
     vuetify = new Vuetify();
-    articles = collection.orderedItems as Activity[];
+    articles = (collection as OrderedCollectionPage)
+      .orderedItems as ActivityObject[];
 
     const object0 = articles[0].object as ActivityObject;
     const link0 = object0.attachment as Link;

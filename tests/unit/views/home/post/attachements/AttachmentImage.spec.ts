@@ -4,6 +4,7 @@ import {
   ActivityObject,
   Activity,
   OrderedCollectionPage,
+  Link,
 } from "activitypub-objects";
 
 import { mount, createLocalVue } from "@vue/test-utils";
@@ -24,7 +25,6 @@ describe("@/views/home/post/attachments/AttachmentImage.vue", () => {
     articles = (collection as OrderedCollectionPage)
       .orderedItems as ActivityObject[];
     vuetify = new Vuetify();
-    articles = collection.orderedItems as Activity[];
   });
 
   it("Image is rendering", async () => {
