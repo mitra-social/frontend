@@ -41,7 +41,7 @@ describe("FollowingActors.vue", () => {
     await flushPromises();
   });
 
-  it("Find a actor who is already being followed", async () => {
+  it("Find an actor who is already being followed", async () => {
     const wrapper = mount(SearchActor, {
       localVue,
       vuetify,

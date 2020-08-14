@@ -3,7 +3,12 @@ import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
 
-import { Article, ActivityObject, Activity } from "activitypub-objects";
+import {
+  Article,
+  ActivityObject,
+  Activity,
+  OrderedCollectionPage,
+} from "activitypub-objects";
 
 import collection from "@/api-client/mock/data/collection-page-1.json";
 import ActivityStreamsNoteType from "@/views/home/post/text-type/ActivityStreamsNoteType.vue";
@@ -18,7 +23,8 @@ describe("ActivityStreamsNoteType.vue", () => {
 
   beforeEach(() => {
     vuetify = new Vuetify();
-    const articles = collection.orderedItems as ActivityObject[];
+    const articles = (collection as OrderedCollectionPage)
+      .orderedItems as ActivityObject[];
     article = (articles[3] as Activity).object as Article;
   });
 

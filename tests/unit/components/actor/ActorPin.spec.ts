@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { Activity } from "activitypub-objects";
+import { Activity, OrderedCollectionPage } from "activitypub-objects";
 
 import ActorPin from "@/components/actor/ActorPin.vue";
 import collection from "@/api-client/mock/data/collection-page-1.json";
@@ -17,7 +17,9 @@ describe("ActorPin.vue", () => {
 
   beforeEach(() => {
     vuetify = new Vuetify();
-    activities = collection.orderedItems as Array<Activity>;
+    activities = (collection as OrderedCollectionPage).orderedItems as Array<
+      Activity
+    >;
   });
 
   it("Actor is an object with name property", () => {

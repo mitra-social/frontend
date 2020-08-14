@@ -4,7 +4,7 @@ declare module "*.vue" {
 }
 
 declare module "*.json" {
-  const value: { [key: string]: object };
+  const value: unknown;
   export default value;
 }
 

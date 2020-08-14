@@ -107,7 +107,7 @@ const findUserStore = namespace("FindUser");
     FollowingFollowerList,
   },
 })
-export default class SearchActor extends Vue {
+export default class SearchRemoteActor extends Vue {
   public tab = "";
   public isFollowerActive = false;
   public isFollowingActive = false;
