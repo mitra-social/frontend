@@ -10,6 +10,7 @@
       ],
       "type": "Person",
       "id": "http://sally.example.org",
+      "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
       "url": "http://sally.example.org",
       "preferredUsername": "Sally",
       "inbox": "http://sally.example.org/inbox",
@@ -52,6 +53,7 @@
         }
       ],
       "id": "https://example.com/users/fraenki",
+      "internalUserId": "fraenki-8801-4d0a-94f3-30614c740c76",
       "type": "Person",
       "following": "https://example.com/users/fraenki/following",
       "followers": "https://example.com/users/fraenki/followers",
@@ -81,6 +83,7 @@
         "https://w3id.org/security/v1"
       ],
       "id": "http://john.example.org",
+      "internalUserId": "john-8801-4d0a-94f3-30614c740c76",
       "type": "Person",
       "following": "http://john.example.org/following",
       "followers": "http://john.example.org/followers",
@@ -107,6 +110,7 @@
       ],
       "type": "Person",
       "id": "https://example.com/user/giovanni.g",
+      "internalUserId": "giovanni-8801-4d0a-94f3-30614c740c76",
       "url": "https://example.com/user/giovanni.g",
       "preferredUsername": "giovanni.g",
       "inbox": "https://example.com/user/giovanni.g/inbox",

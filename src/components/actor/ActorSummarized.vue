@@ -28,11 +28,11 @@
             class="following-btn"
             icon
             v-if="isFollowing(actor)"
-            @click="onUnfollow()"
+            @click="unfollow(actor)"
           >
             <v-icon>mdi-account-remove</v-icon>
           </v-btn>
-          <v-btn class="following-btn" icon v-else @click.stop="onFollow()">
+          <v-btn class="following-btn" icon v-else @click.stop="follow(actor)">
             <v-icon>mdi-account-plus</v-icon>
           </v-btn>
         </v-list-item-action>
@@ -44,7 +44,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { ActivityObject, Link, Actor } from "activitypub-objects";
+import { ActivityObject, Link } from "activitypub-objects";
 
 import client from "apiClient";
 import { User } from "@/model/user";
@@ -78,23 +78,12 @@ export default class ActorSummarized extends Vue {
   public getUser!: User;
 
   @followingStore.Getter
-  public getFollowing!: Actor[];
-
-  @followingStore.Getter
   public isFollowing!: boolean;
 
   @followingStore.Action
-  public follow!: (actor: Actor) => Promise<void>;
+  public follow!: (actor: User) => Promise<void>;
 
   @followingStore.Action
-  public unfollow!: (actor: Actor) => Promise<void>;
-
-  private onFollow() {
-    this.follow(this.actor as Actor);
-  }
-
-  private onUnfollow() {
-    this.unfollow(this.actor as Actor);
-  }
+  public unfollow!: (actor: User) => Promise<void>;
 }
 </script>
