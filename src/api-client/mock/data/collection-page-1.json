@@ -52,6 +52,7 @@
         }
       },
       "actor": {
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "id": "http://sally.example.org",
         "type": "Person",
         "summary": "Nice persone you know",
@@ -84,7 +85,10 @@
           }
         ]
       },
-      "actor": "http://johnny.example.org"
+      "actor": {
+        "id": "http://johnny.example.org",
+        "internalUserId": "johnny-8801-4d0a-94f3-30614c740c76"
+      }
     },
     {
       "type": "Create",
@@ -124,6 +128,7 @@
       },
       "actor": {
         "id": "http://john.example.org",
+        "internalUserId": "john-8801-4d0a-94f3-30614c740c76",
         "type": "Person",
         "nameMap": {
           "de": "Hans",
@@ -140,7 +145,10 @@
       "summary": "Sally created a note",
       "type": "Create",
       "id": "http://activities.example.com/4",
-      "actor": "http://sally.example.org",
+      "actor": {
+        "id": "http://sally.example.org",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76"
+      },
       "object": {
         "summary": "A note",
         "type": "Note",
@@ -184,7 +192,10 @@
       "summary": "Sally created a note",
       "type": "Create",
       "id": "http://activities.example.com/5",
-      "actor": "http://sally.example.org",
+      "actor": {
+        "id": "http://sally.example.org",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76"
+      },
       "object": {
         "summary": "A note",
         "type": "Note",
@@ -200,6 +211,7 @@
       "actor": {
         "type": "Person",
         "name": "Sally",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "id": "http://sally.example.org"
       },
       "object": "http://example.org/notes/5"
@@ -210,6 +222,7 @@
       "actor": {
         "type": "Person",
         "name": "Sally",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "id": "http://sally.example.org"
       },
       "object": "http://example.org/notes/4",
@@ -236,10 +249,16 @@
         "name": "Memory, time, and technology",
         "content": "Cole has been thrust from another world into ours and he's confronted by the confusion we live in, which most people somehow accept as normal. So he appears abnormal, and what's happening around him seems random and weird. Is he mad or are we?"
       },
-      "actor": "https://example.com/user/giovanni.g"
+      "actor": {
+        "id": "https://example.com/user/giovanni.g",
+        "internalUserId": "giovanni-8801-4d0a-94f3-30614c740c76"
+      }
     },
     {
-      "actor": "https://example.com/users/fraenki",
+      "actor": {
+        "id": "https://example.com/users/fraenki",
+        "internalUserId": "fraenki-8801-4d0a-94f3-30614c740c76"
+      },
       "cc": [
         "https://example.com/users/fraenki/followers"
       ],
@@ -286,7 +305,10 @@
       "type": "Create"
     },
     {
-      "actor": "https://example.com/users/fraenki",
+      "actor": {
+        "id": "https://example.com/users/fraenki",
+        "internalUserId": "fraenki-8801-4d0a-94f3-30614c740c76"
+      },
       "cc": [
         "https://example.com/users/fraenki/followers"
       ],
@@ -356,6 +378,7 @@
       },
       "actor": {
         "id": "http://sally.example.org",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "type": "Person",
         "summary": "Nice persone you know",
         "name": "Sally",
@@ -383,6 +406,7 @@
       },
       "actor": {
         "id": "http://sally.example.org",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "type": "Person",
         "summary": "Nice persone you know",
         "name": "Sally",
@@ -409,6 +433,7 @@
       },
       "actor": {
         "id": "http://sally.example.org",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "type": "Person",
         "summary": "Nice persone you know",
         "name": "Sally",

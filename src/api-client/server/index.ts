@@ -103,14 +103,19 @@ export default {
   async fetchPosts(
     token: string,
     user: string,
-    page: number
+    page: number,
+    filter?: string
   ): Promise<OrderedCollectionPage> {
+    const filterQuery = filter
+      ? `&filter=${encodeURIComponent("attributedTo=" + filter)}`
+      : "";
+
     return await axios
-      .get(`${urlPrefix}/user/${user}/inbox?page=${page}`, {
+      .get(`${urlPrefix}/user/${user}/inbox?page=${page}${filterQuery}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          // eslint - disable - next - line
+          // eslint-disable-next-line
           Authorization: `Bearer ${token}`,
         },
       })
