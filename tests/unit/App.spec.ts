@@ -8,7 +8,7 @@ import "@/plugins/date-fns";
 import store from "@/store";
 import router from "@/router";
 import { AuthenticationUtil } from "@/utils/authentication-util";
-import flushPromises from 'flush-promises';
+import flushPromises from "flush-promises";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -35,32 +35,37 @@ describe("@/views/settings/Password.vue", () => {
     await flushPromises();
   });
 
-  it("App container exists", async () => {
+  it("App container exists", async (done) => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
     expect(wrapper.find(".app-container").exists()).toBe(true);
+    done();
   });
 
-  it("Dialog container exists", async () => {
+  it("Dialog container exists", async (done) => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
     await flushPromises();
     expect(wrapper.find(".v-dialog__container").exists()).toBe(true);
+    done();
   });
 
-  it("Snack  exists", async () => {
+  it("Snack  exists", async (done) => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
     await flushPromises();
     expect(wrapper.find(".v-snack").exists()).toBe(true);
+    done();
   });
 
-  it("Header exists", async () => {
+  it("Header exists", async (done) => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
     await flushPromises();
     expect(wrapper.find("header").exists()).toBe(true);
+    done();
   });
 
-  it("Main container exists", async () => {
+  it("Main container exists", async (done) => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
     await flushPromises();
     expect(wrapper.find("main").exists()).toBe(true);
+    done();
   });
 });

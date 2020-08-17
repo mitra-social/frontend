@@ -40,8 +40,11 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const publicPages = ["/login", "/signup"];
   const authRequired = !publicPages.includes(to.path);
+  const isAuthenticated = !!AuthenticationUtil.getToken();
 
-  if (authRequired && !store.getters["Auth/isAuthenticated"]) {
+  if (!authRequired && isAuthenticated) {
+    next({ name: "Home" });
+  } else if (authRequired && !isAuthenticated) {
     next({ name: "Login" });
   } else if (authRequired && !store.getters["User/isUserFetch"]) {
     store

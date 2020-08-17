@@ -9,6 +9,7 @@ import router from "@/router";
 import Login from "@/views/Login.vue";
 import { User } from "@/model/user";
 import * as userData from "@/api-client/mock/data/user.json";
+import { AuthenticationUtil } from "@/utils/authentication-util";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -34,6 +35,7 @@ describe("Login.vue", () => {
 
   afterEach(() => {
     store.state.Auth.status = 0;
+    AuthenticationUtil.clear();
   });
 
   it("Login success", async () => {
