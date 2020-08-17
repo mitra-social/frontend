@@ -6,7 +6,7 @@
   },
   "proxies": {
     "/api/": {
-      "origin": "http://mitra-social.herokuapp.com"
+      "origin": "https://mitra-social.herokuapp.com"
     }
   }
 }
