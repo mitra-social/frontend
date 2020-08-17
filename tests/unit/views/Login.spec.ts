@@ -29,7 +29,7 @@ describe("Login.vue", () => {
       router.push({ name: "Login" });
     }
 
-    store.state.User.user = user;
+    // store.state.User.user = user;
     await flushPromises();
   });
 
