@@ -7,7 +7,6 @@ import App from "@/App.vue";
 import "@/plugins/date-fns";
 import store from "@/store";
 import router from "@/router";
-import { AuthenticationUtil } from "@/utils/authentication-util";
 import flushPromises from "flush-promises";
 
 const localVue = createLocalVue();
@@ -19,12 +18,6 @@ describe("@/App.vue", () => {
 
   beforeEach(async () => {
     vuetify = new Vuetify();
-
-    const intersectionObserverMock = () => ({
-      observe: () => null,
-      unobserve: () => null,
-    });
-
     await flushPromises();
   });
 
