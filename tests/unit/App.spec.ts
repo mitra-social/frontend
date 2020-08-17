@@ -13,7 +13,7 @@ import flushPromises from "flush-promises";
 const localVue = createLocalVue();
 Vue.use(Vuetify);
 
-describe("@/views/settings/Password.vue", () => {
+describe("@/App.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
 
@@ -24,48 +24,33 @@ describe("@/views/settings/Password.vue", () => {
       observe: () => null,
       unobserve: () => null,
     });
-    window.IntersectionObserver = jest
-      .fn()
-      .mockImplementation(intersectionObserverMock);
 
-    jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue("john.doe");
-    jest
-      .spyOn(AuthenticationUtil, "getToken")
-      .mockReturnValue("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi");
     await flushPromises();
   });
 
-  it("App container exists", async (done) => {
+  it("App container exists", () => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
     expect(wrapper.find(".app-container").exists()).toBe(true);
-    done();
   });
 
-  it("Dialog container exists", async (done) => {
+  it("Dialog container exists", async () => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
     await flushPromises();
     expect(wrapper.find(".v-dialog__container").exists()).toBe(true);
-    done();
   });
 
-  it("Snack  exists", async (done) => {
+  it("Snack  exists", () => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
-    await flushPromises();
     expect(wrapper.find(".v-snack").exists()).toBe(true);
-    done();
   });
 
-  it("Header exists", async (done) => {
+  it("Header exists", () => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
-    await flushPromises();
     expect(wrapper.find("header").exists()).toBe(true);
-    done();
   });
 
-  it("Main container exists", async (done) => {
+  it("Main container exists", () => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
-    await flushPromises();
     expect(wrapper.find("main").exists()).toBe(true);
-    done();
   });
 });
