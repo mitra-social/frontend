@@ -35,7 +35,7 @@ describe("Login.vue", () => {
   afterEach(() => {
     store.state.User.user = undefined;
     store.state.Auth.status = 0;
-    AuthenticationUtil.clear();
+    jest.spyOn(AuthenticationUtil, "getToken").mockReturnValue(undefined);
   });
 
   it("Login success", async () => {
@@ -47,7 +47,7 @@ describe("Login.vue", () => {
 
     jest
       .spyOn(AuthenticationUtil, "getToken")
-      .mockReturnValue("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi")
+      .mockReturnValue("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi");
     store.state.User.user = user;
 
     wrapper.find("form").trigger("submit.prevent");
@@ -57,19 +57,19 @@ describe("Login.vue", () => {
     expect(router.currentRoute.path).toBe("/");
   });
 
-  // it("Login wrong user", async () => {
-  //   const wrapper = mount(Login, { localVue, vuetify, router, store });
+  it("Login wrong user", async () => {
+    const wrapper = mount(Login, { localVue, vuetify, router, store });
 
-  //   wrapper.find('input[name="login"]').setValue("foo.bar");
-  //   wrapper.find('input[name="password"]').setValue(password);
-  //   await flushPromises();
+    wrapper.find('input[name="login"]').setValue("foo.bar");
+    wrapper.find('input[name="password"]').setValue(password);
+    await flushPromises();
 
-  //   wrapper.find("form").trigger("submit.prevent");
-  //   await flushPromises();
+    wrapper.find("form").trigger("submit.prevent");
+    await flushPromises();
 
-  //   expect(wrapper.find(".v-alert").exists()).toBe(true);
-  //   expect(router.currentRoute.path).toBe("/login");
-  // });
+    expect(wrapper.find(".v-alert").exists()).toBe(true);
+    expect(router.currentRoute.path).toBe("/login");
+  });
 
   it("Login wrong password", async () => {
     const wrapper = mount(Login, { localVue, vuetify, router, store });
