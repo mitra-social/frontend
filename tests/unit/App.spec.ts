@@ -8,7 +8,7 @@ import "@/plugins/date-fns";
 import store from "@/store";
 import router from "@/router";
 import { AuthenticationUtil } from "@/utils/authentication-util";
-import flushPromises from 'flush-promises';
+import flushPromises from "flush-promises";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);

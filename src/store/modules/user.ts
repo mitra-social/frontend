@@ -23,7 +23,8 @@ class UserStore extends VuexModule {
   }
 
   @Action
-  public async fetchUser(user: string): Promise<void> {
+  public async fetchUser(): Promise<void> {
+    const user = AuthenticationUtil.getUser() || "";
     const token = AuthenticationUtil.getToken() || "";
 
     await client

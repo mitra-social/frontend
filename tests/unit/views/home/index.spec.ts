@@ -212,10 +212,13 @@ describe("@/views/home/index.vue", () => {
       store,
     });
 
+    expect(router.currentRoute.path).toBe("/");
+
+    jest.spyOn(AuthenticationUtil, "getToken").mockReturnValue(undefined);
     const logout = wrapper.find("#logout-item");
     logout.trigger("click");
-    await flushPromises();
 
+    await flushPromises();
     expect(router.currentRoute.path).toBe("/login");
   });
 });
