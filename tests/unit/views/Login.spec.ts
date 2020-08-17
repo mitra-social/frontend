@@ -34,6 +34,7 @@ describe("Login.vue", () => {
   });
 
   afterEach(() => {
+    store.state.User.user = undefined;
     store.state.Auth.status = 0;
     AuthenticationUtil.clear();
   });
