@@ -40,22 +40,25 @@ describe("@/views/settings/Password.vue", () => {
     expect(wrapper.find(".app-container").exists()).toBe(true);
   });
 
-  it("Dialog container exists", async () => {
+  it("Dialog container exists", async (done) => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
     await flushPromises();
     expect(wrapper.find(".v-dialog__container").exists()).toBe(true);
+    done();
   });
 
-  it("Snack  exists", async () => {
+  it("Snack  exists", async (done) => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
     await flushPromises();
     expect(wrapper.find(".v-snack").exists()).toBe(true);
+    done();
   });
 
-  it("Header exists", async () => {
+  it("Header exists", async (done) => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
     await flushPromises();
     expect(wrapper.find("header").exists()).toBe(true);
+    done();
   });
 
   it("Main container exists", async () => {
