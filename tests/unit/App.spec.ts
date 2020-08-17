@@ -35,9 +35,10 @@ describe("@/views/settings/Password.vue", () => {
     await flushPromises();
   });
 
-  it("App container exists", async () => {
+  it("App container exists", async (done) => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
     expect(wrapper.find(".app-container").exists()).toBe(true);
+    done();
   });
 
   it("Dialog container exists", async (done) => {
@@ -61,9 +62,10 @@ describe("@/views/settings/Password.vue", () => {
     done();
   });
 
-  it("Main container exists", async () => {
+  it("Main container exists", async (done) => {
     const wrapper = mount(App, { localVue, vuetify, router, store });
     await flushPromises();
     expect(wrapper.find("main").exists()).toBe(true);
+    done();
   });
 });
