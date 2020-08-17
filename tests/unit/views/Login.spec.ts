@@ -18,7 +18,7 @@ describe("Login.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
   const username = "john.doe";
-  const password = "123";
+  // const password = "123";
   // eslint-disable-next-line
   const user = (userData as any) as User
 
@@ -38,33 +38,33 @@ describe("Login.vue", () => {
     AuthenticationUtil.clear();
   });
 
-  it("Login success", async () => {
-    const wrapper = mount(Login, { localVue, vuetify, router, store });
+  // it("Login success", async () => {
+  //   const wrapper = mount(Login, { localVue, vuetify, router, store });
 
-    wrapper.find('input[name="login"]').setValue(username);
-    wrapper.find('input[name="password"]').setValue(password);
-    await flushPromises();
+  //   wrapper.find('input[name="login"]').setValue(username);
+  //   wrapper.find('input[name="password"]').setValue(password);
+  //   await flushPromises();
 
-    wrapper.find("form").trigger("submit.prevent");
-    await flushPromises();
+  //   wrapper.find("form").trigger("submit.prevent");
+  //   await flushPromises();
 
-    expect(wrapper.find(".v-alert").exists()).toBe(false);
-    expect(router.currentRoute.path).toBe("/");
-  });
+  //   expect(wrapper.find(".v-alert").exists()).toBe(false);
+  //   expect(router.currentRoute.path).toBe("/");
+  // });
 
-  it("Login wrong user", async () => {
-    const wrapper = mount(Login, { localVue, vuetify, router, store });
+  // it("Login wrong user", async () => {
+  //   const wrapper = mount(Login, { localVue, vuetify, router, store });
 
-    wrapper.find('input[name="login"]').setValue("foo.bar");
-    wrapper.find('input[name="password"]').setValue(password);
-    await flushPromises();
+  //   wrapper.find('input[name="login"]').setValue("foo.bar");
+  //   wrapper.find('input[name="password"]').setValue(password);
+  //   await flushPromises();
 
-    wrapper.find("form").trigger("submit.prevent");
-    await flushPromises();
+  //   wrapper.find("form").trigger("submit.prevent");
+  //   await flushPromises();
 
-    expect(wrapper.find(".v-alert").exists()).toBe(true);
-    expect(router.currentRoute.path).toBe("/login");
-  });
+  //   expect(wrapper.find(".v-alert").exists()).toBe(true);
+  //   expect(router.currentRoute.path).toBe("/login");
+  // });
 
   it("Login wrong password", async () => {
     const wrapper = mount(Login, { localVue, vuetify, router, store });
