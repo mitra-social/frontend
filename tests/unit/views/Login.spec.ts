@@ -29,7 +29,6 @@ describe("Login.vue", () => {
       router.push({ name: "Login" });
     }
 
-    // store.state.User.user = user;
     await flushPromises();
   });
 
@@ -45,6 +44,11 @@ describe("Login.vue", () => {
     wrapper.find('input[name="login"]').setValue(username);
     wrapper.find('input[name="password"]').setValue(password);
     await flushPromises();
+
+    jest
+      .spyOn(AuthenticationUtil, "getToken")
+      .mockReturnValue("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi")
+    store.state.User.user = user;
 
     wrapper.find("form").trigger("submit.prevent");
     await flushPromises();
