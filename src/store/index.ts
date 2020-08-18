@@ -3,6 +3,7 @@ import Vuex from "vuex";
 
 import Notify from "@/store/modules/notify";
 import Dialog from "@/store/modules/dialog";
+import DialogAttachments from "@/store/modules/dialog-attachments";
 import Auth from "@/store/modules/authentication";
 import User from "@/store/modules/user";
 import Collection from "@/store/modules/collection";
@@ -16,6 +17,7 @@ export default new Vuex.Store({
   modules: {
     Notify,
     Dialog,
+    DialogAttachments,
     Auth,
     User,
     Collection,

@@ -3,27 +3,21 @@ import router from "@/router";
 
 import client from "apiClient";
 import { Credential } from "@/model/credential";
-import { AuthenticationUtil } from "@/utils/authentication-util";
 import { CreateUser } from "@/model/create-user";
+import { AuthenticationUtil } from "@/utils/authentication-util";
 
 @Module({ namespaced: true })
 class Authentication extends VuexModule {
-  public token = AuthenticationUtil.getToken();
   public status = 0;
   public hasLoadedOnce = false;
-
-  get isAuthenticated(): boolean {
-    return !!this.token;
-  }
 
   get authStatus(): number {
     return this.status;
   }
 
   @Mutation
-  public loginSuccess(token: string): void {
+  public loginSuccess(): void {
     this.status = 200;
-    this.token = token;
     this.hasLoadedOnce = true;
   }
 
@@ -39,7 +33,7 @@ class Authentication extends VuexModule {
       .login(credential)
       .then((token: string) => {
         AuthenticationUtil.setAuth(credential.username, token);
-        this.context.commit("loginSuccess", token);
+        this.context.commit("loginSuccess");
         router.push("/");
       })
       .catch(() => {

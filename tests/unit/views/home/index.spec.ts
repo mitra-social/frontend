@@ -5,6 +5,7 @@ import { createLocalVue, shallowMount, mount } from "@vue/test-utils";
 import flushPromises from "flush-promises";
 
 import Home from "@/views/home/index.vue";
+import "@/plugins/global-directives";
 import "@/plugins/date-fns";
 import router from "@/router";
 import store from "@/store";
@@ -153,7 +154,7 @@ describe("@/views/home/index.vue", () => {
     expect(icon.text()).toBe("mdi-key-variant");
   });
 
-  it("Open dialog when clicked setting profile link", async () => {
+  it("Open dialog when clicked setting profile link", async (done) => {
     const wrapper = mount(Home, {
       localVue,
       vuetify,
@@ -164,11 +165,12 @@ describe("@/views/home/index.vue", () => {
     expect(store.state.Dialog.isOpen).toBe(false);
     password.trigger("click");
 
-    await flushPromises();
-
-    expect(store.state.Dialog.isOpen).toBe(true);
-    expect(store.state.Dialog.title).toBe("Profile");
-    expect(store.state.Dialog.component).toBe("Profile");
+    await flushPromises().then(() => {
+      expect(store.state.Dialog.isOpen).toBe(true);
+      expect(store.state.Dialog.title).toBe("Profile");
+      expect(store.state.Dialog.component).toBe("Profile");
+      done();
+    });
   });
 
   it("Open dialog when clicked setting password link", async () => {
@@ -212,10 +214,13 @@ describe("@/views/home/index.vue", () => {
       store,
     });
 
+    expect(router.currentRoute.path).toBe("/");
+
+    jest.spyOn(AuthenticationUtil, "getToken").mockReturnValue(undefined);
     const logout = wrapper.find("#logout-item");
     logout.trigger("click");
-    await flushPromises();
 
+    await flushPromises();
     expect(router.currentRoute.path).toBe("/login");
   });
 });

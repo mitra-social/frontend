@@ -136,6 +136,8 @@ describe("@/views/home/post/Posts.vue", () => {
 
   it("No user was found and therefore no posts can be displayed", async () => {
     store.state.User.user = undefined;
+    jest.spyOn(AuthenticationUtil, "getToken").mockReturnValue(undefined);
+
     shallowMount(Posts, {
       localVue,
       vuetify,

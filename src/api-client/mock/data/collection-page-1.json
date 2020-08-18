@@ -16,8 +16,9 @@
         "attachment": {
           "mediaType": "image/jpeg",
           "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
-          "type": "Image",
-          "url": "https://picsum.photos/200"
+          "type": "Link",
+          "href": "https://picsum.photos/200",
+          "width": 800
         },
         "inReplyTo": {
           "type": "Note",
@@ -73,15 +74,18 @@
         "attachment": [
           {
             "mediaType": "image/jpeg",
-            "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
-            "type": "Image",
-            "url": "https://picsum.photos/400"
+            "name": "Hi/Ho 1",
+            "type": "Link",
+            "href": "https://picsum.photos/400",
+            "height": 400
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
-            "type": "Image",
-            "url": "https://picsum.photos/300"
+            "name": "Hi/Ho 2",
+            "type": "Link",
+            "href": "https://picsum.photos/300",
+            "width": 500,
+            "height": 900
           }
         ]
       },
@@ -157,31 +161,31 @@
         "attachment": [
           {
             "mediaType": "image/jpeg",
-            "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
+            "name": "A note 1",
             "type": "Image",
             "url": "https://picsum.photos/100"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
+            "name": "A note 2",
             "type": "Image",
             "url": "https://picsum.photos/200"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
+            "name": "A note 3",
             "type": "Image",
             "url": "https://picsum.photos/300"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
+            "name": "A note 4",
             "type": "Image",
             "url": "https://picsum.photos/400"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
+            "name": "A note 5",
             "type": "Image",
             "url": "https://picsum.photos/500"
           }

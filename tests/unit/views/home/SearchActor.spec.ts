@@ -165,6 +165,8 @@ describe("FollowingActors.vue", () => {
     wrapper.find("#search-btn").trigger("click");
     await flushPromises();
 
-    expect(wrapper.find(".v-alert__content").text()).toBe("No actor found.");
+    expect(wrapper.find(".v-alert__content").text()).toContain(
+      "No user found. You can search for and follow a user by entering its full"
+    );
   });
 });

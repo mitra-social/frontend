@@ -3,6 +3,7 @@
     <v-dialog
       origin="center top"
       v-model="getIsOpen"
+      :fullscreen="getIsFullsize"
       @click:outside="toggleDialog({ title: undefined, components: undefined })"
     >
       <v-card :light="!$vuetify.theme.dark" :dark="$vuetify.theme.dark">
@@ -32,6 +33,8 @@ import { namespace } from "vuex-class";
 import Profile from "@/views/settings/Profile.vue";
 import Password from "@/views/settings/Password.vue";
 import SearchActor from "@/views/home/SearchActor.vue";
+import AttachmentDialog from "@/components/attachment/AttachmentDialog.vue";
+
 import { DialogSettings } from "@/model/dialog-settings";
 
 const dialogStore = namespace("Dialog");
@@ -41,6 +44,7 @@ const dialogStore = namespace("Dialog");
     Profile,
     Password,
     SearchActor,
+    AttachmentDialog,
   },
 })
 export default class MitraDialog extends Vue {
@@ -53,8 +57,11 @@ export default class MitraDialog extends Vue {
   @dialogStore.Getter
   public getComponent!: string;
 
+  @dialogStore.Getter
+  public getIsFullsize!: string;
+
   @dialogStore.Action
-  public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
+  public toggleDialog!: (settings: DialogSettings) => Promise<void>;
 }
 </script>
 
