@@ -32,7 +32,15 @@
       icon="mdi-account-search-outline"
       v-if="noContent"
     >
-      No actor found.
+      <p>
+        No user found. You can search for and follow a user by entering its full
+        id in the search field above.
+      </p>
+      <p>
+        Example:<br />
+        user@example.com<br />
+        fraenki@mastodon.social
+      </p>
     </v-alert>
     <v-list v-if="getUser">
       <v-list-item-group color="primary">
