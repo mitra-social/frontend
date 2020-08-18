@@ -15,9 +15,10 @@
         "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>",
         "attachment": {
           "mediaType": "image/jpeg",
-          "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
-          "type": "Image",
-          "url": "https://picsum.photos/200"
+          "name": "Minecraft Signs",
+          "type": "Link",
+          "href": "https://picsum.photos/200",
+          "width": 800
         }
       },
       "actor": {
@@ -42,15 +43,18 @@
         "attachment": [
           {
             "mediaType": "image/jpeg",
-            "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
-            "type": "Image",
-            "url": "https://picsum.photos/400"
+            "name": "Hi/Ho 1",
+            "type": "Link",
+            "href": "https://picsum.photos/400",
+            "height": 400
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
-            "type": "Image",
-            "url": "https://picsum.photos/300"
+            "name": "Hi/Ho 2",
+            "type": "Link",
+            "href": "https://picsum.photos/300",
+            "width": 500,
+            "height": 900
           }
         ]
       },
@@ -126,31 +130,31 @@
         "attachment": [
           {
             "mediaType": "image/jpeg",
-            "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
+            "name": "A note 1",
             "type": "Image",
             "url": "https://picsum.photos/100"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
+            "name": "A note 2",
             "type": "Image",
             "url": "https://picsum.photos/200"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
+            "name": "A note 3",
             "type": "Image",
             "url": "https://picsum.photos/300"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
+            "name": "A note 4",
             "type": "Image",
             "url": "https://picsum.photos/400"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
+            "name": "A note 5",
             "type": "Image",
             "url": "https://picsum.photos/500"
           }

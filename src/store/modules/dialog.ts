@@ -6,6 +6,7 @@ class DialogStore extends VuexModule {
   private isOpen = false;
   private title: string | undefined = undefined;
   private component: string | undefined = undefined;
+  private isFullsize = false;
 
   get getIsOpen(): boolean {
     return this.isOpen;
@@ -17,6 +18,10 @@ class DialogStore extends VuexModule {
 
   get getComponent(): string | undefined {
     return this.component;
+  }
+
+  get getIsFullsize(): boolean {
+    return this.isFullsize;
   }
 
   @Mutation
@@ -34,16 +39,23 @@ class DialogStore extends VuexModule {
     this.component = component;
   }
 
+  @Mutation
+  public setIsFullsize(isFullsize: boolean): void {
+    this.isFullsize = isFullsize;
+  }
+
   @Action
-  public toggleDialog({ title, component }: DialogSettings): void {
+  public toggleDialog({ title, component, isFullsize }: DialogSettings): void {
     const isOpen = !this.isOpen;
 
     if (isOpen) {
       this.context.commit("setTitle", title);
       this.context.commit("setComponent", component);
+      this.context.commit("setIsFullsize", isFullsize);
     } else {
       this.context.commit("setTitle", undefined);
       this.context.commit("setComponent", undefined);
+      this.context.commit("setIsFullsize", false);
     }
     this.context.commit("setIsOpen", isOpen);
   }

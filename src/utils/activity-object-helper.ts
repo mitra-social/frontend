@@ -1,7 +1,7 @@
 import {
   ActivityObject,
   Link,
-  Image,
+  Image as AcitvityPubImage,
   Actor,
   Activity,
 } from "activitypub-objects";
@@ -117,8 +117,8 @@ export class ActivityObjectHelper {
 
     if ((icon as Link).href) {
       return (icon as Link).href.toString();
-    } else if ((icon as Image).url) {
-      return (icon as Image).url.toString();
+    } else if ((icon as AcitvityPubImage).url) {
+      return (icon as AcitvityPubImage).url.toString();
     }
 
     return undefined;
@@ -140,5 +140,33 @@ export class ActivityObjectHelper {
     }
 
     return object;
+  }
+
+  public static extractAttachmentLink(
+    object: ActivityObject | Link | URL | (Link | URL)[]
+  ): Link {
+    const link = object as Link;
+
+    if (link.mediaType) {
+      let imgLink = "";
+      const activityObject = object as ActivityObject;
+
+      if (activityObject.url) {
+        const urlLink = activityObject.url as Link;
+
+        if (urlLink.href) {
+          imgLink = urlLink.href.toString();
+        } else {
+          imgLink = activityObject.url.toString();
+        }
+      } else if (link.href) {
+        imgLink = link.href.toString();
+      }
+
+      if (imgLink) {
+        link.href = new URL(imgLink);
+      }
+    }
+    return link;
   }
 }

@@ -5,6 +5,7 @@ import { createLocalVue, shallowMount, mount } from "@vue/test-utils";
 import flushPromises from "flush-promises";
 
 import Home from "@/views/home/index.vue";
+import "@/plugins/global-directives";
 import "@/plugins/date-fns";
 import router from "@/router";
 import store from "@/store";
