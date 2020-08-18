@@ -53,6 +53,7 @@ router.beforeEach((to, from, next) => {
         next();
       })
       .catch(() => {
+        AuthenticationUtil.clear();
         next({ name: "Login", params: { redirectFrom: to.fullPath } });
       });
   } else {
