@@ -60,6 +60,7 @@
               !Array.isArray(post.attachment))
           "
           :attachments="post.attachment"
+          :postIndex="postIndex"
         />
       </v-card-text>
       <v-divider class="mx-4"></v-divider>
@@ -104,6 +105,7 @@ import { PostTypes } from "@/utils/post-types";
 })
 export default class Post extends Vue {
   @Prop() post!: ActivityObject | Link;
+  @Prop() postIndex!: number;
 
   private getComponent(type: string): PostTypes {
     return PostTypes[type as keyof typeof PostTypes];

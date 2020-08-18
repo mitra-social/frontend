@@ -3,7 +3,12 @@
     <div id="scroll-target" class="post-container" v-if="getPosts">
       <div v-if="getPosts.length > 0">
         <div v-for="(post, index) in getPosts" :key="index">
-          <Post :post="post" v-intersect="onIntersect" :data-index="index" />
+          <Post
+            :post="post"
+            v-intersect="onIntersect"
+            :postIndex="index"
+            :data-index="index"
+          />
         </div>
       </div>
       <div v-if="getPosts.length < 1 && !getLoadMorePostState">
