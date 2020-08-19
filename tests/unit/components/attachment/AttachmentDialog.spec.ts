@@ -88,7 +88,7 @@ describe("@/components/attachment/AttachmentDialog.vue", () => {
     await flushPromises();
 
     expect(wrapper.find("v-img-stub").attributes("alt")).toBe(
-      "Minecraft Signs"
+      "A wolf dressed up as a legend of the 5 rings lion clan shogun"
     );
     expect(wrapper.find("v-img-stub").attributes("lazysrc")).toBe(
       "https://picsum.photos/200"

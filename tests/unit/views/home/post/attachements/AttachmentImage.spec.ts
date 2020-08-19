@@ -22,9 +22,9 @@ describe("@/views/home/post/attachments/AttachmentImage.vue", () => {
   let articles: Activity[];
 
   beforeEach(() => {
+    vuetify = new Vuetify();
     articles = (collection as OrderedCollectionPage)
       .orderedItems as ActivityObject[];
-    vuetify = new Vuetify();
   });
 
   it("Image is rendering", async () => {
@@ -119,7 +119,7 @@ describe("@/views/home/post/attachments/AttachmentImage.vue", () => {
     });
 
     expect(wrapper.find(".v-image").attributes("aria-label")).toBe(
-      "Minecraft Signs"
+      "A wolf dressed up as a legend of the 5 rings lion clan shogun"
     );
   });
 

@@ -88,7 +88,9 @@ describe("@/views/home/post/attachments/AttachmentSimpleLink.vue", () => {
       },
     });
 
-    expect(wrapper.find("a").text()).toBe("Minecraft Signs");
+    expect(wrapper.find("a").text()).toBe(
+      "A wolf dressed up as a legend of the 5 rings lion clan shogun"
+    );
   });
 
   it("Attachment simple link without name", async () => {

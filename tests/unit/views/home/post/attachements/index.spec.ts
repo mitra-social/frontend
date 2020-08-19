@@ -58,7 +58,7 @@ describe("@/views/home/post/attachments/index.vue", () => {
     await flushPromises();
 
     expect(wrapper.find(".v-image").attributes("aria-label")).toBe(
-      "Minecraft Signs"
+      "A wolf dressed up as a legend of the 5 rings lion clan shogun"
     );
   });
 

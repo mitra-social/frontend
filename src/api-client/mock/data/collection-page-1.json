@@ -15,10 +15,41 @@
         "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>",
         "attachment": {
           "mediaType": "image/jpeg",
-          "name": "Minecraft Signs",
+          "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
           "type": "Link",
           "href": "https://picsum.photos/200",
           "width": 800
+        },
+        "inReplyTo": {
+          "type": "Note",
+          "id": "https://godforsaken.website/users/kiki/statuses/104681560039895680",
+          "attachment": [
+            {
+              "mediaType": "image/jpeg",
+              "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
+              "type": "Image",
+              "url": "https://picsum.photos/200"
+            }
+          ],
+          "attributedTo": "https://godforsaken.website/users/kiki",
+          "content": "<p>took the day off yesterday and went to explore Árainn Mhór, an inhabited island off the coast of Donegal, got to see this</p>",
+          "contentMap": [
+            "<p>took the day off yesterday and went to explore Árainn Mhór, an inhabited island off the coast of Donegal, got to see this</p>"
+          ],
+          "published": "2020-08-13T10:17:23Z",
+          "replies": {
+            "type": "Collection",
+            "first": {
+              "type": "CollectionPage",
+              "totalItems": 0,
+              "items": [],
+              "partOf": "https://godforsaken.website/users/kiki/statuses/104681560039895680/replies",
+              "next": "https://godforsaken.website/users/kiki/statuses/104681560039895680/replies?only_other_accounts=true&page=true"
+            },
+            "totalItems": 0,
+            "id": "https://godforsaken.website/users/kiki/statuses/104681560039895680/replies"
+          },
+          "summary": "more irish coastal scenery, sorry..."
         }
       },
       "actor": {
@@ -169,13 +200,13 @@
         "id": "http://sally.example.org",
         "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76"
       },
-      "updated": "2020-04-28T17:49:12Z",
-      "published": "2020-04-28T16:12:12Z",
       "object": {
         "summary": "A note",
         "type": "Note",
         "id": "http://notes.example.com/1",
-        "content": "A create note with published and updated datetime"
+        "content": "A create note with published and updated datetime",
+        "updated": "2020-04-28T17:49:12Z",
+        "published": "2020-04-28T16:12:12Z"
       }
     },
     {
