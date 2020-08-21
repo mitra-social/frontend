@@ -9,7 +9,7 @@ import store from "@/store";
 import Profile from "@/views/settings/Profile.vue";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import * as userData from "@/api-client/mock/data/user.json";
-import { InternalUser } from "@/model/internal-actor";
+import { InternalActor } from "@/model/internal-actor";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -18,7 +18,7 @@ describe("@/views/settings/Password.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
   // eslint-disable-next-line
-  const user = (userData as any) as InternalUser;
+  const user = (userData as any) as InternalActor;
 
   beforeEach(async () => {
     vuetify = new Vuetify();

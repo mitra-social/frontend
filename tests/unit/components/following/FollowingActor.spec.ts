@@ -7,7 +7,7 @@ import FollowingActor from "@/components/following/FollowingActor.vue";
 import store from "@/store";
 import flushPromises from "flush-promises";
 import { AuthenticationUtil } from "@/utils/authentication-util";
-import { InternalUser } from "@/model/internal-actor";
+import { InternalActor } from "@/model/internal-actor";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -132,7 +132,7 @@ describe("FollowingActor.vue", () => {
   });
 
   it("Hover list item", async () => {
-    const actor: InternalUser = store.state.Following.following[0];
+    const actor: InternalActor = store.state.Following.following[0];
 
     const wrapper = mount(FollowingActor, {
       localVue,
@@ -153,7 +153,7 @@ describe("FollowingActor.vue", () => {
   });
 
   it("Filter posts by first actor in following list", async () => {
-    const actor: InternalUser = store.state.Following.following[0];
+    const actor: InternalActor = store.state.Following.following[0];
 
     const wrapper = mount(FollowingActor, {
       localVue,
@@ -174,14 +174,12 @@ describe("FollowingActor.vue", () => {
     await flushPromises();
 
     expect(wrapper.vm.$store.getters["Collection/getPosts"].length).toBe(6);
-    expect(wrapper.vm.$store.state.Collection.filter).toBe(
-      actor.internalUserId
-    );
+    expect(wrapper.vm.$store.state.Collection.filter).toBe(actor.internalUserId);
     expect(wrapper.find(".mdi-filter-outline").exists()).toBe(true);
   });
 
   it("Filter is set and hover list item", async () => {
-    const actor: InternalUser = store.state.Following.following[0];
+    const actor: InternalActor = store.state.Following.following[0];
 
     const wrapper = mount(FollowingActor, {
       localVue,
@@ -206,7 +204,7 @@ describe("FollowingActor.vue", () => {
   });
 
   it("Remove filter by first actor in following list", async () => {
-    const actor: InternalUser = store.state.Following.following[0];
+    const actor: InternalActor = store.state.Following.following[0];
 
     const wrapper = mount(FollowingActor, {
       localVue,
@@ -238,7 +236,7 @@ describe("FollowingActor.vue", () => {
   });
 
   it("User unfollows a followed actor", async () => {
-    const actor: InternalUser = store.state.Following.following[0];
+    const actor: InternalActor = store.state.Following.following[0];
 
     const wrapper = mount(FollowingActor, {
       localVue,

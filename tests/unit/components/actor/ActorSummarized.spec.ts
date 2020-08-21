@@ -16,7 +16,7 @@ import ActorSummarized from "@/components/actor/ActorSummarized.vue";
 import apiService from "@/api-client/mock/index";
 import collection from "@/api-client/mock/data/collection-page-1.json";
 import { AuthenticationUtil } from "@/utils/authentication-util";
-import { InternalUser } from "@/model/internal-actor";
+import { InternalActor } from "@/model/internal-actor";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -187,8 +187,8 @@ describe("ActorSummarized.vue", () => {
       store,
       propsData: {
         actor: {
-          id: (actor as InternalUser).id,
-          to: (actor as InternalUser).id,
+          id: (actor as InternalActor).id,
+          to: (actor as InternalActor).id,
         },
       },
     });
