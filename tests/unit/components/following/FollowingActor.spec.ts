@@ -174,7 +174,9 @@ describe("FollowingActor.vue", () => {
     await flushPromises();
 
     expect(wrapper.vm.$store.getters["Collection/getPosts"].length).toBe(6);
-    expect(wrapper.vm.$store.state.Collection.filter).toBe(actor.internalUserId);
+    expect(wrapper.vm.$store.state.Collection.filter).toBe(
+      actor.internalUserId
+    );
     expect(wrapper.find(".mdi-filter-outline").exists()).toBe(true);
   });
 
