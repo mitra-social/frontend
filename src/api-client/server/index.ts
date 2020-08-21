@@ -12,7 +12,7 @@ import {
 import { ApiClient } from "@/api-client";
 import router from "@/router";
 import { Credential } from "@/model/credential";
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 import { CreateUser } from "@/model/create-user";
 import { Webfinger } from "@/model/webfinger";
 
@@ -50,7 +50,7 @@ export default {
       .post(`${urlPrefix}/user`, user, config)
       .catch(catchError);
   },
-  async getUser(token: string, user: string): Promise<User> {
+  async getUser(token: string, user: string): Promise<InternalActor> {
     return await axios
       .get(`${urlPrefix}/user/${user}`, {
         headers: {
@@ -151,7 +151,11 @@ export default {
 
     return `${process.env.VUE_APP_BACKEND_HOST}/media/${md5(uri)}`;
   },
-  updateUser(token: string, user: string, updatedUser: User): Promise<void> {
+  updateUser(
+    token: string,
+    user: string,
+    updatedUser: InternalActor
+  ): Promise<void> {
     // TODO: implements
     return Promise.reject(
       `not implemented yet. ${token}/${user}/${updatedUser}`
@@ -194,7 +198,7 @@ export default {
         return resp.data;
       });
   },
-  async fediverseGetUser(url: string): Promise<User> {
+  async fediverseGetUser(url: string): Promise<InternalActor> {
     return await axios
       .get(url, {
         headers: {

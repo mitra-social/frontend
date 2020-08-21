@@ -7,7 +7,7 @@ import {
 } from "activitypub-objects";
 
 import client from "apiClient";
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 import { FetchFollowParam } from "@/model/fetch-follow-param";
 
 /*
@@ -40,7 +40,7 @@ function normalizedCollection(
 @Module({ namespaced: true })
 class FindUserStore extends VuexModule {
   public query = "";
-  public user: User | undefined = undefined;
+  public user: InternalActor | undefined = undefined;
   public loadingState = false;
 
   public followerCollectionPage: (
@@ -70,7 +70,7 @@ class FindUserStore extends VuexModule {
     return this.query;
   }
 
-  get getUser(): User | undefined {
+  get getUser(): InternalActor | undefined {
     return this.user;
   }
 
@@ -138,7 +138,7 @@ class FindUserStore extends VuexModule {
   }
 
   @Mutation
-  public setUser(user: User): void {
+  public setUser(user: InternalActor): void {
     this.user = user;
   }
 
@@ -273,7 +273,7 @@ class FindUserStore extends VuexModule {
   }
 
   @Action
-  public detailUser(user: User): void {
+  public detailUser(user: InternalActor): void {
     this.context.commit("loadingStart");
     this.context.dispatch("fetchFollowers", {
       url: user.followers,

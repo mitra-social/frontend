@@ -1,6 +1,6 @@
 import { ActorType, Actor } from "activitypub-objects";
 
-export interface User extends Actor {
+export interface InternalActor extends Actor {
   type: ActorType.PERSON;
   internalUserId: string;
   preferredUsername: string;

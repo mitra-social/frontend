@@ -4,7 +4,7 @@ import { ActivityObject, Link, CollectionPage } from "activitypub-objects";
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 
 @Module({ namespaced: true })
 class FollowerStore extends VuexModule {
@@ -25,7 +25,7 @@ class FollowerStore extends VuexModule {
   }
 
   @Mutation
-  public setFollowers(actors: User[]): void {
+  public setFollowers(actors: InternalActor[]): void {
     if (actors) {
       this.followers = [];
 
@@ -48,7 +48,7 @@ class FollowerStore extends VuexModule {
               !ActivityObjectHelper.hasProperty(item, "name") &&
               !ActivityObjectHelper.hasProperty(item, "nameMap")
             ) {
-              const url = (item as User).id;
+              const url = (item as InternalActor).id;
 
               if (url) {
                 return await client

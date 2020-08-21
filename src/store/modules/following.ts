@@ -9,13 +9,13 @@ import {
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 
 @Module({ namespaced: true })
 class FollowingStore extends VuexModule {
-  private following: User[] = [];
+  private following: InternalActor[] = [];
 
-  get getFollowing(): User[] {
+  get getFollowing(): InternalActor[] {
     return this.following;
   }
 
@@ -31,14 +31,14 @@ class FollowingStore extends VuexModule {
   }
 
   @Mutation
-  public setFollowing(actors: User[]): void {
+  public setFollowing(actors: InternalActor[]): void {
     if (actors) {
       this.following = actors;
     }
   }
 
   @Mutation
-  public addFollowing(actor: User): void {
+  public addFollowing(actor: InternalActor): void {
     if (this.following) {
       this.following.push(actor);
     }
@@ -106,7 +106,7 @@ class FollowingStore extends VuexModule {
   }
 
   @Action
-  public async follow(actor: User): Promise<void> {
+  public async follow(actor: InternalActor): Promise<void> {
     const objectFollow = ActivityObjectHelper.normalizedObjectFollow(actor);
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
@@ -133,7 +133,7 @@ class FollowingStore extends VuexModule {
   }
 
   @Action
-  public async unfollow(actor: User): Promise<void> {
+  public async unfollow(actor: InternalActor): Promise<void> {
     const objectFollow = ActivityObjectHelper.normalizedObjectFollow(actor);
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";

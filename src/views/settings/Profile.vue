@@ -59,7 +59,7 @@
 import { Component, Vue, Ref } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 import { DialogSettings } from "@/model/dialog-settings";
 
 const userStore = namespace("User");
@@ -68,7 +68,7 @@ const dialogStore = namespace("Dialog");
 @Component
 export default class Profile extends Vue {
   public valid = false;
-  public user!: User;
+  public user!: InternalActor;
 
   public rules = {
     required: ($: string) => !!$ || "Required.",
@@ -82,10 +82,10 @@ export default class Profile extends Vue {
   public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
 
   @userStore.Getter
-  public getUser!: User;
+  public getUser!: InternalActor;
 
   @userStore.Action
-  public updateUser!: (user: User) => Promise<void>;
+  public updateUser!: (user: InternalActor) => Promise<void>;
 
   @Ref("signUpForm") readonly form!: HTMLFormElement;
 

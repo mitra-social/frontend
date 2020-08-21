@@ -2,12 +2,12 @@ import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 import { PasswordChangeParam } from "@/model/password-change-param";
 
 @Module({ namespaced: true })
 class UserStore extends VuexModule {
-  public user: User | undefined = undefined;
+  public user: InternalActor | undefined = undefined;
 
   get getUser() {
     return this.user;
@@ -18,7 +18,7 @@ class UserStore extends VuexModule {
   }
 
   @Mutation
-  public setUser(user: User): void {
+  public setUser(user: InternalActor): void {
     this.user = user;
   }
 
@@ -39,7 +39,7 @@ class UserStore extends VuexModule {
   }
 
   @Action
-  public async updateUser(user: User): Promise<void> {
+  public async updateUser(user: InternalActor): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
     const userName = AuthenticationUtil.getUser() || "";
 

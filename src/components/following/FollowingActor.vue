@@ -37,7 +37,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 import client from "apiClient";
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 import { Actor } from "activitypub-objects";
 
@@ -46,7 +46,7 @@ const followingStore = namespace("Following");
 
 @Component
 export default class FollowingActor extends Vue {
-  @Prop() readonly actor!: User;
+  @Prop() readonly actor!: InternalActor;
   public value = undefined;
   public disabledFilter = false;
   public isHover = false;
@@ -57,7 +57,7 @@ export default class FollowingActor extends Vue {
 
   get icon(): string | undefined {
     const originalIconUri = ActivityObjectHelper.extractIcon(
-      this.actor as User
+      this.actor as InternalActor
     );
     return client.getMedia(originalIconUri);
   }
@@ -71,7 +71,7 @@ export default class FollowingActor extends Vue {
   @followingStore.Action
   public unfollow!: (actor: Actor) => Promise<void>;
 
-  public filter(actor: User, disabledFilter: boolean) {
+  public filter(actor: InternalActor, disabledFilter: boolean) {
     if (disabledFilter) {
       this.clearfilterAction();
     } else {

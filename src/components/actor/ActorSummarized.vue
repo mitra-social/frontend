@@ -47,7 +47,7 @@ import { namespace } from "vuex-class";
 import { ActivityObject, Link } from "activitypub-objects";
 
 import client from "apiClient";
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
 const userStore = namespace("User");
@@ -75,15 +75,15 @@ export default class ActorSummarized extends Vue {
   }
 
   @userStore.Getter
-  public getUser!: User;
+  public getUser!: InternalActor;
 
   @followingStore.Getter
   public isFollowing!: boolean;
 
   @followingStore.Action
-  public follow!: (actor: User) => Promise<void>;
+  public follow!: (actor: InternalActor) => Promise<void>;
 
   @followingStore.Action
-  public unfollow!: (actor: User) => Promise<void>;
+  public unfollow!: (actor: InternalActor) => Promise<void>;
 }
 </script>

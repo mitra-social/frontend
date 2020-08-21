@@ -7,7 +7,7 @@ import flushPromises from "flush-promises";
 import store from "@/store";
 import router from "@/router";
 import Login from "@/views/Login.vue";
-import { User } from "@/model/user";
+import { InternalUser } from "@/model/internal-actor";
 import * as userData from "@/api-client/mock/data/user.json";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 
@@ -20,7 +20,7 @@ describe("Login.vue", () => {
   const username = "john.doe";
   const password = "123";
   // eslint-disable-next-line
-  const user = (userData as any) as User
+  const user = (userData as any) as InternalUser
 
   beforeEach(async () => {
     vuetify = new Vuetify();

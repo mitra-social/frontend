@@ -57,7 +57,7 @@ import { ActivityObject, Link } from "activitypub-objects";
 
 import Post from "@/views/home/post/Post.vue";
 import { AuthenticationUtil } from "@/utils/authentication-util";
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 
 const userStore = namespace("User");
 const collectionStore = namespace("Collection");
@@ -77,7 +77,7 @@ export default class MitraPosts extends Vue {
   }
 
   @userStore.Getter
-  public getUser!: User;
+  public getUser!: InternalActor;
 
   @collectionStore.Getter
   public getPosts!: (ActivityObject | Link)[];

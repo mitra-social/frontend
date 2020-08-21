@@ -42,7 +42,7 @@ import { ActivityObject, Link } from "activitypub-objects";
 
 import FollowingActor from "@/components/following/FollowingActor.vue";
 import SummarizedActor from "@/components/actor/ActorSummarized.vue";
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 
 @Component({
   components: {
@@ -67,7 +67,7 @@ export default class ActorList extends Vue {
   }
 
   @Emit()
-  public detail(actor: User): User {
+  public detail(actor: InternalActor): InternalActor {
     return actor;
   }
 }

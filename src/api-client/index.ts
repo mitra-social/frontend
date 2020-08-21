@@ -6,13 +6,13 @@ import {
 } from "activitypub-objects";
 
 import { Credential } from "@/model/credential";
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 import { CreateUser } from "@/model/create-user";
 
 export interface ApiClient {
   login(credential: Credential): Promise<string>;
   createUser(user: CreateUser): Promise<void>;
-  getUser(token: string, user: string): Promise<User>;
+  getUser(token: string, user: string): Promise<InternalActor>;
   fetchFollowing(
     token: string,
     user: string,
@@ -36,7 +36,11 @@ export interface ApiClient {
     summary?: string
   ): Promise<void>;
   getMedia(uri: string | undefined): string | undefined;
-  updateUser(token: string, user: string, updatedUser: User): Promise<void>;
+  updateUser(
+    token: string,
+    user: string,
+    updatedUser: InternalActor
+  ): Promise<void>;
   updatePassword(
     token: string,
     user: string,
@@ -46,6 +50,6 @@ export interface ApiClient {
   // Fediverse
   fediverseGetActor(url: string): Promise<Actor>;
   fediverseSearchUserId(query: string): Promise<string | undefined>;
-  fediverseGetUser(url: string): Promise<User>;
+  fediverseGetUser(url: string): Promise<InternalActor>;
   fediversGetCollection(id: string): Promise<OrderedCollectionPage>;
 }

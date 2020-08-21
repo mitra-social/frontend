@@ -89,7 +89,7 @@ import { namespace } from "vuex-class";
 
 import FollowingActors from "./FollowingActors.vue";
 import Posts from "./post/Posts.vue";
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 import { DialogSettings } from "@/model/dialog-settings";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 
@@ -113,7 +113,7 @@ export default class MitraHome extends Vue {
   ];
 
   @userStore.Getter
-  public getUser!: User;
+  public getUser!: InternalActor;
 
   @dialogStore.Action
   public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;

@@ -103,7 +103,7 @@ import { ActivityObject, Link } from "activitypub-objects";
 import FollowingActor from "@/components/following/FollowingActor.vue";
 import ActorList from "@/components/actor/ActorList.vue";
 import SummarizedActor from "@/components/actor/ActorSummarized.vue";
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 import { FetchFollowParam } from "@/model/fetch-follow-param";
 
 const findUserStore = namespace("FindUser");
@@ -126,7 +126,7 @@ export default class SearchRemoteActor extends Vue {
   public getQuery!: string;
 
   @findUserStore.Getter
-  public getUser!: User;
+  public getUser!: InternalActor;
 
   @findUserStore.Getter
   public isLoading!: boolean;
@@ -162,7 +162,7 @@ export default class SearchRemoteActor extends Vue {
   public findUser!: (query: string) => Promise<void>;
 
   @findUserStore.Action
-  public detailUser!: (actor: User) => void;
+  public detailUser!: (actor: InternalActor) => void;
 
   @findUserStore.Action
   public queryAction!: (query: string) => void;
@@ -204,7 +204,7 @@ export default class SearchRemoteActor extends Vue {
     this.findUser(query).catch(() => (this.noContent = true));
   }
 
-  public detail(actor: User) {
+  public detail(actor: InternalActor) {
     this.queryAction("");
     this.detailUser(actor);
   }

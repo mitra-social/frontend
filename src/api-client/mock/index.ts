@@ -7,7 +7,7 @@ import {
   Actor,
 } from "activitypub-objects";
 
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 import { Credential } from "@/model/credential";
 import { CreateUser } from "@/model/create-user";
 
@@ -39,7 +39,7 @@ const NEXT_PAGE_DELAY = 5000;
 variables
 */
 let userPassword = "123";
-let user: User;
+let user: InternalActor;
 let fetchPostCount = 0;
 let postPage = 0;
 let postFilter: string | undefined = undefined;
@@ -112,16 +112,16 @@ export default {
 
     return await fetch(createUserData);
   },
-  async getUser(token: string, userName: string): Promise<User> {
+  async getUser(token: string, userName: string): Promise<InternalActor> {
     console.info(`getUser => token: ${token}, userName: ${userName}`);
 
     if (!user) {
-      user = userData.default as User;
+      user = userData.default as InternalActor;
     }
 
-    return returnResult(token, userName, fetch(user)) as Promise<User>;
+    return returnResult(token, userName, fetch(user)) as Promise<InternalActor>;
   },
-  async getActor(url: string): Promise<User> {
+  async getActor(url: string): Promise<InternalActor> {
     console.info(`getActor => url: ${url}`);
     const actors = actorsData.default as Actor[];
     const actor = actors.find(($) => $ && $.id?.toString() === url);
@@ -205,7 +205,7 @@ export default {
           "http://john.example.org",
         ];
         const object = $ as Activity;
-        const actor = object.actor as User;
+        const actor = object.actor as InternalActor;
 
         if (!page2Actors.some(($) => $ === actor.id?.toString())) {
           delete data.next;
@@ -237,7 +237,7 @@ export default {
     );
 
     if (following && activity.type == "Follow") {
-      const actors = actorsData.default as User[];
+      const actors = actorsData.default as InternalActor[];
       const actor = actors.find(($) => $.id?.toString() === activity.to);
 
       following.items.push(actor as ActivityObject);
@@ -262,7 +262,7 @@ export default {
   async updateUser(
     token: string,
     userName: string,
-    updatedUser: User
+    updatedUser: InternalActor
   ): Promise<void> {
     console.info(
       `updateProfile => token: ${token}, userName: ${userName}, preferredUsername: ${updatedUser.preferredUsername}, email: ${updatedUser.email}`
@@ -312,7 +312,7 @@ export default {
   },
   async fediverseGetActor(url: string): Promise<Actor> {
     console.info(`fediverseGetActor => url: ${url}`);
-    const actors = actorsData.default as User[];
+    const actors = actorsData.default as InternalActor[];
     const actor = actors.find(($) => $.id?.toString() === url);
 
     if (!actor) {
@@ -321,9 +321,9 @@ export default {
 
     return fetch(actor);
   },
-  async fediverseGetUser(url: string): Promise<User> {
+  async fediverseGetUser(url: string): Promise<InternalActor> {
     console.info(`fediverseGetUser => url: ${url}`);
-    const actors = actorsData.default as User[];
+    const actors = actorsData.default as InternalActor[];
     const actor = actors.find(($) => $.id?.toString() === url);
 
     if (!actor) {

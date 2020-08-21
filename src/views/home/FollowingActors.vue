@@ -41,8 +41,8 @@ import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 import FollowingActor from "@/components/following/FollowingActor.vue";
-import { User } from "../../model/user";
-import { DialogSettings } from "../../model/dialog-settings";
+import { InternalActor } from "@/model/internal-actor";
+import { DialogSettings } from "@/model/dialog-settings";
 
 const userStore = namespace("User");
 const followingStore = namespace("Following");
@@ -58,13 +58,13 @@ export default class FollowingActors extends Vue {
   private title = "Following";
 
   @userStore.Getter
-  public getUser!: User;
+  public getUser!: InternalActor;
 
   @dialogStore.Action
   public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
 
   @followingStore.Getter
-  public getFollowing!: User[];
+  public getFollowing!: InternalActor[];
 
   @collectionStore.Getter
   public excludeActorLength!: number;
