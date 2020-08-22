@@ -4,6 +4,7 @@ import Vuetify from "vuetify";
 import { mount, createLocalVue } from "@vue/test-utils";
 
 import SearchActor from "@/views/home/SearchActor.vue";
+import * as actors from "@/api-client/mock/data/actors.json";
 import store from "@/store";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import flushPromises from "flush-promises";
@@ -105,6 +106,27 @@ describe("FollowingActors.vue", () => {
     expect(wrapper.findAll(".actor-short-list").length).toBe(10);
   });
 
+  it("Call second page of follower list", async () => {
+    const wrapper = mount(SearchActor, {
+      localVue,
+      vuetify,
+      store,
+    });
+
+    wrapper.find("#search-field").setValue("@sally.example.org");
+    wrapper.find("#search-btn").trigger("click");
+    await flushPromises();
+
+    wrapper.find("#search-actor-followers-btn").trigger("click");
+    await flushPromises();
+
+    // eslint-disable-next-line
+    (wrapper.vm as any).nextFollowersPage()
+    await flushPromises();
+
+    expect(wrapper.findAll(".actor-short-list").length).toBe(12);
+  });
+
   it("Reset search", async () => {
     const wrapper = mount(SearchActor, {
       localVue,
@@ -137,6 +159,26 @@ describe("FollowingActors.vue", () => {
     ).toBe("15 Follows");
   });
 
+  it("Set new actor for detail", async () => {
+    const wrapper = mount(SearchActor, {
+      localVue,
+      vuetify,
+      store,
+    });
+
+    wrapper.find("#search-field").setValue("@sally.example.org");
+    wrapper.find("#search-btn").trigger("click");
+    await flushPromises();
+
+    wrapper.find("#search-actor-following-btn").trigger("click");
+    await flushPromises();
+
+    // eslint-disable-next-line
+    (wrapper.vm as any).detail((actors as any)[3])
+    await flushPromises();
+    expect(wrapper.find("#summarized-name").text()).toBe("John");
+  });
+
   it("Click following actor button of the searched actor and show first page", async () => {
     const wrapper = mount(SearchActor, {
       localVue,
@@ -152,6 +194,27 @@ describe("FollowingActors.vue", () => {
     await flushPromises();
 
     expect(wrapper.findAll(".actor-short-list").length).toBe(13);
+  });
+
+  it("Call second page of following list", async () => {
+    const wrapper = mount(SearchActor, {
+      localVue,
+      vuetify,
+      store,
+    });
+
+    wrapper.find("#search-field").setValue("@sally.example.org");
+    wrapper.find("#search-btn").trigger("click");
+    await flushPromises();
+
+    wrapper.find("#search-actor-following-btn").trigger("click");
+    await flushPromises();
+
+    // eslint-disable-next-line
+    (wrapper.vm as any).nextFollowingPage()
+    await flushPromises();
+
+    expect(wrapper.findAll(".actor-short-list").length).toBe(15);
   });
 
   it("No actor found", async () => {

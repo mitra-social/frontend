@@ -83,7 +83,7 @@ const delay = async (ms: number) => {
     }
     setTimeout(resolve, ms);
     if (process.env.NODE_ENV === "test") {
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
     }
   });
 };
@@ -366,7 +366,7 @@ export default {
       return fetch(followingPage1Data.default);
     }
 
-    return Promise.reject("not implemented yet");
+    return Promise.reject("No results");
   },
   // jest function
   // eslint-disable-next-line
