@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import md5 from "md5";
 import {
   OrderedCollectionPage,
@@ -10,9 +10,11 @@ import {
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
+import router from "@/router";
 import { Credential } from "@/model/credential";
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 import { CreateUser } from "@/model/create-user";
+import { Webfinger } from "@/model/webfinger";
 
 const urlPrefix = process.env.NODE_ENV === "production" ? "/api" : "";
 
@@ -21,6 +23,18 @@ const config = {
     Accept: "application/json",
     "Content-Type": "application/json",
   },
+};
+
+const catchError = (error: AxiosError): Promise<void> => {
+  if (error.response) {
+    if (error.response.status === 401) {
+      router.push({ name: "Login" });
+      return Promise.reject(
+        new Error("Authentication failed. Please log in again")
+      ) as Promise<void>;
+    }
+  }
+  return Promise.reject(new Error(error.message)) as Promise<void>;
 };
 
 export default {
@@ -32,9 +46,11 @@ export default {
       });
   },
   async createUser(user: CreateUser) {
-    return await axios.post(`${urlPrefix}/user`, user, config);
+    return await axios
+      .post(`${urlPrefix}/user`, user, config)
+      .catch(catchError);
   },
-  async getUser(token: string, user: string): Promise<User> {
+  async getUser(token: string, user: string): Promise<InternalActor> {
     return await axios
       .get(`${urlPrefix}/user/${user}`, {
         headers: {
@@ -45,18 +61,8 @@ export default {
       })
       .then((resp) => {
         return resp.data;
-      });
-  },
-  async getActor(url: string): Promise<Actor> {
-    return await axios
-      .get(url, {
-        headers: {
-          Accept: "application/activity+json",
-        },
       })
-      .then((resp) => {
-        return resp.data;
-      });
+      .catch(catchError);
   },
   async fetchFollowing(
     token: string,
@@ -73,25 +79,50 @@ export default {
       })
       .then((resp) => {
         return resp.data;
-      });
+      })
+      .catch(catchError);
   },
-  async fetchPosts(
+  async fetchFollowers(
     token: string,
     user: string,
     page: number
-  ): Promise<OrderedCollectionPage> {
+  ): Promise<CollectionPage> {
     return await axios
-      .get(`${urlPrefix}/user/${user}/inbox?page=${page}`, {
+      .get(`${urlPrefix}/user/${user}/follower?page=${page}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          // eslint - disable - next - line
           Authorization: `Bearer ${token}`,
         },
       })
       .then((resp) => {
         return resp.data;
-      });
+      })
+      .catch(catchError);
+  },
+  async fetchPosts(
+    token: string,
+    user: string,
+    page: number,
+    filter?: string
+  ): Promise<OrderedCollectionPage> {
+    const filterQuery = filter
+      ? `&filter=${encodeURIComponent("attributedTo=" + filter)}`
+      : "";
+
+    return await axios
+      .get(`${urlPrefix}/user/${user}/inbox?page=${page}${filterQuery}`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          // eslint-disable-next-line
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((resp) => {
+        return resp.data;
+      })
+      .catch(catchError);
   },
   async writeToOutbox(
     token: string,
@@ -118,6 +149,73 @@ export default {
       return uri;
     }
 
-    return `${process.env.VUE_APP_BACKEND_URL}/media/${md5(uri)}`;
+    return `${process.env.VUE_APP_BACKEND_HOST}/media/${md5(uri)}`;
+  },
+  updateUser(
+    token: string,
+    user: string,
+    updatedUser: InternalActor
+  ): Promise<void> {
+    // TODO: implements
+    return Promise.reject(
+      `not implemented yet. ${token}/${user}/${updatedUser}`
+    );
+  },
+  updatePassword(
+    token: string,
+    user: string,
+    oldPassword: string,
+    newPassword: string
+  ): Promise<void> {
+    // TODO: implements
+    return Promise.reject(
+      `not implemented yet. ${token}/${user}/${oldPassword}/${newPassword}`
+    );
+  },
+  // Fediverse
+  async fediverseSearchUserId(query: string): Promise<string | undefined> {
+    return await axios
+      .get<Webfinger>(
+        `https://${query.substring(
+          query.indexOf("@"),
+          query.length
+        )}/.well-known/webfinger?resource=acct:${query}`
+      )
+      .then((resp) => {
+        const webfinger = resp.data;
+        const link = webfinger.links.find(($) => $.rel === "self");
+        return link?.href;
+      });
+  },
+  async fediverseGetActor(url: string): Promise<Actor> {
+    return await axios
+      .get(url, {
+        headers: {
+          Accept: "application/activity+json",
+        },
+      })
+      .then((resp) => {
+        return resp.data;
+      });
+  },
+  async fediverseGetUser(url: string): Promise<InternalActor> {
+    return await axios
+      .get(url, {
+        headers: {
+          Accept: "application/activity+json",
+        },
+      })
+      .then((resp) => resp.data);
+  },
+  async fediversGetCollection(url: string): Promise<OrderedCollectionPage> {
+    return await axios
+      .get(url, {
+        headers: {
+          Accept: "application/activity+json",
+        },
+      })
+      .then((resp) => {
+        return resp.data;
+      });
   },
 } as ApiClient;

@@ -3,20 +3,19 @@ import {
   ActivityObject,
   Link,
   CollectionPage,
-  Actor,
   ActivityType,
 } from "activitypub-objects";
 
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Following } from "@/model/following";
+import { InternalActor } from "@/model/internal-actor";
 
 @Module({ namespaced: true })
 class FollowingStore extends VuexModule {
-  private following: Following[] = [];
+  private following: InternalActor[] = [];
 
-  get getFollowing(): Following[] {
+  get getFollowing(): InternalActor[] {
     return this.following;
   }
 
@@ -25,26 +24,23 @@ class FollowingStore extends VuexModule {
     return (actor: ActivityObject): boolean => {
       return following.some(
         ($) =>
-          ActivityObjectHelper.extractId($.actor) ===
+          ActivityObjectHelper.extractId($) ===
           ActivityObjectHelper.extractId(actor)
       );
     };
   }
 
   @Mutation
-  public setFollowing(actors: Actor[]): void {
+  public setFollowing(actors: InternalActor[]): void {
     if (actors) {
-      actors.forEach(($) => {
-        const f = { actor: $, show: true };
-        this.following.push(f);
-      });
+      this.following = actors;
     }
   }
 
   @Mutation
-  public addFollowing(actor: ActivityObject | Link): void {
+  public addFollowing(actor: InternalActor): void {
     if (this.following) {
-      this.following.push({ actor, show: true });
+      this.following.push(actor);
     }
   }
 
@@ -53,7 +49,7 @@ class FollowingStore extends VuexModule {
     if (this.following) {
       this.following = this.following.filter(($) => {
         return (
-          ActivityObjectHelper.extractId($.actor) !==
+          ActivityObjectHelper.extractId($) !==
           ActivityObjectHelper.extractId(actor)
         );
       });
@@ -69,29 +65,39 @@ class FollowingStore extends VuexModule {
       .fetchFollowing(token, user, 0)
       .then((collection: CollectionPage) => {
         return Promise.all(
-          collection.items.map(async (item: ActivityObject | Link | URL) => {
-            if (
-              !ActivityObjectHelper.hasProperty(item, "name") &&
-              !ActivityObjectHelper.hasProperty(item, "nameMap")
-            ) {
-              const url = (item as Actor).id;
+          collection.items
+            .filter(($) => !!$)
+            .map(async (item: ActivityObject | Link | URL) => {
+              let id;
 
-              if (url) {
+              const activityObject = item as ActivityObject;
+              if (activityObject.id) {
+                id = activityObject.id;
+              }
+
+              const link = item as Link;
+
+              if (link.href) {
+                id = link.href;
+              }
+
+              if (typeof item === "string") {
+                id = item;
+              }
+
+              if (id) {
                 return await client
-                  .getActor(url.toString())
+                  .fediverseGetActor(id.toString())
                   .then(($) => {
                     if ($) {
-                      item = $;
+                      item = Object.assign(item, $);
                     }
                     return item;
                   })
                   .catch(() => Promise.resolve(undefined));
               }
               return item;
-            } else {
-              return item;
-            }
-          })
+            })
         );
       })
       .then((actors) => {
@@ -100,7 +106,7 @@ class FollowingStore extends VuexModule {
   }
 
   @Action
-  public async follow(actor: Actor): Promise<void> {
+  public async follow(actor: InternalActor): Promise<void> {
     const objectFollow = ActivityObjectHelper.normalizedObjectFollow(actor);
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
@@ -115,6 +121,7 @@ class FollowingStore extends VuexModule {
       .writeToOutbox(token, user, follow, summary)
       .then(() => {
         this.context.commit("addFollowing", actor);
+        this.context.dispatch("fetchFollowing", user);
       })
       .catch(() => {
         this.context.dispatch(
@@ -126,7 +133,7 @@ class FollowingStore extends VuexModule {
   }
 
   @Action
-  public async unfollow(actor: Actor): Promise<void> {
+  public async unfollow(actor: InternalActor): Promise<void> {
     const objectFollow = ActivityObjectHelper.normalizedObjectFollow(actor);
     const token = AuthenticationUtil.getToken() || "";
     const user = AuthenticationUtil.getUser() || "";
@@ -145,6 +152,7 @@ class FollowingStore extends VuexModule {
       .writeToOutbox(token, user, undo as ActivityObject, summary)
       .then(() => {
         this.context.commit("removeFollowing", actor);
+        this.context.dispatch("fetchFollowing", user);
       })
       .catch(() => {
         this.context.dispatch(

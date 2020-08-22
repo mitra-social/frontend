@@ -1,8 +1,20 @@
 {
+    "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+    ],
     "type": "Person",
-    "userId": "362408a8-67ac-4546-80f9-cb8a22364bfa",
     "email": "john.doe@example.org",
-    "registeredAt": "2020-04-08T18:58:24+00:00",
+    "id": "https://example.org/user/john.doe",
+    "url": "https://example.org/user/john.doe",
     "preferredUsername": "john.doe",
-    "inbox": "http://localhost:1337/user/john.doe/inbox"
+    "registeredAt": "2020-04-08T18:58:24+00:00",
+    "inbox": "https://example.org/user/john.doe/inbox",
+    "outbox": "https://example.org/user/john.doe/outbox",
+    "following": "https://example.org/user/john.doe/following",
+    "publicKey": {
+        "id": "https://example.org/user/john.doe#main-key",
+        "owner": "https://example.org/user/john.doe",
+        "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz4xtXZjGcc+qvZdsdA4x\naW1iUieVGzI9eMsKejRugM2WEMcY6tP9U6ZRUtlofKgI+IIipVF8PM7bxb737IcS\neWfsJioykmD3eiF2jeYb74ehTQhxnr+HoJUdQRTXbRsBxyQaSoef7+KKY3JEZSsv\nH+xT1TpLMoEFkQMhKJBIqhAd6sR8bXe9ydzX+f72ystL/n2DxOa+bfKv/qTf6bFy\nR/wBEecEPB4xENyfH3JjktDzyUT9ZehncE3mj3xpU0NI+83mqrfvu2DO79g81nTS\nOqU9xTBfAodTVs2CP8Lg1wumLteI+3mwh0trHcPTZTGhmty0Pb5XmoosalseVwul\nFwIDAQAB\n-----END PUBLIC KEY-----\n"
+    }
 }

@@ -1,0 +1,191 @@
+[
+  {
+    "aliases": [
+      "http://sally.example.org"
+    ],
+    "links": [
+      {
+        "href": "http://sally.example.org",
+        "rel": "http://webfinger.net/rel/profile-page",
+        "type": "text/html"
+      },
+      {
+        "href": "http://sally.example.org",
+        "rel": "self",
+        "type": "application/activity+json"
+      },
+      {
+        "href": "http://sally.example.org",
+        "rel": "self",
+        "type": "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
+      },
+      {
+        "rel": "http://ostatus.org/schema/1.0/subscribe",
+        "template": "https://example.com/ostatus_subscribe?acct={uri}"
+      }
+    ],
+    "subject": "acct:@sally.example.org"
+  },
+  {
+    "aliases": [
+      "http://example.com/user/fraenki"
+    ],
+    "links": [
+      {
+        "href": "http://example.com/user/fraenki",
+        "rel": "http://webfinger.net/rel/profile-page",
+        "type": "text/html"
+      },
+      {
+        "href": "http://example.com/user/fraenki",
+        "rel": "self",
+        "type": "application/activity+json"
+      },
+      {
+        "href": "http://example.com/user/fraenki",
+        "rel": "self",
+        "type": "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
+      },
+      {
+        "rel": "http://ostatus.org/schema/1.0/subscribe",
+        "template": "http://example.com/ostatus_subscribe?acct={uri}"
+      }
+    ],
+    "subject": "acct:@fraenki@example.com"
+  },
+  {
+    "aliases": [
+      "http://johnny.example.org"
+    ],
+    "links": [
+      {
+        "href": "http://johnny.example.org",
+        "rel": "http://webfinger.net/rel/profile-page",
+        "type": "text/html"
+      },
+      {
+        "href": "http://johnny.example.org",
+        "rel": "self",
+        "type": "application/activity+json"
+      },
+      {
+        "href": "http://johnny.example.org",
+        "rel": "self",
+        "type": "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
+      },
+      {
+        "rel": "http://ostatus.org/schema/1.0/subscribe",
+        "template": "http://example.com/ostatus_subscribe?acct={uri}"
+      }
+    ],
+    "subject": "acct:@johnny.example.org"
+  },
+  {
+    "aliases": [
+      "https://john.example.org"
+    ],
+    "links": [
+      {
+        "href": "http://john.example.org",
+        "rel": "http://webfinger.net/rel/profile-page",
+        "type": "text/html"
+      },
+      {
+        "href": "http://john.example.org",
+        "rel": "self",
+        "type": "application/activity+json"
+      },
+      {
+        "href": "http://john.example.org",
+        "rel": "self",
+        "type": "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
+      },
+      {
+        "rel": "http://ostatus.org/schema/1.0/subscribe",
+        "template": "http://example.com/ostatus_subscribe?acct={uri}"
+      }
+    ],
+    "subject": "acct:@john.example.org"
+  },
+  {
+    "aliases": [
+      "http://example.com/user/giovanni.g"
+    ],
+    "links": [
+      {
+        "href": "http://example.com/user/giovanni.g",
+        "rel": "http://webfinger.net/rel/profile-page",
+        "type": "text/html"
+      },
+      {
+        "href": "http://example.com/user/giovanni.g",
+        "rel": "self",
+        "type": "application/activity+json"
+      },
+      {
+        "href": "http://example.com/user/giovanni.g",
+        "rel": "self",
+        "type": "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
+      },
+      {
+        "rel": "http://ostatus.org/schema/1.0/subscribe",
+        "template": "http://example.com/ostatus_subscribe?acct={uri}"
+      }
+    ],
+    "subject": "acct:giovanni.g@example.com"
+  },
+  {
+    "aliases": [
+      "http://ben.example.org"
+    ],
+    "links": [
+      {
+        "href": "http://ben.example.org",
+        "rel": "http://webfinger.net/rel/profile-page",
+        "type": "text/html"
+      },
+      {
+        "href": "http://ben.example.org",
+        "rel": "self",
+        "type": "application/activity+json"
+      },
+      {
+        "href": "http://ben.example.org",
+        "rel": "self",
+        "type": "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
+      },
+      {
+        "rel": "http://ostatus.org/schema/1.0/subscribe",
+        "template": "http://example.com/ostatus_subscribe?acct={uri}"
+      }
+    ],
+    "subject": "acct:http://ben.example.org"
+  },
+  {
+    "aliases": [
+      "http://example.com/user/grundy"
+    ],
+    "links": [
+      {
+        "href": "http://example.com/user/grundy",
+        "rel": "http://webfinger.net/rel/profile-page",
+        "type": "text/html"
+      },
+      {
+        "href": "http://example.com/user/grundy",
+        "rel": "self",
+        "type": "application/activity+json"
+      },
+      {
+        "href": "http://example.com/user/grundy",
+        "rel": "self",
+        "type": "application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\""
+      },
+      {
+        "rel": "http://ostatus.org/schema/1.0/subscribe",
+        "template": "http://example.com/ostatus_subscribe?acct={uri}"
+      }
+    ],
+    "subject": "acct:grundy@example.com"
+  }
+]

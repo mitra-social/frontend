@@ -5,6 +5,7 @@ import store from "@/store";
 import Home from "@/views/home/index.vue";
 import Login from "@/views/Login.vue";
 import SignUp from "@/views/SignUp.vue";
+
 import { AuthenticationUtil } from "@/utils/authentication-util";
 
 Vue.use(VueRouter);
@@ -18,13 +19,13 @@ const routes = [
   },
   {
     path: "/login",
-    name: "login",
+    name: "Login",
     component: Login,
     meta: { title: "Login" },
   },
   {
     path: "/signup",
-    name: "signup",
+    name: "Signup",
     component: SignUp,
     meta: { title: "SignUp" },
   },
@@ -39,9 +40,12 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const publicPages = ["/login", "/signup"];
   const authRequired = !publicPages.includes(to.path);
+  const isAuthenticated = !!AuthenticationUtil.getToken();
 
-  if (authRequired && !store.getters["Auth/isAuthenticated"]) {
-    next({ name: "login" });
+  if (!authRequired && isAuthenticated) {
+    next({ name: "Home" });
+  } else if (authRequired && !isAuthenticated) {
+    next({ name: "Login" });
   } else if (authRequired && !store.getters["User/isUserFetch"]) {
     store
       .dispatch("User/fetchUser", AuthenticationUtil.getUser())
@@ -49,7 +53,8 @@ router.beforeEach((to, from, next) => {
         next();
       })
       .catch(() => {
-        next({ name: "login", params: { redirectFrom: to.fullPath } });
+        AuthenticationUtil.clear();
+        next({ name: "Login", params: { redirectFrom: to.fullPath } });
       });
   } else {
     next();

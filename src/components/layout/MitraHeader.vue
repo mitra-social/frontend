@@ -14,43 +14,15 @@
         v-if="$vuetify.theme.dark"
       />
       <img class="header-logo" src="@/assets/mitra-logo-white.png" v-else />
-      <div class="d-flex flex-row">
-        <div class="d-flex flex-row">
-          <v-switch v-model="$vuetify.theme.dark" hide-details inset></v-switch>
-          <v-icon v-if="$vuetify.theme.dark">mdi-moon-waning-crescent</v-icon>
-          <v-icon v-else>mdi-white-balance-sunny</v-icon>
-        </div>
-        <div class="user-content" v-if="getUser">
-          <v-avatar color="indigo" size="36" v-if="icon">
-            <v-img :src="icon"></v-img>
-          </v-avatar>
-          <v-avatar color="indigo" size="36" v-else>
-            <v-icon dark>mdi-account-circle</v-icon>
-          </v-avatar>
-          {{ getUser.preferredUsername }}
-        </div>
-      </div>
     </div>
   </v-toolbar>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-
-import { User } from "@/model/user";
-
-const userStore = namespace("User");
 
 @Component
-export default class MitraHeader extends Vue {
-  @userStore.Getter
-  public getUser!: User;
-
-  get icon(): string | undefined {
-    return undefined;
-  }
-}
+export default class MitraHeader extends Vue {}
 </script>
 
 <style lang="scss" scoped>

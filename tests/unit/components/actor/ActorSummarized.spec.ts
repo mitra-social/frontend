@@ -2,13 +2,21 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 import { mount, createLocalVue } from "@vue/test-utils";
-import { ActivityObject, Link, ActorType, Activity } from "activitypub-objects";
+import {
+  ActivityObject,
+  Link,
+  ActorType,
+  Activity,
+  OrderedCollectionPage,
+} from "activitypub-objects";
 import flushPromises from "flush-promises";
 
 import store from "@/store";
 import ActorSummarized from "@/components/actor/ActorSummarized.vue";
+import apiService from "@/api-client/mock/index";
 import collection from "@/api-client/mock/data/collection-page-1.json";
 import { AuthenticationUtil } from "@/utils/authentication-util";
+import { InternalActor } from "@/model/internal-actor";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -21,7 +29,9 @@ describe("ActorSummarized.vue", () => {
   beforeEach(async () => {
     const user = "john.doe";
     vuetify = new Vuetify();
-    articles = collection.orderedItems as Array<ActivityObject | Link>;
+    articles = (collection as OrderedCollectionPage).orderedItems as Array<
+      ActivityObject | Link
+    >;
 
     jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue(user);
     jest
@@ -32,8 +42,12 @@ describe("ActorSummarized.vue", () => {
     await flushPromises();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     AuthenticationUtil.clear();
+    // eslint-disable-next-line
+    const jestReset = (apiService as any).getJestReset();
+    jestReset();
+    await flushPromises();
   });
 
   it("Actor is a object with name property", () => {
@@ -143,7 +157,6 @@ describe("ActorSummarized.vue", () => {
       },
     });
 
-    await flushPromises();
     const followingRemoveIcon = wrapper.find(".mdi-account-remove");
     const followingAddIcon = wrapper.find(".mdi-account-plus");
     expect(followingAddIcon.exists()).toBe(false);
@@ -160,50 +173,43 @@ describe("ActorSummarized.vue", () => {
       },
     });
 
-    await flushPromises();
     const followingRemoveIcon = wrapper.find(".mdi-account-remove");
     const followingAddIcon = wrapper.find(".mdi-account-plus");
     expect(followingAddIcon.exists()).toBe(true);
     expect(followingRemoveIcon.exists()).toBe(false);
   });
 
-  it("User follows an unfollowed actor", async (done) => {
-    const actor = (articles[1] as Activity).actor as URL;
+  it("User follows an unfollowed actor", async () => {
+    const actor = (articles[1] as Activity).actor;
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
       store,
       propsData: {
         actor: {
-          id: actor,
-          to: actor,
+          id: (actor as InternalActor).id,
+          to: (actor as InternalActor).id,
         },
       },
     });
 
-    await flushPromises().then(async () => {
-      // Check actor is not follwoing
-      let followingAddIcon = wrapper.find(".mdi-account-plus");
-      expect(followingAddIcon.exists()).toBe(true);
+    // Check actor is not follwoing
+    let followingAddIcon = wrapper.find(".mdi-account-plus");
+    expect(followingAddIcon.exists()).toBe(true);
 
-      // // Click following actor
-      const followingButton = wrapper.find(".following-btn");
-      expect(followingButton.exists()).toBe(true);
-      followingButton.trigger("click");
-      // Check actor is not follwoing
-      followingAddIcon = wrapper.find(".mdi-account-plus");
+    // // Click following actor
+    const followingButton = wrapper.find(".following-btn");
+    expect(followingButton.exists()).toBe(true);
+    followingButton.trigger("click");
+    await flushPromises();
 
-      await flushPromises();
-
-      const followingRemoveIcon = wrapper.find(".mdi-account-remove");
-      followingAddIcon = wrapper.find(".mdi-account-plus");
-      expect(followingAddIcon.exists()).toBe(false);
-      expect(followingRemoveIcon.exists()).toBe(true);
-      done();
-    });
+    const followingRemoveIcon = wrapper.find(".mdi-account-remove");
+    followingAddIcon = wrapper.find(".mdi-account-plus");
+    expect(followingAddIcon.exists()).toBe(false);
+    expect(followingRemoveIcon.exists()).toBe(true);
   });
 
-  it("User unfollows a followed actor", () => {
+  it("User unfollows a followed actor", async () => {
     const wrapper = mount(ActorSummarized, {
       localVue,
       vuetify,
@@ -213,20 +219,16 @@ describe("ActorSummarized.vue", () => {
       },
     });
 
-    flushPromises().then(async () => {
-      // Check actor is not follwoing
-      const followingRemoveIcon = wrapper.find(".mdi-account-remove");
-      expect(followingRemoveIcon.exists()).toBe(true);
+    // Check actor is not follwoing
+    expect(wrapper.find(".mdi-account-remove").exists()).toBe(true);
 
-      // Click following actor
-      const followingButton = wrapper.find(".following-btn");
-      followingButton.trigger("click");
+    // Click following actor
+    wrapper.find(".following-btn").trigger("click");
 
-      await flushPromises();
-      // Check actor is not follwoing
-      const followingAddIcon = wrapper.find(".mdi-account-plus");
-      expect(followingAddIcon.exists()).toBe(true);
-      expect(followingRemoveIcon.exists()).toBe(false);
-    });
+    await flushPromises();
+    // Check actor is not follwoing
+    const followingAddIcon = wrapper.find(".mdi-account-plus");
+    expect(followingAddIcon.exists()).toBe(true);
+    expect(wrapper.find(".mdi-account-remove").exists()).toBe(false);
   });
 });

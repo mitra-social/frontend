@@ -10,11 +10,12 @@
       "id": "http://activities.example.com/1",
       "object": {
         "type": "Article",
-        "name": "Minecraft Signs",
+        "name": "New Fetch Minecraft Signs",
         "content": "<p>Short-form poetry found in Minecraft maps. Sibling to <a href=\"https://botsin.space/@minecraft_ebooks\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@minecraft_ebooks</span><span class=\"invisible\"></span></a>, created by <a href=\"https://botsin.space/@leonardr\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">botsin.space/@leonardr</span><span class=\"invisible\"></span></a>.</p>"
       },
       "actor": {
         "id": "http://sally.example.org",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "type": "Person",
         "summary": "Nice persone you know",
         "name": "Sally",
@@ -29,21 +30,25 @@
       "id": "http://activities.example.com/2",
       "object": {
         "type": "Article",
-        "name": "Hi/Ho",
+        "name": "New Fetch: Hi/Ho",
         "content": "<p><span style=\"color: purple\">SAVIOR OF SONG</span> (feat.MY FIRST STORY) by ナノ <a href=\"https://heislandmine.work/tags/nowplaying\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>NowPlaying</span></a> <a href=\"https://heislandmine.work/tags/%E6%81%90%E7%AB%9C%E3%81%AA%E3%81%86%E3%81%B7%E3%82%8C\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>恐竜なうぷれ</span></a></p>"
       },
-      "actor": "http://johnny.example.org"
+      "actor": {
+        "id": "http://johnny.example.org",
+        "internalUserId": "johnny-8801-4d0a-94f3-30614c740c76"
+      }
     },
     {
       "type": "Create",
       "id": "http://activities.example.com/3",
       "object": {
         "type": "Article",
-        "name": "The Clinic",
+        "name": "New Fetch: The Clinic",
         "content": "<p>the misinformation and outright lies on this webbed site about Covid 19 driven by certain anarchists is wild. nice to know we're all Karens at the core waiting for the right activation call</p>"
       },
       "actor": {
         "id": "http://john.example.org",
+        "internalUserId": "john-8801-4d0a-94f3-30614c740c76",
         "type": "Person",
         "nameMap": {
           "de": "Hans",
@@ -60,26 +65,32 @@
       "summary": "Sally created a note",
       "type": "Create",
       "id": "http://activities.example.com/4",
-      "actor": "http://sally.example.org",
+      "actor": {
+        "id": "http://sally.example.org",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76"
+      },
       "object": {
         "summary": "A note",
         "type": "Note",
         "id": "http://notes.example.com/1",
-        "content": "A create note"
+        "content": "New Fetch: A create note"
       }
     },
     {
       "summary": "Sally created a note",
       "type": "Create",
       "id": "http://activities.example.com/5",
-      "actor": "http://sally.example.org",
+      "actor": {
+        "id": "http://sally.example.org",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76"
+      },
       "updated": "2020-04-28T17:49:12Z",
       "published": "2020-04-28T16:12:12Z",
       "object": {
         "summary": "A note",
         "type": "Note",
         "id": "http://notes.example.com/1",
-        "content": "A create note with published and updated datetime"
+        "content": "New Fetch: A create note with published and updated datetime"
       }
     },
     {
@@ -87,6 +98,7 @@
       "type": "Update",
       "actor": {
         "type": "Person",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "name": "Sally",
         "id": "http://sally.example.org"
       },
@@ -97,6 +109,7 @@
       "type": "Delete",
       "actor": {
         "type": "Person",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "name": "Sally",
         "id": "http://sally.example.org"
       },

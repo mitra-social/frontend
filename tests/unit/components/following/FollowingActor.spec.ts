@@ -7,6 +7,7 @@ import FollowingActor from "@/components/following/FollowingActor.vue";
 import store from "@/store";
 import flushPromises from "flush-promises";
 import { AuthenticationUtil } from "@/utils/authentication-util";
+import { InternalActor } from "@/model/internal-actor";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -14,9 +15,17 @@ Vue.use(Vuetify);
 describe("FollowingActor.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
+  const user = "john.doe";
 
-  beforeEach(() => {
+  beforeEach(async () => {
     vuetify = new Vuetify();
+
+    jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue(user);
+    jest
+      .spyOn(AuthenticationUtil, "getToken")
+      .mockReturnValue("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi");
+    store.dispatch("Following/fetchFollowing", user);
+    await flushPromises();
   });
 
   it("Actor is an object with preferredUsername property and no icon", () => {
@@ -26,12 +35,9 @@ describe("FollowingActor.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        following: {
-          actor: {
-            type: "Person",
-            preferredUsername: preferredUsername,
-          },
-          show: true,
+        actor: {
+          type: "Person",
+          preferredUsername: preferredUsername,
         },
       },
     });
@@ -56,20 +62,17 @@ describe("FollowingActor.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        following: {
-          actor: {
-            type: "Person",
-            preferredUsername: "john.doe",
-            name: name,
-            icon: {
-              type: "Image",
-              name: "Avatar",
-              url: iconUrl,
-              width: 16,
-              height: 16,
-            },
+        actor: {
+          type: "Person",
+          preferredUsername: "john.doe",
+          name: name,
+          icon: {
+            type: "Image",
+            name: "Avatar",
+            url: iconUrl,
+            width: 16,
+            height: 16,
           },
-          show: true,
         },
       },
     });
@@ -88,18 +91,15 @@ describe("FollowingActor.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        following: {
-          actor: {
-            type: "Person",
-            preferredUsername: "john.doe",
-            name: "Foo",
-            nameMap: {
-              de: "Hans",
-              fr: "Jean",
-              en: name,
-            },
+        actor: {
+          type: "Person",
+          preferredUsername: "john.doe",
+          name: "Foo",
+          nameMap: {
+            de: "Hans",
+            fr: "Jean",
+            en: name,
           },
-          show: true,
         },
       },
     });
@@ -115,17 +115,14 @@ describe("FollowingActor.vue", () => {
       localVue,
       vuetify,
       propsData: {
-        following: {
-          actor: {
-            type: "Person",
-            preferredUsername: "john.doe",
-            name: name,
-            nameMap: {
-              de: "Hans",
-              fr: "Jean",
-            },
+        actor: {
+          type: "Person",
+          preferredUsername: "john.doe",
+          name: name,
+          nameMap: {
+            de: "Hans",
+            fr: "Jean",
           },
-          show: true,
         },
       },
     });
@@ -134,44 +131,129 @@ describe("FollowingActor.vue", () => {
     expect(displayNameElement.text()).toBe(name);
   });
 
-  it("Toggle exclude all actors from posts", async () => {
-    jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue("john.doe");
-    jest
-      .spyOn(AuthenticationUtil, "getToken")
-      .mockReturnValue("5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi");
-    store.dispatch("Following/fetchFollowing", "john.doe");
-    await flushPromises();
-    const actor = store.state.Following.following[0];
+  it("Hover list item", async () => {
+    const actor: InternalActor = store.state.Following.following[0];
 
     const wrapper = mount(FollowingActor, {
       localVue,
       vuetify,
       store,
       propsData: {
-        following: actor,
+        actor,
       },
     });
 
-    // created() state of excluded actors
-    expect(wrapper.findAll(".mdi-eye").length).toBe(1);
-    expect(wrapper.findAll(".mdi-eye-off").length).toBe(0);
+    // Find only button icon of item action
+    expect(wrapper.find(".item-action").findAll(".v-icon").length).toBe(1);
 
-    // exclude all actors
-    let button = wrapper.find("#add-exclude-actor-btn");
-    button.trigger("click");
+    wrapper.setData({ isHover: true });
     await flushPromises();
 
-    expect(wrapper.vm.$store.state.Collection.excludedActors.length).toBe(1);
-    expect(wrapper.find(".mdi-eye").exists()).toBe(false);
-    expect(wrapper.find(".mdi-eye-off").exists()).toBe(true);
+    expect(wrapper.find(".mdi-filter-plus-outline").exists()).toBe(true);
+  });
 
-    // Remove exclude all actors
-    button = wrapper.find("#remove-exclude-actor-btn");
-    button.trigger("click");
+  it("Filter posts by first actor in following list", async () => {
+    const actor: InternalActor = store.state.Following.following[0];
+
+    const wrapper = mount(FollowingActor, {
+      localVue,
+      vuetify,
+      store,
+      propsData: {
+        actor,
+      },
+    });
+
+    // Find only button icon of item action
+    expect(wrapper.find(".item-action").findAll(".v-icon").length).toBe(1);
+
+    const listItem = wrapper.find(".v-list-item");
+    listItem.trigger("click");
+    await wrapper.vm.$nextTick();
+    wrapper.setData({ disabledFilter: true });
     await flushPromises();
 
-    expect(wrapper.vm.$store.state.Collection.excludedActors.length).toBe(0);
-    expect(wrapper.find(".mdi-eye").exists()).toBe(true);
-    expect(wrapper.find(".mdi-eye-off").exists()).toBe(false);
+    expect(wrapper.vm.$store.getters["Collection/getPosts"].length).toBe(6);
+    expect(wrapper.vm.$store.state.Collection.filter).toBe(
+      actor.internalUserId
+    );
+    expect(wrapper.find(".mdi-filter-outline").exists()).toBe(true);
+  });
+
+  it("Filter is set and hover list item", async () => {
+    const actor: InternalActor = store.state.Following.following[0];
+
+    const wrapper = mount(FollowingActor, {
+      localVue,
+      vuetify,
+      store,
+      propsData: {
+        actor,
+      },
+    });
+
+    // Find only button icon of item action
+    expect(wrapper.find(".item-action").findAll(".v-icon").length).toBe(1);
+
+    const listItem = wrapper.find(".v-list-item");
+    listItem.trigger("click");
+    await wrapper.vm.$nextTick();
+    wrapper.setData({ disabledFilter: true });
+    wrapper.setData({ isHover: true });
+    await flushPromises();
+
+    expect(wrapper.find(".mdi-filter-remove-outline").exists()).toBe(true);
+  });
+
+  it("Remove filter by first actor in following list", async () => {
+    const actor: InternalActor = store.state.Following.following[0];
+
+    const wrapper = mount(FollowingActor, {
+      localVue,
+      vuetify,
+      store,
+      propsData: {
+        actor,
+      },
+    });
+
+    // Find only button icon of item action
+    expect(wrapper.find(".item-action").findAll(".v-icon").length).toBe(1);
+
+    const listItem = wrapper.find(".v-list-item");
+    listItem.trigger("click");
+    await wrapper.vm.$nextTick();
+    wrapper.setData({ disabledFilter: true });
+    await flushPromises();
+
+    listItem.trigger("click");
+    await wrapper.vm.$nextTick();
+    wrapper.setData({ disabledFilter: false });
+    await flushPromises();
+
+    expect(wrapper.vm.$store.getters["Collection/getPosts"].length).toBe(12);
+    expect(wrapper.vm.$store.state.Collection.filter).toBe(undefined);
+    // Find only button icon of item action
+    expect(wrapper.find(".item-action").findAll(".v-icon").length).toBe(1);
+  });
+
+  it("User unfollows a followed actor", async () => {
+    const actor: InternalActor = store.state.Following.following[0];
+
+    const wrapper = mount(FollowingActor, {
+      localVue,
+      vuetify,
+      store,
+      propsData: {
+        actor,
+      },
+    });
+
+    expect(wrapper.vm.$store.state.Following.following.length).toBe(5);
+
+    wrapper.find(".following-btn").trigger("click");
+    await flushPromises();
+
+    expect(wrapper.vm.$store.state.Following.following.length).toBe(4);
   });
 });

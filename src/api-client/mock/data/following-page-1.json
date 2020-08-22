@@ -1,0 +1,326 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "type": "OrderedCollectionPage",
+  "id": "https://example.org/following?page=1",
+  "next": "https://example.org/following?page=2",
+  "totalItems": 15,
+  "orderedItems": [
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+      ],
+      "type": "Person",
+      "id": "http://sally.example.org",
+      "url": "http://sally.example.org",
+      "preferredUsername": "Sally",
+      "inbox": "http://sally.example.org/inbox",
+      "outbox": "http://sally.example.org/outbox",
+      "following": "http://sally.example.org/following",
+      "icon": {
+        "name": "avatar",
+        "url": "https://picsum.photos/200/1014"
+      },
+      "publicKey": {
+        "id": "http://sally.example.org#main-key",
+        "owner": "http://sally.example.org",
+        "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz4xtXZjGcc+qvZdsdA4x\naW1iUieVGzI9eMsKejRugM2WEMcY6tP9U6ZRUtlofKgI+IIipVF8PM7bxb737IcS\neWfsJioykmD3eiF2jeYb74ehTQhxnr+HoJUdQRTXbRsBxyQaSoef7+KKY3JEZSsv\nH+xT1TpLMoEFkQMhKJBIqhAd6sR8bXe9ydzX+f72ystL/n2DxOa+bfKv/qTf6bFy\nR/wBEecEPB4xENyfH3JjktDzyUT9ZehncE3mj3xpU0NI+83mqrfvu2DO79g81nTS\nOqU9xTBfAodTVs2CP8Lg1wumLteI+3mwh0trHcPTZTGhmty0Pb5XmoosalseVwul\nFwIDAQAB\n-----END PUBLIC KEY-----\n"
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1",
+        {
+          "manuallyApprovesFollowers": "as:manuallyApprovesFollowers",
+          "toot": "http://joinmastodon.org/ns#",
+          "featured": {
+            "@id": "toot:featured",
+            "@type": "@id"
+          },
+          "alsoKnownAs": {
+            "@id": "as:alsoKnownAs",
+            "@type": "@id"
+          },
+          "movedTo": {
+            "@id": "as:movedTo",
+            "@type": "@id"
+          },
+          "schema": "http://schema.org#",
+          "PropertyValue": "schema:PropertyValue",
+          "value": "schema:value",
+          "IdentityProof": "toot:IdentityProof",
+          "discoverable": "toot:discoverable"
+        }
+      ],
+      "id": "https://example.com/users/fraenki",
+      "type": "Person",
+      "following": "https://example.com/users/fraenki/following",
+      "followers": "https://example.com/users/fraenki/followers",
+      "inbox": "https://example.com/users/fraenki/inbox",
+      "outbox": "https://example.com/users/fraenki/outbox",
+      "featured": "https://example.com/users/fraenki/collections/featured",
+      "preferredUsername": "fraenki",
+      "name": "",
+      "summary": "<p>My name is fränki</p>",
+      "url": "https://example.com/@fraenki",
+      "manuallyApprovesFollowers": false,
+      "discoverable": false,
+      "publicKey": {
+        "id": "https://example.com/users/fraenki#main-key",
+        "owner": "https://example.com/users/fraenki",
+        "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs+So63Pk8iQcSPQZcaWx\nfm3WjzTqfWTL5VdNmEwgxMh8l2bqG/SnffSw1jrtQDND2H7SO21SjazUShkChNsN\nKXCUCSyKculFBdfnE8e51oUZvfdgLm1xghmB18u8LV5qtkvmYaNw+jmBmrstEOQ0\nKib0Our2c2SVVqC0ibfdyXL0kefiIh46k4G2tbI8EJ5+iG2T4qAOYilEyikgyKg4\ncv5dvUPtPHm7BRXIfYwyFCuPquGRe7MvW65kn2TjB9nSjD2sxr/BfB9fCv66OjgO\nRk79GVFkx+nyXqNa22KBz5X3rCkVBnuSOryZ/32FIlk2lci8jNk4gX8jJGhMUbpQ\nBwIDAQAB\n-----END PUBLIC KEY-----\n"
+      },
+      "tag": [],
+      "attachment": [],
+      "endpoints": {
+        "sharedInbox": "https://example.com/inbox"
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+      ],
+      "id": "http://johnny.example.org",
+      "type": "Person",
+      "following": "http://johnny.example.org/following",
+      "followers": "http://johnny.example.org/followers",
+      "inbox": "http://johnny.example.org/inbox",
+      "outbox": "http://johnny.example.org/outbox",
+      "featured": "http://johnny.example.org/collections/featured",
+      "preferredUsername": "johnny.ti",
+      "name": "johnny",
+      "summary": "<p>My name is johnny</p>",
+      "url": "https://example.com/@johnny",
+      "manuallyApprovesFollowers": false,
+      "discoverable": false,
+      "tag": [],
+      "attachment": []
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+      ],
+      "id": "http://john.example.org",
+      "type": "Person",
+      "following": "http://john.example.org/following",
+      "followers": "http://john.example.org/followers",
+      "inbox": "http://john.example.org/inbox",
+      "outbox": "http://john.example.org/outbox",
+      "featured": "http://john.example.org/collections/featured",
+      "preferredUsername": "",
+      "nameMap": {
+        "de": "Hans",
+        "en": "John",
+        "fr": "Jean"
+      },
+      "summary": "<p>My name is John</p>",
+      "url": "http://john.example.org",
+      "manuallyApprovesFollowers": false,
+      "discoverable": false,
+      "tag": [],
+      "attachment": []
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+      ],
+      "type": "Person",
+      "id": "https://example.com/user/giovanni.g",
+      "url": "https://example.com/user/giovanni.g",
+      "preferredUsername": "giovanni.g",
+      "inbox": "https://example.com/user/giovanni.g/inbox",
+      "outbox": "https://example.com/user/giovanni.g/outbox",
+      "following": "https://example.com/user/giovanni.g/following",
+      "publicKey": {
+        "id": "https://example.com/user/giovanni.g#main-key",
+        "owner": "https://example.com/user/giovanni.g",
+        "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz4xtXZjGcc+qvZdsdA4x\naW1iUieVGzI9eMsKejRugM2WEMcY6tP9U6ZRUtlofKgI+IIipVF8PM7bxb737IcS\neWfsJioykmD3eiF2jeYb74ehTQhxnr+HoJUdQRTXbRsBxyQaSoef7+KKY3JEZSsv\nH+xT1TpLMoEFkQMhKJBIqhAd6sR8bXe9ydzX+f72ystL/n2DxOa+bfKv/qTf6bFy\nR/wBEecEPB4xENyfH3JjktDzyUT9ZehncE3mj3xpU0NI+83mqrfvu2DO79g81nTS\nOqU9xTBfAodTVs2CP8Lg1wumLteI+3mwh0trHcPTZTGhmty0Pb5XmoosalseVwul\nFwIDAQAB\n-----END PUBLIC KEY-----\n"
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+      ],
+      "id": "http://marty.example.org",
+      "type": "Person",
+      "following": "http://marty.example.org/following",
+      "followers": "http://marty.example.org/followers",
+      "inbox": "http://marty.example.org/inbox",
+      "outbox": "http://marty.example.org/outbox",
+      "featured": "http://marty.example.org/collections/featured",
+      "preferredUsername": "",
+      "icon": {
+        "name": "avatar",
+        "url": "https://picsum.photos/200/1017"
+      },
+      "summary": "<p>My name is Marty</p>",
+      "url": "http://marty.example.org",
+      "manuallyApprovesFollowers": false,
+      "discoverable": false,
+      "tag": [],
+      "attachment": []
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+      ],
+      "id": "http://penny.example.org",
+      "type": "Person",
+      "following": "http://penny.example.org/following",
+      "followers": "http://penny.example.org/followers",
+      "inbox": "http://penny.example.org/inbox",
+      "outbox": "http://penny.example.org/outbox",
+      "featured": "http://penny.example.org/collections/featured",
+      "preferredUsername": "penn.y",
+      "name": "Penny",
+      "icon": {
+        "name": "avatar",
+        "url": "https://picsum.photos/200/1016"
+      },
+      "summary": "<p>I so lovelly</p>",
+      "url": "https://example.com/@penny",
+      "manuallyApprovesFollowers": false,
+      "discoverable": false,
+      "tag": [],
+      "attachment": []
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+      ],
+      "type": "Person",
+      "id": "http://jenny.example.org",
+      "url": "http://jenny.example.org",
+      "preferredUsername": "Jenny",
+      "inbox": "http://jenny.example.org/inbox",
+      "outbox": "http://jenny.example.org/outbox",
+      "following": "http://jenny.example.org/following",
+      "icon": {
+        "name": "avatar",
+        "url": "https://picsum.photos/200/1015"
+      },
+      "publicKey": {
+        "id": "http://jenny.example.org#main-key",
+        "owner": "http://jenny.example.org",
+        "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz4xtXZjGcc+qvZdsdA4x\naW1iUieVGzI9eMsKejRugM2WEMcY6tP9U6ZRUtlofKgI+IIipVF8PM7bxb737IcS\neWfsJioykmD3eiF2jeYb74ehTQhxnr+HoJUdQRTXbRsBxyQaSoef7+KKY3JEZSsv\nH+xT1TpLMoEFkQMhKJBIqhAd6sR8bXe9ydzX+f72ystL/n2DxOa+bfKv/qTf6bFy\nR/wBEecEPB4xENyfH3JjktDzyUT9ZehncE3mj3xpU0NI+83mqrfvu2DO79g81nTS\nOqU9xTBfAodTVs2CP8Lg1wumLteI+3mwh0trHcPTZTGhmty0Pb5XmoosalseVwul\nFwIDAQAB\n-----END PUBLIC KEY-----\n"
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+      ],
+      "type": "Person",
+      "id": "http://joe.example.org",
+      "url": "http://joe.example.org",
+      "preferredUsername": "Joe",
+      "inbox": "http://joe.example.org/inbox",
+      "outbox": "http://joe.example.org/outbox",
+      "following": "http://joe.example.org/following",
+      "icon": {
+        "name": "avatar",
+        "url": "https://picsum.photos/200/1026"
+      },
+      "publicKey": {
+        "id": "http://joe.example.org#main-key",
+        "owner": "http://joe.example.org",
+        "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz4xtXZjGcc+qvZdsdA4x\naW1iUieVGzI9eMsKejRugM2WEMcY6tP9U6ZRUtlofKgI+IIipVF8PM7bxb737IcS\neWfsJioykmD3eiF2jeYb74ehTQhxnr+HoJUdQRTXbRsBxyQaSoef7+KKY3JEZSsv\nH+xT1TpLMoEFkQMhKJBIqhAd6sR8bXe9ydzX+f72ystL/n2DxOa+bfKv/qTf6bFy\nR/wBEecEPB4xENyfH3JjktDzyUT9ZehncE3mj3xpU0NI+83mqrfvu2DO79g81nTS\nOqU9xTBfAodTVs2CP8Lg1wumLteI+3mwh0trHcPTZTGhmty0Pb5XmoosalseVwul\nFwIDAQAB\n-----END PUBLIC KEY-----\n"
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+      ],
+      "type": "Person",
+      "id": "http://danny.example.org",
+      "url": "http://danny.example.org",
+      "preferredUsername": "Danny",
+      "inbox": "http://danny.example.org/inbox",
+      "outbox": "http://danny.example.org/outbox",
+      "following": "http://danny.example.org/following",
+      "icon": {
+        "name": "avatar",
+        "url": "https://picsum.photos/200/1025"
+      },
+      "publicKey": {
+        "id": "http://danny.example.org#main-key",
+        "owner": "http://danny.example.org",
+        "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz4xtXZjGcc+qvZdsdA4x\naW1iUieVGzI9eMsKejRugM2WEMcY6tP9U6ZRUtlofKgI+IIipVF8PM7bxb737IcS\neWfsJioykmD3eiF2jeYb74ehTQhxnr+HoJUdQRTXbRsBxyQaSoef7+KKY3JEZSsv\nH+xT1TpLMoEFkQMhKJBIqhAd6sR8bXe9ydzX+f72ystL/n2DxOa+bfKv/qTf6bFy\nR/wBEecEPB4xENyfH3JjktDzyUT9ZehncE3mj3xpU0NI+83mqrfvu2DO79g81nTS\nOqU9xTBfAodTVs2CP8Lg1wumLteI+3mwh0trHcPTZTGhmty0Pb5XmoosalseVwul\nFwIDAQAB\n-----END PUBLIC KEY-----\n"
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+      ],
+      "type": "Person",
+      "id": "http://pete.example.org",
+      "url": "http://pete.example.org",
+      "preferredUsername": "Pete",
+      "inbox": "http://pete.example.org/inbox",
+      "outbox": "http://pete.example.org/outbox",
+      "following": "http://pete.example.org/following",
+      "icon": {
+        "name": "avatar",
+        "url": "https://picsum.photos/200/1023"
+      },
+      "publicKey": {
+        "id": "http://pete.example.org#main-key",
+        "owner": "http://pete.example.org",
+        "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz4xtXZjGcc+qvZdsdA4x\naW1iUieVGzI9eMsKejRugM2WEMcY6tP9U6ZRUtlofKgI+IIipVF8PM7bxb737IcS\neWfsJioykmD3eiF2jeYb74ehTQhxnr+HoJUdQRTXbRsBxyQaSoef7+KKY3JEZSsv\nH+xT1TpLMoEFkQMhKJBIqhAd6sR8bXe9ydzX+f72ystL/n2DxOa+bfKv/qTf6bFy\nR/wBEecEPB4xENyfH3JjktDzyUT9ZehncE3mj3xpU0NI+83mqrfvu2DO79g81nTS\nOqU9xTBfAodTVs2CP8Lg1wumLteI+3mwh0trHcPTZTGhmty0Pb5XmoosalseVwul\nFwIDAQAB\n-----END PUBLIC KEY-----\n"
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+      ],
+      "type": "Person",
+      "id": "http://tammy.example.org",
+      "url": "http://tammy.example.org",
+      "preferredUsername": "Tammy",
+      "inbox": "http://tammy.example.org/inbox",
+      "outbox": "http://tammy.example.org/outbox",
+      "following": "http://tammy.example.org/following",
+      "icon": {
+        "name": "avatar",
+        "url": "https://picsum.photos/200/1020"
+      },
+      "publicKey": {
+        "id": "http://tammy.example.org#main-key",
+        "owner": "http://tammy.example.org",
+        "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz4xtXZjGcc+qvZdsdA4x\naW1iUieVGzI9eMsKejRugM2WEMcY6tP9U6ZRUtlofKgI+IIipVF8PM7bxb737IcS\neWfsJioykmD3eiF2jeYb74ehTQhxnr+HoJUdQRTXbRsBxyQaSoef7+KKY3JEZSsv\nH+xT1TpLMoEFkQMhKJBIqhAd6sR8bXe9ydzX+f72ystL/n2DxOa+bfKv/qTf6bFy\nR/wBEecEPB4xENyfH3JjktDzyUT9ZehncE3mj3xpU0NI+83mqrfvu2DO79g81nTS\nOqU9xTBfAodTVs2CP8Lg1wumLteI+3mwh0trHcPTZTGhmty0Pb5XmoosalseVwul\nFwIDAQAB\n-----END PUBLIC KEY-----\n"
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1"
+      ],
+      "type": "Person",
+      "id": "http://zoey.example.org",
+      "url": "http://zoey.example.org",
+      "preferredUsername": "zoey",
+      "inbox": "http://zoey.example.org/inbox",
+      "outbox": "http://zoey.example.org/outbox",
+      "following": "http://zoey.example.org/following",
+      "icon": {
+        "name": "avatar",
+        "url": "https://picsum.photos/200/1021"
+      },
+      "publicKey": {
+        "id": "http://zoey.example.org#main-key",
+        "owner": "http://zoey.example.org",
+        "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz4xtXZjGcc+qvZdsdA4x\naW1iUieVGzI9eMsKejRugM2WEMcY6tP9U6ZRUtlofKgI+IIipVF8PM7bxb737IcS\neWfsJioykmD3eiF2jeYb74ehTQhxnr+HoJUdQRTXbRsBxyQaSoef7+KKY3JEZSsv\nH+xT1TpLMoEFkQMhKJBIqhAd6sR8bXe9ydzX+f72ystL/n2DxOa+bfKv/qTf6bFy\nR/wBEecEPB4xENyfH3JjktDzyUT9ZehncE3mj3xpU0NI+83mqrfvu2DO79g81nTS\nOqU9xTBfAodTVs2CP8Lg1wumLteI+3mwh0trHcPTZTGhmty0Pb5XmoosalseVwul\nFwIDAQAB\n-----END PUBLIC KEY-----\n"
+      }
+    }
+  ]
+}

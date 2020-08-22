@@ -16,11 +16,44 @@
         "attachment": {
           "mediaType": "image/jpeg",
           "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
-          "type": "Image",
-          "url": "https://picsum.photos/200"
+          "type": "Link",
+          "href": "https://picsum.photos/200",
+          "width": 800
+        },
+        "inReplyTo": {
+          "type": "Note",
+          "id": "https://godforsaken.website/users/kiki/statuses/104681560039895680",
+          "attachment": [
+            {
+              "mediaType": "image/jpeg",
+              "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
+              "type": "Image",
+              "url": "https://picsum.photos/200"
+            }
+          ],
+          "attributedTo": "https://godforsaken.website/users/kiki",
+          "content": "<p>took the day off yesterday and went to explore Árainn Mhór, an inhabited island off the coast of Donegal, got to see this</p>",
+          "contentMap": [
+            "<p>took the day off yesterday and went to explore Árainn Mhór, an inhabited island off the coast of Donegal, got to see this</p>"
+          ],
+          "published": "2020-08-13T10:17:23Z",
+          "replies": {
+            "type": "Collection",
+            "first": {
+              "type": "CollectionPage",
+              "totalItems": 0,
+              "items": [],
+              "partOf": "https://godforsaken.website/users/kiki/statuses/104681560039895680/replies",
+              "next": "https://godforsaken.website/users/kiki/statuses/104681560039895680/replies?only_other_accounts=true&page=true"
+            },
+            "totalItems": 0,
+            "id": "https://godforsaken.website/users/kiki/statuses/104681560039895680/replies"
+          },
+          "summary": "more irish coastal scenery, sorry..."
         }
       },
       "actor": {
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "id": "http://sally.example.org",
         "type": "Person",
         "summary": "Nice persone you know",
@@ -41,19 +74,25 @@
         "attachment": [
           {
             "mediaType": "image/jpeg",
-            "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
-            "type": "Image",
-            "url": "https://picsum.photos/400"
+            "name": "Hi/Ho 1",
+            "type": "Link",
+            "href": "https://picsum.photos/400",
+            "height": 400
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
-            "type": "Image",
-            "url": "https://picsum.photos/300"
+            "name": "Hi/Ho 2",
+            "type": "Link",
+            "href": "https://picsum.photos/300",
+            "width": 500,
+            "height": 900
           }
         ]
       },
-      "actor": "http://johnny.example.org"
+      "actor": {
+        "id": "http://johnny.example.org",
+        "internalUserId": "johnny-8801-4d0a-94f3-30614c740c76"
+      }
     },
     {
       "type": "Create",
@@ -93,6 +132,7 @@
       },
       "actor": {
         "id": "http://john.example.org",
+        "internalUserId": "john-8801-4d0a-94f3-30614c740c76",
         "type": "Person",
         "nameMap": {
           "de": "Hans",
@@ -109,7 +149,10 @@
       "summary": "Sally created a note",
       "type": "Create",
       "id": "http://activities.example.com/4",
-      "actor": "http://sally.example.org",
+      "actor": {
+        "id": "http://sally.example.org",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76"
+      },
       "object": {
         "summary": "A note",
         "type": "Note",
@@ -118,31 +161,31 @@
         "attachment": [
           {
             "mediaType": "image/jpeg",
-            "name": "A wolf dressed up as a legend of the 5 rings lion clan shogun",
+            "name": "A note 1",
             "type": "Image",
             "url": "https://picsum.photos/100"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
+            "name": "A note 2",
             "type": "Image",
             "url": "https://picsum.photos/200"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
+            "name": "A note 3",
             "type": "Image",
             "url": "https://picsum.photos/300"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
+            "name": "A note 4",
             "type": "Image",
             "url": "https://picsum.photos/400"
           },
           {
             "mediaType": "image/jpeg",
-            "name": "Legend of the 5 rings lion clan shogun",
+            "name": "A note 5",
             "type": "Image",
             "url": "https://picsum.photos/500"
           }
@@ -153,14 +196,17 @@
       "summary": "Sally created a note",
       "type": "Create",
       "id": "http://activities.example.com/5",
-      "actor": "http://sally.example.org",
-      "updated": "2020-04-28T17:49:12Z",
-      "published": "2020-04-28T16:12:12Z",
+      "actor": {
+        "id": "http://sally.example.org",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76"
+      },
       "object": {
         "summary": "A note",
         "type": "Note",
         "id": "http://notes.example.com/1",
-        "content": "A create note with published and updated datetime"
+        "content": "A create note with published and updated datetime",
+        "updated": "2020-04-28T17:49:12Z",
+        "published": "2020-04-28T16:12:12Z"
       }
     },
     {
@@ -169,6 +215,7 @@
       "actor": {
         "type": "Person",
         "name": "Sally",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "id": "http://sally.example.org"
       },
       "object": "http://example.org/notes/5"
@@ -179,6 +226,7 @@
       "actor": {
         "type": "Person",
         "name": "Sally",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "id": "http://sally.example.org"
       },
       "object": "http://example.org/notes/4",
@@ -195,7 +243,7 @@
         "name": "Might the force be with you",
         "content": "\"May the Force be with you\" was a phrase used to wish an individual or group good luck or good will, one that expressed the speaker's wish that the Force work in the favor of the addressee. The phrase was often used as individuals parted ways or in the face of an impending challenge."
       },
-      "actor": "https://mastodon.social/users/fraenki"
+      "actor": "https://example.com/users/fraenki"
     },
     {
       "type": "Create",
@@ -205,38 +253,44 @@
         "name": "Memory, time, and technology",
         "content": "Cole has been thrust from another world into ours and he's confronted by the confusion we live in, which most people somehow accept as normal. So he appears abnormal, and what's happening around him seems random and weird. Is he mad or are we?"
       },
-      "actor": "https://mitra-social.herokuapp.com/user/franco.g"
+      "actor": {
+        "id": "https://example.com/user/giovanni.g",
+        "internalUserId": "giovanni-8801-4d0a-94f3-30614c740c76"
+      }
     },
     {
-      "actor": "https://mastodon.social/users/fraenki",
+      "actor": {
+        "id": "https://example.com/users/fraenki",
+        "internalUserId": "fraenki-8801-4d0a-94f3-30614c740c76"
+      },
       "cc": [
-        "https://mastodon.social/users/fraenki/followers"
+        "https://example.com/users/fraenki/followers"
       ],
-      "id": "https://mastodon.social/users/fraenki/statuses/104030050906488438/activity",
+      "id": "https://example.com/users/fraenki/statuses/104030050906488438/activity",
       "object": {
-        "atomUri": "https://mastodon.social/users/fraenki/statuses/104030050906488438",
+        "atomUri": "https://example.com/users/fraenki/statuses/104030050906488438",
         "attachment": [],
-        "attributedTo": "https://mastodon.social/users/fraenki",
+        "attributedTo": "https://example.com/users/fraenki",
         "cc": [
-          "https://mastodon.social/users/fraenki/followers"
+          "https://example.com/users/fraenki/followers"
         ],
         "content": "<p>With typescript, vuejs is even more fun</p>",
         "contentMap": {
           "en": "<p>With typescript, vuejs is even more fun</p>"
         },
-        "conversation": "tag:mastodon.social,2020-04-20:objectId=167641654:objectType=Conversation",
-        "id": "https://mastodon.social/users/fraenki/statuses/104030050906488438",
+        "conversation": "tag:example.com,2020-04-20:objectId=167641654:objectType=Conversation",
+        "id": "https://example.com/users/fraenki/statuses/104030050906488438",
         "inReplyTo": null,
         "inReplyToAtomUri": null,
         "published": "2020-04-20T08:50:02Z",
         "replies": {
           "first": {
             "items": [],
-            "next": "https://mastodon.social/users/fraenki/statuses/104030050906488438/replies?only_other_accounts=true&page=true",
-            "partOf": "https://mastodon.social/users/fraenki/statuses/104030050906488438/replies",
+            "next": "https://example.com/users/fraenki/statuses/104030050906488438/replies?only_other_accounts=true&page=true",
+            "partOf": "https://example.com/users/fraenki/statuses/104030050906488438/replies",
             "type": "CollectionPage"
           },
-          "id": "https://mastodon.social/users/fraenki/statuses/104030050906488438/replies",
+          "id": "https://example.com/users/fraenki/statuses/104030050906488438/replies",
           "type": "Collection"
         },
         "sensitive": false,
@@ -246,7 +300,7 @@
           "https://www.w3.org/ns/activitystreams#Public"
         ],
         "type": "Note",
-        "url": "https://mastodon.social/@fraenki/104030050906488438"
+        "url": "https://example.com/@fraenki/104030050906488438"
       },
       "published": "2020-04-20T08:50:02Z",
       "to": [
@@ -255,35 +309,38 @@
       "type": "Create"
     },
     {
-      "actor": "https://mastodon.social/users/fraenki",
+      "actor": {
+        "id": "https://example.com/users/fraenki",
+        "internalUserId": "fraenki-8801-4d0a-94f3-30614c740c76"
+      },
       "cc": [
-        "https://mastodon.social/users/fraenki/followers"
+        "https://example.com/users/fraenki/followers"
       ],
-      "id": "https://mastodon.social/users/fraenki/statuses/104030048336906060/activity",
+      "id": "https://example.com/users/fraenki/statuses/104030048336906060/activity",
       "object": {
-        "atomUri": "https://mastodon.social/users/fraenki/statuses/104030048336906060",
+        "atomUri": "https://example.com/users/fraenki/statuses/104030048336906060",
         "attachment": [],
-        "attributedTo": "https://mastodon.social/users/fraenki",
+        "attributedTo": "https://example.com/users/fraenki",
         "cc": [
-          "https://mastodon.social/users/fraenki/followers"
+          "https://example.com/users/fraenki/followers"
         ],
         "content": "<p>Vuesj rocks</p>",
         "contentMap": {
           "en": "<p>Vuesj rocks</p>"
         },
-        "conversation": "tag:mastodon.social,2020-04-20:objectId=167641597:objectType=Conversation",
-        "id": "https://mastodon.social/users/fraenki/statuses/104030048336906060",
+        "conversation": "tag:example.com,2020-04-20:objectId=167641597:objectType=Conversation",
+        "id": "https://example.com/users/fraenki/statuses/104030048336906060",
         "inReplyTo": null,
         "inReplyToAtomUri": null,
         "published": "2020-04-20T08:49:23Z",
         "replies": {
           "first": {
             "items": [],
-            "next": "https://mastodon.social/users/fraenki/statuses/104030048336906060/replies?only_other_accounts=true&page=true",
-            "partOf": "https://mastodon.social/users/fraenki/statuses/104030048336906060/replies",
+            "next": "https://example.com/users/fraenki/statuses/104030048336906060/replies?only_other_accounts=true&page=true",
+            "partOf": "https://example.com/users/fraenki/statuses/104030048336906060/replies",
             "type": "CollectionPage"
           },
-          "id": "https://mastodon.social/users/fraenki/statuses/104030048336906060/replies",
+          "id": "https://example.com/users/fraenki/statuses/104030048336906060/replies",
           "type": "Collection"
         },
         "sensitive": false,
@@ -293,7 +350,7 @@
           "https://www.w3.org/ns/activitystreams#Public"
         ],
         "type": "Note",
-        "url": "https://mastodon.social/@fraenki/104030048336906060"
+        "url": "https://example.com/@fraenki/104030048336906060"
       },
       "published": "2020-04-20T08:49:23Z",
       "to": [
@@ -325,6 +382,7 @@
       },
       "actor": {
         "id": "http://sally.example.org",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "type": "Person",
         "summary": "Nice persone you know",
         "name": "Sally",
@@ -352,6 +410,7 @@
       },
       "actor": {
         "id": "http://sally.example.org",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "type": "Person",
         "summary": "Nice persone you know",
         "name": "Sally",
@@ -378,6 +437,7 @@
       },
       "actor": {
         "id": "http://sally.example.org",
+        "internalUserId": "4a37a7ea-8801-4d0a-94f3-30614c740c76",
         "type": "Person",
         "summary": "Nice persone you know",
         "name": "Sally",

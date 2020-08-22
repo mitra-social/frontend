@@ -9,26 +9,30 @@
           <v-icon>mdi-account-circle</v-icon>
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title>{{ name }}</v-list-item-title>
-          <v-list-item-subtitle class="attribute-type" v-if="actor.type">{{
-            actor.type
-          }}</v-list-item-subtitle>
+          <v-list-item-title id="summarized-name">{{ name }}</v-list-item-title>
           <v-list-item-subtitle
+            id="summarized-type"
+            class="attribute-type"
+            v-if="actor.type"
+            >{{ actor.type }}</v-list-item-subtitle
+          >
+          <v-list-item-subtitle
+            id="summarized-summary"
             class="attribute-summary"
-            v-if="actor.summary"
+            v-if="actor.summary && !noSummary"
             v-html="actor.summary"
           ></v-list-item-subtitle>
         </v-list-item-content>
-        <v-list-item-action>
+        <v-list-item-action id="summarized-follow-action">
           <v-btn
             class="following-btn"
             icon
             v-if="isFollowing(actor)"
-            @click="onUnfollow()"
+            @click="unfollow(actor)"
           >
             <v-icon>mdi-account-remove</v-icon>
           </v-btn>
-          <v-btn class="following-btn" icon v-else @click="onFollow()">
+          <v-btn class="following-btn" icon v-else @click.stop="follow(actor)">
             <v-icon>mdi-account-plus</v-icon>
           </v-btn>
         </v-list-item-action>
@@ -40,10 +44,10 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { ActivityObject, Link, Actor } from "activitypub-objects";
+import { ActivityObject, Link } from "activitypub-objects";
 
 import client from "apiClient";
-import { User } from "@/model/user";
+import { InternalActor } from "@/model/internal-actor";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
 const userStore = namespace("User");
@@ -56,6 +60,7 @@ export default class ActorSummarized extends Vue {
     | Link
     | URL
     | Array<ActivityObject | URL>;
+  @Prop() readonly noSummary!: boolean;
 
   get name(): string | undefined {
     return ActivityObjectHelper.extractActorName(this.actor as ActivityObject);
@@ -70,26 +75,15 @@ export default class ActorSummarized extends Vue {
   }
 
   @userStore.Getter
-  public getUser!: User;
-
-  @followingStore.Getter
-  public getFollowing!: Actor[];
+  public getUser!: InternalActor;
 
   @followingStore.Getter
   public isFollowing!: boolean;
 
   @followingStore.Action
-  public follow!: (actor: Actor) => Promise<void>;
+  public follow!: (actor: InternalActor) => Promise<void>;
 
   @followingStore.Action
-  public unfollow!: (actor: Actor) => Promise<void>;
-
-  private onFollow() {
-    this.follow(this.actor as Actor);
-  }
-
-  private onUnfollow() {
-    this.unfollow(this.actor as Actor);
-  }
+  public unfollow!: (actor: InternalActor) => Promise<void>;
 }
 </script>

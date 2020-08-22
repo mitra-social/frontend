@@ -34,7 +34,7 @@ function normalizedCollection(
         }
 
         return await client
-          .getActor(url.toString())
+          .fediverseGetActor(url.toString())
           .then(($) => {
             if (!$) {
               return item;
@@ -48,11 +48,46 @@ function normalizedCollection(
 
             return item;
           })
-          .catch(() => Promise.resolve(undefined));
+          .catch(() => {
+            return Promise.resolve(undefined);
+          });
       } else {
         return item;
       }
     })
+  );
+}
+
+function normalizedAttachment(
+  items: (ActivityObject | Link | URL | undefined)[]
+): Promise<(ActivityObject | Link | URL | undefined)[]> {
+  return Promise.all(
+    items
+      .filter(($) => !!$)
+      .map(async (item: ActivityObject | Link | URL | undefined) => {
+        let attachments: (ActivityObject | Link | URL)[] = [];
+
+        const activity = item as Activity;
+        if (activity.object) {
+          const object = activity.object as ActivityObject;
+
+          if (object.attachment) {
+            if (Array.isArray(object.attachment)) {
+              attachments = object.attachment;
+            } else {
+              attachments.push(object.attachment);
+            }
+
+            ((item as Activity)
+              .object as ActivityObject).attachment = attachments
+              .filter(($: ActivityObject | Link | URL) => !!$)
+              .map(($: ActivityObject | Link | URL) =>
+                ActivityObjectHelper.extractAttachmentLink($)
+              );
+          }
+        }
+        return item;
+      })
   );
 }
 
@@ -65,7 +100,7 @@ class Collection extends VuexModule {
   public hasPrev = false;
   public hasNext = true;
   public loadMorePostState = false;
-  public excludedActors: string[] = [];
+  public filter: string | undefined = undefined;
 
   get getPosts(): (ActivityObject | Link)[] | undefined {
     if (!this.items) {
@@ -83,17 +118,7 @@ class Collection extends VuexModule {
           ($.object as ActivityObject).type in PostTypes
       )
       .map(ActivityObjectHelper.extractObjectFromActivity);
-    const posts = postTypeItems
-      .concat(activityItems)
-      .filter(
-        (item) =>
-          !this.excludedActors.some(
-            (actor) =>
-              ActivityObjectHelper.extractId(
-                (item as ActivityObject).attributedTo as ActivityObject
-              ) === actor
-          )
-      );
+    const posts = postTypeItems.concat(activityItems);
     return posts;
   }
 
@@ -107,10 +132,6 @@ class Collection extends VuexModule {
 
   get getLoadMorePostState(): boolean {
     return this.loadMorePostState;
-  }
-
-  get excludeActorLength(): number {
-    return this.excludedActors.length;
   }
 
   get getPartOf(): string {
@@ -161,18 +182,8 @@ class Collection extends VuexModule {
   }
 
   @Mutation
-  public setActorFilter(filterActorList: string[]): void {
-    this.excludedActors = filterActorList;
-  }
-
-  @Mutation
-  public excludeActor(actorId: string): void {
-    this.excludedActors.push(actorId);
-  }
-
-  @Mutation
-  public removeExcludedActor(actorId: string): void {
-    this.excludedActors = this.excludedActors.filter(($) => $ !== actorId);
+  public setFilter(filter: string) {
+    this.filter = filter;
   }
 
   @Mutation
@@ -184,28 +195,32 @@ class Collection extends VuexModule {
     this.hasPrev = false;
     this.hasNext = true;
     this.loadMorePostState = false;
-    this.excludedActors = [];
   }
 
   @Action({ rawError: true })
   public async fetchCollection(user: string): Promise<void> {
     this.context.commit("reset");
+    this.context.commit("setLoadMorePostState", true);
 
     const token = AuthenticationUtil.getToken() || "";
     return await client
-      .fetchPosts(token, user, this.page)
+      .fetchPosts(token, user, this.page, this.filter)
       .then((collection: OrderedCollectionPage) => {
         this.context.commit("setHasPrev", !!collection.prev);
         this.context.commit("setHasNext", !!collection.next);
         return collection;
       })
-      .then((colleciton: OrderedCollectionPage) =>
-        normalizedCollection(colleciton)
+      .then((collection: OrderedCollectionPage) =>
+        normalizedCollection(collection)
+      )
+      .then((items: (ActivityObject | Link | URL | undefined)[]) =>
+        normalizedAttachment(items)
       )
       .then((items) => this.context.commit("setItems", items))
       .catch((error: Error) =>
         this.context.dispatch("Notify/error", error.message, { root: true })
-      );
+      )
+      .finally(() => this.context.commit("setLoadMorePostState", false));
   }
 
   @Action({ rawError: true })
@@ -216,16 +231,19 @@ class Collection extends VuexModule {
     this.context.commit("nextPage");
 
     return await client
-      .fetchPosts(token, user, this.page)
+      .fetchPosts(token, user, this.page, this.filter)
       .then((collection: OrderedCollectionPage) => {
         this.context.commit("setHasPrev", !!collection.prev);
         this.context.commit("setHasNext", !!collection.next);
         return collection;
       })
-      .then((colleciton: OrderedCollectionPage) =>
-        normalizedCollection(colleciton)
+      .then((collection: OrderedCollectionPage) =>
+        normalizedCollection(collection)
       )
-      .then((items) => {
+      .then((items: (ActivityObject | Link | URL | undefined)[]) =>
+        normalizedAttachment(items)
+      )
+      .then((items: (ActivityObject | Link | URL | undefined)[]) => {
         this.context.commit("addItems", items);
       })
       .catch((error: Error) => {
@@ -235,13 +253,26 @@ class Collection extends VuexModule {
   }
 
   @Action
-  public addExcludeActor(actorId: string): void {
-    this.context.commit("excludeActor", actorId);
+  public filterAction(filter: string): void {
+    if (!filter) {
+      this.context.dispatch(
+        "Notify/warning",
+        "Filter for this actor not possible.",
+        { root: true }
+      );
+      return;
+    }
+    const user = AuthenticationUtil.getUser() || "";
+    this.context.commit("setPage", 0);
+    this.context.commit("setFilter", filter);
+    this.context.dispatch("fetchCollection", user);
   }
 
   @Action
-  public removeActorFromExclude(actorId: string): void {
-    this.context.commit("removeExcludedActor", actorId);
+  public clearfilterAction(): void {
+    const user = AuthenticationUtil.getUser() || "";
+    this.context.commit("setFilter", undefined);
+    this.context.dispatch("fetchCollection", user);
   }
 }
 
