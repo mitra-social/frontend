@@ -1,12 +1,11 @@
-import Vue from "vue";
-import Vuetify from "vuetify";
 import {
   ActivityObject,
   Activity,
   Link,
   OrderedCollectionPage,
 } from "activitypub-objects";
-
+import Vue from "vue";
+import Vuetify from "vuetify";
 import { createLocalVue, shallowMount } from "@vue/test-utils";
 
 import collection from "@/api-client/mock/data/collection-page-1.json";
@@ -16,9 +15,9 @@ const localVue = createLocalVue();
 Vue.use(Vuetify);
 
 describe("@/views/home/post/attachments/AttachmentSimpleLink.vue", () => {
+  let articles: Activity[];
   // eslint-disable-next-line
   let vuetify: any;
-  let articles: Activity[];
 
   beforeEach(() => {
     articles = (collection as OrderedCollectionPage)
@@ -26,43 +25,43 @@ describe("@/views/home/post/attachments/AttachmentSimpleLink.vue", () => {
     vuetify = new Vuetify();
   });
 
-  it("Attachment simple link exists", async () => {
+  it("Attachment simple link exists", () => {
     const object = articles[0].object as ActivityObject;
     const link = object.attachment as Link;
 
     const wrapper = shallowMount(AttachmentSimpleLink, {
       localVue,
-      vuetify,
       propsData: {
         attach: {
-          type: link.mediaType,
+          height: link.height,
           title: link.name,
+          type: link.mediaType,
           url: link.href.toString(),
           width: link.width,
-          height: link.height,
         },
       },
+      vuetify,
     });
 
     expect(wrapper.find("a").exists()).toBe(true);
   });
 
-  it("Attachment simple link has url", async () => {
+  it("Attachment simple link has url", () => {
     const object = articles[0].object as ActivityObject;
     const link = object.attachment as Link;
 
     const wrapper = shallowMount(AttachmentSimpleLink, {
       localVue,
-      vuetify,
       propsData: {
         attach: {
-          type: link.mediaType,
+          height: link.height,
           title: link.name,
+          type: link.mediaType,
           url: link.href.toString(),
           width: link.width,
-          height: link.height,
         },
       },
+      vuetify,
     });
 
     expect(wrapper.find("a").attributes("href")).toBe(
@@ -70,22 +69,22 @@ describe("@/views/home/post/attachments/AttachmentSimpleLink.vue", () => {
     );
   });
 
-  it("Attachment simple link has title", async () => {
+  it("Attachment simple link has title", () => {
     const object = articles[0].object as ActivityObject;
     const link = object.attachment as Link;
 
     const wrapper = shallowMount(AttachmentSimpleLink, {
       localVue,
-      vuetify,
       propsData: {
         attach: {
-          type: link.mediaType,
+          height: link.height,
           title: link.name,
+          type: link.mediaType,
           url: link.href.toString(),
           width: link.width,
-          height: link.height,
         },
       },
+      vuetify,
     });
 
     expect(wrapper.find("a").text()).toBe(
@@ -93,22 +92,22 @@ describe("@/views/home/post/attachments/AttachmentSimpleLink.vue", () => {
     );
   });
 
-  it("Attachment simple link without name", async () => {
+  it("Attachment simple link without name", () => {
     const object = (articles[13] as Activity).object as ActivityObject;
     const link = (object.attachment as Activity).url as Link;
 
     const wrapper = shallowMount(AttachmentSimpleLink, {
       localVue,
-      vuetify,
       propsData: {
         attach: {
-          type: link.mediaType,
+          height: link.height,
           title: link.name,
+          type: link.mediaType,
           url: link.href.toString(),
           width: link.width,
-          height: link.height,
         },
       },
+      vuetify,
     });
 
     expect(wrapper.find("a").text()).toBe("http://example.com");

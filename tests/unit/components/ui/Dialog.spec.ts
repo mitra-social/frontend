@@ -1,13 +1,12 @@
+import flushPromises from "flush-promises";
 import Vue from "vue";
 import Vuetify from "vuetify";
-
 import { mount, createLocalVue } from "@vue/test-utils";
-import flushPromises from "flush-promises";
 
-import store from "@/store";
-import router from "@/router";
-import Dialog from "@/components/ui/Dialog.vue";
 import DialogTestComponent from "./DialogTestComponent.vue";
+import Dialog from "@/components/ui/Dialog.vue";
+import router from "@/router";
+import store from "@/store";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -37,11 +36,12 @@ describe("@/components/ui/Dialog.vue", () => {
 
     const wrapper = mount(Dialog, {
       localVue,
-      vuetify,
       router,
       store,
       stubs,
+      vuetify,
     });
+
     expect(wrapper.find(".v-dialog__content").exists()).toBeTruthy();
   });
 
@@ -52,11 +52,12 @@ describe("@/components/ui/Dialog.vue", () => {
 
     const wrapper = mount(Dialog, {
       localVue,
-      vuetify,
       router,
       store,
       stubs,
+      vuetify,
     });
+
     expect(wrapper.find(".v-card__title").exists()).toBeTruthy();
     expect(wrapper.find(".v-card__title").text()).toBe(dialogTitle);
   });
@@ -67,11 +68,12 @@ describe("@/components/ui/Dialog.vue", () => {
 
     const wrapper = mount(Dialog, {
       localVue,
-      vuetify,
       router,
       store,
       stubs,
+      vuetify,
     });
+
     expect(wrapper.find(".v-dialog__content").exists()).toBeTruthy();
 
     store.state.Dialog.isOpen = false;
@@ -86,11 +88,12 @@ describe("@/components/ui/Dialog.vue", () => {
 
     const wrapper = mount(Dialog, {
       localVue,
-      vuetify,
       router,
       store,
       stubs,
+      vuetify,
     });
+
     expect(wrapper.find(".v-dialog__content").exists()).toBeTruthy();
 
     wrapper.find(".v-btn").trigger("click");

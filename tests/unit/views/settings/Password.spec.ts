@@ -1,24 +1,23 @@
+import flushPromises from "flush-promises";
 import Vue from "vue";
 import Vuetify from "vuetify";
-
 import { mount, createLocalVue } from "@vue/test-utils";
-import flushPromises from "flush-promises";
 
-import store from "@/store";
-import router from "@/router";
 import apiService from "@/api-client/mock/index";
 import { ApiClientMocke } from "@/api-client/mock/api-client-mock";
-import Password from "@/views/settings/Password.vue";
+import router from "@/router";
+import store from "@/store";
 import { AuthenticationUtil } from "@/utils/authentication-util";
+import Password from "@/views/settings/Password.vue";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
 
 describe("@/views/settings/Password.vue", () => {
-  // eslint-disable-next-line
-  let vuetify: any;
   const newPassword = "newPassword";
   const apiServiceMock = apiService as ApiClientMocke;
+  // eslint-disable-next-line
+  let vuetify: any;
 
   const data = {
     password: "123",
@@ -41,18 +40,18 @@ describe("@/views/settings/Password.vue", () => {
   });
 
   it("Change password success", async () => {
-    const wrapper = mount(Password, { localVue, vuetify, router, store });
+    const wrapper = mount(Password, { localVue, router, store, vuetify });
     wrapper.setData(data);
-
     await flushPromises();
+
     wrapper.find("form").trigger("submit.prevent");
-
     await flushPromises();
+
     expect(apiServiceMock.getPassword()).toBe(newPassword);
   });
 
   it("Password is required", async () => {
-    const wrapper = mount(Password, { localVue, vuetify, router, store });
+    const wrapper = mount(Password, { localVue, router, store, vuetify });
     wrapper.setData(data);
     await flushPromises();
 
@@ -69,9 +68,8 @@ describe("@/views/settings/Password.vue", () => {
   });
 
   it("Show password in clear text", async () => {
-    const wrapper = mount(Password, { localVue, vuetify, router, store });
+    const wrapper = mount(Password, { localVue, router, store, vuetify });
     wrapper.setData(data);
-    await flushPromises();
 
     expect(wrapper.find('input[name="password"]').attributes("type")).toBe(
       "password"
@@ -86,7 +84,7 @@ describe("@/views/settings/Password.vue", () => {
   });
 
   it("Change password in clear text to hidden password field", async () => {
-    const wrapper = mount(Password, { localVue, vuetify, router, store });
+    const wrapper = mount(Password, { localVue, router, store, vuetify });
     wrapper.setData(data);
     wrapper.setData({ showPassword: true });
     await flushPromises();
@@ -104,7 +102,7 @@ describe("@/views/settings/Password.vue", () => {
   });
 
   it("New password is required", async () => {
-    const wrapper = mount(Password, { localVue, vuetify, router, store });
+    const wrapper = mount(Password, { localVue, router, store, vuetify });
     wrapper.setData(data);
     await flushPromises();
 
@@ -121,7 +119,7 @@ describe("@/views/settings/Password.vue", () => {
   });
 
   it("New password is then less 8 characters", async () => {
-    const wrapper = mount(Password, { localVue, vuetify, router, store });
+    const wrapper = mount(Password, { localVue, router, store, vuetify });
     wrapper.setData(data);
 
     wrapper.find('input[name="newPassword"]').setValue("new");
@@ -141,9 +139,8 @@ describe("@/views/settings/Password.vue", () => {
   });
 
   it("Show new password in clear text", async () => {
-    const wrapper = mount(Password, { localVue, vuetify, router, store });
+    const wrapper = mount(Password, { localVue, router, store, vuetify });
     wrapper.setData(data);
-    await flushPromises();
 
     expect(wrapper.find('input[name="newPassword"]').attributes("type")).toBe(
       "password"
@@ -158,7 +155,7 @@ describe("@/views/settings/Password.vue", () => {
   });
 
   it("Change new password in clear text to hidden password field", async () => {
-    const wrapper = mount(Password, { localVue, vuetify, router, store });
+    const wrapper = mount(Password, { localVue, router, store, vuetify });
     wrapper.setData(data);
     wrapper.setData({ showNewPassword: true });
     await flushPromises();
@@ -176,7 +173,7 @@ describe("@/views/settings/Password.vue", () => {
   });
 
   it("Confirm password is required", async () => {
-    const wrapper = mount(Password, { localVue, vuetify, router, store });
+    const wrapper = mount(Password, { localVue, router, store, vuetify });
     wrapper.setData(data);
     await flushPromises();
 
@@ -193,7 +190,7 @@ describe("@/views/settings/Password.vue", () => {
   });
 
   it("New password doesn't match with confirmed password", async () => {
-    const wrapper = mount(Password, { localVue, vuetify, router, store });
+    const wrapper = mount(Password, { localVue, router, store, vuetify });
     wrapper.setData(data);
 
     wrapper.find('input[name="confirmPassword"]').setValue("confirmPassword");
@@ -213,9 +210,8 @@ describe("@/views/settings/Password.vue", () => {
   });
 
   it("Show confirm password in clear text", async () => {
-    const wrapper = mount(Password, { localVue, vuetify, router, store });
+    const wrapper = mount(Password, { localVue, router, store, vuetify });
     wrapper.setData(data);
-    await flushPromises();
 
     expect(
       wrapper.find('input[name="confirmPassword"]').attributes("type")
@@ -230,7 +226,7 @@ describe("@/views/settings/Password.vue", () => {
   });
 
   it("Change confirm password in clear text to hidden password field", async () => {
-    const wrapper = mount(Password, { localVue, vuetify, router, store });
+    const wrapper = mount(Password, { localVue, router, store, vuetify });
     wrapper.setData(data);
     wrapper.setData({ showConfirmPassword: true });
     await flushPromises();
@@ -248,12 +244,14 @@ describe("@/views/settings/Password.vue", () => {
   });
 
   it("Close password dialog window", async () => {
-    const wrapper = mount(Password, { localVue, vuetify, router, store });
+    const wrapper = mount(Password, { localVue, router, store, vuetify });
     store.state.Dialog.isOpen = true;
-    expect(store.state.Dialog.isOpen).toBeTruthy();
-    wrapper.find("#close-btn").trigger("click");
 
+    expect(store.state.Dialog.isOpen).toBeTruthy();
+
+    wrapper.find("#close-btn").trigger("click");
     await flushPromises();
+
     expect(store.state.Dialog.isOpen).toBeFalsy();
   });
 });

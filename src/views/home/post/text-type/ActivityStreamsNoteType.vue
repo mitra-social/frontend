@@ -3,9 +3,8 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
-
 import { Article } from "activitypub-objects";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 import ActivityStreamsTextType from "./ActivityStreamsTextType.vue";
 
@@ -15,6 +14,10 @@ import ActivityStreamsTextType from "./ActivityStreamsTextType.vue";
   },
 })
 export default class ActivityStreamsNoteType extends Vue {
+  /************************
+   * component properties
+   ************************/
+
   @Prop() private data!: Article;
 }
 </script>

@@ -59,25 +59,30 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Ref } from "vue-property-decorator";
+import { Component, Ref, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { PasswordChangeParam } from "../../model/password-change-param";
-import { DialogSettings } from "../../model/dialog-settings";
 
-const userStore = namespace("User");
+import { DialogSettings } from "@/model/dialog-settings";
+import { PasswordChangeParam } from "@/model/password-change-param";
+
 const dialogStore = namespace("Dialog");
+const userStore = namespace("User");
 
 @Component
 export default class Password extends Vue {
-  public valid = false;
-  public password = "";
-  public showPassword = false;
-  public newPassword = "";
-  public showNewPassword = false;
+  /**********************
+   * data fields
+   **********************/
+
   public confirmPassword = "";
-  public showConfirmPassword = false;
   public confirmPwdErrorMsgs: string[] = [];
   public hasConfirmPwdError = false;
+  public newPassword = "";
+  public password = "";
+  public showConfirmPassword = false;
+  public showNewPassword = false;
+  public showPassword = false;
+  public valid = false;
 
   public rules = {
     required: ($: string) => !!$ || "Required.",
@@ -87,15 +92,21 @@ export default class Password extends Vue {
     min: ($: string) => $.length >= 8 || "Min 8 characters.",
   };
 
-  @userStore.Action
-  public updatePassword!: (passwordChangeParam: PasswordChangeParam) => void;
+  @Ref("passwordForm") readonly form!: HTMLFormElement;
 
+  /**********************
+   * store actions
+   **********************/
   @dialogStore.Action
   public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
 
-  @Ref("passwordForm") readonly form!: HTMLFormElement;
+  @userStore.Action
+  public updatePassword!: (passwordChangeParam: PasswordChangeParam) => void;
 
-  public handleSubmit() {
+  /**********************
+   * public functions
+   **********************/
+  public handleSubmit(): void {
     if (this.newPassword !== this.confirmPassword) {
       this.confirmPwdErrorMsgs.push("Passwords don't match.");
       this.hasConfirmPwdError = true;
@@ -110,7 +121,7 @@ export default class Password extends Vue {
     }
   }
 
-  public resetConfirmPassword() {
+  public resetConfirmPassword(): void {
     this.hasConfirmPwdError = false;
     this.confirmPwdErrorMsgs = [];
   }

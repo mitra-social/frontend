@@ -1,7 +1,7 @@
 export interface Attachment {
-  type?: string;
+  height?: number;
   title?: string;
+  type?: string;
   url: string;
   width?: number;
-  height?: number;
 }

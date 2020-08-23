@@ -21,10 +21,17 @@ import { Notify } from "@/model/notify";
 
 @Component
 export default class MitraNotify extends Vue {
-  private show = false;
-  private message = "";
-  private color = "";
+  /**********************
+   * data fields
+   **********************/
 
+  private color = "";
+  private message = "";
+  private show = false;
+
+  /**********************
+   * Lifecycle hooks
+   **********************/
   private created(): void {
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === "Notify/setNofify") {
@@ -40,13 +47,13 @@ export default class MitraNotify extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.post {
+  margin: 5px;
+}
+
 .post-container {
   height: 100%;
   overflow-y: scroll;
-}
-
-.post {
-  margin: 5px;
 }
 
 .v-card__text {

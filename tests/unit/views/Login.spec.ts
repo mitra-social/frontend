@@ -1,26 +1,25 @@
+import flushPromises from "flush-promises";
 import Vue from "vue";
 import Vuetify from "vuetify";
-
 import { mount, createLocalVue } from "@vue/test-utils";
-import flushPromises from "flush-promises";
 
-import store from "@/store";
-import router from "@/router";
-import Login from "@/views/Login.vue";
-import { InternalActor } from "@/model/internal-actor";
 import * as userData from "@/api-client/mock/data/user.json";
+import { InternalActor } from "@/model/internal-actor";
+import router from "@/router";
+import store from "@/store";
 import { AuthenticationUtil } from "@/utils/authentication-util";
+import Login from "@/views/Login.vue";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
 
-describe("Login.vue", () => {
-  // eslint-disable-next-line
-  let vuetify: any;
-  const username = "john.doe";
+describe("@/views/Login.vue", () => {
   const password = "123";
+  const username = "john.doe";
   // eslint-disable-next-line
   const user = (userData as any) as InternalActor
+  // eslint-disable-next-line
+  let vuetify: any;
 
   beforeEach(async () => {
     vuetify = new Vuetify();
@@ -39,7 +38,7 @@ describe("Login.vue", () => {
   });
 
   it("Login success", async () => {
-    const wrapper = mount(Login, { localVue, vuetify, router, store });
+    const wrapper = mount(Login, { localVue, router, store, vuetify });
 
     wrapper.find('input[name="login"]').setValue(username);
     wrapper.find('input[name="password"]').setValue(password);
@@ -58,7 +57,7 @@ describe("Login.vue", () => {
   });
 
   it("Login wrong user", async () => {
-    const wrapper = mount(Login, { localVue, vuetify, router, store });
+    const wrapper = mount(Login, { localVue, router, store, vuetify });
 
     wrapper.find('input[name="login"]').setValue("foo.bar");
     wrapper.find('input[name="password"]').setValue(password);
@@ -72,7 +71,7 @@ describe("Login.vue", () => {
   });
 
   it("Login wrong password", async () => {
-    const wrapper = mount(Login, { localVue, vuetify, router, store });
+    const wrapper = mount(Login, { localVue, router, store, vuetify });
 
     wrapper.find('input[name="login"]').setValue(username);
     wrapper.find('input[name="password"]').setValue("123-4");
@@ -86,7 +85,8 @@ describe("Login.vue", () => {
   });
 
   it("Goto signup", async () => {
-    const wrapper = mount(Login, { localVue, vuetify, router, store });
+    const wrapper = mount(Login, { localVue, router, store, vuetify });
+
     const button = wrapper.find("#signup-link");
     button.trigger("click");
     await flushPromises();
@@ -99,8 +99,7 @@ describe("Login.vue", () => {
     router.currentRoute.params.redirectFrom = "/home";
     await flushPromises();
 
-    const wrapper = mount(Login, { localVue, vuetify, router, store });
-    await flushPromises();
+    const wrapper = mount(Login, { localVue, router, store, vuetify });
 
     expect(wrapper.find(".v-alert").exists()).toBe(true);
     expect(router.currentRoute.path).toBe("/login");

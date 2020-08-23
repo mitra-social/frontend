@@ -78,24 +78,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
 import { ActivityObject, Link } from "activitypub-objects";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import striptags from "striptags";
 
+import ActorPin from "@/components/actor/ActorPin.vue";
+import Date from "@/components/ui/Date.vue";
 import ActivityStreamsArticleType from "@/views/home/post/text-type/ActivityStreamsArticleType.vue";
 import ActivityStreamsNoteType from "@/views/home/post/text-type/ActivityStreamsNoteType.vue";
 import Attachments from "@/views/home/post/attachments/index.vue";
-import ActorPin from "@/components/actor/ActorPin.vue";
-import Date from "@/components/ui/Date.vue";
 import { PostTypes } from "@/utils/post-types";
 
 @Component({
   components: {
-    Attachments,
-    ActorPin,
-    Date,
     ActivityStreamsArticleType,
     ActivityStreamsNoteType,
+    ActorPin,
+    Attachments,
+    Date,
   },
   filters: {
     stripHtmlTags(value: string) {
@@ -104,15 +104,31 @@ import { PostTypes } from "@/utils/post-types";
   },
 })
 export default class Post extends Vue {
+  /************************
+   * component properties
+   ************************/
+
   @Prop() post!: ActivityObject | Link;
   @Prop() postIndex!: number;
 
-  private getComponent(type: string): PostTypes {
+  /**********************
+   * public functions
+   **********************/
+  public getComponent(type: string): PostTypes {
     return PostTypes[type as keyof typeof PostTypes];
   }
 }
 </script>
 <style lang="scss" scoped>
+.in-reply-to > .theme--light.v-card {
+  background-color: #e0e0e0;
+}
+
+.in-reply-to-expansion > .v-expansion-panel--active > .v-expansion-panel-header,
+.in-reply-to-expansion > .v-expansion-panel-header {
+  min-height: 30px;
+}
+
 .post {
   margin: 5px;
 }
@@ -124,14 +140,5 @@ export default class Post extends Vue {
 
 .v-card__text {
   width: inherit;
-}
-
-.in-reply-to > .theme--light.v-card {
-  background-color: #e0e0e0;
-}
-
-.in-reply-to-expansion > .v-expansion-panel--active > .v-expansion-panel-header,
-.in-reply-to-expansion > .v-expansion-panel-header {
-  min-height: 30px;
 }
 </style>

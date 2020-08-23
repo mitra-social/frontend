@@ -46,28 +46,43 @@ const dialogAttachmentsStore = namespace("DialogAttachments");
 
 @Component
 export default class AttachmentDialog extends Vue {
-  public windowHeight = 0;
-  public dialogHeaderHeight = 78;
+  private windowHeight = 0;
+  private dialogHeaderHeight = 78;
 
-  @dialogAttachmentsStore.Getter
-  public getSelectedAttachmentIndex!: number;
-
-  @dialogAttachmentsStore.Getter
-  public getSelectedAttachments!: Attachment[];
-
-  @dialogAttachmentsStore.Action
-  public reset!: () => void;
-
+  /**********************
+   * computed properties
+   **********************/
   get images(): Attachment[] {
     return this.getSelectedAttachments.filter(($) => {
       return $.type && $.type.startsWith("image/");
     });
   }
 
+  /**********************
+   * store getters
+   **********************/
+  @dialogAttachmentsStore.Getter
+  public getSelectedAttachmentIndex!: number;
+
+  @dialogAttachmentsStore.Getter
+  public getSelectedAttachments!: Attachment[];
+
+  /**********************
+   * store actions
+   **********************/
+  @dialogAttachmentsStore.Action
+  public reset!: () => void;
+
+  /**********************
+   * Lifecycle hooks
+   **********************/
   private destroyed() {
     this.reset();
   }
 
+  /**********************
+   * public functions
+   **********************/
   public onResize() {
     this.windowHeight = window.innerHeight;
   }

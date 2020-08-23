@@ -1,14 +1,14 @@
-import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 
+import { AddAttachmentsParam } from "@/model/add-attachments-param";
 import { Attachment } from "@/model/attachment";
 import { SelectedAttachmentParam } from "@/model/selected-attachment-param";
-import { AddAttachmentsParam } from "@/model/add-attachments-param";
 
 @Module({ namespaced: true })
 class DialogAttachmentsStore extends VuexModule {
+  private attachments: Map<number, Attachment[]> = new Map();
   private indexSelectedAttachment = 0;
   private indexSelectedAttachments = 0;
-  private attachments: Map<number, Attachment[]> = new Map();
 
   get getSelectedAttachmentIndex(): number {
     return this.indexSelectedAttachment;
@@ -16,6 +16,16 @@ class DialogAttachmentsStore extends VuexModule {
 
   get getSelectedAttachments(): Attachment[] | undefined {
     return this.attachments.get(this.indexSelectedAttachments);
+  }
+
+  @Mutation
+  public addAttachments({ index, attachments }: AddAttachmentsParam): void {
+    this.attachments.set(index, attachments);
+  }
+
+  @Mutation
+  public setAttachments(map: Map<number, Attachment[]>): void {
+    this.attachments = map;
   }
 
   @Mutation
@@ -28,16 +38,6 @@ class DialogAttachmentsStore extends VuexModule {
     this.indexSelectedAttachments = index;
   }
 
-  @Mutation
-  public setAttachments(map: Map<number, Attachment[]>): void {
-    this.attachments = map;
-  }
-
-  @Mutation
-  public addAttachments({ index, attachments }: AddAttachmentsParam): void {
-    this.attachments.set(index, attachments);
-  }
-
   @Action
   public async setSelectedAttachmentAction({
     postIndex,
@@ -47,17 +47,17 @@ class DialogAttachmentsStore extends VuexModule {
     this.context.commit("setSelectedAttachment", attachIndex);
   }
 
-  @Action
-  public async setSelectedPostAttachments(index: number): Promise<void> {
-    this.context.commit("setSelectedAttachments", index);
-  }
-
-  @Action
+  @Action({ rawError: true })
   public addAttachmentsAction(attachments: AddAttachmentsParam): void {
     this.context.commit("addAttachments", attachments);
   }
 
-  @Action
+  @Action({ rawError: true })
+  public async setSelectedPostAttachments(index: number): Promise<void> {
+    this.context.commit("setSelectedAttachments", index);
+  }
+
+  @Action({ rawError: true })
   public reset(): void {
     this.context.commit("setSelectedAttachment", 0);
     this.context.commit("setSelectedAttachments", 0);

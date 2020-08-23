@@ -2,11 +2,10 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import store from "@/store";
+import { AuthenticationUtil } from "@/utils/authentication-util";
 import Home from "@/views/home/index.vue";
 import Login from "@/views/Login.vue";
 import SignUp from "@/views/SignUp.vue";
-
-import { AuthenticationUtil } from "@/utils/authentication-util";
 
 Vue.use(VueRouter);
 

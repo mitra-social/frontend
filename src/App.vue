@@ -14,15 +14,15 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
+import Dialog from "@/components/ui/Dialog.vue";
 import Header from "@/components/layout/MitraHeader.vue";
 import Notify from "@/components/ui/Notify.vue";
-import Dialog from "@/components/ui/Dialog.vue";
 
 @Component({
   components: {
+    Dialog,
     Header,
     Notify,
-    Dialog,
   },
 })
 export default class App extends Vue {}
@@ -34,15 +34,15 @@ body {
   padding: 0;
 }
 
-.app-container {
-  width: 100%;
-  height: 100vh;
-}
-
 main {
   flex: 1 1 auto;
   min-height: 0px;
   display: flex;
   flex-wrap: wrap;
+}
+
+.app-container {
+  width: 100%;
+  height: 100vh;
 }
 </style>

@@ -96,31 +96,46 @@
 </template>
 
 <script lang="ts">
+import { ActivityObject, Link } from "activitypub-objects";
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { ActivityObject, Link } from "activitypub-objects";
 
-import FollowingActor from "@/components/following/FollowingActor.vue";
 import ActorList from "@/components/actor/ActorList.vue";
-import SummarizedActor from "@/components/actor/ActorSummarized.vue";
-import { InternalActor } from "@/model/internal-actor";
 import { FetchFollowParam } from "@/model/fetch-follow-param";
+import FollowingActor from "@/components/following/FollowingActor.vue";
+import { InternalActor } from "@/model/internal-actor";
+import SummarizedActor from "@/components/actor/ActorSummarized.vue";
 
 const findUserStore = namespace("FindUser");
 
 @Component({
   components: {
+    ActorList,
     FollowingActor,
     SummarizedActor,
-    ActorList,
   },
 })
 export default class SearchRemoteActor extends Vue {
-  public tab = "";
   public isFollowerActive = false;
   public isFollowingActive = false;
   public noContent = true;
+  public tab = "";
 
+  /**********************
+   * computed properties
+   **********************/
+  get query() {
+    return this.getQuery;
+  }
+
+  set query(value: string) {
+    this.noContent = false;
+    this.queryAction(value);
+  }
+
+  /**********************
+   * store getters
+   **********************/
   // find user
   @findUserStore.Getter
   public getQuery!: string;
@@ -157,6 +172,9 @@ export default class SearchRemoteActor extends Vue {
   @findUserStore.Getter
   public getHasNextFollowingPage!: boolean;
 
+  /**********************
+   * store actions
+   **********************/
   // find user
   @findUserStore.Action
   public findUser!: (query: string) => Promise<void>;
@@ -175,21 +193,12 @@ export default class SearchRemoteActor extends Vue {
   @findUserStore.Action
   public fetchFollowing!: ({ url, add }: FetchFollowParam) => void;
 
-  get query() {
-    return this.getQuery;
-  }
-
-  set query(value: string) {
-    this.noContent = false;
-    this.queryAction(value);
-  }
-
-  public setfollowersOrFollowing(
-    isFollowerActive: boolean,
-    isFollowingActive: boolean
-  ): void {
-    this.isFollowerActive = isFollowerActive;
-    this.isFollowingActive = isFollowingActive;
+  /**********************
+   * public functions
+   **********************/
+  public detail(actor: InternalActor): void {
+    this.queryAction("");
+    this.detailUser(actor);
   }
 
   public nextFollowersPage(): void {
@@ -200,28 +209,21 @@ export default class SearchRemoteActor extends Vue {
     this.fetchFollowing({ url: this.getUser.following, add: true });
   }
 
-  public searchUser(query: string): void {
-    this.findUser(query).catch(() => (this.noContent = true));
+  public setfollowersOrFollowing(
+    isFollowerActive: boolean,
+    isFollowingActive: boolean
+  ): void {
+    this.isFollowerActive = isFollowerActive;
+    this.isFollowingActive = isFollowingActive;
   }
 
-  public detail(actor: InternalActor) {
-    this.queryAction("");
-    this.detailUser(actor);
+  public searchUser(query: string): void {
+    this.findUser(query).catch(() => (this.noContent = true));
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.post-container {
-  height: 100%;
-  overflow-y: scroll;
-}
-
-.follower-container {
-  height: 100%;
-  overflow: scroll;
-}
-
 h2 {
   margin-block-start: 0;
   margin-block-end: 0;
@@ -229,5 +231,15 @@ h2 {
 
 .action-all {
   padding-left: 32px;
+}
+
+.follower-container {
+  height: 100%;
+  overflow: scroll;
+}
+
+.post-container {
+  height: 100%;
+  overflow-y: scroll;
 }
 </style>

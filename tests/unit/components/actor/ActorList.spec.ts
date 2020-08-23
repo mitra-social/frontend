@@ -1,24 +1,27 @@
+import { OrderedCollectionPage } from "activitypub-objects";
+import flushPromises from "flush-promises";
 import Vue from "vue";
 import Vuetify from "vuetify";
-
 import { mount, createLocalVue } from "@vue/test-utils";
-import flushPromises from "flush-promises";
 
-import ActorList from "@/components/actor/ActorList.vue";
-import store from "@/store";
 import * as followingPage1Data from "@/api-client/mock/data/following-page-1.json";
 import * as followerPage1Data from "@/api-client/mock/data/followers-page-1.json";
+import ActorList from "@/components/actor/ActorList.vue";
+import store from "@/store";
 import { AuthenticationUtil } from "@/utils/authentication-util";
-import { OrderedCollectionPage } from "activitypub-objects";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
 
 describe("@/components/actor/ActorList.vue", () => {
-  // eslint-disable-next-line
-  let vuetify: any;
   let followingPage1: OrderedCollectionPage;
   let followerPage1: OrderedCollectionPage;
+  // eslint-disable-next-line
+  followingPage1 = (followingPage1Data.default as any) as OrderedCollectionPage;
+  // eslint-disable-next-line
+  followerPage1 = (followerPage1Data.default as any) as OrderedCollectionPage;
+  // eslint-disable-next-line
+  let vuetify: any;
 
   beforeEach(async () => {
     vuetify = new Vuetify();
@@ -32,11 +35,6 @@ describe("@/components/actor/ActorList.vue", () => {
       .fn()
       .mockImplementation(intersectionObserverMock);
 
-    // eslint-disable-next-line
-    followingPage1 = (followingPage1Data.default as any) as OrderedCollectionPage;
-    // eslint-disable-next-line
-    followerPage1 = (followerPage1Data.default as any) as OrderedCollectionPage;
-
     jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue(user);
     jest
       .spyOn(AuthenticationUtil, "getToken")
@@ -48,25 +46,25 @@ describe("@/components/actor/ActorList.vue", () => {
   it("Count list with following actors", () => {
     const wrapper = mount(ActorList, {
       localVue,
-      vuetify,
-      store,
       propsData: {
         actors: followingPage1.orderedItems,
       },
+      store,
+      vuetify,
     });
 
     expect(wrapper.findAll(".actor-short-list").length).toBe(13);
   });
 
-  it("Following actors has next page", (done) => {
+  it("Following actors has next page", async () => {
     const wrapper = mount(ActorList, {
       localVue,
-      vuetify,
-      store,
       propsData: {
         actors: followingPage1.orderedItems,
         hasNextPage: true,
       },
+      store,
+      vuetify,
     });
 
     const intersectArray = [
@@ -81,22 +79,20 @@ describe("@/components/actor/ActorList.vue", () => {
     ];
     // eslint-disable-next-line
     (wrapper.vm as any).onIntersect(intersectArray);
+    await flushPromises();
 
-    flushPromises().then(async () => {
-      expect(wrapper.emitted().nextPage).toBeTruthy();
-      done();
-    });
+    expect(wrapper.emitted().nextPage).toBeTruthy();
   });
 
-  it("Following actors has not next page", (done) => {
+  it("Following actors has not next page", async () => {
     const wrapper = mount(ActorList, {
       localVue,
-      vuetify,
-      store,
       propsData: {
         actors: followingPage1.orderedItems,
         hasNextPage: false,
       },
+      store,
+      vuetify,
     });
 
     const intersectArray = [
@@ -111,21 +107,19 @@ describe("@/components/actor/ActorList.vue", () => {
     ];
     // eslint-disable-next-line
     (wrapper.vm as any).onIntersect(intersectArray);
+    await flushPromises();
 
-    flushPromises().then(async () => {
-      expect(wrapper.emitted().nextPage).toBeFalsy();
-      done();
-    });
+    expect(wrapper.emitted().nextPage).toBeFalsy();
   });
 
   it("Count list with following actors", () => {
     const wrapper = mount(ActorList, {
       localVue,
-      vuetify,
-      store,
       propsData: {
         actors: followerPage1.orderedItems,
       },
+      store,
+      vuetify,
     });
 
     expect(wrapper.findAll(".actor-short-list").length).toBe(10);
@@ -134,11 +128,11 @@ describe("@/components/actor/ActorList.vue", () => {
   it("Check first actor", async () => {
     const wrapper = mount(ActorList, {
       localVue,
-      vuetify,
-      store,
       propsData: {
         actors: followerPage1.orderedItems,
       },
+      store,
+      vuetify,
     });
 
     const firstActorItem = wrapper.findAll(".actor-short-list").at(0);
@@ -152,9 +146,9 @@ describe("@/components/actor/ActorList.vue", () => {
   it("List is empty", () => {
     const wrapper = mount(ActorList, {
       localVue,
-      vuetify,
-      store,
       propsData: {},
+      store,
+      vuetify,
     });
 
     expect(wrapper.findAll(".actor-short-list").length).toBe(0);
@@ -163,12 +157,12 @@ describe("@/components/actor/ActorList.vue", () => {
   it("Loading is false and the progress bar is inactive", () => {
     const wrapper = mount(ActorList, {
       localVue,
-      vuetify,
-      store,
       propsData: {
         actors: followerPage1.orderedItems,
         isLoading: false,
       },
+      store,
+      vuetify,
     });
 
     expect(
@@ -179,8 +173,8 @@ describe("@/components/actor/ActorList.vue", () => {
   it("Loading is true and the progress bar is active", () => {
     const wrapper = mount(ActorList, {
       localVue,
-      vuetify,
       store,
+      vuetify,
       propsData: {
         actors: followerPage1.orderedItems,
         isLoading: true,

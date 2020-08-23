@@ -1,21 +1,20 @@
+import flushPromises from "flush-promises";
 import Vue from "vue";
 import Vuetify from "vuetify";
-
 import { mount, createLocalVue } from "@vue/test-utils";
 
 import FollowingActor from "@/components/following/FollowingActor.vue";
-import store from "@/store";
-import flushPromises from "flush-promises";
-import { AuthenticationUtil } from "@/utils/authentication-util";
 import { InternalActor } from "@/model/internal-actor";
+import store from "@/store";
+import { AuthenticationUtil } from "@/utils/authentication-util";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
 
-describe("FollowingActor.vue", () => {
+describe("@/components/following/FollowingActor.vue", () => {
+  const user = "john.doe";
   // eslint-disable-next-line
   let vuetify: any;
-  const user = "john.doe";
 
   beforeEach(async () => {
     vuetify = new Vuetify();
@@ -30,16 +29,15 @@ describe("FollowingActor.vue", () => {
 
   it("Actor is an object with preferredUsername property and no icon", () => {
     const preferredUsername = "john.doe";
-
     const wrapper = mount(FollowingActor, {
       localVue,
-      vuetify,
       propsData: {
         actor: {
-          type: "Person",
           preferredUsername: preferredUsername,
+          type: "Person",
         },
       },
+      vuetify,
     });
 
     const displayNameElement = wrapper.find(".v-list-item__title");
@@ -57,24 +55,23 @@ describe("FollowingActor.vue", () => {
   it("Actor is an object with preferredUsername and name property and icon", () => {
     const name = "John";
     const iconUrl = "http://example.org/icon.png";
-
     const wrapper = mount(FollowingActor, {
       localVue,
-      vuetify,
       propsData: {
         actor: {
-          type: "Person",
-          preferredUsername: "john.doe",
-          name: name,
           icon: {
-            type: "Image",
             name: "Avatar",
+            height: 16,
+            type: "Image",
             url: iconUrl,
             width: 16,
-            height: 16,
           },
+          name: name,
+          preferredUsername: "john.doe",
+          type: "Person",
         },
       },
+      vuetify,
     });
 
     const displayNameElement = wrapper.find(".v-list-item__title");
@@ -86,22 +83,21 @@ describe("FollowingActor.vue", () => {
 
   it("Actor is an object with preferredUsername, name and nameMap with required language property", () => {
     const name = "John";
-
     const wrapper = mount(FollowingActor, {
       localVue,
-      vuetify,
       propsData: {
         actor: {
-          type: "Person",
-          preferredUsername: "john.doe",
           name: "Foo",
           nameMap: {
             de: "Hans",
-            fr: "Jean",
             en: name,
+            fr: "Jean",
           },
+          preferredUsername: "john.doe",
+          type: "Person",
         },
       },
+      vuetify,
     });
 
     const displayNameElement = wrapper.find(".v-list-item__title");
@@ -110,21 +106,20 @@ describe("FollowingActor.vue", () => {
 
   it("Actor is an object with preferredUsername, name and nameMap without required language property", () => {
     const name = "Foo";
-
     const wrapper = mount(FollowingActor, {
       localVue,
-      vuetify,
       propsData: {
         actor: {
-          type: "Person",
-          preferredUsername: "john.doe",
           name: name,
           nameMap: {
             de: "Hans",
             fr: "Jean",
           },
+          preferredUsername: "john.doe",
+          type: "Person",
         },
       },
+      vuetify,
     });
 
     const displayNameElement = wrapper.find(".v-list-item__title");
@@ -133,14 +128,13 @@ describe("FollowingActor.vue", () => {
 
   it("Hover list item", async () => {
     const actor: InternalActor = store.state.Following.following[0];
-
     const wrapper = mount(FollowingActor, {
       localVue,
-      vuetify,
-      store,
       propsData: {
         actor,
       },
+      store,
+      vuetify,
     });
 
     // Find only button icon of item action
@@ -154,14 +148,13 @@ describe("FollowingActor.vue", () => {
 
   it("Filter posts by first actor in following list", async () => {
     const actor: InternalActor = store.state.Following.following[0];
-
     const wrapper = mount(FollowingActor, {
       localVue,
-      vuetify,
-      store,
       propsData: {
         actor,
       },
+      store,
+      vuetify,
     });
 
     // Find only button icon of item action
@@ -170,6 +163,7 @@ describe("FollowingActor.vue", () => {
     const listItem = wrapper.find(".v-list-item");
     listItem.trigger("click");
     await wrapper.vm.$nextTick();
+
     wrapper.setData({ disabledFilter: true });
     await flushPromises();
 
@@ -182,14 +176,13 @@ describe("FollowingActor.vue", () => {
 
   it("Filter is set and hover list item", async () => {
     const actor: InternalActor = store.state.Following.following[0];
-
     const wrapper = mount(FollowingActor, {
       localVue,
-      vuetify,
-      store,
       propsData: {
         actor,
       },
+      store,
+      vuetify,
     });
 
     // Find only button icon of item action
@@ -198,6 +191,7 @@ describe("FollowingActor.vue", () => {
     const listItem = wrapper.find(".v-list-item");
     listItem.trigger("click");
     await wrapper.vm.$nextTick();
+
     wrapper.setData({ disabledFilter: true });
     wrapper.setData({ isHover: true });
     await flushPromises();
@@ -207,14 +201,13 @@ describe("FollowingActor.vue", () => {
 
   it("Remove filter by first actor in following list", async () => {
     const actor: InternalActor = store.state.Following.following[0];
-
     const wrapper = mount(FollowingActor, {
       localVue,
-      vuetify,
-      store,
       propsData: {
         actor,
       },
+      store,
+      vuetify,
     });
 
     // Find only button icon of item action
@@ -228,6 +221,7 @@ describe("FollowingActor.vue", () => {
 
     listItem.trigger("click");
     await wrapper.vm.$nextTick();
+
     wrapper.setData({ disabledFilter: false });
     await flushPromises();
 
@@ -239,14 +233,13 @@ describe("FollowingActor.vue", () => {
 
   it("User unfollows a followed actor", async () => {
     const actor: InternalActor = store.state.Following.following[0];
-
     const wrapper = mount(FollowingActor, {
       localVue,
-      vuetify,
-      store,
       propsData: {
         actor,
       },
+      store,
+      vuetify,
     });
 
     expect(wrapper.vm.$store.state.Following.following.length).toBe(5);

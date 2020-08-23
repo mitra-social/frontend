@@ -1,15 +1,15 @@
-import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
-import router from "@/router";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 
 import client from "apiClient";
 import { Credential } from "@/model/credential";
 import { CreateUser } from "@/model/create-user";
+import router from "@/router";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 
 @Module({ namespaced: true })
 class Authentication extends VuexModule {
-  public status = 0;
   public hasLoadedOnce = false;
+  public status = 0;
 
   get authStatus(): number {
     return this.status;

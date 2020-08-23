@@ -1,34 +1,31 @@
+import flushPromises from "flush-promises";
 import Vue from "vue";
 import Vuetify from "vuetify";
-
 import { createLocalVue, shallowMount } from "@vue/test-utils";
-import flushPromises from "flush-promises";
 
-import "@/plugins/date-fns";
-import store from "@/store";
-import router from "@/router";
-import Posts from "@/views/home/post/Posts.vue";
 import apiService from "@/api-client/mock/index";
-import { AuthenticationUtil } from "@/utils/authentication-util";
 import { Notify } from "@/model/notify";
+import "@/plugins/date-fns";
+import router from "@/router";
+import store from "@/store";
+import { AuthenticationUtil } from "@/utils/authentication-util";
+import Posts from "@/views/home/post/Posts.vue";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
 
 describe("@/views/home/post/Posts.vue", () => {
-  // eslint-disable-next-line
-  let vuetify: any;
-  const userName = "john.doe";
   const mockIntersectDirective = () => {
     return {
       observe: jest.fn(),
       unobserve: jest.fn(),
     };
   };
+  const userName = "john.doe";
+  // eslint-disable-next-line
+  let vuetify: any;
 
   beforeEach(async () => {
-    vuetify = new Vuetify();
-
     if (router.currentRoute.path !== "/") {
       router.push({ name: "Home" });
     }
@@ -40,6 +37,8 @@ describe("@/views/home/post/Posts.vue", () => {
       preferredUsername: userName,
       inbox: "https://social.example/john.doe/inbox/",
     };
+
+    vuetify = new Vuetify();
 
     jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue(userName);
     jest
@@ -60,21 +59,22 @@ describe("@/views/home/post/Posts.vue", () => {
 
   it("Count posts", async () => {
     const wrapper = shallowMount(Posts, {
+      directives: { Intersect: mockIntersectDirective },
       localVue,
       vuetify,
       store,
-      directives: { Intersect: mockIntersectDirective },
     });
     await flushPromises();
+
     expect(wrapper.findAll("post-stub").length).toBe(12);
   });
 
-  it("Test scroll paging", async (done) => {
+  it("Test scroll paging", async () => {
     const wrapper = shallowMount(Posts, {
-      localVue,
-      vuetify,
-      store,
       directives: { Intersect: mockIntersectDirective },
+      localVue,
+      store,
+      vuetify,
     });
     await flushPromises();
 
@@ -92,20 +92,18 @@ describe("@/views/home/post/Posts.vue", () => {
     ];
     // eslint-disable-next-line
     (wrapper.vm as any).onIntersect(intersectArray);
+    await flushPromises();
 
-    flushPromises().then(async () => {
-      expect(wrapper.findAll("post-stub").length).toBe(17);
-      done();
-    });
+    expect(wrapper.findAll("post-stub").length).toBe(17);
   });
 
-  it("Wrong user", async (done) => {
+  it("Wrong user", (done) => {
     jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue("jenny.moe");
     const wrapper = shallowMount(Posts, {
-      localVue,
-      vuetify,
-      store,
       directives: { Intersect: mockIntersectDirective },
+      localVue,
+      store,
+      vuetify,
     });
 
     wrapper.vm.$store.subscribe((mutation, state) => {
@@ -119,12 +117,13 @@ describe("@/views/home/post/Posts.vue", () => {
 
   it("Has no post", async () => {
     const wrapper = shallowMount(Posts, {
-      localVue,
-      vuetify,
-      store,
       directives: { Intersect: mockIntersectDirective },
+      localVue,
+      store,
+      vuetify,
     });
     await flushPromises();
+
     store.state.Collection.items = [];
     await flushPromises();
     // The information about no existing post is in a class post
@@ -134,15 +133,15 @@ describe("@/views/home/post/Posts.vue", () => {
     );
   });
 
-  it("No user was found and therefore no posts can be displayed", async () => {
+  it("No user was found and therefore no posts can be displayed", () => {
     store.state.User.user = undefined;
     jest.spyOn(AuthenticationUtil, "getToken").mockReturnValue(undefined);
 
     shallowMount(Posts, {
-      localVue,
-      vuetify,
-      store,
       directives: { Intersect: mockIntersectDirective },
+      localVue,
+      store,
+      vuetify,
     });
 
     expect(router.currentRoute.path).toBe("/login");

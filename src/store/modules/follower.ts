@@ -1,14 +1,14 @@
-import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
-import { ActivityObject, Link, CollectionPage } from "activitypub-objects";
+import { ActivityObject, CollectionPage, Link } from "activitypub-objects";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 
 import client from "apiClient";
-import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
+import { AuthenticationUtil } from "@/utils/authentication-util";
 import { InternalActor } from "@/model/internal-actor";
 
 @Module({ namespaced: true })
 class FollowerStore extends VuexModule {
-  private followers: (ActivityObject | Link)[] = [];
+  public followers: (ActivityObject | Link)[] = [];
 
   get getFollowers(): (ActivityObject | Link)[] {
     return this.followers;
@@ -35,7 +35,7 @@ class FollowerStore extends VuexModule {
     }
   }
 
-  @Action
+  @Action({ rawError: true })
   public async fetchFollowers(user: string): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
 

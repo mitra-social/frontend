@@ -42,19 +42,23 @@
 </template>
 
 <script lang="ts">
+import { ActivityObject, Link } from "activitypub-objects";
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { ActivityObject, Link } from "activitypub-objects";
 
 import client from "apiClient";
 import { InternalActor } from "@/model/internal-actor";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
-const userStore = namespace("User");
 const followingStore = namespace("Following");
+const userStore = namespace("User");
 
 @Component
 export default class ActorSummarized extends Vue {
+  /************************
+   * components properties
+   ************************/
+
   @Prop() readonly actor!:
     | ActivityObject
     | Link
@@ -62,6 +66,9 @@ export default class ActorSummarized extends Vue {
     | Array<ActivityObject | URL>;
   @Prop() readonly noSummary!: boolean;
 
+  /**********************
+   * computed properties
+   **********************/
   get name(): string | undefined {
     return ActivityObjectHelper.extractActorName(this.actor as ActivityObject);
   }
@@ -74,12 +81,18 @@ export default class ActorSummarized extends Vue {
     return client.getMedia(originalIconUri);
   }
 
+  /**********************
+   * store getters
+   **********************/
   @userStore.Getter
   public getUser!: InternalActor;
 
   @followingStore.Getter
   public isFollowing!: boolean;
 
+  /**********************
+   * store actions
+   **********************/
   @followingStore.Action
   public follow!: (actor: InternalActor) => Promise<void>;
 

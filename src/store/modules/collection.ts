@@ -1,21 +1,52 @@
-import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 import {
-  OrderedCollectionPage,
+  Activity,
   ActivityObject,
   Link,
-  Activity,
+  OrderedCollectionPage,
 } from "activitypub-objects";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 
 import client from "apiClient";
+import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { PostTypes } from "@/utils/post-types";
-import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
-/* 
+/**********************
+ * Helper functions
+ **********************/
+function normalizedAttachment(
+  items: (ActivityObject | Link | URL | undefined)[]
+): Promise<(ActivityObject | Link | URL | undefined)[]> {
+  return Promise.all(
+    items
+      .filter(($) => !!$)
+      .map(async (item: ActivityObject | Link | URL | undefined) => {
+        let attachments: (ActivityObject | Link | URL)[] = [];
 
-  Helper function
+        const activity = item as Activity;
+        if (activity.object) {
+          const object = activity.object as ActivityObject;
 
-*/
+          if (object.attachment) {
+            if (Array.isArray(object.attachment)) {
+              attachments = object.attachment;
+            } else {
+              attachments.push(object.attachment);
+            }
+
+            ((item as Activity)
+              .object as ActivityObject).attachment = attachments
+              .filter(($: ActivityObject | Link | URL) => !!$)
+              .map(($: ActivityObject | Link | URL) =>
+                ActivityObjectHelper.extractAttachmentLink($)
+              );
+          }
+        }
+        return item;
+      })
+  );
+}
+
 function normalizedCollection(
   collection: OrderedCollectionPage
 ): Promise<(ActivityObject | Link | URL | undefined)[]> {
@@ -58,49 +89,36 @@ function normalizedCollection(
   );
 }
 
-function normalizedAttachment(
-  items: (ActivityObject | Link | URL | undefined)[]
-): Promise<(ActivityObject | Link | URL | undefined)[]> {
-  return Promise.all(
-    items
-      .filter(($) => !!$)
-      .map(async (item: ActivityObject | Link | URL | undefined) => {
-        let attachments: (ActivityObject | Link | URL)[] = [];
-
-        const activity = item as Activity;
-        if (activity.object) {
-          const object = activity.object as ActivityObject;
-
-          if (object.attachment) {
-            if (Array.isArray(object.attachment)) {
-              attachments = object.attachment;
-            } else {
-              attachments.push(object.attachment);
-            }
-
-            ((item as Activity)
-              .object as ActivityObject).attachment = attachments
-              .filter(($: ActivityObject | Link | URL) => !!$)
-              .map(($: ActivityObject | Link | URL) =>
-                ActivityObjectHelper.extractAttachmentLink($)
-              );
-          }
-        }
-        return item;
-      })
-  );
-}
-
 @Module({ namespaced: true })
 class Collection extends VuexModule {
+  public filter: string | undefined = undefined;
+  public hasNext = true;
+  public hasPrev = false;
   public items: Array<ActivityObject | Link> = [];
+  public loadMorePostState = false;
+  public page = 0;
   public partOf = "";
   public totalItems = 0;
-  public page = 0;
-  public hasPrev = false;
-  public hasNext = true;
-  public loadMorePostState = false;
-  public filter: string | undefined = undefined;
+
+  get getHasNextPage(): boolean {
+    return this.hasNext;
+  }
+
+  get getHasPrevPage(): boolean {
+    return this.hasPrev;
+  }
+
+  get getLoadMorePostState(): boolean {
+    return this.loadMorePostState;
+  }
+
+  get getPage(): number {
+    return this.page;
+  }
+
+  get getPartOf(): string {
+    return this.partOf;
+  }
 
   get getPosts(): (ActivityObject | Link)[] | undefined {
     if (!this.items) {
@@ -122,38 +140,13 @@ class Collection extends VuexModule {
     return posts;
   }
 
-  get getHasPrev(): boolean {
-    return this.hasPrev;
-  }
-
-  get hasNextPage(): boolean {
-    return this.hasNext;
-  }
-
-  get getLoadMorePostState(): boolean {
-    return this.loadMorePostState;
-  }
-
-  get getPartOf(): string {
-    return this.partOf;
-  }
-
   get getTotalItems(): number {
     return this.totalItems;
   }
 
-  get getPage(): number {
-    return this.page;
-  }
-
   @Mutation
-  public setItems(items: Array<ActivityObject | Link>): void {
-    this.items = items;
-  }
-
-  @Mutation
-  public addItems(items: Array<ActivityObject | Link>): void {
-    this.items = this.items.concat(items);
+  public setFilter(filter: string) {
+    this.filter = filter;
   }
 
   @Mutation
@@ -167,13 +160,18 @@ class Collection extends VuexModule {
   }
 
   @Mutation
-  public setLoadMorePostState(isLoading: boolean): void {
-    this.loadMorePostState = isLoading;
+  public addItems(items: Array<ActivityObject | Link>): void {
+    this.items = this.items.concat(items);
   }
 
   @Mutation
-  public setPage(page: number): void {
-    this.page = page;
+  public setItems(items: Array<ActivityObject | Link>): void {
+    this.items = items;
+  }
+
+  @Mutation
+  public setLoadMorePostState(isLoading: boolean): void {
+    this.loadMorePostState = isLoading;
   }
 
   @Mutation
@@ -182,8 +180,8 @@ class Collection extends VuexModule {
   }
 
   @Mutation
-  public setFilter(filter: string) {
-    this.filter = filter;
+  public setPage(page: number): void {
+    this.page = page;
   }
 
   @Mutation
@@ -252,7 +250,7 @@ class Collection extends VuexModule {
       .finally(() => this.context.commit("setLoadMorePostState", false));
   }
 
-  @Action
+  @Action({ rawError: true })
   public filterAction(filter: string): void {
     if (!filter) {
       this.context.dispatch(
@@ -268,7 +266,7 @@ class Collection extends VuexModule {
     this.context.dispatch("fetchCollection", user);
   }
 
-  @Action
+  @Action({ rawError: true })
   public clearfilterAction(): void {
     const user = AuthenticationUtil.getUser() || "";
     this.context.commit("setFilter", undefined);

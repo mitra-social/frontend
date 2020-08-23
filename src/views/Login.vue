@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Ref } from "vue-property-decorator";
+import { Component, Ref, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 import { Credential } from "@/model/credential";
@@ -64,37 +64,53 @@ const notifyStore = namespace("Notify");
 
 @Component
 export default class Login extends Vue {
-  private valid = false;
-  private user = "";
+  /**********************
+   * data fields
+   **********************/
+
   private password = "";
+  private user = "";
+  private valid = false;
 
   private rules = {
     required: ($: string) => !!$ || "Required.",
   };
 
+  @Ref("loginForm") readonly form!: HTMLFormElement;
+
+  /**********************
+   * store getters
+   **********************/
   @authStore.Getter
   public authStatus!: number;
+
+  /**********************
+   * store actions
+   **********************/
+  @notifyStore.Action
+  public error!: (message: string) => void;
 
   @authStore.Action
   public login!: (credential: Credential) => void;
 
-  @notifyStore.Action
-  public error!: (message: string) => void;
-
-  @Ref("loginForm") readonly form!: HTMLFormElement;
-
-  public handleSubmit(): void {
-    if (this.form.validate()) {
-      this.login({ username: this.user, password: this.password });
-    }
-  }
-
+  /**********************
+   * Lifecycle hooks
+   **********************/
   private created(): void {
     if (
       this.$router.currentRoute.params.redirectFrom &&
       this.authStatus === 401
     ) {
       this.error("Authenctication failed.");
+    }
+  }
+
+  /**********************
+   * public functions
+   **********************/
+  public handleSubmit(): void {
+    if (this.form.validate()) {
+      this.login({ username: this.user, password: this.password });
     }
   }
 }

@@ -1,4 +1,4 @@
-import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
@@ -24,8 +24,8 @@ class UserStore extends VuexModule {
 
   @Action
   public async fetchUser(): Promise<void> {
-    const user = AuthenticationUtil.getUser() || "";
     const token = AuthenticationUtil.getToken() || "";
+    const user = AuthenticationUtil.getUser() || "";
 
     await client
       .getUser(token, user)
@@ -35,26 +35,6 @@ class UserStore extends VuexModule {
       .catch((error) => {
         this.context.commit("Auth/loginError", 401, { root: true });
         return Promise.reject({ status: error.response.status });
-      });
-  }
-
-  @Action
-  public async updateUser(user: InternalActor): Promise<void> {
-    const token = AuthenticationUtil.getToken() || "";
-    const userName = AuthenticationUtil.getUser() || "";
-
-    await client
-      .updateUser(token, userName, user)
-      .then(() => {
-        this.context.commit("setUser", user);
-        this.context.dispatch("Notify/success", "Update profile success.", {
-          root: true,
-        });
-      })
-      .catch(() => {
-        this.context.dispatch("Notify/error", "Updating user failed.", {
-          root: true,
-        });
       });
   }
 
@@ -82,6 +62,26 @@ class UserStore extends VuexModule {
           root: true,
         })
       );
+  }
+
+  @Action
+  public async updateUser(user: InternalActor): Promise<void> {
+    const token = AuthenticationUtil.getToken() || "";
+    const userName = AuthenticationUtil.getUser() || "";
+
+    await client
+      .updateUser(token, userName, user)
+      .then(() => {
+        this.context.commit("setUser", user);
+        this.context.dispatch("Notify/success", "Update profile success.", {
+          root: true,
+        });
+      })
+      .catch(() => {
+        this.context.dispatch("Notify/error", "Updating user failed.", {
+          root: true,
+        });
+      });
   }
 }
 export default UserStore;

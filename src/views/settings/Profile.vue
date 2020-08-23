@@ -56,19 +56,23 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Ref } from "vue-property-decorator";
+import { Component, Ref, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-import { InternalActor } from "@/model/internal-actor";
 import { DialogSettings } from "@/model/dialog-settings";
+import { InternalActor } from "@/model/internal-actor";
 
-const userStore = namespace("User");
 const dialogStore = namespace("Dialog");
+const userStore = namespace("User");
 
 @Component
 export default class Profile extends Vue {
-  public valid = false;
+  /**********************
+   * data fields
+   **********************/
+
   public user!: InternalActor;
+  public valid = false;
 
   public rules = {
     required: ($: string) => !!$ || "Required.",
@@ -78,22 +82,34 @@ export default class Profile extends Vue {
     emailRules: ($: string) => /.+@.+\..+/.test($) || "E-mail must be valid.",
   };
 
-  @dialogStore.Action
-  public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
+  @Ref("signUpForm") readonly form!: HTMLFormElement;
 
+  /**********************
+   * store getters
+   **********************/
   @userStore.Getter
   public getUser!: InternalActor;
+
+  /**********************
+   * store actions
+   **********************/
+  @dialogStore.Action
+  public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
 
   @userStore.Action
   public updateUser!: (user: InternalActor) => Promise<void>;
 
-  @Ref("signUpForm") readonly form!: HTMLFormElement;
-
-  private created() {
+  /**********************
+   * Lifecycle hooks
+   **********************/
+  private created(): void {
     this.user = Object.assign({}, this.getUser);
   }
 
-  public handleSubmit() {
+  /**********************
+   * public functions
+   **********************/
+  public handleSubmit(): void {
     if (this.form.validate()) {
       this.updateUser(this.user);
     }

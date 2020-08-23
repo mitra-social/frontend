@@ -1,23 +1,22 @@
+import flushPromises from "flush-promises";
 import Vue from "vue";
 import Vuetify from "vuetify";
-
 import { mount, createLocalVue } from "@vue/test-utils";
 
-import FollowingActors from "@/views/home/FollowingActors.vue";
 import store from "@/store";
 import { AuthenticationUtil } from "@/utils/authentication-util";
-import flushPromises from "flush-promises";
+import FollowingActors from "@/views/home/FollowingActors.vue";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
 
-describe("FollowingActors.vue", () => {
+describe("@/views/home/FollowingActors.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
 
   beforeEach(async () => {
-    const user = "john.doe";
     vuetify = new Vuetify();
+    const user = "john.doe";
 
     jest.spyOn(AuthenticationUtil, "getUser").mockReturnValue(user);
     jest
@@ -33,14 +32,13 @@ describe("FollowingActors.vue", () => {
     await flushPromises();
   });
 
-  it("Renders all following users as list items", async () => {
+  it("Renders all following users as list items", () => {
     const wrapper = mount(FollowingActors, {
       localVue,
-      vuetify,
       store,
+      vuetify,
     });
 
-    await flushPromises();
     const listItems = wrapper.findAll(".follower-container .v-list-item");
     expect(listItems.length).toBe(6);
   });

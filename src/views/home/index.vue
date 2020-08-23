@@ -89,13 +89,13 @@ import { namespace } from "vuex-class";
 
 import FollowingActors from "./FollowingActors.vue";
 import Posts from "./post/Posts.vue";
-import { InternalActor } from "@/model/internal-actor";
 import { DialogSettings } from "@/model/dialog-settings";
+import { InternalActor } from "@/model/internal-actor";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 
 const dialogStore = namespace("Dialog");
-const userStore = namespace("User");
 const followingStore = namespace("Following");
+const userStore = namespace("User");
 
 @Component({
   components: {
@@ -104,24 +104,37 @@ const followingStore = namespace("Following");
   },
 })
 export default class MitraHome extends Vue {
-  public isFollowingLoading = false;
+  /**********************
+   * data fields
+   **********************/
+
   public drawer = true;
   public mini = true;
+  public isFollowingLoading = false;
   public settingsDrawer = [
     { title: "Profile", component: "Profile", icon: "mdi-account" },
     { title: "Password", component: "Password", icon: "mdi-key-variant" },
   ];
 
+  /**********************
+   * store getters
+   **********************/
   @userStore.Getter
   public getUser!: InternalActor;
+
+  /**********************
+   * store actions
+   **********************/
+  @followingStore.Action
+  public fetchFollowing!: (user: string) => Promise<void>;
 
   @dialogStore.Action
   public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
 
-  @followingStore.Action
-  public fetchFollowing!: (user: string) => Promise<void>;
-
-  private created() {
+  /**********************
+   * Lifecycle hooks
+   **********************/
+  private created(): void {
     if (this.getUser) {
       this.fetchFollowing(this.getUser.preferredUsername).then(() => {
         this.isFollowingLoading = true;
@@ -129,6 +142,9 @@ export default class MitraHome extends Vue {
     }
   }
 
+  /**********************
+   * public functions
+   **********************/
   public logout(): void {
     AuthenticationUtil.clear();
     this.$router.push({ name: "Login" });
@@ -140,6 +156,7 @@ export default class MitraHome extends Vue {
 body {
   background-color: #333;
 }
+
 .content {
   width: 100%;
   height: 100%;

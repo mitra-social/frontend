@@ -41,13 +41,13 @@ import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 import FollowingActor from "@/components/following/FollowingActor.vue";
-import { InternalActor } from "@/model/internal-actor";
 import { DialogSettings } from "@/model/dialog-settings";
+import { InternalActor } from "@/model/internal-actor";
 
-const userStore = namespace("User");
-const followingStore = namespace("Following");
 const collectionStore = namespace("Collection");
 const dialogStore = namespace("Dialog");
+const followingStore = namespace("Following");
+const userStore = namespace("User");
 
 @Component({
   components: {
@@ -55,31 +55,36 @@ const dialogStore = namespace("Dialog");
   },
 })
 export default class FollowingActors extends Vue {
+  /**********************
+   * data fields
+   **********************/
+
   private title = "Following";
 
-  @userStore.Getter
-  public getUser!: InternalActor;
-
-  @dialogStore.Action
-  public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
+  /**********************
+   * store getters
+   **********************/
+  @collectionStore.Getter
+  public excludeActorLength!: number;
 
   @followingStore.Getter
   public getFollowing!: InternalActor[];
 
-  @collectionStore.Getter
-  public excludeActorLength!: number;
+  @userStore.Getter
+  public getUser!: InternalActor;
 
+  /**********************
+   * store actions
+   **********************/
   @collectionStore.Action
   public fetchCollection!: (user: string) => Promise<void>;
+
+  @dialogStore.Action
+  public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
 }
 </script>
 
 <style lang="scss" scoped>
-.follower-container {
-  height: 100%;
-  overflow: scroll;
-}
-
 h2 {
   margin-block-start: 0;
   margin-block-end: 0;
@@ -87,5 +92,10 @@ h2 {
 
 .action-all {
   padding-left: 32px;
+}
+
+.follower-container {
+  height: 100%;
+  overflow: scroll;
 }
 </style>

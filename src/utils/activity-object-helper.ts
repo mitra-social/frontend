@@ -1,20 +1,12 @@
 import {
   ActivityObject,
-  Link,
-  Image as AcitvityPubImage,
   Actor,
   Activity,
+  Image as AcitvityPubImage,
+  Link,
 } from "activitypub-objects";
 
 export class ActivityObjectHelper {
-  public static hasProperty(obj: object, property: string): boolean {
-    try {
-      return property in obj;
-    } catch (err) {
-      return false;
-    }
-  }
-
   public static extractActorName(
     object: ActivityObject | Link | URL
   ): string | undefined {
@@ -43,55 +35,32 @@ export class ActivityObjectHelper {
     }
   }
 
-  public static normalizedToFollow(
-    object: ActivityObject | Link | URL | Array<ActivityObject | URL>
-  ): ActivityObject | Link {
-    const activityObject = object as ActivityObject;
+  public static extractAttachmentLink(
+    object: ActivityObject | Link | URL | (Link | URL)[]
+  ): Link {
+    const link = object as Link;
 
-    if (activityObject.id) {
-      return { type: "Link", href: activityObject.id };
-    } else if (activityObject.name) {
-      return activityObject;
+    if (link.mediaType) {
+      let imgLink = "";
+      const activityObject = object as ActivityObject;
+
+      if (activityObject.url) {
+        const urlLink = activityObject.url as Link;
+
+        if (urlLink.href) {
+          imgLink = urlLink.href.toString();
+        } else {
+          imgLink = activityObject.url.toString();
+        }
+      } else if (link.href) {
+        imgLink = link.href.toString();
+      }
+
+      if (imgLink) {
+        link.href = new URL(imgLink);
+      }
     }
-    return { type: "Link", href: object as URL };
-  }
-
-  public static normalizedObjectFollow(
-    object: ActivityObject | Link | URL | Array<ActivityObject | URL>
-  ): ActivityObject | URL | undefined {
-    const activityObject = object as ActivityObject;
-
-    if (activityObject.id) {
-      return activityObject.id;
-    } else if (activityObject.type && !(object as Link).href) {
-      return activityObject;
-    }
-    return object as URL;
-  }
-
-  public static extractId(
-    object:
-      | ActivityObject
-      | Link
-      | URL
-      | Array<ActivityObject | URL>
-      | undefined
-  ): string | undefined {
-    const activityObject = object as ActivityObject;
-
-    if (!activityObject) {
-      return;
-    }
-
-    if (typeof object === "string") {
-      return object;
-    } else if (activityObject.id) {
-      return activityObject.id.toString();
-    } else if (activityObject.name) {
-      return activityObject.name;
-    } else if ((object as Link).href) {
-      return (object as Link).href.toString();
-    }
+    return link;
   }
 
   public static extractIcon(object: ActivityObject): string | undefined {
@@ -124,6 +93,31 @@ export class ActivityObjectHelper {
     return undefined;
   }
 
+  public static extractId(
+    object:
+      | ActivityObject
+      | Link
+      | URL
+      | Array<ActivityObject | URL>
+      | undefined
+  ): string | undefined {
+    const activityObject = object as ActivityObject;
+
+    if (!activityObject) {
+      return;
+    }
+
+    if (typeof object === "string") {
+      return object;
+    } else if (activityObject.id) {
+      return activityObject.id.toString();
+    } else if (activityObject.name) {
+      return activityObject.name;
+    } else if ((object as Link).href) {
+      return (object as Link).href.toString();
+    }
+  }
+
   public static extractObjectFromActivity(activity: Activity): ActivityObject {
     const object = activity.object as ActivityObject;
 
@@ -142,31 +136,24 @@ export class ActivityObjectHelper {
     return object;
   }
 
-  public static extractAttachmentLink(
-    object: ActivityObject | Link | URL | (Link | URL)[]
-  ): Link {
-    const link = object as Link;
-
-    if (link.mediaType) {
-      let imgLink = "";
-      const activityObject = object as ActivityObject;
-
-      if (activityObject.url) {
-        const urlLink = activityObject.url as Link;
-
-        if (urlLink.href) {
-          imgLink = urlLink.href.toString();
-        } else {
-          imgLink = activityObject.url.toString();
-        }
-      } else if (link.href) {
-        imgLink = link.href.toString();
-      }
-
-      if (imgLink) {
-        link.href = new URL(imgLink);
-      }
+  public static hasProperty(obj: object, property: string): boolean {
+    try {
+      return property in obj;
+    } catch (err) {
+      return false;
     }
-    return link;
+  }
+
+  public static normalizedObjectFollow(
+    object: ActivityObject | Link | URL | Array<ActivityObject | URL>
+  ): ActivityObject | URL | undefined {
+    const activityObject = object as ActivityObject;
+
+    if (activityObject.id) {
+      return activityObject.id;
+    } else if (activityObject.type && !(object as Link).href) {
+      return activityObject;
+    }
+    return object as URL;
   }
 }
