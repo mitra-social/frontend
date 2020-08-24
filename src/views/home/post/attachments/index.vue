@@ -25,8 +25,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
 import { ActivityObject, Link } from "activitypub-objects";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 import AttachmentImage from "./AttachmentImage.vue";
@@ -43,12 +43,15 @@ const dialogAttachmentsStore = namespace("DialogAttachments");
   },
 })
 export default class ActivityStreamsAttachments extends Vue {
+  /************************
+   * component properties
+   ************************/
   @Prop() readonly attachments!: (ActivityObject | Link | URL)[];
   @Prop() readonly postIndex!: number;
 
-  @dialogAttachmentsStore.Action
-  public addAttachmentsAction!: (attachments: AddAttachmentsParam) => void;
-
+  /**********************
+   * computed properties
+   **********************/
   get getAttachments(): Attachment[] {
     if (!this.attachments) {
       return [];
@@ -111,6 +114,15 @@ export default class ActivityStreamsAttachments extends Vue {
     return attachments;
   }
 
+  /**********************
+   * store actions
+   **********************/
+  @dialogAttachmentsStore.Action
+  public addAttachmentsAction!: (attachments: AddAttachmentsParam) => void;
+
+  /**********************
+   * public functions
+   **********************/
   public getMediaComponent(attach: Attachment): string | undefined {
     if (attach.type && attach.type.startsWith("image/")) {
       return "AttachmentImage";

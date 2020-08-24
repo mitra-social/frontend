@@ -1,25 +1,25 @@
-import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 import {
   ActivityObject,
-  Link,
-  CollectionPage,
   ActivityType,
+  CollectionPage,
+  Link,
 } from "activitypub-objects";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 
 import client from "apiClient";
-import { AuthenticationUtil } from "@/utils/authentication-util";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
+import { AuthenticationUtil } from "@/utils/authentication-util";
 import { InternalActor } from "@/model/internal-actor";
 
 @Module({ namespaced: true })
 class FollowingStore extends VuexModule {
-  private following: InternalActor[] = [];
+  public following: InternalActor[] = [];
 
   get getFollowing(): InternalActor[] {
     return this.following;
   }
 
-  get isFollowing() {
+  get isFollowing(): (actor: ActivityObject) => boolean {
     const following = this.following;
     return (actor: ActivityObject): boolean => {
       return following.some(
@@ -28,13 +28,6 @@ class FollowingStore extends VuexModule {
           ActivityObjectHelper.extractId(actor)
       );
     };
-  }
-
-  @Mutation
-  public setFollowing(actors: InternalActor[]): void {
-    if (actors) {
-      this.following = actors;
-    }
   }
 
   @Mutation
@@ -56,7 +49,14 @@ class FollowingStore extends VuexModule {
     }
   }
 
-  @Action
+  @Mutation
+  public setFollowing(actors: InternalActor[]): void {
+    if (actors) {
+      this.following = actors;
+    }
+  }
+
+  @Action({ rawError: true })
   public async fetchFollowing(user: string): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
     this.context.commit("setFollowing", []);
@@ -105,7 +105,7 @@ class FollowingStore extends VuexModule {
       });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async follow(actor: InternalActor): Promise<void> {
     const objectFollow = ActivityObjectHelper.normalizedObjectFollow(actor);
     const token = AuthenticationUtil.getToken() || "";
@@ -132,7 +132,7 @@ class FollowingStore extends VuexModule {
       });
   }
 
-  @Action
+  @Action({ rawError: true })
   public async unfollow(actor: InternalActor): Promise<void> {
     const objectFollow = ActivityObjectHelper.normalizedObjectFollow(actor);
     const token = AuthenticationUtil.getToken() || "";

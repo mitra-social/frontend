@@ -11,6 +11,10 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
 export default class MitraDate extends Vue {
+  /************************
+   * components properties
+   ************************/
+
   @Prop() readonly date!: string;
   @Prop() readonly label!: string;
   @Prop() readonly icon!: string;
@@ -18,13 +22,13 @@ export default class MitraDate extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.post {
+  margin: 5px;
+}
+
 .post-container {
   height: 100%;
   overflow-y: scroll;
-}
-
-.post {
-  margin: 5px;
 }
 
 .v-card__text {

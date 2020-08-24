@@ -1,4 +1,4 @@
 export interface SelectedAttachmentParam {
-  postIndex: number;
   attachIndex: number;
+  postIndex: number;
 }

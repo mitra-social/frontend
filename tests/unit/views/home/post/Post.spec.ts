@@ -1,35 +1,34 @@
+import { Activity, OrderedCollectionPage } from "activitypub-objects";
 import Vue from "vue";
 import Vuetify from "vuetify";
-
 import { createLocalVue, shallowMount } from "@vue/test-utils";
 
+import collection from "@/api-client/mock/data/collection-page-1.json";
 import "@/plugins/date-fns";
 import Post from "@/views/home/post/Post.vue";
-import collection from "@/api-client/mock/data/collection-page-1.json";
-import { OrderedCollectionPage, Activity } from "activitypub-objects";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
 
 describe("@/views/home/post/Post.vue", () => {
+  let activities: Activity[];
   // eslint-disable-next-line
   let vuetify: any;
-  let activities: Activity[];
 
   beforeEach(async () => {
-    vuetify = new Vuetify();
     activities = (collection as OrderedCollectionPage)
       .orderedItems as Activity[];
+    vuetify = new Vuetify();
   });
 
-  it("Post is article type", async () => {
+  it("Post is article type", () => {
     const post = activities[0].object;
     const wrapper = shallowMount(Post, {
       localVue,
-      vuetify,
       propsData: {
         post,
       },
+      vuetify,
     });
 
     expect(wrapper.find(".post").find("v-list-item-title-stub").text()).toBe(
@@ -40,14 +39,14 @@ describe("@/views/home/post/Post.vue", () => {
     ).toBe(true);
   });
 
-  it("Post is note type", async () => {
+  it("Post is note type", () => {
     const post = activities[3].object;
     const wrapper = shallowMount(Post, {
       localVue,
-      vuetify,
       propsData: {
         post,
       },
+      vuetify,
     });
 
     expect(wrapper.find(".post").find("v-list-item-title-stub").text()).toBe(
@@ -58,14 +57,14 @@ describe("@/views/home/post/Post.vue", () => {
     ).toBe(true);
   });
 
-  it("Has published date", async () => {
+  it("Has published date", () => {
     const post = activities[4].object;
     const wrapper = shallowMount(Post, {
       localVue,
-      vuetify,
       propsData: {
         post,
       },
+      vuetify,
     });
 
     const updateDate = wrapper.find(".post").findAll("date-stub").at(0);
@@ -73,14 +72,14 @@ describe("@/views/home/post/Post.vue", () => {
     expect(updateDate.attributes().date).toBe("2020-04-28T16:12:12Z");
   });
 
-  it("Has updated date", async () => {
+  it("Has updated date", () => {
     const post = activities[4].object;
     const wrapper = shallowMount(Post, {
       localVue,
-      vuetify,
       propsData: {
         post,
       },
+      vuetify,
     });
 
     const updateDate = wrapper.find(".post").findAll("date-stub").at(1);
@@ -88,14 +87,14 @@ describe("@/views/home/post/Post.vue", () => {
     expect(updateDate.attributes().date).toBe("2020-04-28T17:49:12Z");
   });
 
-  it("Post with 1 attachment", async () => {
+  it("Post with 1 attachment", () => {
     const post = activities[0].object;
     const wrapper = shallowMount(Post, {
       localVue,
-      vuetify,
       propsData: {
         post,
       },
+      vuetify,
     });
 
     expect(wrapper.find("attachments-stub").attributes("attachments")).toBe(
@@ -103,14 +102,14 @@ describe("@/views/home/post/Post.vue", () => {
     );
   });
 
-  it("Post with 5 attachments", async () => {
+  it("Post with 5 attachments", () => {
     const post = activities[2].object;
     const wrapper = shallowMount(Post, {
       localVue,
-      vuetify,
       propsData: {
         post,
       },
+      vuetify,
     });
 
     expect(wrapper.find("attachments-stub").attributes("attachments")).toBe(
@@ -118,40 +117,40 @@ describe("@/views/home/post/Post.vue", () => {
     );
   });
 
-  it("Post with an empty attachment will not render an attachment in the post", async () => {
+  it("Post with an empty attachment will not render an attachment in the post", () => {
     const post = activities[10].object;
     const wrapper = shallowMount(Post, {
       localVue,
-      vuetify,
       propsData: {
         post,
       },
+      vuetify,
     });
 
     expect(wrapper.find("attachments-stub").exists()).toBe(false);
   });
 
-  it("Post without attachment will not render an attachment in the post", async () => {
+  it("Post without attachment will not render an attachment in the post", () => {
     const post = activities[5].object;
     const wrapper = shallowMount(Post, {
       localVue,
-      vuetify,
       propsData: {
         post,
       },
+      vuetify,
     });
 
     expect(wrapper.find("attachments-stub").exists()).toBe(false);
   });
 
-  it("Post is repley to", async () => {
+  it("Post is repley to", () => {
     const post = activities[0].object;
     const wrapper = shallowMount(Post, {
       localVue,
-      vuetify,
       propsData: {
         post,
       },
+      vuetify,
     });
 
     expect(wrapper.find("v-expansion-panel-stub").exists()).toBe(true);

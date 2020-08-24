@@ -1,13 +1,12 @@
+import flushPromises from "flush-promises";
 import Vue from "vue";
 import Vuetify from "vuetify";
-
 import { mount, createLocalVue } from "@vue/test-utils";
 
 import App from "@/App.vue";
 import "@/plugins/date-fns";
-import store from "@/store";
 import router from "@/router";
-import flushPromises from "flush-promises";
+import store from "@/store";
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
@@ -22,28 +21,32 @@ describe("@/App.vue", () => {
   });
 
   it("App container exists", () => {
-    const wrapper = mount(App, { localVue, vuetify, router, store });
+    const wrapper = mount(App, { localVue, router, store, vuetify });
+
     expect(wrapper.find(".app-container").exists()).toBe(true);
   });
 
-  it("Dialog container exists", async () => {
-    const wrapper = mount(App, { localVue, vuetify, router, store });
-    await flushPromises();
+  it("Dialog container exists", () => {
+    const wrapper = mount(App, { localVue, router, store, vuetify });
+
     expect(wrapper.find(".v-dialog__container").exists()).toBe(true);
   });
 
   it("Snack  exists", () => {
-    const wrapper = mount(App, { localVue, vuetify, router, store });
+    const wrapper = mount(App, { localVue, router, store, vuetify });
+
     expect(wrapper.find(".v-snack").exists()).toBe(true);
   });
 
   it("Header exists", () => {
-    const wrapper = mount(App, { localVue, vuetify, router, store });
+    const wrapper = mount(App, { localVue, router, store, vuetify });
+
     expect(wrapper.find("header").exists()).toBe(true);
   });
 
   it("Main container exists", () => {
-    const wrapper = mount(App, { localVue, vuetify, router, store });
+    const wrapper = mount(App, { localVue, router, store, vuetify });
+
     expect(wrapper.find("main").exists()).toBe(true);
   });
 });

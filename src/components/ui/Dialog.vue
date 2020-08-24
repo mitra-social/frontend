@@ -30,29 +30,26 @@
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
+import AttachmentDialog from "@/components/attachment/AttachmentDialog.vue";
+import { DialogSettings } from "@/model/dialog-settings";
 import Profile from "@/views/settings/Profile.vue";
 import Password from "@/views/settings/Password.vue";
 import SearchActor from "@/views/home/SearchActor.vue";
-import AttachmentDialog from "@/components/attachment/AttachmentDialog.vue";
-
-import { DialogSettings } from "@/model/dialog-settings";
 
 const dialogStore = namespace("Dialog");
 
 @Component({
   components: {
-    Profile,
-    Password,
-    SearchActor,
     AttachmentDialog,
+    Password,
+    Profile,
+    SearchActor,
   },
 })
 export default class MitraDialog extends Vue {
-  @dialogStore.Getter
-  public getIsOpen!: boolean;
-
-  @dialogStore.Getter
-  public getTitle!: string;
+  /**********************
+   * store getters
+   **********************/
 
   @dialogStore.Getter
   public getComponent!: string;
@@ -60,6 +57,15 @@ export default class MitraDialog extends Vue {
   @dialogStore.Getter
   public getIsFullsize!: string;
 
+  @dialogStore.Getter
+  public getIsOpen!: boolean;
+
+  @dialogStore.Getter
+  public getTitle!: string;
+
+  /**********************
+   * store actions
+   **********************/
   @dialogStore.Action
   public toggleDialog!: (settings: DialogSettings) => Promise<void>;
 }

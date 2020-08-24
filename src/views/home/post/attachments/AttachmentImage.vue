@@ -24,23 +24,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-import { DialogSettings } from "@/model/dialog-settings";
 import { Attachment } from "@/model/attachment";
+import { DialogSettings } from "@/model/dialog-settings";
 import { SelectedAttachmentParam } from "@/model/selected-attachment-param";
 
-const dialogStore = namespace("Dialog");
 const dialogAttachmentsStore = namespace("DialogAttachments");
+const dialogStore = namespace("Dialog");
 
 @Component
 export default class AttachmentImage extends Vue {
+  /************************
+   * components properties
+   ************************/
   @Prop() readonly attach!: Attachment;
-  @Prop() readonly postIndex!: number;
   @Prop() readonly attachIndex!: number;
   @Prop() readonly isSingle!: boolean;
+  @Prop() readonly postIndex!: number;
 
+  /**********************
+   * computed properties
+   **********************/
   get url(): string {
     return this.attach.url;
   }
@@ -49,6 +55,9 @@ export default class AttachmentImage extends Vue {
     return this.attach.title ?? "Attachment image";
   }
 
+  /**********************
+   * store actions
+   **********************/
   @dialogStore.Action
   public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
 
@@ -57,6 +66,9 @@ export default class AttachmentImage extends Vue {
     indexes: SelectedAttachmentParam
   ) => Promise<void>;
 
+  /**********************
+   * public functions
+   **********************/
   public openDialog() {
     this.setSelectedAttachmentAction({
       postIndex: this.postIndex,

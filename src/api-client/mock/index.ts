@@ -7,9 +7,12 @@ import {
   Actor,
 } from "activitypub-objects";
 
+import { ApiClientMocke } from "./api-client-mock";
 import { InternalActor } from "@/model/internal-actor";
 import { Credential } from "@/model/credential";
 import { CreateUser } from "@/model/create-user";
+import { Webfinger } from "@/model/webfinger";
+import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
 import * as userData from "./data/user.json";
 import * as createUserData from "./data/create-user.json";
@@ -23,9 +26,6 @@ import * as followerPage2Data from "./data/followers-page-2.json";
 import * as collectionPageOneData from "./data/collection-page-1.json";
 import * as collectionPageTwoData from "./data/collection-page-2.json";
 import * as collectionSecondFetchData from "./data/collection-second-fetch.json";
-import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { ApiClientMocke } from "./api-client-mock";
-import { Webfinger } from "@/model/webfinger";
 
 /*
  constant variables
@@ -38,13 +38,13 @@ const NEXT_PAGE_DELAY = 5000;
 /*
 variables
 */
-let userPassword = "123";
-let user: InternalActor;
 let fetchPostCount = 0;
-let postPage = 0;
-let postFilter: string | undefined = undefined;
 let following: CollectionPage | undefined;
 let followers: CollectionPage | undefined;
+let postPage = 0;
+let postFilter: string | undefined = undefined;
+let userPassword = "123";
+let user: InternalActor;
 
 /*
     helper function
@@ -68,7 +68,8 @@ const returnResult = async (
   user: string,
   // eslint-disable-next-line
   promis: Promise<any>
-) => {
+  // eslint-disable-next-line
+): Promise<any> => {
   if (token !== USER_TOKEN || user !== USER_NAME) {
     return await error("Authentication is incorrect");
   }
@@ -76,7 +77,8 @@ const returnResult = async (
   return promis;
 };
 
-const delay = async (ms: number) => {
+// eslint-disable-next-line
+const delay = async (ms: number): Promise<any> => {
   return await new Promise((resolve) => {
     if (process.env.NODE_ENV === "test") {
       jest.useFakeTimers();
@@ -98,7 +100,7 @@ export default {
     }
     return await fetch(USER_TOKEN);
   },
-  async createUser(user: CreateUser) {
+  async createUser(user: CreateUser): Promise<void> {
     console.info(
       `createUser => name: ${user.username}, email: ${user.email}, pwd: ${user.password}`
     );

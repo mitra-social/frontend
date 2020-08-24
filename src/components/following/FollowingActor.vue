@@ -33,24 +33,34 @@
 </template>
 
 <script lang="ts">
+import { Actor } from "activitypub-objects";
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
 import client from "apiClient";
 import { InternalActor } from "@/model/internal-actor";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
-import { Actor } from "activitypub-objects";
 
 const collectionStore = namespace("Collection");
 const followingStore = namespace("Following");
 
 @Component
 export default class FollowingActor extends Vue {
-  @Prop() readonly actor!: InternalActor;
-  public value = undefined;
-  public disabledFilter = false;
-  public isHover = false;
+  /**********************
+   * data fields
+   **********************/
+  private value = undefined;
+  private disabledFilter = false;
+  private isHover = false;
 
+  /************************
+   * components properties
+   ************************/
+  @Prop() readonly actor!: InternalActor;
+
+  /**********************
+   * computed properties
+   **********************/
   get name(): string | undefined {
     return ActivityObjectHelper.extractActorName(this.actor);
   }
@@ -62,6 +72,9 @@ export default class FollowingActor extends Vue {
     return client.getMedia(originalIconUri);
   }
 
+  /**********************
+   * store actions
+   **********************/
   @collectionStore.Action
   public filterAction!: (filter: string) => void;
 
@@ -71,6 +84,9 @@ export default class FollowingActor extends Vue {
   @followingStore.Action
   public unfollow!: (actor: Actor) => Promise<void>;
 
+  /**********************
+   * public functions
+   **********************/
   public filter(actor: InternalActor, disabledFilter: boolean) {
     if (disabledFilter) {
       this.clearfilterAction();
@@ -82,6 +98,18 @@ export default class FollowingActor extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.item-action {
+  width: 55px;
+
+  .v-icon.v-icon {
+    font-size: 20px;
+  }
+}
+
+.v-icon.v-icon {
+  font-size: 42px;
+}
+
 .v-list-item--link:before,
 .v-list-item {
   border-bottom-left-radius: 32px !important;
@@ -98,17 +126,5 @@ export default class FollowingActor extends Vue {
 
 .v-list-item__avatar {
   margin: 0;
-}
-
-.item-action {
-  width: 55px;
-
-  .v-icon.v-icon {
-    font-size: 20px;
-  }
-}
-
-.v-icon.v-icon {
-  font-size: 42px;
 }
 </style>

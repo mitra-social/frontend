@@ -50,18 +50,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
-import router from "@/router";
-import { namespace } from "vuex-class";
 import { ActivityObject, Link } from "activitypub-objects";
+import { Component, Vue, Watch } from "vue-property-decorator";
+import { namespace } from "vuex-class";
 
-import Post from "@/views/home/post/Post.vue";
-import { AuthenticationUtil } from "@/utils/authentication-util";
 import { InternalActor } from "@/model/internal-actor";
+import { AuthenticationUtil } from "@/utils/authentication-util";
+import router from "@/router";
+import Post from "@/views/home/post/Post.vue";
 
-const userStore = namespace("User");
 const collectionStore = namespace("Collection");
 const notifyStore = namespace("Notify");
+const userStore = namespace("User");
 
 @Component({
   components: {
@@ -76,18 +76,24 @@ export default class MitraPosts extends Vue {
     }
   }
 
-  @userStore.Getter
-  public getUser!: InternalActor;
-
+  /**********************
+   * store getters
+   **********************/
   @collectionStore.Getter
-  public getPosts!: (ActivityObject | Link)[];
-
-  @collectionStore.Getter
-  public hasNextPage!: boolean;
+  public getHasNextPage!: boolean;
 
   @collectionStore.Getter
   public getLoadMorePostState!: boolean;
 
+  @collectionStore.Getter
+  public getPosts!: (ActivityObject | Link)[];
+
+  @userStore.Getter
+  public getUser!: InternalActor;
+
+  /**********************
+   * store actions
+   **********************/
   @collectionStore.Action
   public fetchCollection!: (user: string) => Promise<void>;
 
@@ -97,6 +103,9 @@ export default class MitraPosts extends Vue {
   @notifyStore.Action
   public error!: (message: string) => void;
 
+  /**********************
+   * Lifecycle hooks
+   **********************/
   private created(): void {
     this.initGetUser();
   }
@@ -111,8 +120,11 @@ export default class MitraPosts extends Vue {
     }
   }
 
+  /**********************
+   * public functions
+   **********************/
   public onIntersect(entries: IntersectionObserverEntry[]): void {
-    if (this.hasNextPage && entries[0].isIntersecting) {
+    if (this.getHasNextPage && entries[0].isIntersecting) {
       const target: Element = entries[0].target as Element;
       const index: number = +(target.getAttribute("data-index") ?? 0);
 
@@ -125,13 +137,13 @@ export default class MitraPosts extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.post-layout {
-  position: relative;
-  height: 100%;
-}
-
 .post-container {
   height: 100%;
   overflow-y: scroll;
+}
+
+.post-layout {
+  position: relative;
+  height: 100%;
 }
 </style>

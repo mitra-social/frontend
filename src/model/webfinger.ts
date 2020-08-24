@@ -1,12 +1,12 @@
 export interface Link {
-  rel: string;
-  type?: string;
   href: string;
+  rel: string;
   template?: string;
+  type?: string;
 }
 
 export interface Webfinger {
-  subject: string;
   aliases: string[];
   links: Link[];
+  subject: string;
 }

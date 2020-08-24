@@ -26,11 +26,12 @@ export default class MitraHeader extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-.mitra-toolbar {
-  width: 100%;
+.header-logo {
   height: 100%;
 }
-.header-logo {
+
+.mitra-toolbar {
+  width: 100%;
   height: 100%;
 }
 </style>

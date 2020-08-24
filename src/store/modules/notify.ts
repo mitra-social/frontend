@@ -1,7 +1,7 @@
-import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 
-import { NotifyType } from "@/model/notify-type";
 import { Notify } from "@/model/notify";
+import { NotifyType } from "@/model/notify-type";
 
 @Module({ namespaced: true })
 class NotifyStore extends VuexModule {
@@ -16,24 +16,24 @@ class NotifyStore extends VuexModule {
     this.notification = notification;
   }
 
-  @Action
+  @Action({ rawError: true })
   public error(message: string): void {
     this.context.commit("setNofify", { message, type: NotifyType.ERROR });
   }
 
-  @Action
-  public warning(message: string): void {
-    this.context.commit("setNofify", { message, type: NotifyType.WARNING });
+  @Action({ rawError: true })
+  public info(message: string): void {
+    this.context.commit("setNofify", { message, type: NotifyType.INFO });
   }
 
-  @Action
+  @Action({ rawError: true })
   public success(message: string): void {
     this.context.commit("setNofify", { message, type: NotifyType.SUCCESS });
   }
 
-  @Action
-  public info(message: string): void {
-    this.context.commit("setNofify", { message, type: NotifyType.INFO });
+  @Action({ rawError: true })
+  public warning(message: string): void {
+    this.context.commit("setNofify", { message, type: NotifyType.WARNING });
   }
 }
 export default NotifyStore;

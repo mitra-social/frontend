@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 
 import { AuthenticationUtil } from "@/utils/authentication-util";
 
-describe("authentication-util.ts", () => {
+describe("@/utils/authentication-util", () => {
   const mockSet = jest.fn();
   const mockRemove = jest.fn();
 
@@ -20,11 +20,13 @@ describe("authentication-util.ts", () => {
       "john.doe",
       "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi"
     );
+
     expect(mockSet).toHaveBeenCalledTimes(2);
   });
 
   it("Check whether the setting of cookies is called once when the user is set", () => {
     AuthenticationUtil.setUser("john.doe");
+
     expect(mockSet).toHaveBeenCalledTimes(1);
   });
 
@@ -32,6 +34,7 @@ describe("authentication-util.ts", () => {
     AuthenticationUtil.setToken(
       "5XWdjcQ5n7xqf3G91TjD23EbQzrc-PPu5Xa-D5lNnB9KHLi"
     );
+
     expect(mockSet).toHaveBeenCalledTimes(1);
   });
 
@@ -58,6 +61,7 @@ describe("authentication-util.ts", () => {
 
   it("Check whether the remove of cookies is called twice when clear authentications", () => {
     AuthenticationUtil.clear();
+
     expect(mockRemove).toHaveBeenCalledTimes(2);
   });
 });

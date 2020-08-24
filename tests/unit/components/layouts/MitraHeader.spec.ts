@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuetify from "vuetify";
-
 import { createLocalVue, mount } from "@vue/test-utils";
 
 import Header from "@/components/layout/MitraHeader.vue";
@@ -10,7 +9,7 @@ import { AuthenticationUtil } from "@/utils/authentication-util";
 const localVue = createLocalVue();
 Vue.use(Vuetify);
 
-describe("Header.vue", () => {
+describe("@/components/layout/MitraHeader.vue", () => {
   // eslint-disable-next-line
   let vuetify: any;
 
@@ -29,14 +28,16 @@ describe("Header.vue", () => {
   });
 
   it("Is mitra logo set", () => {
-    const wrapper = mount(Header, { localVue, vuetify, store });
+    const wrapper = mount(Header, { localVue, store, vuetify });
+
     expect(wrapper.find(".header-logo").attributes("src")).toBe(
       "@/assets/mitra-logo-white.png"
     );
   });
 
   it("User is not set", () => {
-    const wrapper = mount(Header, { localVue, vuetify, store });
+    const wrapper = mount(Header, { localVue, store, vuetify });
+
     expect(wrapper.find(".user-content").exists()).toBe(false);
   });
 });

@@ -1,12 +1,11 @@
-import Vue from "vue";
-import Vuetify from "vuetify";
 import {
   ActivityObject,
   Activity,
   OrderedCollectionPage,
   Link,
 } from "activitypub-objects";
-
+import Vue from "vue";
+import Vuetify from "vuetify";
 import { mount, createLocalVue } from "@vue/test-utils";
 
 import "@/plugins/global-directives";
@@ -17,57 +16,57 @@ const localVue = createLocalVue();
 Vue.use(Vuetify);
 
 describe("@/views/home/post/attachments/AttachmentImage.vue", () => {
+  let articles: Activity[];
   // eslint-disable-next-line
   let vuetify: any;
-  let articles: Activity[];
 
   beforeEach(() => {
-    vuetify = new Vuetify();
     articles = (collection as OrderedCollectionPage)
       .orderedItems as ActivityObject[];
+    vuetify = new Vuetify();
   });
 
-  it("Image is rendering", async () => {
+  it("Image is rendering", () => {
     const object = articles[0].object as ActivityObject;
     const link = object.attachment as Link;
     const wrapper = mount(AttachmentImage, {
       localVue,
-      vuetify,
       propsData: {
         attach: {
-          type: link.mediaType,
+          height: link.height,
           title: link.name,
+          type: link.mediaType,
           url: link.href.toString(),
           width: link.width,
-          height: link.height,
         },
-        postIndex: 0,
         attachIndex: 0,
         isSingle: true,
+        postIndex: 0,
       },
+      vuetify,
     });
 
     expect(wrapper.findAll(".v-image").length).toBe(1);
   });
 
-  it("Check image url is correct", async () => {
+  it("Check image url is correct", () => {
     const object = articles[0].object as ActivityObject;
     const link = object.attachment as Link;
     const wrapper = mount(AttachmentImage, {
       localVue,
-      vuetify,
       propsData: {
         attach: {
-          type: link.mediaType,
+          height: link.height,
           title: link.name,
+          type: link.mediaType,
           url: link.href.toString(),
           width: link.width,
-          height: link.height,
         },
-        postIndex: 0,
         attachIndex: 0,
         isSingle: true,
+        postIndex: 0,
       },
+      vuetify,
     });
 
     expect(wrapper.find(".v-image__image").attributes("style")).toContain(
@@ -75,47 +74,47 @@ describe("@/views/home/post/attachments/AttachmentImage.vue", () => {
     );
   });
 
-  it("Attachment has no url", async () => {
+  it("Attachment has no url", () => {
     const object = articles[0].object as ActivityObject;
     const link = object.attachment as Link;
     const wrapper = mount(AttachmentImage, {
       localVue,
-      vuetify,
       propsData: {
         attach: {
-          type: link.mediaType,
+          height: link.height,
           title: link.name,
+          type: link.mediaType,
           url: undefined,
           width: link.width,
-          height: link.height,
         },
-        postIndex: 0,
         attachIndex: 0,
         isSingle: true,
+        postIndex: 0,
       },
+      vuetify,
     });
 
     expect(wrapper.find(".v-image").exists()).toBe(false);
   });
 
-  it("Attachment has name and this set as alternative text for image", async () => {
+  it("Attachment has name and this set as alternative text for image", () => {
     const object = articles[0].object as ActivityObject;
     const link = object.attachment as Link;
     const wrapper = mount(AttachmentImage, {
       localVue,
-      vuetify,
       propsData: {
         attach: {
-          type: link.mediaType,
+          height: link.height,
           title: link.name,
+          type: link.mediaType,
           url: link.href.toString(),
           width: link.width,
-          height: link.height,
         },
-        postIndex: 0,
         attachIndex: 0,
         isSingle: true,
+        postIndex: 0,
       },
+      vuetify,
     });
 
     expect(wrapper.find(".v-image").attributes("aria-label")).toBe(
@@ -123,24 +122,24 @@ describe("@/views/home/post/attachments/AttachmentImage.vue", () => {
     );
   });
 
-  it("Attachment has no name and set default alternative text for image", async () => {
+  it("Attachment has no name and set default alternative text for image", () => {
     const object = articles[0].object as ActivityObject;
     const link = object.attachment as Link;
     const wrapper = mount(AttachmentImage, {
       localVue,
-      vuetify,
       propsData: {
         attach: {
-          type: link.mediaType,
+          height: link.height,
           title: undefined,
+          type: link.mediaType,
           url: link.href.toString(),
           width: link.width,
-          height: link.height,
         },
-        postIndex: 0,
         attachIndex: 0,
         isSingle: true,
+        postIndex: 0,
       },
+      vuetify,
     });
 
     expect(wrapper.find(".v-image").attributes("aria-label")).toContain(
@@ -148,24 +147,24 @@ describe("@/views/home/post/attachments/AttachmentImage.vue", () => {
     );
   });
 
-  it("Is a single image attachment", async () => {
+  it("Is a single image attachment", () => {
     const object = articles[0].object as ActivityObject;
     const link = object.attachment as Link;
     const wrapper = mount(AttachmentImage, {
       localVue,
-      vuetify,
       propsData: {
         attach: {
-          type: link.mediaType,
+          height: link.height,
           title: undefined,
+          type: link.mediaType,
           url: link.href.toString(),
           width: link.width,
-          height: link.height,
         },
-        postIndex: 0,
         attachIndex: 0,
         isSingle: true,
+        postIndex: 0,
       },
+      vuetify,
     });
 
     expect(wrapper.find(".v-image").element.classList).toContain(
@@ -173,24 +172,24 @@ describe("@/views/home/post/attachments/AttachmentImage.vue", () => {
     );
   });
 
-  it("Is a image in array of attachments", async () => {
+  it("Is a image in array of attachments", () => {
     const object = articles[0].object as ActivityObject;
     const link = object.attachment as Link;
     const wrapper = mount(AttachmentImage, {
       localVue,
-      vuetify,
       propsData: {
         attach: {
-          type: link.mediaType,
+          height: link.height,
           title: link.name,
+          type: link.mediaType,
           url: link.href.toString(),
           width: link.width,
-          height: link.height,
         },
-        postIndex: 0,
         attachIndex: 0,
         isSingle: false,
+        postIndex: 0,
       },
+      vuetify,
     });
 
     expect(wrapper.find(".v-image").element.classList).toContain("mx-sm-auto");

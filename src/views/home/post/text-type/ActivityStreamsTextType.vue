@@ -5,11 +5,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { Article } from "activitypub-objects";
 
 @Component
 export default class ActivityStreamsTextType extends Vue {
+  /************************
+   * component properties
+   ************************/
   @Prop() private data!: Article;
 }
 </script>

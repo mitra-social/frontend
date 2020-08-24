@@ -10,11 +10,11 @@ import {
 } from "activitypub-objects";
 
 import { ApiClient } from "@/api-client";
-import router from "@/router";
 import { Credential } from "@/model/credential";
-import { InternalActor } from "@/model/internal-actor";
 import { CreateUser } from "@/model/create-user";
+import { InternalActor } from "@/model/internal-actor";
 import { Webfinger } from "@/model/webfinger";
+import router from "@/router";
 
 const urlPrefix = process.env.NODE_ENV === "production" ? "/api" : "";
 
@@ -45,9 +45,12 @@ export default {
         return resp.data.token;
       });
   },
-  async createUser(user: CreateUser) {
+  async createUser(user: CreateUser): Promise<void> {
     return await axios
       .post(`${urlPrefix}/user`, user, config)
+      .then(() => {
+        return;
+      })
       .catch(catchError);
   },
   async getUser(token: string, user: string): Promise<InternalActor> {

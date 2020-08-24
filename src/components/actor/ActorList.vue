@@ -37,8 +37,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 import { ActivityObject, Link } from "activitypub-objects";
+import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 
 import FollowingActor from "@/components/following/FollowingActor.vue";
 import SummarizedActor from "@/components/actor/ActorSummarized.vue";
@@ -55,6 +55,14 @@ export default class ActorList extends Vue {
   @Prop() readonly isLoading!: boolean;
   @Prop() readonly hasNextPage!: boolean;
 
+  @Emit()
+  public detail(actor: InternalActor): InternalActor {
+    return actor;
+  }
+
+  /**********************
+   * public functions
+   **********************/
   public onIntersect(entries: IntersectionObserverEntry[]): void {
     if (this.hasNextPage && entries[0].isIntersecting) {
       const target: Element = entries[0].target as Element;
@@ -65,25 +73,10 @@ export default class ActorList extends Vue {
       }
     }
   }
-
-  @Emit()
-  public detail(actor: InternalActor): InternalActor {
-    return actor;
-  }
 }
 </script>
 
 <style lang="scss" scoped>
-.post-container {
-  height: 100%;
-  overflow-y: scroll;
-}
-
-.follower-container {
-  height: 100%;
-  overflow: scroll;
-}
-
 h2 {
   margin-block-start: 0;
   margin-block-end: 0;
@@ -91,5 +84,15 @@ h2 {
 
 .action-all {
   padding-left: 32px;
+}
+
+.follower-container {
+  height: 100%;
+  overflow: scroll;
+}
+
+.post-container {
+  height: 100%;
+  overflow-y: scroll;
 }
 </style>

@@ -1,20 +1,18 @@
-import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 import {
-  OrderedCollectionPage,
-  Link,
-  ActivityObject,
   Actor,
+  ActivityObject,
+  Link,
+  OrderedCollectionPage,
 } from "activitypub-objects";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 
 import client from "apiClient";
-import { InternalActor } from "@/model/internal-actor";
 import { FetchFollowParam } from "@/model/fetch-follow-param";
+import { InternalActor } from "@/model/internal-actor";
 
-/*
-
-  Helper function
-
-*/
+/**********************
+ * Helper functions
+ **********************/
 function normalizedCollection(
   collection: OrderedCollectionPage
 ): Promise<(ActivityObject | Link | URL | undefined)[]> {
@@ -39,10 +37,12 @@ function normalizedCollection(
 
 @Module({ namespaced: true })
 class FindUserStore extends VuexModule {
+  public loadingState = false;
   public query = "";
   public user: InternalActor | undefined = undefined;
-  public loadingState = false;
-
+  /**********************
+   * followers state
+   **********************/
   public followerCollectionPage: (
     | ActivityObject
     | Link
@@ -53,7 +53,9 @@ class FindUserStore extends VuexModule {
   public followerCollectionPaging = 0;
   public hasNextFollowerPage = false;
   public isFollowerLoadingState = false;
-
+  /**********************
+   * followings state
+   **********************/
   public followingCollectionPage: (
     | ActivityObject
     | Link
@@ -65,7 +67,10 @@ class FindUserStore extends VuexModule {
   public hasNextFollowingPage = false;
   public isFollowingLoadingState = false;
 
-  // finding user
+  get isLoading(): boolean {
+    return this.loadingState;
+  }
+
   get getQuery(): string {
     return this.query;
   }
@@ -74,28 +79,28 @@ class FindUserStore extends VuexModule {
     return this.user;
   }
 
-  get isLoading(): boolean {
-    return this.loadingState;
-  }
-
-  // Followers
-  get getFollowersCollectionCount(): number | undefined {
-    return this.followerCollectionItemCount;
-  }
-
+  /**********************
+   * followers getters
+   **********************/
   get getFollowers(): (ActivityObject | Link | URL | undefined)[] {
     return this.followerCollectionPage.filter(($) => $ !== undefined);
   }
 
-  get isFollowersLoading() {
+  get getFollowersCollectionCount(): number | undefined {
+    return this.followerCollectionItemCount;
+  }
+
+  get isFollowersLoading(): boolean {
     return this.isFollowerLoadingState;
   }
 
-  get getHasNextFollowerPage() {
+  get getHasNextFollowerPage(): boolean {
     return this.hasNextFollowerPage;
   }
 
-  // Following
+  /**********************
+   * followings getters
+   **********************/
   get getFollowingCollectionCount(): number | undefined {
     return this.followingCollectionItemCount;
   }
@@ -113,7 +118,7 @@ class FindUserStore extends VuexModule {
   }
 
   @Mutation
-  public initialState() {
+  public initialState(): void {
     this.query = "";
     this.user = undefined;
     this.loadingState = false;
@@ -131,17 +136,6 @@ class FindUserStore extends VuexModule {
     this.isFollowingLoadingState = false;
   }
 
-  // finding user
-  @Mutation
-  public setQuery(query: string) {
-    this.query = query;
-  }
-
-  @Mutation
-  public setUser(user: InternalActor): void {
-    this.user = user;
-  }
-
   @Mutation
   public loadingStart(): void {
     this.loadingState = true;
@@ -152,7 +146,19 @@ class FindUserStore extends VuexModule {
     this.loadingState = false;
   }
 
-  // followers
+  @Mutation
+  public setQuery(query: string): void {
+    this.query = query;
+  }
+
+  @Mutation
+  public setUser(user: InternalActor): void {
+    this.user = user;
+  }
+
+  /**********************
+   * followings mutations
+   **********************/
   @Mutation
   public setFollowers(
     followerCollectionPage: (ActivityObject | Link | URL | undefined)[]
@@ -175,13 +181,13 @@ class FindUserStore extends VuexModule {
   }
 
   @Mutation
-  public setHasNextFollowerPage(hasNext: boolean): void {
-    this.hasNextFollowerPage = hasNext;
+  public setFollowerCollectionPaging(page: number): void {
+    this.followerCollectionPaging = page;
   }
 
   @Mutation
-  public setFollowerCollectionPaging(page: number): void {
-    this.followerCollectionPaging = page;
+  public setHasNextFollowerPage(hasNext: boolean): void {
+    this.hasNextFollowerPage = hasNext;
   }
 
   @Mutation
@@ -194,14 +200,9 @@ class FindUserStore extends VuexModule {
     this.isFollowerLoadingState = false;
   }
 
-  // following
-  @Mutation
-  public setFollowing(
-    followingCollectionPage: (ActivityObject | Link | URL | undefined)[]
-  ): void {
-    this.followingCollectionPage = followingCollectionPage;
-  }
-
+  /**********************
+   * followings mutations
+   **********************/
   @Mutation
   public addFollowing(
     followingCollectionPage: (ActivityObject | Link | URL | undefined)[]
@@ -212,13 +213,20 @@ class FindUserStore extends VuexModule {
   }
 
   @Mutation
-  public setFollowingCount(count: number): void {
-    this.followingCollectionItemCount = count;
+  public setFollowing(
+    followingCollectionPage: (ActivityObject | Link | URL | undefined)[]
+  ): void {
+    this.followingCollectionPage = followingCollectionPage;
   }
 
   @Mutation
   public setFollowingCollectionPage(page: number): void {
     this.followingCollectionPaging = page;
+  }
+
+  @Mutation
+  public setFollowingCount(count: number): void {
+    this.followingCollectionItemCount = count;
   }
 
   @Mutation
@@ -234,18 +242,6 @@ class FindUserStore extends VuexModule {
   @Mutation
   public loadingFollowingFinish(): void {
     this.isFollowingLoadingState = false;
-  }
-
-  @Action
-  public reset(): void {
-    this.context.commit("initialState");
-  }
-
-  // finding user
-  @Action
-  public queryAction(query: string) {
-    this.context.commit("initialState");
-    this.context.commit("setQuery", query);
   }
 
   @Action({ rawError: true })
@@ -272,7 +268,7 @@ class FindUserStore extends VuexModule {
       .finally(() => this.context.commit("loadingFinish"));
   }
 
-  @Action
+  @Action({ rawError: true })
   public detailUser(user: InternalActor): void {
     this.context.commit("loadingStart");
     this.context.dispatch("fetchFollowers", {
@@ -287,8 +283,21 @@ class FindUserStore extends VuexModule {
     this.context.commit("loadingFinish");
   }
 
-  // followers
-  @Action
+  @Action({ rawError: true })
+  public queryAction(query: string): void {
+    this.context.commit("initialState");
+    this.context.commit("setQuery", query);
+  }
+
+  @Action({ rawError: true })
+  public reset(): void {
+    this.context.commit("initialState");
+  }
+
+  /**********************
+   * followers action
+   **********************/
+  @Action({ rawError: true })
   public fetchFollowers({ url, add }: FetchFollowParam): void {
     this.context.commit("loadingFollowerStart");
     add
@@ -317,8 +326,10 @@ class FindUserStore extends VuexModule {
       .finally(() => this.context.commit("loadingFollowerFinish"));
   }
 
-  // following
-  @Action
+  /**********************
+   * followings action
+   **********************/
+  @Action({ rawError: true })
   public fetchFollowing({ url, add }: FetchFollowParam): void {
     this.context.commit("loadingFollowingStart");
     add

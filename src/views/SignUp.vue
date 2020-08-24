@@ -82,25 +82,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Ref } from "vue-property-decorator";
+import { Component, Ref, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 
-import { CreateUser } from "../model/create-user";
+import { CreateUser } from "@/model/create-user";
 
 const auth = namespace("Auth");
 
 @Component
 export default class SignUp extends Vue {
-  private valid = false;
+  /**********************
+   * data fields
+   **********************/
+
   private alertMsg = "";
-  private user = "";
+  private confirmPassword = "";
+  private confirmPwdErrorMsgs: string[] = [];
   private email = "";
   private password = "";
-  private showPassword = false;
-  private confirmPassword = "";
   private showConfirmPasswor = false;
-  private confirmPwdErrorMsgs: string[] = [];
   private hasConfirmPwdError = false;
+  private showPassword = false;
+  private user = "";
+  private valid = false;
 
   private rules = {
     required: ($: string) => !!$ || "Required.",
@@ -116,10 +120,16 @@ export default class SignUp extends Vue {
 
   @Ref("signUpForm") readonly form!: HTMLFormElement;
 
+  /**********************
+   * store actions
+   **********************/
   @auth.Action
   public createUser!: (user: CreateUser) => Promise<void>;
 
-  public handleSubmit() {
+  /**********************
+   * public functions
+   **********************/
+  public handleSubmit(): void {
     if (this.password !== this.confirmPassword) {
       this.confirmPwdErrorMsgs.push("Passwords don't match.");
       this.hasConfirmPwdError = true;
@@ -138,7 +148,7 @@ export default class SignUp extends Vue {
     }
   }
 
-  public resetConfirmPassword() {
+  public resetConfirmPassword(): void {
     this.hasConfirmPwdError = false;
     this.confirmPwdErrorMsgs = [];
   }

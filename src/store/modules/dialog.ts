@@ -1,20 +1,13 @@
-import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
+
 import { DialogSettings } from "@/model/dialog-settings";
 
 @Module({ namespaced: true })
 class DialogStore extends VuexModule {
-  private isOpen = false;
-  private title: string | undefined = undefined;
   private component: string | undefined = undefined;
   private isFullsize = false;
-
-  get getIsOpen(): boolean {
-    return this.isOpen;
-  }
-
-  get getTitle(): string | undefined {
-    return this.title;
-  }
+  private isOpen = false;
+  private title: string | undefined = undefined;
 
   get getComponent(): string | undefined {
     return this.component;
@@ -24,14 +17,12 @@ class DialogStore extends VuexModule {
     return this.isFullsize;
   }
 
-  @Mutation
-  public setIsOpen(openState: boolean): void {
-    this.isOpen = openState;
+  get getIsOpen(): boolean {
+    return this.isOpen;
   }
 
-  @Mutation
-  public setTitle(title: string | undefined): void {
-    this.title = title;
+  get getTitle(): string | undefined {
+    return this.title;
   }
 
   @Mutation
@@ -44,7 +35,17 @@ class DialogStore extends VuexModule {
     this.isFullsize = isFullsize;
   }
 
-  @Action
+  @Mutation
+  public setIsOpen(openState: boolean): void {
+    this.isOpen = openState;
+  }
+
+  @Mutation
+  public setTitle(title: string | undefined): void {
+    this.title = title;
+  }
+
+  @Action({ rawError: true })
   public toggleDialog({ title, component, isFullsize }: DialogSettings): void {
     const isOpen = !this.isOpen;
 

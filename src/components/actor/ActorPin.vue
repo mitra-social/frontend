@@ -22,8 +22,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
 import { ActivityObject, Link } from "activitypub-objects";
+import { Component, Vue, Prop } from "vue-property-decorator";
 
 import client from "apiClient";
 import SummarizedActor from "@/components/actor/ActorSummarized.vue";
@@ -35,12 +35,18 @@ import { ActivityObjectHelper } from "@/utils/activity-object-helper";
   },
 })
 export default class ActorPin extends Vue {
+  /************************
+   * components properties
+   ************************/
   @Prop() readonly actor!:
     | ActivityObject
     | Link
     | URL
     | Array<ActivityObject | URL>;
 
+  /**********************
+   * computed properties
+   **********************/
   get name(): string | undefined {
     return ActivityObjectHelper.extractActorName(this.actor as ActivityObject);
   }
@@ -54,5 +60,3 @@ export default class ActorPin extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped></style>
