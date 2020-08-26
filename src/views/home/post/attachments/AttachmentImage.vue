@@ -86,6 +86,7 @@ export default class AttachmentImage extends Vue {
 <style lang="scss" scoped>
 .image-container {
   cursor: pointer;
+  background-color: transparent;
 }
 
 .single-attach {

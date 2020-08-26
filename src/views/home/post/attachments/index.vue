@@ -10,7 +10,7 @@
         "
         sm="12"
       >
-        <v-card flat tile>
+        <v-card class="attachment-card" flat tile>
           <component
             :is="getMediaComponent(attach)"
             :attach="attach"
@@ -135,5 +135,8 @@ export default class ActivityStreamsAttachments extends Vue {
 <style lang="scss" scoped>
 .v-row {
   justify-content: center;
+}
+.attachment-card {
+  background-color: transparent;
 }
 </style>
