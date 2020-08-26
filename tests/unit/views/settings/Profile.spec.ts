@@ -1,12 +1,13 @@
 import flushPromises from "flush-promises";
+import { format, parseISO } from "date-fns";
 import Vue from "vue";
 import Vuetify from "vuetify";
 import { mount, createLocalVue, shallowMount } from "@vue/test-utils";
 
 import apiService from "@/api-client/mock/index";
 import { ApiClientMocke } from "@/api-client/mock/api-client-mock";
-import router from "@/router";
 import "@/plugins/date-fns";
+import router from "@/router";
 import store from "@/store";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import Profile from "@/views/settings/Profile.vue";
@@ -92,6 +93,8 @@ describe("@/views/settings/Password.vue", () => {
   });
 
   it("Check registered at value", async () => {
+    const publishDateTime = "2020-04-26T06:01:05Z";
+    store.state.User.user.published = publishDateTime;
     const wrapper = shallowMount(Profile, { localVue, store, vuetify });
     await flushPromises();
 
@@ -99,7 +102,7 @@ describe("@/views/settings/Password.vue", () => {
       "registered_at"
     );
     expect(wrapper.findAll("v-text-field-stub").at(2).attributes("value")).toBe(
-      "04.08.2020 08:58"
+      format(parseISO(publishDateTime), "MM.dd.yyyy hh:mm")
     );
   });
 
@@ -115,7 +118,7 @@ describe("@/views/settings/Password.vue", () => {
       "updated_at"
     );
     expect(wrapper.findAll("v-text-field-stub").at(3).attributes("value")).toBe(
-      "04.28.2020 07:49"
+      format(parseISO(updateDateTime), "MM.dd.yyyy hh:mm")
     );
   });
 
