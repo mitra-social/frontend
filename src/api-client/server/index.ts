@@ -13,7 +13,7 @@ import { ApiClient } from "@/api-client";
 import { Credential } from "@/model/credential";
 import { CreateUser } from "@/model/create-user";
 import { InternalActor } from "@/model/internal-actor";
-import { UpdateProfile } from "@/model/update-profile";
+import { UpdateUser } from "@/model/update-user";
 import { Violation } from "@/model/violation";
 import { Webfinger } from "@/model/webfinger";
 import router from "@/router";
@@ -71,7 +71,7 @@ export default {
   async updateProfile(
     token: string,
     user: string,
-    updateProfile: UpdateProfile
+    updateProfile: UpdateUser
   ): Promise<InternalActor> {
     return await axios
       .patch(`${urlPrefix}/user/${user}`, updateProfile, {

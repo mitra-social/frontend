@@ -16,14 +16,15 @@ const localVue = createLocalVue();
 Vue.use(Vuetify);
 
 describe("@/views/settings/Password.vue", () => {
-  const newPassword = "newPassword";
   const apiServiceMock = apiService as ApiClientMocke;
-  const userName = "john.doe";
+  const currentPassword = "123";
+  const newPassword = "newPassword";
   const data = {
-    password: "123",
+    currentPassword: currentPassword,
     newPassword: newPassword,
     confirmPassword: newPassword,
   };
+  const userName = "john.doe";
   // eslint-disable-next-line
   let vuetify: any;
 
@@ -65,8 +66,9 @@ describe("@/views/settings/Password.vue", () => {
     const input = wrapper.find('input[name="email"]');
     input.setValue(newEmail);
     await flushPromises();
+
     const password = wrapper.find('input[name="password"]');
-    password.setValue("123");
+    password.setValue(currentPassword);
     await flushPromises();
 
     wrapper.find("form").trigger("submit.prevent");
@@ -102,7 +104,7 @@ describe("@/views/settings/Password.vue", () => {
       "registered_at"
     );
     expect(wrapper.findAll("v-text-field-stub").at(2).attributes("value")).toBe(
-      format(parseISO(publishDateTime), "MM.dd.yyyy hh:mm")
+      format(parseISO(publishDateTime), "dd.MM.yyyy HH:mm")
     );
   });
 
@@ -118,7 +120,7 @@ describe("@/views/settings/Password.vue", () => {
       "updated_at"
     );
     expect(wrapper.findAll("v-text-field-stub").at(3).attributes("value")).toBe(
-      format(parseISO(updateDateTime), "MM.dd.yyyy hh:mm")
+      format(parseISO(updateDateTime), "dd.MM.yyyy HH:mm")
     );
   });
 
@@ -186,7 +188,7 @@ describe("@/views/settings/Password.vue", () => {
   it("Change password in clear text to hidden password field", async () => {
     const wrapper = mount(Profile, { localVue, router, store, vuetify });
     wrapper.setData(data);
-    wrapper.setData({ showPassword: true });
+    wrapper.setData({ showCurrentPassword: true });
     await flushPromises();
 
     expect(wrapper.find('input[name="password"]').attributes("type")).toBe(
@@ -198,6 +200,42 @@ describe("@/views/settings/Password.vue", () => {
 
     expect(wrapper.find('input[name="password"]').attributes("type")).toBe(
       "password"
+    );
+  });
+
+  it("New password is then less 8 characters", async () => {
+    const newPassword = "new";
+    const wrapper = mount(Profile, { localVue, router, store, vuetify });
+    wrapper.setData(data);
+
+    wrapper.find('input[name="newPassword"]').setValue(newPassword);
+    await flushPromises();
+
+    wrapper.find('input[name="confirmPassword"]').setValue(newPassword);
+    await flushPromises();
+
+    await flushPromises();
+    wrapper.find("form").trigger("submit.prevent");
+
+    await flushPromises();
+    expect(wrapper.find(".v-messages__message").text()).toBe(
+      "Min 8 characters."
+    );
+  });
+
+  it("New password doesn't match with confirmed password", async () => {
+    const wrapper = mount(Profile, { localVue, router, store, vuetify });
+    wrapper.setData(data);
+
+    wrapper.find('input[name="confirmPassword"]').setValue("confirmPassword");
+    await flushPromises();
+
+    await flushPromises();
+    wrapper.find("form").trigger("submit.prevent");
+
+    await flushPromises();
+    expect(wrapper.find(".v-messages__message").text()).toBe(
+      "Passwords don't match."
     );
   });
 

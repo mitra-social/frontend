@@ -3,7 +3,7 @@ import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { InternalActor } from "@/model/internal-actor";
-import { UpdateProfile } from "@/model/update-profile";
+import { UpdateUser } from "@/model/update-user";
 
 @Module({ namespaced: true })
 class UserStore extends VuexModule {
@@ -39,7 +39,7 @@ class UserStore extends VuexModule {
   }
 
   @Action
-  public async updateProfile(updateProfile: UpdateProfile): Promise<void> {
+  public async updateProfile(updateProfile: UpdateUser): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
     const userName = AuthenticationUtil.getUser() || "";
 
