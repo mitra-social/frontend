@@ -121,10 +121,10 @@ describe("@/views/home/index.vue", () => {
   });
 
   // setting items
-  it("Has 2 settings item", () => {
+  it("Has 1 settings item", () => {
     const wrapper = shallowMount(Home, { localVue, store, vuetify });
 
-    expect(wrapper.findAll(".setting-item").length).toBe(2);
+    expect(wrapper.findAll(".setting-item").length).toBe(1);
   });
 
   it("Profile link exists", () => {
@@ -143,22 +143,6 @@ describe("@/views/home/index.vue", () => {
     expect(icon.text()).toBe("mdi-account");
   });
 
-  it("Password link exists", () => {
-    const wrapper = shallowMount(Home, { localVue, store, vuetify });
-    const password = wrapper.findAll(".setting-item").at(1);
-
-    expect(password.exists()).toBe(true);
-    expect(password.find("v-list-item-title-stub").text()).toBe("Password");
-  });
-
-  it("Password link has icon", () => {
-    const wrapper = shallowMount(Home, { localVue, store, vuetify });
-    const icon = wrapper.findAll(".setting-item").at(1).find("v-icon-stub");
-
-    expect(icon.exists()).toBe(true);
-    expect(icon.text()).toBe("mdi-key-variant");
-  });
-
   it("Open dialog when clicked setting profile link", async () => {
     const wrapper = mount(Home, {
       localVue,
@@ -174,23 +158,6 @@ describe("@/views/home/index.vue", () => {
     expect(store.state.Dialog.isOpen).toBe(true);
     expect(store.state.Dialog.title).toBe("Profile");
     expect(store.state.Dialog.component).toBe("Profile");
-  });
-
-  it("Open dialog when clicked setting password link", async () => {
-    const wrapper = mount(Home, {
-      localVue,
-      store,
-      vuetify,
-    });
-    const password = wrapper.findAll(".setting-item").at(1);
-
-    expect(store.state.Dialog.isOpen).toBe(false);
-    password.trigger("click");
-    await flushPromises();
-
-    expect(store.state.Dialog.isOpen).toBe(true);
-    expect(store.state.Dialog.title).toBe("Password");
-    expect(store.state.Dialog.component).toBe("Password");
   });
 
   // logout

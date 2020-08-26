@@ -33,7 +33,6 @@ import { namespace } from "vuex-class";
 import AttachmentDialog from "@/components/attachment/AttachmentDialog.vue";
 import { DialogSettings } from "@/model/dialog-settings";
 import Profile from "@/views/settings/Profile.vue";
-import Password from "@/views/settings/Password.vue";
 import SearchActor from "@/views/home/SearchActor.vue";
 
 const dialogStore = namespace("Dialog");
@@ -41,7 +40,6 @@ const dialogStore = namespace("Dialog");
 @Component({
   components: {
     AttachmentDialog,
-    Password,
     Profile,
     SearchActor,
   },

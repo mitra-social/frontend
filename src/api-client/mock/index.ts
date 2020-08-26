@@ -11,6 +11,7 @@ import { ApiClientMocke } from "./api-client-mock";
 import { InternalActor } from "@/model/internal-actor";
 import { Credential } from "@/model/credential";
 import { CreateUser } from "@/model/create-user";
+import { UpdateUser } from "@/model/update-user";
 import { Webfinger } from "@/model/webfinger";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
@@ -44,7 +45,7 @@ let followers: CollectionPage | undefined;
 let postPage = 0;
 let postFilter: string | undefined = undefined;
 let userPassword = "123";
-let user: InternalActor;
+let user: InternalActor | undefined;
 
 /*
     helper function
@@ -122,6 +123,38 @@ export default {
     }
 
     return returnResult(token, userName, fetch(user)) as Promise<InternalActor>;
+  },
+  async updateProfile(
+    token: string,
+    userName: string,
+    updateProfile: UpdateUser
+  ): Promise<InternalActor> {
+    console.info(
+      `updateProfile => token: ${token}, userName: ${userName}, currentPassword: ${updateProfile.currentPassword}, newPassword: ${updateProfile?.newPassword}, email: ${updateProfile?.email}`
+    );
+
+    if (token !== USER_TOKEN || userName !== USER_NAME) {
+      return await error("Authentication is incorrect");
+    }
+
+    if (userPassword !== updateProfile.currentPassword) {
+      return await error("Current password is incorrect");
+    }
+
+    if (updateProfile.newPassword && updateProfile.newPassword?.length < 8) {
+      return await error(
+        "Error: This value is too short. It should have 8 characters or more."
+      );
+    }
+
+    if (updateProfile.newPassword) {
+      userPassword = updateProfile.newPassword;
+    }
+
+    if (updateProfile.email && user) {
+      user.email = updateProfile.email;
+    }
+    return returnResult(token, userName, fetch(user) as Promise<InternalActor>);
   },
   async getActor(url: string): Promise<InternalActor> {
     console.info(`getActor => url: ${url}`);
@@ -261,43 +294,6 @@ export default {
     console.info(`getMedia => uri: ${uri}`);
     return uri;
   },
-  async updateUser(
-    token: string,
-    userName: string,
-    updatedUser: InternalActor
-  ): Promise<void> {
-    console.info(
-      `updateProfile => token: ${token}, userName: ${userName}, preferredUsername: ${updatedUser.preferredUsername}, email: ${updatedUser.email}`
-    );
-
-    if (token !== USER_TOKEN || userName !== USER_NAME) {
-      return await error("Authentication is incorrect");
-    }
-
-    user = updatedUser;
-
-    return returnResult(token, userName, {} as Promise<void>);
-  },
-  async updatePassword(
-    token: string,
-    userName: string,
-    oldPassword: string,
-    newPassword: string
-  ): Promise<void> {
-    console.info(
-      `updatePassword => token: ${token}, userName: ${userName}, oldPassword: ${oldPassword}, newPassword: ${newPassword}`
-    );
-    if (token !== USER_TOKEN || userName !== USER_NAME) {
-      return await error("Authentication is incorrect");
-    }
-
-    if (userPassword !== oldPassword) {
-      return await error("Old password in incorrect");
-    }
-
-    userPassword = newPassword;
-    return returnResult(token, userName, {} as Promise<void>);
-  },
   // Fediverse
   async fediverseSearchUserId(query: string): Promise<string | undefined> {
     console.info(`fediverseSearchUserId => query: ${query}`);
@@ -374,16 +370,12 @@ export default {
   // eslint-disable-next-line
   getJestReset(): any {
     if (process.env.NODE_ENV === "test") {
-      console.info(
-        `getJestReset => fetchPostCount: ${fetchPostCount}, fetchFollowing: ${
-          following ? toJSON(following) : ""
-        }, fetchFollowers: ${followers ? toJSON(followers) : ""}`
-      );
       return jest.fn().mockImplementation(() => {
         fetchPostCount = 0;
         following = undefined;
         followers = undefined;
         userPassword = "123";
+        user = undefined;
       });
     }
   },

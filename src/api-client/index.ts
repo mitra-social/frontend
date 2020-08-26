@@ -8,10 +8,16 @@ import {
 import { Credential } from "@/model/credential";
 import { InternalActor } from "@/model/internal-actor";
 import { CreateUser } from "@/model/create-user";
+import { UpdateUser } from "@/model/update-user";
 
 export interface ApiClient {
   login(credential: Credential): Promise<string>;
   createUser(user: CreateUser): Promise<void>;
+  updateProfile(
+    token: string,
+    user: string,
+    updateProfile: UpdateUser
+  ): Promise<InternalActor>;
   getUser(token: string, user: string): Promise<InternalActor>;
   fetchFollowing(
     token: string,
@@ -36,17 +42,6 @@ export interface ApiClient {
     summary?: string
   ): Promise<void>;
   getMedia(uri: string | undefined): string | undefined;
-  updateUser(
-    token: string,
-    user: string,
-    updatedUser: InternalActor
-  ): Promise<void>;
-  updatePassword(
-    token: string,
-    user: string,
-    oldPassword: string,
-    newPassword: string
-  ): Promise<void>;
   // Fediverse
   fediverseGetActor(url: string): Promise<Actor>;
   fediverseSearchUserId(query: string): Promise<string | undefined>;

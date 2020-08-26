@@ -13,6 +13,8 @@ import { ApiClient } from "@/api-client";
 import { Credential } from "@/model/credential";
 import { CreateUser } from "@/model/create-user";
 import { InternalActor } from "@/model/internal-actor";
+import { UpdateUser } from "@/model/update-user";
+import { Violation } from "@/model/violation";
 import { Webfinger } from "@/model/webfinger";
 import router from "@/router";
 
@@ -32,6 +34,19 @@ const catchError = (error: AxiosError): Promise<void> => {
       return Promise.reject(
         new Error("Authentication failed. Please log in again")
       ) as Promise<void>;
+    }
+
+    if (error.response.data.detail) {
+      return Promise.reject(new Error(error.response.data.detail)) as Promise<
+        void
+      >;
+    }
+
+    if (error.response.data.violations) {
+      const msg = error.response.data.violations
+        .map(($: Violation) => $.message)
+        .join("\n");
+      return Promise.reject(new Error(msg)) as Promise<void>;
     }
   }
   return Promise.reject(new Error(error.message)) as Promise<void>;
@@ -53,9 +68,27 @@ export default {
       })
       .catch(catchError);
   },
-  async getUser(token: string, user: string): Promise<InternalActor> {
+  async updateProfile(
+    token: string,
+    user: string,
+    updateProfile: UpdateUser
+  ): Promise<InternalActor> {
     return await axios
-      .get(`${urlPrefix}/user/${user}`, {
+      .patch(`${urlPrefix}/user/${user}`, updateProfile, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((resp) => {
+        return resp.data;
+      })
+      .catch(catchError);
+  },
+  async getUser(token: string): Promise<InternalActor> {
+    return await axios
+      .get(`${urlPrefix}/me`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -153,27 +186,6 @@ export default {
     }
 
     return `${process.env.VUE_APP_BACKEND_HOST}/media/${md5(uri)}`;
-  },
-  updateUser(
-    token: string,
-    user: string,
-    updatedUser: InternalActor
-  ): Promise<void> {
-    // TODO: implements
-    return Promise.reject(
-      `not implemented yet. ${token}/${user}/${updatedUser}`
-    );
-  },
-  updatePassword(
-    token: string,
-    user: string,
-    oldPassword: string,
-    newPassword: string
-  ): Promise<void> {
-    // TODO: implements
-    return Promise.reject(
-      `not implemented yet. ${token}/${user}/${oldPassword}/${newPassword}`
-    );
   },
   // Fediverse
   async fediverseSearchUserId(query: string): Promise<string | undefined> {
