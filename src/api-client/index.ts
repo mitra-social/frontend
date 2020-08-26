@@ -8,7 +8,7 @@ import {
 import { Credential } from "@/model/credential";
 import { InternalActor } from "@/model/internal-actor";
 import { CreateUser } from "@/model/create-user";
-import { UpdateProfile } from "@/model/update-profile";
+import { UpdateUser } from "@/model/update-user";
 
 export interface ApiClient {
   login(credential: Credential): Promise<string>;
@@ -16,7 +16,7 @@ export interface ApiClient {
   updateProfile(
     token: string,
     user: string,
-    updateProfile: UpdateProfile
+    updateProfile: UpdateUser
   ): Promise<InternalActor>;
   getUser(token: string, user: string): Promise<InternalActor>;
   fetchFollowing(

@@ -9,12 +9,12 @@ import {
 
 Vue.filter("dateTime", (date: string) => {
   const isoDate = parseISO(date);
-  return format(isoDate, "MM.dd.yyyy hh:mm");
+  return format(isoDate, "dd.MM.yyyy hh:mm");
 });
 
 Vue.filter("postDate", (date: string) => {
   const isoDate = parseISO(date);
-  return format(isoDate, isThisYear(isoDate) ? "MMM dd" : "MMM dd ''yy");
+  return format(isoDate, isThisYear(isoDate) ? "dd MMM" : "dd MMM ''yy");
 });
 
 Vue.filter("postDateDistance", (date: string) => {

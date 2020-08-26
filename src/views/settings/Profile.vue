@@ -52,6 +52,7 @@
       name="newPassword"
       prepend-icon="mdi-lock"
       v-model="newPassword"
+      :rules="[rules.min]"
       :append-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
       :type="showNewPassword ? 'text' : 'password'"
       @click:append="showNewPassword = !showNewPassword"
@@ -72,11 +73,11 @@
       label="Password"
       name="password"
       prepend-icon="mdi-lock"
-      v-model="password"
-      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-      :type="showPassword ? 'text' : 'password'"
+      v-model="currentPassword"
+      :append-icon="showCurrentPassword ? 'mdi-eye' : 'mdi-eye-off'"
+      :type="showCurrentPassword ? 'text' : 'password'"
       :rules="[rules.required]"
-      @click:append="showPassword = !showPassword"
+      @click:append="showCurrentPassword = !showCurrentPassword"
       @input="resetConfirmPassword()"
     />
     <v-btn
@@ -104,7 +105,7 @@ import { namespace } from "vuex-class";
 
 import { DialogSettings } from "@/model/dialog-settings";
 import { InternalActor } from "@/model/internal-actor";
-import { UpdateProfile } from "@/model/update-profile";
+import { UpdateUser } from "@/model/update-user";
 
 const dialogStore = namespace("Dialog");
 const userStore = namespace("User");
@@ -119,10 +120,10 @@ export default class Profile extends Vue {
   public confirmPwdErrorMsgs: string[] = [];
   public hasConfirmPwdError = false;
   public newPassword = "";
-  public password = "";
+  public currentPassword = "";
   public showConfirmPassword = false;
   public showNewPassword = false;
-  public showPassword = false;
+  public showCurrentPassword = false;
 
   public valid = false;
 
@@ -148,7 +149,7 @@ export default class Profile extends Vue {
   public toggleDialog!: ({ title, component }: DialogSettings) => Promise<void>;
 
   @userStore.Action
-  public updateProfile!: (profile: UpdateProfile) => Promise<void>;
+  public updateProfile!: (profile: UpdateUser) => Promise<void>;
 
   /**********************
    * Lifecycle hooks
@@ -168,8 +169,8 @@ export default class Profile extends Vue {
     }
 
     if (this.form.validate()) {
-      let updateProfile: UpdateProfile = {
-        currentPassword: this.password,
+      let updateProfile: UpdateUser = {
+        currentPassword: this.currentPassword,
       };
 
       if (this.user.email && this.user.email !== this.getUser.email) {

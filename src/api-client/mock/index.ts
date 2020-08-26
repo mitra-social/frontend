@@ -11,7 +11,7 @@ import { ApiClientMocke } from "./api-client-mock";
 import { InternalActor } from "@/model/internal-actor";
 import { Credential } from "@/model/credential";
 import { CreateUser } from "@/model/create-user";
-import { UpdateProfile } from "@/model/update-profile";
+import { UpdateUser } from "@/model/update-user";
 import { Webfinger } from "@/model/webfinger";
 import { ActivityObjectHelper } from "@/utils/activity-object-helper";
 
@@ -127,7 +127,7 @@ export default {
   async updateProfile(
     token: string,
     userName: string,
-    updateProfile: UpdateProfile
+    updateProfile: UpdateUser
   ): Promise<InternalActor> {
     console.info(
       `updateProfile => token: ${token}, userName: ${userName}, currentPassword: ${updateProfile.currentPassword}, newPassword: ${updateProfile?.newPassword}, email: ${updateProfile?.email}`
