@@ -104,7 +104,7 @@ describe("@/views/settings/Password.vue", () => {
       "registered_at"
     );
     expect(wrapper.findAll("v-text-field-stub").at(2).attributes("value")).toBe(
-      format(parseISO(publishDateTime), "dd.MM.yyyy hh:mm")
+      format(parseISO(publishDateTime), "dd.MM.yyyy HH:mm")
     );
   });
 
@@ -120,7 +120,7 @@ describe("@/views/settings/Password.vue", () => {
       "updated_at"
     );
     expect(wrapper.findAll("v-text-field-stub").at(3).attributes("value")).toBe(
-      format(parseISO(updateDateTime), "dd.MM.yyyy hh:mm")
+      format(parseISO(updateDateTime), "dd.MM.yyyy HH:mm")
     );
   });
 

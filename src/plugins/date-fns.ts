@@ -9,7 +9,7 @@ import {
 
 Vue.filter("dateTime", (date: string) => {
   const isoDate = parseISO(date);
-  return format(isoDate, "dd.MM.yyyy hh:mm");
+  return format(isoDate, "dd.MM.yyyy HH:mm");
 });
 
 Vue.filter("postDate", (date: string) => {
