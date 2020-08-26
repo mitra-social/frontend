@@ -70,7 +70,7 @@
       @click:append="showConfirmPassword = !showConfirmPassword"
     />
     <v-text-field
-      label="Password"
+      label="Current password"
       name="password"
       prepend-icon="mdi-lock"
       v-model="currentPassword"
