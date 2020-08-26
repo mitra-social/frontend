@@ -3,7 +3,7 @@ import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import client from "apiClient";
 import { AuthenticationUtil } from "@/utils/authentication-util";
 import { InternalActor } from "@/model/internal-actor";
-import { PasswordChangeParam } from "@/model/password-change-param";
+import { UpdateProfile } from "@/model/update-profile";
 
 @Module({ namespaced: true })
 class UserStore extends VuexModule {
@@ -39,46 +39,20 @@ class UserStore extends VuexModule {
   }
 
   @Action
-  public async updatePassword({
-    oldPassword,
-    newPassword,
-  }: PasswordChangeParam): Promise<void> {
+  public async updateProfile(updateProfile: UpdateProfile): Promise<void> {
     const token = AuthenticationUtil.getToken() || "";
     const userName = AuthenticationUtil.getUser() || "";
 
     await client
-      .updatePassword(token, userName, oldPassword, newPassword)
-      .then(() =>
-        this.context.dispatch(
-          "Notify/success",
-          "Password was updated successfully.",
-          {
-            root: true,
-          }
-        )
-      )
-      .catch(() =>
-        this.context.dispatch("Notify/error", "Updating password failed.", {
-          root: true,
-        })
-      );
-  }
-
-  @Action
-  public async updateUser(user: InternalActor): Promise<void> {
-    const token = AuthenticationUtil.getToken() || "";
-    const userName = AuthenticationUtil.getUser() || "";
-
-    await client
-      .updateUser(token, userName, user)
-      .then(() => {
-        this.context.commit("setUser", user);
+      .updateProfile(token, userName, updateProfile)
+      .then((updatedUser) => {
+        this.context.commit("setUser", updatedUser);
         this.context.dispatch("Notify/success", "Update profile success.", {
           root: true,
         });
       })
-      .catch(() => {
-        this.context.dispatch("Notify/error", "Updating user failed.", {
+      .catch((err) => {
+        this.context.dispatch("Notify/error", err, {
           root: true,
         });
       });

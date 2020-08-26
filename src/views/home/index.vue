@@ -16,7 +16,7 @@
           <v-avatar id="user-icon-placeholder" color="indigo" size="36" v-else>
             <v-icon dark>mdi-account-circle</v-icon>
           </v-avatar>
-          <v-list-item-content>
+          <v-list-item-content class="ml-2">
             <v-list-item-title id="user-name">{{
               getUser.preferredUsername
             }}</v-list-item-title>
@@ -113,7 +113,6 @@ export default class MitraHome extends Vue {
   public isFollowingLoading = false;
   public settingsDrawer = [
     { title: "Profile", component: "Profile", icon: "mdi-account" },
-    { title: "Password", component: "Password", icon: "mdi-key-variant" },
   ];
 
   /**********************

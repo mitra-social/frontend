@@ -8,6 +8,5 @@ export interface InternalActor extends Actor {
   internalUserId: string;
   outbox: string;
   preferredUsername: string;
-  registeredAt: Date;
   type: ActorType.PERSON;
 }

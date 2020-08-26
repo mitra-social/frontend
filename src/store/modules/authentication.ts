@@ -16,6 +16,11 @@ class Authentication extends VuexModule {
   }
 
   @Mutation
+  public setStatus(state: number): void {
+    this.status = state;
+  }
+
+  @Mutation
   public loginSuccess(): void {
     this.status = 200;
     this.hasLoadedOnce = true;
@@ -29,6 +34,8 @@ class Authentication extends VuexModule {
 
   @Action
   public async login(credential: Credential): Promise<void> {
+    this.context.commit("setStatus", 0);
+
     return await client
       .login(credential)
       .then((token: string) => {
